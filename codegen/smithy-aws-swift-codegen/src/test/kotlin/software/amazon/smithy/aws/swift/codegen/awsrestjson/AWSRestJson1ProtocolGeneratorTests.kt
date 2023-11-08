@@ -120,14 +120,15 @@ class RestJsonProtocolGeneratorTests {
             
                 public struct ServiceSpecificConfiguration: AWSServiceSpecificConfiguration {
                     public typealias AWSServiceEndpointResolver = EndpointResolver
+                    public typealias AWSAuthSchemeResolver = ExampleAuthSchemeResolver
             
                     public var serviceName: String { "Example" }
                     public var clientName: String { "ExampleClient" }
-                    public var authSchemeResolver: ClientRuntime.AuthSchemeResolver
+                    public var authSchemeResolver: ExampleAuthSchemeResolver
                     public var authSchemes: [ClientRuntime.AuthScheme]
                     public var endpointResolver: EndpointResolver
             
-                    public init(endpointResolver: EndpointResolver? = nil, authSchemeResolver: ClientRuntime.AuthSchemeResolver? = nil, authSchemes: [ClientRuntime.AuthScheme]? = nil) throws {
+                    public init(endpointResolver: EndpointResolver? = nil, authSchemeResolver: ExampleAuthSchemeResolver? = nil, authSchemes: [ClientRuntime.AuthScheme]? = nil) throws {
                         self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
                         self.authSchemeResolver = authSchemeResolver ?? DefaultExampleAuthSchemeResolver()
                         var modeledAuthSchemes: [ClientRuntime.AuthScheme] = Array()
