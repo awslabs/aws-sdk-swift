@@ -105,7 +105,7 @@ class AWSServiceConfig(writer: SwiftWriter, val ctx: ProtocolGenerator.Generatio
         // service specific EndpointResolver
         configs.add(ConfigField(ENDPOINT_RESOLVER, AWSServiceTypes.EndpointResolver, "\$N", "Endpoint resolver"))
         // service specific AuthSchemeResolver
-        configs.add(ConfigField(AUTH_SCHEME_RESOLVER, buildSymbol { this.name = serviceName + "AuthSchemeResolver" }, "\$N"))
+        configs.add(ConfigField(AUTH_SCHEME_RESOLVER, buildSymbol { this.name = serviceName.clientName() + "AuthSchemeResolver" }, "\$N"))
         // service specific AuthSchemes
         configs.add(ConfigField(AUTH_SCHEMES, ServiceTypes.AuthSchemes, "\$N"))
 
