@@ -14,10 +14,6 @@ extension HttpContext {
         return attributes.get(key: AttributeKeys.credentialsProvider)
     }
 
-    public func getRegion() -> String? {
-        return attributes.get(key: AttributeKeys.region)
-    }
-
     public func getRequestSignature() -> String {
         return attributes.get(key: AttributeKeys.requestSignature)!
     }
@@ -79,12 +75,6 @@ extension HttpContextBuilder {
         return self
     }
 
-    @discardableResult
-    public func withRegion(value: String?) -> HttpContextBuilder {
-        self.attributes.set(key: AttributeKeys.region, value: value)
-        return self
-    }
-
     /// Sets the request signature for the event stream operation
     /// - Parameter value: `String` request signature
     @discardableResult
@@ -102,7 +92,6 @@ extension HttpContextBuilder {
 
 extension AttributeKeys {
     public static let credentialsProvider = AttributeKey<(any CredentialsProviding)>(name: "CredentialsProvider")
-    public static let region = AttributeKey<String>(name: "Region")
     public static let signingAlgorithm = AttributeKey<AWSSigningAlgorithm>(name: "SigningAlgorithm")
     public static let requestSignature = AttributeKey<String>(name: "AWS_HTTP_SIGNATURE")
 
