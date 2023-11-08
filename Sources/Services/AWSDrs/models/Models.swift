@@ -598,7 +598,7 @@ enum CreateExtendedSourceServerOutputError: ClientRuntime.HttpResponseErrorBindi
 
 extension CreateLaunchConfigurationTemplateInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateLaunchConfigurationTemplateInput(copyPrivateIp: \(Swift.String(describing: copyPrivateIp)), copyTags: \(Swift.String(describing: copyTags)), exportBucketArn: \(Swift.String(describing: exportBucketArn)), launchDisposition: \(Swift.String(describing: launchDisposition)), licensing: \(Swift.String(describing: licensing)), postLaunchEnabled: \(Swift.String(describing: postLaunchEnabled)), targetInstanceTypeRightSizingMethod: \(Swift.String(describing: targetInstanceTypeRightSizingMethod)), tags: \"CONTENT_REDACTED\")"}
+        "CreateLaunchConfigurationTemplateInput(copyPrivateIp: \(Swift.String(describing: copyPrivateIp)), copyTags: \(Swift.String(describing: copyTags)), exportBucketArn: \(Swift.String(describing: exportBucketArn)), launchDisposition: \(Swift.String(describing: launchDisposition)), launchIntoSourceInstance: \(Swift.String(describing: launchIntoSourceInstance)), licensing: \(Swift.String(describing: licensing)), postLaunchEnabled: \(Swift.String(describing: postLaunchEnabled)), targetInstanceTypeRightSizingMethod: \(Swift.String(describing: targetInstanceTypeRightSizingMethod)), tags: \"CONTENT_REDACTED\")"}
 }
 
 extension CreateLaunchConfigurationTemplateInput: Swift.Encodable {
@@ -607,6 +607,7 @@ extension CreateLaunchConfigurationTemplateInput: Swift.Encodable {
         case copyTags
         case exportBucketArn
         case launchDisposition
+        case launchIntoSourceInstance
         case licensing
         case postLaunchEnabled
         case tags
@@ -626,6 +627,9 @@ extension CreateLaunchConfigurationTemplateInput: Swift.Encodable {
         }
         if let launchDisposition = self.launchDisposition {
             try encodeContainer.encode(launchDisposition.rawValue, forKey: .launchDisposition)
+        }
+        if let launchIntoSourceInstance = self.launchIntoSourceInstance {
+            try encodeContainer.encode(launchIntoSourceInstance, forKey: .launchIntoSourceInstance)
         }
         if let licensing = self.licensing {
             try encodeContainer.encode(licensing, forKey: .licensing)
@@ -660,6 +664,8 @@ public struct CreateLaunchConfigurationTemplateInput: Swift.Equatable {
     public var exportBucketArn: Swift.String?
     /// Launch disposition.
     public var launchDisposition: DrsClientTypes.LaunchDisposition?
+    /// DRS will set the 'launch into instance ID' of any source server when performing a drill, recovery or failback to the previous region or availability zone, using the instance ID of the source instance.
+    public var launchIntoSourceInstance: Swift.Bool?
     /// Licensing.
     public var licensing: DrsClientTypes.Licensing?
     /// Whether we want to activate post-launch actions.
@@ -674,6 +680,7 @@ public struct CreateLaunchConfigurationTemplateInput: Swift.Equatable {
         copyTags: Swift.Bool? = nil,
         exportBucketArn: Swift.String? = nil,
         launchDisposition: DrsClientTypes.LaunchDisposition? = nil,
+        launchIntoSourceInstance: Swift.Bool? = nil,
         licensing: DrsClientTypes.Licensing? = nil,
         postLaunchEnabled: Swift.Bool? = nil,
         tags: [Swift.String:Swift.String]? = nil,
@@ -684,6 +691,7 @@ public struct CreateLaunchConfigurationTemplateInput: Swift.Equatable {
         self.copyTags = copyTags
         self.exportBucketArn = exportBucketArn
         self.launchDisposition = launchDisposition
+        self.launchIntoSourceInstance = launchIntoSourceInstance
         self.licensing = licensing
         self.postLaunchEnabled = postLaunchEnabled
         self.tags = tags
@@ -700,6 +708,7 @@ struct CreateLaunchConfigurationTemplateInputBody: Swift.Equatable {
     let licensing: DrsClientTypes.Licensing?
     let exportBucketArn: Swift.String?
     let postLaunchEnabled: Swift.Bool?
+    let launchIntoSourceInstance: Swift.Bool?
 }
 
 extension CreateLaunchConfigurationTemplateInputBody: Swift.Decodable {
@@ -708,6 +717,7 @@ extension CreateLaunchConfigurationTemplateInputBody: Swift.Decodable {
         case copyTags
         case exportBucketArn
         case launchDisposition
+        case launchIntoSourceInstance
         case licensing
         case postLaunchEnabled
         case tags
@@ -741,6 +751,8 @@ extension CreateLaunchConfigurationTemplateInputBody: Swift.Decodable {
         exportBucketArn = exportBucketArnDecoded
         let postLaunchEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .postLaunchEnabled)
         postLaunchEnabled = postLaunchEnabledDecoded
+        let launchIntoSourceInstanceDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .launchIntoSourceInstance)
+        launchIntoSourceInstance = launchIntoSourceInstanceDecoded
     }
 }
 
@@ -5054,6 +5066,7 @@ extension GetLaunchConfigurationOutput: ClientRuntime.HttpResponseBinding {
             self.copyTags = output.copyTags
             self.ec2LaunchTemplateID = output.ec2LaunchTemplateID
             self.launchDisposition = output.launchDisposition
+            self.launchIntoInstanceProperties = output.launchIntoInstanceProperties
             self.licensing = output.licensing
             self.name = output.name
             self.postLaunchEnabled = output.postLaunchEnabled
@@ -5064,6 +5077,7 @@ extension GetLaunchConfigurationOutput: ClientRuntime.HttpResponseBinding {
             self.copyTags = nil
             self.ec2LaunchTemplateID = nil
             self.launchDisposition = nil
+            self.launchIntoInstanceProperties = nil
             self.licensing = nil
             self.name = nil
             self.postLaunchEnabled = nil
@@ -5082,6 +5096,8 @@ public struct GetLaunchConfigurationOutput: Swift.Equatable {
     public var ec2LaunchTemplateID: Swift.String?
     /// The state of the Recovery Instance in EC2 after the recovery operation.
     public var launchDisposition: DrsClientTypes.LaunchDisposition?
+    /// Launch into existing instance properties.
+    public var launchIntoInstanceProperties: DrsClientTypes.LaunchIntoInstanceProperties?
     /// The licensing configuration to be used for this launch configuration.
     public var licensing: DrsClientTypes.Licensing?
     /// The name of the launch configuration.
@@ -5098,6 +5114,7 @@ public struct GetLaunchConfigurationOutput: Swift.Equatable {
         copyTags: Swift.Bool? = nil,
         ec2LaunchTemplateID: Swift.String? = nil,
         launchDisposition: DrsClientTypes.LaunchDisposition? = nil,
+        launchIntoInstanceProperties: DrsClientTypes.LaunchIntoInstanceProperties? = nil,
         licensing: DrsClientTypes.Licensing? = nil,
         name: Swift.String? = nil,
         postLaunchEnabled: Swift.Bool? = nil,
@@ -5109,6 +5126,7 @@ public struct GetLaunchConfigurationOutput: Swift.Equatable {
         self.copyTags = copyTags
         self.ec2LaunchTemplateID = ec2LaunchTemplateID
         self.launchDisposition = launchDisposition
+        self.launchIntoInstanceProperties = launchIntoInstanceProperties
         self.licensing = licensing
         self.name = name
         self.postLaunchEnabled = postLaunchEnabled
@@ -5127,6 +5145,7 @@ struct GetLaunchConfigurationOutputBody: Swift.Equatable {
     let copyTags: Swift.Bool?
     let licensing: DrsClientTypes.Licensing?
     let postLaunchEnabled: Swift.Bool?
+    let launchIntoInstanceProperties: DrsClientTypes.LaunchIntoInstanceProperties?
 }
 
 extension GetLaunchConfigurationOutputBody: Swift.Decodable {
@@ -5135,6 +5154,7 @@ extension GetLaunchConfigurationOutputBody: Swift.Decodable {
         case copyTags
         case ec2LaunchTemplateID
         case launchDisposition
+        case launchIntoInstanceProperties
         case licensing
         case name
         case postLaunchEnabled
@@ -5162,6 +5182,8 @@ extension GetLaunchConfigurationOutputBody: Swift.Decodable {
         licensing = licensingDecoded
         let postLaunchEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .postLaunchEnabled)
         postLaunchEnabled = postLaunchEnabledDecoded
+        let launchIntoInstancePropertiesDecoded = try containerValues.decodeIfPresent(DrsClientTypes.LaunchIntoInstanceProperties.self, forKey: .launchIntoInstanceProperties)
+        launchIntoInstanceProperties = launchIntoInstancePropertiesDecoded
     }
 }
 
@@ -6774,6 +6796,7 @@ extension DrsClientTypes.LaunchConfigurationTemplate: Swift.Codable {
         case exportBucketArn
         case launchConfigurationTemplateID
         case launchDisposition
+        case launchIntoSourceInstance
         case licensing
         case postLaunchEnabled
         case tags
@@ -6799,6 +6822,9 @@ extension DrsClientTypes.LaunchConfigurationTemplate: Swift.Codable {
         }
         if let launchDisposition = self.launchDisposition {
             try encodeContainer.encode(launchDisposition.rawValue, forKey: .launchDisposition)
+        }
+        if let launchIntoSourceInstance = self.launchIntoSourceInstance {
+            try encodeContainer.encode(launchIntoSourceInstance, forKey: .launchIntoSourceInstance)
         }
         if let licensing = self.licensing {
             try encodeContainer.encode(licensing, forKey: .licensing)
@@ -6848,12 +6874,14 @@ extension DrsClientTypes.LaunchConfigurationTemplate: Swift.Codable {
         exportBucketArn = exportBucketArnDecoded
         let postLaunchEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .postLaunchEnabled)
         postLaunchEnabled = postLaunchEnabledDecoded
+        let launchIntoSourceInstanceDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .launchIntoSourceInstance)
+        launchIntoSourceInstance = launchIntoSourceInstanceDecoded
     }
 }
 
 extension DrsClientTypes.LaunchConfigurationTemplate: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "LaunchConfigurationTemplate(arn: \(Swift.String(describing: arn)), copyPrivateIp: \(Swift.String(describing: copyPrivateIp)), copyTags: \(Swift.String(describing: copyTags)), exportBucketArn: \(Swift.String(describing: exportBucketArn)), launchConfigurationTemplateID: \(Swift.String(describing: launchConfigurationTemplateID)), launchDisposition: \(Swift.String(describing: launchDisposition)), licensing: \(Swift.String(describing: licensing)), postLaunchEnabled: \(Swift.String(describing: postLaunchEnabled)), targetInstanceTypeRightSizingMethod: \(Swift.String(describing: targetInstanceTypeRightSizingMethod)), tags: \"CONTENT_REDACTED\")"}
+        "LaunchConfigurationTemplate(arn: \(Swift.String(describing: arn)), copyPrivateIp: \(Swift.String(describing: copyPrivateIp)), copyTags: \(Swift.String(describing: copyTags)), exportBucketArn: \(Swift.String(describing: exportBucketArn)), launchConfigurationTemplateID: \(Swift.String(describing: launchConfigurationTemplateID)), launchDisposition: \(Swift.String(describing: launchDisposition)), launchIntoSourceInstance: \(Swift.String(describing: launchIntoSourceInstance)), licensing: \(Swift.String(describing: licensing)), postLaunchEnabled: \(Swift.String(describing: postLaunchEnabled)), targetInstanceTypeRightSizingMethod: \(Swift.String(describing: targetInstanceTypeRightSizingMethod)), tags: \"CONTENT_REDACTED\")"}
 }
 
 extension DrsClientTypes {
@@ -6871,6 +6899,8 @@ extension DrsClientTypes {
         public var launchConfigurationTemplateID: Swift.String?
         /// Launch disposition.
         public var launchDisposition: DrsClientTypes.LaunchDisposition?
+        /// DRS will set the 'launch into instance ID' of any source server when performing a drill, recovery or failback to the previous region or availability zone, using the instance ID of the source instance.
+        public var launchIntoSourceInstance: Swift.Bool?
         /// Licensing.
         public var licensing: DrsClientTypes.Licensing?
         /// Post-launch actions activated.
@@ -6887,6 +6917,7 @@ extension DrsClientTypes {
             exportBucketArn: Swift.String? = nil,
             launchConfigurationTemplateID: Swift.String? = nil,
             launchDisposition: DrsClientTypes.LaunchDisposition? = nil,
+            launchIntoSourceInstance: Swift.Bool? = nil,
             licensing: DrsClientTypes.Licensing? = nil,
             postLaunchEnabled: Swift.Bool? = nil,
             tags: [Swift.String:Swift.String]? = nil,
@@ -6899,6 +6930,7 @@ extension DrsClientTypes {
             self.exportBucketArn = exportBucketArn
             self.launchConfigurationTemplateID = launchConfigurationTemplateID
             self.launchDisposition = launchDisposition
+            self.launchIntoSourceInstance = launchIntoSourceInstance
             self.licensing = licensing
             self.postLaunchEnabled = postLaunchEnabled
             self.tags = tags
@@ -6938,6 +6970,41 @@ extension DrsClientTypes {
             self = LaunchDisposition(rawValue: rawValue) ?? LaunchDisposition.sdkUnknown(rawValue)
         }
     }
+}
+
+extension DrsClientTypes.LaunchIntoInstanceProperties: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case launchIntoEC2InstanceID
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let launchIntoEC2InstanceID = self.launchIntoEC2InstanceID {
+            try encodeContainer.encode(launchIntoEC2InstanceID, forKey: .launchIntoEC2InstanceID)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let launchIntoEC2InstanceIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .launchIntoEC2InstanceID)
+        launchIntoEC2InstanceID = launchIntoEC2InstanceIDDecoded
+    }
+}
+
+extension DrsClientTypes {
+    /// Launch into existing instance.
+    public struct LaunchIntoInstanceProperties: Swift.Equatable {
+        /// Optionally holds EC2 instance ID of an instance to launch into, instead of launching a new instance during drill, recovery or failback.
+        public var launchIntoEC2InstanceID: Swift.String?
+
+        public init(
+            launchIntoEC2InstanceID: Swift.String? = nil
+        )
+        {
+            self.launchIntoEC2InstanceID = launchIntoEC2InstanceID
+        }
+    }
+
 }
 
 extension DrsClientTypes {
@@ -8190,6 +8257,7 @@ public struct PutLaunchActionInput: Swift.Equatable {
     /// This member is required.
     public var category: DrsClientTypes.LaunchActionCategory?
     /// Launch action description.
+    /// This member is required.
     public var description: Swift.String?
     /// Launch action name.
     /// This member is required.
@@ -13155,6 +13223,7 @@ extension UpdateLaunchConfigurationInput: Swift.Encodable {
         case copyPrivateIp
         case copyTags
         case launchDisposition
+        case launchIntoInstanceProperties
         case licensing
         case name
         case postLaunchEnabled
@@ -13172,6 +13241,9 @@ extension UpdateLaunchConfigurationInput: Swift.Encodable {
         }
         if let launchDisposition = self.launchDisposition {
             try encodeContainer.encode(launchDisposition.rawValue, forKey: .launchDisposition)
+        }
+        if let launchIntoInstanceProperties = self.launchIntoInstanceProperties {
+            try encodeContainer.encode(launchIntoInstanceProperties, forKey: .launchIntoInstanceProperties)
         }
         if let licensing = self.licensing {
             try encodeContainer.encode(licensing, forKey: .licensing)
@@ -13204,6 +13276,8 @@ public struct UpdateLaunchConfigurationInput: Swift.Equatable {
     public var copyTags: Swift.Bool?
     /// The state of the Recovery Instance in EC2 after the recovery operation.
     public var launchDisposition: DrsClientTypes.LaunchDisposition?
+    /// Launch into existing instance properties.
+    public var launchIntoInstanceProperties: DrsClientTypes.LaunchIntoInstanceProperties?
     /// The licensing configuration to be used for this launch configuration.
     public var licensing: DrsClientTypes.Licensing?
     /// The name of the launch configuration.
@@ -13220,6 +13294,7 @@ public struct UpdateLaunchConfigurationInput: Swift.Equatable {
         copyPrivateIp: Swift.Bool? = nil,
         copyTags: Swift.Bool? = nil,
         launchDisposition: DrsClientTypes.LaunchDisposition? = nil,
+        launchIntoInstanceProperties: DrsClientTypes.LaunchIntoInstanceProperties? = nil,
         licensing: DrsClientTypes.Licensing? = nil,
         name: Swift.String? = nil,
         postLaunchEnabled: Swift.Bool? = nil,
@@ -13230,6 +13305,7 @@ public struct UpdateLaunchConfigurationInput: Swift.Equatable {
         self.copyPrivateIp = copyPrivateIp
         self.copyTags = copyTags
         self.launchDisposition = launchDisposition
+        self.launchIntoInstanceProperties = launchIntoInstanceProperties
         self.licensing = licensing
         self.name = name
         self.postLaunchEnabled = postLaunchEnabled
@@ -13247,6 +13323,7 @@ struct UpdateLaunchConfigurationInputBody: Swift.Equatable {
     let copyTags: Swift.Bool?
     let licensing: DrsClientTypes.Licensing?
     let postLaunchEnabled: Swift.Bool?
+    let launchIntoInstanceProperties: DrsClientTypes.LaunchIntoInstanceProperties?
 }
 
 extension UpdateLaunchConfigurationInputBody: Swift.Decodable {
@@ -13254,6 +13331,7 @@ extension UpdateLaunchConfigurationInputBody: Swift.Decodable {
         case copyPrivateIp
         case copyTags
         case launchDisposition
+        case launchIntoInstanceProperties
         case licensing
         case name
         case postLaunchEnabled
@@ -13279,6 +13357,8 @@ extension UpdateLaunchConfigurationInputBody: Swift.Decodable {
         licensing = licensingDecoded
         let postLaunchEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .postLaunchEnabled)
         postLaunchEnabled = postLaunchEnabledDecoded
+        let launchIntoInstancePropertiesDecoded = try containerValues.decodeIfPresent(DrsClientTypes.LaunchIntoInstanceProperties.self, forKey: .launchIntoInstanceProperties)
+        launchIntoInstanceProperties = launchIntoInstancePropertiesDecoded
     }
 }
 
@@ -13291,6 +13371,7 @@ extension UpdateLaunchConfigurationOutput: ClientRuntime.HttpResponseBinding {
             self.copyTags = output.copyTags
             self.ec2LaunchTemplateID = output.ec2LaunchTemplateID
             self.launchDisposition = output.launchDisposition
+            self.launchIntoInstanceProperties = output.launchIntoInstanceProperties
             self.licensing = output.licensing
             self.name = output.name
             self.postLaunchEnabled = output.postLaunchEnabled
@@ -13301,6 +13382,7 @@ extension UpdateLaunchConfigurationOutput: ClientRuntime.HttpResponseBinding {
             self.copyTags = nil
             self.ec2LaunchTemplateID = nil
             self.launchDisposition = nil
+            self.launchIntoInstanceProperties = nil
             self.licensing = nil
             self.name = nil
             self.postLaunchEnabled = nil
@@ -13319,6 +13401,8 @@ public struct UpdateLaunchConfigurationOutput: Swift.Equatable {
     public var ec2LaunchTemplateID: Swift.String?
     /// The state of the Recovery Instance in EC2 after the recovery operation.
     public var launchDisposition: DrsClientTypes.LaunchDisposition?
+    /// Launch into existing instance properties.
+    public var launchIntoInstanceProperties: DrsClientTypes.LaunchIntoInstanceProperties?
     /// The licensing configuration to be used for this launch configuration.
     public var licensing: DrsClientTypes.Licensing?
     /// The name of the launch configuration.
@@ -13335,6 +13419,7 @@ public struct UpdateLaunchConfigurationOutput: Swift.Equatable {
         copyTags: Swift.Bool? = nil,
         ec2LaunchTemplateID: Swift.String? = nil,
         launchDisposition: DrsClientTypes.LaunchDisposition? = nil,
+        launchIntoInstanceProperties: DrsClientTypes.LaunchIntoInstanceProperties? = nil,
         licensing: DrsClientTypes.Licensing? = nil,
         name: Swift.String? = nil,
         postLaunchEnabled: Swift.Bool? = nil,
@@ -13346,6 +13431,7 @@ public struct UpdateLaunchConfigurationOutput: Swift.Equatable {
         self.copyTags = copyTags
         self.ec2LaunchTemplateID = ec2LaunchTemplateID
         self.launchDisposition = launchDisposition
+        self.launchIntoInstanceProperties = launchIntoInstanceProperties
         self.licensing = licensing
         self.name = name
         self.postLaunchEnabled = postLaunchEnabled
@@ -13364,6 +13450,7 @@ struct UpdateLaunchConfigurationOutputBody: Swift.Equatable {
     let copyTags: Swift.Bool?
     let licensing: DrsClientTypes.Licensing?
     let postLaunchEnabled: Swift.Bool?
+    let launchIntoInstanceProperties: DrsClientTypes.LaunchIntoInstanceProperties?
 }
 
 extension UpdateLaunchConfigurationOutputBody: Swift.Decodable {
@@ -13372,6 +13459,7 @@ extension UpdateLaunchConfigurationOutputBody: Swift.Decodable {
         case copyTags
         case ec2LaunchTemplateID
         case launchDisposition
+        case launchIntoInstanceProperties
         case licensing
         case name
         case postLaunchEnabled
@@ -13399,6 +13487,8 @@ extension UpdateLaunchConfigurationOutputBody: Swift.Decodable {
         licensing = licensingDecoded
         let postLaunchEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .postLaunchEnabled)
         postLaunchEnabled = postLaunchEnabledDecoded
+        let launchIntoInstancePropertiesDecoded = try containerValues.decodeIfPresent(DrsClientTypes.LaunchIntoInstanceProperties.self, forKey: .launchIntoInstanceProperties)
+        launchIntoInstanceProperties = launchIntoInstancePropertiesDecoded
     }
 }
 
@@ -13425,6 +13515,7 @@ extension UpdateLaunchConfigurationTemplateInput: Swift.Encodable {
         case exportBucketArn
         case launchConfigurationTemplateID
         case launchDisposition
+        case launchIntoSourceInstance
         case licensing
         case postLaunchEnabled
         case targetInstanceTypeRightSizingMethod
@@ -13446,6 +13537,9 @@ extension UpdateLaunchConfigurationTemplateInput: Swift.Encodable {
         }
         if let launchDisposition = self.launchDisposition {
             try encodeContainer.encode(launchDisposition.rawValue, forKey: .launchDisposition)
+        }
+        if let launchIntoSourceInstance = self.launchIntoSourceInstance {
+            try encodeContainer.encode(launchIntoSourceInstance, forKey: .launchIntoSourceInstance)
         }
         if let licensing = self.licensing {
             try encodeContainer.encode(licensing, forKey: .licensing)
@@ -13477,6 +13571,8 @@ public struct UpdateLaunchConfigurationTemplateInput: Swift.Equatable {
     public var launchConfigurationTemplateID: Swift.String?
     /// Launch disposition.
     public var launchDisposition: DrsClientTypes.LaunchDisposition?
+    /// DRS will set the 'launch into instance ID' of any source server when performing a drill, recovery or failback to the previous region or availability zone, using the instance ID of the source instance.
+    public var launchIntoSourceInstance: Swift.Bool?
     /// Licensing.
     public var licensing: DrsClientTypes.Licensing?
     /// Whether we want to activate post-launch actions.
@@ -13490,6 +13586,7 @@ public struct UpdateLaunchConfigurationTemplateInput: Swift.Equatable {
         exportBucketArn: Swift.String? = nil,
         launchConfigurationTemplateID: Swift.String? = nil,
         launchDisposition: DrsClientTypes.LaunchDisposition? = nil,
+        launchIntoSourceInstance: Swift.Bool? = nil,
         licensing: DrsClientTypes.Licensing? = nil,
         postLaunchEnabled: Swift.Bool? = nil,
         targetInstanceTypeRightSizingMethod: DrsClientTypes.TargetInstanceTypeRightSizingMethod? = nil
@@ -13500,6 +13597,7 @@ public struct UpdateLaunchConfigurationTemplateInput: Swift.Equatable {
         self.exportBucketArn = exportBucketArn
         self.launchConfigurationTemplateID = launchConfigurationTemplateID
         self.launchDisposition = launchDisposition
+        self.launchIntoSourceInstance = launchIntoSourceInstance
         self.licensing = licensing
         self.postLaunchEnabled = postLaunchEnabled
         self.targetInstanceTypeRightSizingMethod = targetInstanceTypeRightSizingMethod
@@ -13515,6 +13613,7 @@ struct UpdateLaunchConfigurationTemplateInputBody: Swift.Equatable {
     let licensing: DrsClientTypes.Licensing?
     let exportBucketArn: Swift.String?
     let postLaunchEnabled: Swift.Bool?
+    let launchIntoSourceInstance: Swift.Bool?
 }
 
 extension UpdateLaunchConfigurationTemplateInputBody: Swift.Decodable {
@@ -13524,6 +13623,7 @@ extension UpdateLaunchConfigurationTemplateInputBody: Swift.Decodable {
         case exportBucketArn
         case launchConfigurationTemplateID
         case launchDisposition
+        case launchIntoSourceInstance
         case licensing
         case postLaunchEnabled
         case targetInstanceTypeRightSizingMethod
@@ -13547,6 +13647,8 @@ extension UpdateLaunchConfigurationTemplateInputBody: Swift.Decodable {
         exportBucketArn = exportBucketArnDecoded
         let postLaunchEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .postLaunchEnabled)
         postLaunchEnabled = postLaunchEnabledDecoded
+        let launchIntoSourceInstanceDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .launchIntoSourceInstance)
+        launchIntoSourceInstance = launchIntoSourceInstanceDecoded
     }
 }
 

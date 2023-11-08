@@ -41,15 +41,16 @@ public protocol VerifiedPermissionsClientProtocol {
     ///
     /// * IncompatibleTypes The types of elements included in a set, or the types of expressions used in an if...then...else clause aren't compatible in this context.
     ///
-    /// * MissingAttribute The policy attempts to access a record or entity attribute that isn't specified in the schema. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
+    /// * MissingAttribute The policy attempts to access a record or entity attribute that isn't specified in the schema. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/policies/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
     ///
-    /// * UnsafeOptionalAttributeAccess The policy attempts to access a record or entity attribute that is optional and isn't guaranteed to be present. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
+    /// * UnsafeOptionalAttributeAccess The policy attempts to access a record or entity attribute that is optional and isn't guaranteed to be present. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/policies/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
     ///
     /// * ImpossiblePolicy Cedar has determined that a policy condition always evaluates to false. If the policy is always false, it can never apply to any query, and so it can never affect an authorization decision.
     ///
     /// * WrongNumberArguments The policy references an extension type with the wrong number of arguments.
     ///
     /// * FunctionArgumentValidationError Cedar couldn't parse the argument passed to an extension type. For example, a string that is to be parsed as an IPv4 address can contain only digits and the period character.
+    /// - `ConflictException` : The request failed because another request to modify a resource occurred at the same.
     /// - `ResourceNotFoundException` : The request failed because it references a resource that doesn't exist.
     /// - `ServiceQuotaExceededException` : The request failed because it would cause a service quota to be exceeded.
     func createIdentitySource(input: CreateIdentitySourceInput) async throws -> CreateIdentitySourceOutput
@@ -84,19 +85,20 @@ public protocol VerifiedPermissionsClientProtocol {
     ///
     /// * IncompatibleTypes The types of elements included in a set, or the types of expressions used in an if...then...else clause aren't compatible in this context.
     ///
-    /// * MissingAttribute The policy attempts to access a record or entity attribute that isn't specified in the schema. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
+    /// * MissingAttribute The policy attempts to access a record or entity attribute that isn't specified in the schema. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/policies/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
     ///
-    /// * UnsafeOptionalAttributeAccess The policy attempts to access a record or entity attribute that is optional and isn't guaranteed to be present. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
+    /// * UnsafeOptionalAttributeAccess The policy attempts to access a record or entity attribute that is optional and isn't guaranteed to be present. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/policies/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
     ///
     /// * ImpossiblePolicy Cedar has determined that a policy condition always evaluates to false. If the policy is always false, it can never apply to any query, and so it can never affect an authorization decision.
     ///
     /// * WrongNumberArguments The policy references an extension type with the wrong number of arguments.
     ///
     /// * FunctionArgumentValidationError Cedar couldn't parse the argument passed to an extension type. For example, a string that is to be parsed as an IPv4 address can contain only digits and the period character.
+    /// - `ConflictException` : The request failed because another request to modify a resource occurred at the same.
     /// - `ResourceNotFoundException` : The request failed because it references a resource that doesn't exist.
     /// - `ServiceQuotaExceededException` : The request failed because it would cause a service quota to be exceeded.
     func createPolicy(input: CreatePolicyInput) async throws -> CreatePolicyOutput
-    /// Creates a policy store. A policy store is a container for policy resources. Although [Cedar supports multiple namespaces](https://docs.cedarpolicy.com/schema.html#namespace), Verified Permissions currently supports only one namespace per policy store. Verified Permissions is [eventually consistent](https://wikipedia.org/wiki/Eventual_consistency) . It can take a few seconds for a new or changed element to be propagate through the service and be visible in the results of other Verified Permissions operations.
+    /// Creates a policy store. A policy store is a container for policy resources. Although [Cedar supports multiple namespaces](https://docs.cedarpolicy.com/schema/schema.html#namespace), Verified Permissions currently supports only one namespace per policy store. Verified Permissions is [eventually consistent](https://wikipedia.org/wiki/Eventual_consistency) . It can take a few seconds for a new or changed element to be propagate through the service and be visible in the results of other Verified Permissions operations.
     ///
     /// - Parameter CreatePolicyStoreInput : [no documentation found]
     ///
@@ -120,15 +122,16 @@ public protocol VerifiedPermissionsClientProtocol {
     ///
     /// * IncompatibleTypes The types of elements included in a set, or the types of expressions used in an if...then...else clause aren't compatible in this context.
     ///
-    /// * MissingAttribute The policy attempts to access a record or entity attribute that isn't specified in the schema. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
+    /// * MissingAttribute The policy attempts to access a record or entity attribute that isn't specified in the schema. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/policies/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
     ///
-    /// * UnsafeOptionalAttributeAccess The policy attempts to access a record or entity attribute that is optional and isn't guaranteed to be present. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
+    /// * UnsafeOptionalAttributeAccess The policy attempts to access a record or entity attribute that is optional and isn't guaranteed to be present. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/policies/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
     ///
     /// * ImpossiblePolicy Cedar has determined that a policy condition always evaluates to false. If the policy is always false, it can never apply to any query, and so it can never affect an authorization decision.
     ///
     /// * WrongNumberArguments The policy references an extension type with the wrong number of arguments.
     ///
     /// * FunctionArgumentValidationError Cedar couldn't parse the argument passed to an extension type. For example, a string that is to be parsed as an IPv4 address can contain only digits and the period character.
+    /// - `ConflictException` : The request failed because another request to modify a resource occurred at the same.
     /// - `ServiceQuotaExceededException` : The request failed because it would cause a service quota to be exceeded.
     func createPolicyStore(input: CreatePolicyStoreInput) async throws -> CreatePolicyStoreOutput
     /// Creates a policy template. A template can use placeholders for the principal and resource. A template must be instantiated into a policy by associating it with specific principals and resources to use for the placeholders. That instantiated policy can then be considered in authorization decisions. The instantiated policy works identically to any other policy, except that it is dynamically linked to the template. If the template changes, then any policies that are linked to that template are immediately updated as well. Verified Permissions is [eventually consistent](https://wikipedia.org/wiki/Eventual_consistency) . It can take a few seconds for a new or changed element to be propagate through the service and be visible in the results of other Verified Permissions operations.
@@ -155,15 +158,16 @@ public protocol VerifiedPermissionsClientProtocol {
     ///
     /// * IncompatibleTypes The types of elements included in a set, or the types of expressions used in an if...then...else clause aren't compatible in this context.
     ///
-    /// * MissingAttribute The policy attempts to access a record or entity attribute that isn't specified in the schema. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
+    /// * MissingAttribute The policy attempts to access a record or entity attribute that isn't specified in the schema. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/policies/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
     ///
-    /// * UnsafeOptionalAttributeAccess The policy attempts to access a record or entity attribute that is optional and isn't guaranteed to be present. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
+    /// * UnsafeOptionalAttributeAccess The policy attempts to access a record or entity attribute that is optional and isn't guaranteed to be present. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/policies/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
     ///
     /// * ImpossiblePolicy Cedar has determined that a policy condition always evaluates to false. If the policy is always false, it can never apply to any query, and so it can never affect an authorization decision.
     ///
     /// * WrongNumberArguments The policy references an extension type with the wrong number of arguments.
     ///
     /// * FunctionArgumentValidationError Cedar couldn't parse the argument passed to an extension type. For example, a string that is to be parsed as an IPv4 address can contain only digits and the period character.
+    /// - `ConflictException` : The request failed because another request to modify a resource occurred at the same.
     /// - `ResourceNotFoundException` : The request failed because it references a resource that doesn't exist.
     /// - `ServiceQuotaExceededException` : The request failed because it would cause a service quota to be exceeded.
     func createPolicyTemplate(input: CreatePolicyTemplateInput) async throws -> CreatePolicyTemplateOutput
@@ -191,9 +195,9 @@ public protocol VerifiedPermissionsClientProtocol {
     ///
     /// * IncompatibleTypes The types of elements included in a set, or the types of expressions used in an if...then...else clause aren't compatible in this context.
     ///
-    /// * MissingAttribute The policy attempts to access a record or entity attribute that isn't specified in the schema. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
+    /// * MissingAttribute The policy attempts to access a record or entity attribute that isn't specified in the schema. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/policies/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
     ///
-    /// * UnsafeOptionalAttributeAccess The policy attempts to access a record or entity attribute that is optional and isn't guaranteed to be present. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
+    /// * UnsafeOptionalAttributeAccess The policy attempts to access a record or entity attribute that is optional and isn't guaranteed to be present. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/policies/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
     ///
     /// * ImpossiblePolicy Cedar has determined that a policy condition always evaluates to false. If the policy is always false, it can never apply to any query, and so it can never affect an authorization decision.
     ///
@@ -227,9 +231,9 @@ public protocol VerifiedPermissionsClientProtocol {
     ///
     /// * IncompatibleTypes The types of elements included in a set, or the types of expressions used in an if...then...else clause aren't compatible in this context.
     ///
-    /// * MissingAttribute The policy attempts to access a record or entity attribute that isn't specified in the schema. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
+    /// * MissingAttribute The policy attempts to access a record or entity attribute that isn't specified in the schema. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/policies/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
     ///
-    /// * UnsafeOptionalAttributeAccess The policy attempts to access a record or entity attribute that is optional and isn't guaranteed to be present. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
+    /// * UnsafeOptionalAttributeAccess The policy attempts to access a record or entity attribute that is optional and isn't guaranteed to be present. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/policies/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
     ///
     /// * ImpossiblePolicy Cedar has determined that a policy condition always evaluates to false. If the policy is always false, it can never apply to any query, and so it can never affect an authorization decision.
     ///
@@ -263,9 +267,9 @@ public protocol VerifiedPermissionsClientProtocol {
     ///
     /// * IncompatibleTypes The types of elements included in a set, or the types of expressions used in an if...then...else clause aren't compatible in this context.
     ///
-    /// * MissingAttribute The policy attempts to access a record or entity attribute that isn't specified in the schema. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
+    /// * MissingAttribute The policy attempts to access a record or entity attribute that isn't specified in the schema. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/policies/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
     ///
-    /// * UnsafeOptionalAttributeAccess The policy attempts to access a record or entity attribute that is optional and isn't guaranteed to be present. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
+    /// * UnsafeOptionalAttributeAccess The policy attempts to access a record or entity attribute that is optional and isn't guaranteed to be present. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/policies/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
     ///
     /// * ImpossiblePolicy Cedar has determined that a policy condition always evaluates to false. If the policy is always false, it can never apply to any query, and so it can never affect an authorization decision.
     ///
@@ -297,9 +301,9 @@ public protocol VerifiedPermissionsClientProtocol {
     ///
     /// * IncompatibleTypes The types of elements included in a set, or the types of expressions used in an if...then...else clause aren't compatible in this context.
     ///
-    /// * MissingAttribute The policy attempts to access a record or entity attribute that isn't specified in the schema. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
+    /// * MissingAttribute The policy attempts to access a record or entity attribute that isn't specified in the schema. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/policies/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
     ///
-    /// * UnsafeOptionalAttributeAccess The policy attempts to access a record or entity attribute that is optional and isn't guaranteed to be present. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
+    /// * UnsafeOptionalAttributeAccess The policy attempts to access a record or entity attribute that is optional and isn't guaranteed to be present. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/policies/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
     ///
     /// * ImpossiblePolicy Cedar has determined that a policy condition always evaluates to false. If the policy is always false, it can never apply to any query, and so it can never affect an authorization decision.
     ///
@@ -333,9 +337,9 @@ public protocol VerifiedPermissionsClientProtocol {
     ///
     /// * IncompatibleTypes The types of elements included in a set, or the types of expressions used in an if...then...else clause aren't compatible in this context.
     ///
-    /// * MissingAttribute The policy attempts to access a record or entity attribute that isn't specified in the schema. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
+    /// * MissingAttribute The policy attempts to access a record or entity attribute that isn't specified in the schema. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/policies/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
     ///
-    /// * UnsafeOptionalAttributeAccess The policy attempts to access a record or entity attribute that is optional and isn't guaranteed to be present. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
+    /// * UnsafeOptionalAttributeAccess The policy attempts to access a record or entity attribute that is optional and isn't guaranteed to be present. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/policies/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
     ///
     /// * ImpossiblePolicy Cedar has determined that a policy condition always evaluates to false. If the policy is always false, it can never apply to any query, and so it can never affect an authorization decision.
     ///
@@ -368,9 +372,9 @@ public protocol VerifiedPermissionsClientProtocol {
     ///
     /// * IncompatibleTypes The types of elements included in a set, or the types of expressions used in an if...then...else clause aren't compatible in this context.
     ///
-    /// * MissingAttribute The policy attempts to access a record or entity attribute that isn't specified in the schema. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
+    /// * MissingAttribute The policy attempts to access a record or entity attribute that isn't specified in the schema. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/policies/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
     ///
-    /// * UnsafeOptionalAttributeAccess The policy attempts to access a record or entity attribute that is optional and isn't guaranteed to be present. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
+    /// * UnsafeOptionalAttributeAccess The policy attempts to access a record or entity attribute that is optional and isn't guaranteed to be present. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/policies/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
     ///
     /// * ImpossiblePolicy Cedar has determined that a policy condition always evaluates to false. If the policy is always false, it can never apply to any query, and so it can never affect an authorization decision.
     ///
@@ -403,9 +407,9 @@ public protocol VerifiedPermissionsClientProtocol {
     ///
     /// * IncompatibleTypes The types of elements included in a set, or the types of expressions used in an if...then...else clause aren't compatible in this context.
     ///
-    /// * MissingAttribute The policy attempts to access a record or entity attribute that isn't specified in the schema. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
+    /// * MissingAttribute The policy attempts to access a record or entity attribute that isn't specified in the schema. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/policies/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
     ///
-    /// * UnsafeOptionalAttributeAccess The policy attempts to access a record or entity attribute that is optional and isn't guaranteed to be present. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
+    /// * UnsafeOptionalAttributeAccess The policy attempts to access a record or entity attribute that is optional and isn't guaranteed to be present. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/policies/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
     ///
     /// * ImpossiblePolicy Cedar has determined that a policy condition always evaluates to false. If the policy is always false, it can never apply to any query, and so it can never affect an authorization decision.
     ///
@@ -438,9 +442,9 @@ public protocol VerifiedPermissionsClientProtocol {
     ///
     /// * IncompatibleTypes The types of elements included in a set, or the types of expressions used in an if...then...else clause aren't compatible in this context.
     ///
-    /// * MissingAttribute The policy attempts to access a record or entity attribute that isn't specified in the schema. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
+    /// * MissingAttribute The policy attempts to access a record or entity attribute that isn't specified in the schema. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/policies/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
     ///
-    /// * UnsafeOptionalAttributeAccess The policy attempts to access a record or entity attribute that is optional and isn't guaranteed to be present. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
+    /// * UnsafeOptionalAttributeAccess The policy attempts to access a record or entity attribute that is optional and isn't guaranteed to be present. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/policies/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
     ///
     /// * ImpossiblePolicy Cedar has determined that a policy condition always evaluates to false. If the policy is always false, it can never apply to any query, and so it can never affect an authorization decision.
     ///
@@ -473,9 +477,9 @@ public protocol VerifiedPermissionsClientProtocol {
     ///
     /// * IncompatibleTypes The types of elements included in a set, or the types of expressions used in an if...then...else clause aren't compatible in this context.
     ///
-    /// * MissingAttribute The policy attempts to access a record or entity attribute that isn't specified in the schema. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
+    /// * MissingAttribute The policy attempts to access a record or entity attribute that isn't specified in the schema. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/policies/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
     ///
-    /// * UnsafeOptionalAttributeAccess The policy attempts to access a record or entity attribute that is optional and isn't guaranteed to be present. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
+    /// * UnsafeOptionalAttributeAccess The policy attempts to access a record or entity attribute that is optional and isn't guaranteed to be present. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/policies/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
     ///
     /// * ImpossiblePolicy Cedar has determined that a policy condition always evaluates to false. If the policy is always false, it can never apply to any query, and so it can never affect an authorization decision.
     ///
@@ -508,9 +512,9 @@ public protocol VerifiedPermissionsClientProtocol {
     ///
     /// * IncompatibleTypes The types of elements included in a set, or the types of expressions used in an if...then...else clause aren't compatible in this context.
     ///
-    /// * MissingAttribute The policy attempts to access a record or entity attribute that isn't specified in the schema. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
+    /// * MissingAttribute The policy attempts to access a record or entity attribute that isn't specified in the schema. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/policies/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
     ///
-    /// * UnsafeOptionalAttributeAccess The policy attempts to access a record or entity attribute that is optional and isn't guaranteed to be present. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
+    /// * UnsafeOptionalAttributeAccess The policy attempts to access a record or entity attribute that is optional and isn't guaranteed to be present. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/policies/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
     ///
     /// * ImpossiblePolicy Cedar has determined that a policy condition always evaluates to false. If the policy is always false, it can never apply to any query, and so it can never affect an authorization decision.
     ///
@@ -543,9 +547,9 @@ public protocol VerifiedPermissionsClientProtocol {
     ///
     /// * IncompatibleTypes The types of elements included in a set, or the types of expressions used in an if...then...else clause aren't compatible in this context.
     ///
-    /// * MissingAttribute The policy attempts to access a record or entity attribute that isn't specified in the schema. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
+    /// * MissingAttribute The policy attempts to access a record or entity attribute that isn't specified in the schema. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/policies/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
     ///
-    /// * UnsafeOptionalAttributeAccess The policy attempts to access a record or entity attribute that is optional and isn't guaranteed to be present. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
+    /// * UnsafeOptionalAttributeAccess The policy attempts to access a record or entity attribute that is optional and isn't guaranteed to be present. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/policies/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
     ///
     /// * ImpossiblePolicy Cedar has determined that a policy condition always evaluates to false. If the policy is always false, it can never apply to any query, and so it can never affect an authorization decision.
     ///
@@ -578,9 +582,9 @@ public protocol VerifiedPermissionsClientProtocol {
     ///
     /// * IncompatibleTypes The types of elements included in a set, or the types of expressions used in an if...then...else clause aren't compatible in this context.
     ///
-    /// * MissingAttribute The policy attempts to access a record or entity attribute that isn't specified in the schema. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
+    /// * MissingAttribute The policy attempts to access a record or entity attribute that isn't specified in the schema. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/policies/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
     ///
-    /// * UnsafeOptionalAttributeAccess The policy attempts to access a record or entity attribute that is optional and isn't guaranteed to be present. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
+    /// * UnsafeOptionalAttributeAccess The policy attempts to access a record or entity attribute that is optional and isn't guaranteed to be present. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/policies/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
     ///
     /// * ImpossiblePolicy Cedar has determined that a policy condition always evaluates to false. If the policy is always false, it can never apply to any query, and so it can never affect an authorization decision.
     ///
@@ -613,9 +617,9 @@ public protocol VerifiedPermissionsClientProtocol {
     ///
     /// * IncompatibleTypes The types of elements included in a set, or the types of expressions used in an if...then...else clause aren't compatible in this context.
     ///
-    /// * MissingAttribute The policy attempts to access a record or entity attribute that isn't specified in the schema. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
+    /// * MissingAttribute The policy attempts to access a record or entity attribute that isn't specified in the schema. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/policies/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
     ///
-    /// * UnsafeOptionalAttributeAccess The policy attempts to access a record or entity attribute that is optional and isn't guaranteed to be present. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
+    /// * UnsafeOptionalAttributeAccess The policy attempts to access a record or entity attribute that is optional and isn't guaranteed to be present. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/policies/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
     ///
     /// * ImpossiblePolicy Cedar has determined that a policy condition always evaluates to false. If the policy is always false, it can never apply to any query, and so it can never affect an authorization decision.
     ///
@@ -648,9 +652,9 @@ public protocol VerifiedPermissionsClientProtocol {
     ///
     /// * IncompatibleTypes The types of elements included in a set, or the types of expressions used in an if...then...else clause aren't compatible in this context.
     ///
-    /// * MissingAttribute The policy attempts to access a record or entity attribute that isn't specified in the schema. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
+    /// * MissingAttribute The policy attempts to access a record or entity attribute that isn't specified in the schema. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/policies/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
     ///
-    /// * UnsafeOptionalAttributeAccess The policy attempts to access a record or entity attribute that is optional and isn't guaranteed to be present. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
+    /// * UnsafeOptionalAttributeAccess The policy attempts to access a record or entity attribute that is optional and isn't guaranteed to be present. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/policies/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
     ///
     /// * ImpossiblePolicy Cedar has determined that a policy condition always evaluates to false. If the policy is always false, it can never apply to any query, and so it can never affect an authorization decision.
     ///
@@ -682,9 +686,9 @@ public protocol VerifiedPermissionsClientProtocol {
     ///
     /// * IncompatibleTypes The types of elements included in a set, or the types of expressions used in an if...then...else clause aren't compatible in this context.
     ///
-    /// * MissingAttribute The policy attempts to access a record or entity attribute that isn't specified in the schema. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
+    /// * MissingAttribute The policy attempts to access a record or entity attribute that isn't specified in the schema. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/policies/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
     ///
-    /// * UnsafeOptionalAttributeAccess The policy attempts to access a record or entity attribute that is optional and isn't guaranteed to be present. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
+    /// * UnsafeOptionalAttributeAccess The policy attempts to access a record or entity attribute that is optional and isn't guaranteed to be present. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/policies/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
     ///
     /// * ImpossiblePolicy Cedar has determined that a policy condition always evaluates to false. If the policy is always false, it can never apply to any query, and so it can never affect an authorization decision.
     ///
@@ -717,9 +721,9 @@ public protocol VerifiedPermissionsClientProtocol {
     ///
     /// * IncompatibleTypes The types of elements included in a set, or the types of expressions used in an if...then...else clause aren't compatible in this context.
     ///
-    /// * MissingAttribute The policy attempts to access a record or entity attribute that isn't specified in the schema. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
+    /// * MissingAttribute The policy attempts to access a record or entity attribute that isn't specified in the schema. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/policies/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
     ///
-    /// * UnsafeOptionalAttributeAccess The policy attempts to access a record or entity attribute that is optional and isn't guaranteed to be present. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
+    /// * UnsafeOptionalAttributeAccess The policy attempts to access a record or entity attribute that is optional and isn't guaranteed to be present. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/policies/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
     ///
     /// * ImpossiblePolicy Cedar has determined that a policy condition always evaluates to false. If the policy is always false, it can never apply to any query, and so it can never affect an authorization decision.
     ///
@@ -754,9 +758,9 @@ public protocol VerifiedPermissionsClientProtocol {
     ///
     /// * IncompatibleTypes The types of elements included in a set, or the types of expressions used in an if...then...else clause aren't compatible in this context.
     ///
-    /// * MissingAttribute The policy attempts to access a record or entity attribute that isn't specified in the schema. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
+    /// * MissingAttribute The policy attempts to access a record or entity attribute that isn't specified in the schema. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/policies/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
     ///
-    /// * UnsafeOptionalAttributeAccess The policy attempts to access a record or entity attribute that is optional and isn't guaranteed to be present. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
+    /// * UnsafeOptionalAttributeAccess The policy attempts to access a record or entity attribute that is optional and isn't guaranteed to be present. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/policies/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
     ///
     /// * ImpossiblePolicy Cedar has determined that a policy condition always evaluates to false. If the policy is always false, it can never apply to any query, and so it can never affect an authorization decision.
     ///
@@ -817,9 +821,9 @@ public protocol VerifiedPermissionsClientProtocol {
     ///
     /// * IncompatibleTypes The types of elements included in a set, or the types of expressions used in an if...then...else clause aren't compatible in this context.
     ///
-    /// * MissingAttribute The policy attempts to access a record or entity attribute that isn't specified in the schema. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
+    /// * MissingAttribute The policy attempts to access a record or entity attribute that isn't specified in the schema. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/policies/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
     ///
-    /// * UnsafeOptionalAttributeAccess The policy attempts to access a record or entity attribute that is optional and isn't guaranteed to be present. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
+    /// * UnsafeOptionalAttributeAccess The policy attempts to access a record or entity attribute that is optional and isn't guaranteed to be present. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/policies/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
     ///
     /// * ImpossiblePolicy Cedar has determined that a policy condition always evaluates to false. If the policy is always false, it can never apply to any query, and so it can never affect an authorization decision.
     ///
@@ -854,9 +858,9 @@ public protocol VerifiedPermissionsClientProtocol {
     ///
     /// * IncompatibleTypes The types of elements included in a set, or the types of expressions used in an if...then...else clause aren't compatible in this context.
     ///
-    /// * MissingAttribute The policy attempts to access a record or entity attribute that isn't specified in the schema. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
+    /// * MissingAttribute The policy attempts to access a record or entity attribute that isn't specified in the schema. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/policies/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
     ///
-    /// * UnsafeOptionalAttributeAccess The policy attempts to access a record or entity attribute that is optional and isn't guaranteed to be present. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
+    /// * UnsafeOptionalAttributeAccess The policy attempts to access a record or entity attribute that is optional and isn't guaranteed to be present. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/policies/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
     ///
     /// * ImpossiblePolicy Cedar has determined that a policy condition always evaluates to false. If the policy is always false, it can never apply to any query, and so it can never affect an authorization decision.
     ///
@@ -866,7 +870,7 @@ public protocol VerifiedPermissionsClientProtocol {
     /// - `ConflictException` : The request failed because another request to modify a resource occurred at the same.
     /// - `ResourceNotFoundException` : The request failed because it references a resource that doesn't exist.
     func updatePolicyStore(input: UpdatePolicyStoreInput) async throws -> UpdatePolicyStoreOutput
-    /// Updates the specified policy template. You can update only the description and the some elements of the [policyBody](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdatePolicyTemplate.html#amazonverifiedpermissions-UpdatePolicyTemplate-request-policyBody). Changes you make to the policy template content are immediately reflected in authorization decisions that involve all template-linked policies instantiated from this template. Verified Permissions is [eventually consistent](https://wikipedia.org/wiki/Eventual_consistency) . It can take a few seconds for a new or changed element to be propagate through the service and be visible in the results of other Verified Permissions operations.
+    /// Updates the specified policy template. You can update only the description and the some elements of the [policyBody](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdatePolicyTemplate.html#amazonverifiedpermissions-UpdatePolicyTemplate-request-policyBody). Changes you make to the policy template content are immediately (within the constraints of eventual consistency) reflected in authorization decisions that involve all template-linked policies instantiated from this template. Verified Permissions is [eventually consistent](https://wikipedia.org/wiki/Eventual_consistency) . It can take a few seconds for a new or changed element to be propagate through the service and be visible in the results of other Verified Permissions operations.
     ///
     /// - Parameter UpdatePolicyTemplateInput : [no documentation found]
     ///
@@ -890,9 +894,9 @@ public protocol VerifiedPermissionsClientProtocol {
     ///
     /// * IncompatibleTypes The types of elements included in a set, or the types of expressions used in an if...then...else clause aren't compatible in this context.
     ///
-    /// * MissingAttribute The policy attempts to access a record or entity attribute that isn't specified in the schema. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
+    /// * MissingAttribute The policy attempts to access a record or entity attribute that isn't specified in the schema. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/policies/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
     ///
-    /// * UnsafeOptionalAttributeAccess The policy attempts to access a record or entity attribute that is optional and isn't guaranteed to be present. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
+    /// * UnsafeOptionalAttributeAccess The policy attempts to access a record or entity attribute that is optional and isn't guaranteed to be present. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/policies/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
     ///
     /// * ImpossiblePolicy Cedar has determined that a policy condition always evaluates to false. If the policy is always false, it can never apply to any query, and so it can never affect an authorization decision.
     ///

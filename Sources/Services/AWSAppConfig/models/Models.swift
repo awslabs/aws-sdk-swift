@@ -1343,7 +1343,7 @@ extension CreateDeploymentStrategyOutput: ClientRuntime.HttpResponseBinding {
             self.deploymentDurationInMinutes = 0
             self.description = nil
             self.finalBakeTimeInMinutes = 0
-            self.growthFactor = 0.0
+            self.growthFactor = nil
             self.growthType = nil
             self.id = nil
             self.name = nil
@@ -1360,7 +1360,7 @@ public struct CreateDeploymentStrategyOutput: Swift.Equatable {
     /// The amount of time that AppConfig monitored for alarms before considering the deployment to be complete and no longer eligible for automatic rollback.
     public var finalBakeTimeInMinutes: Swift.Int
     /// The percentage of targets that received a deployed configuration during each interval.
-    public var growthFactor: Swift.Float
+    public var growthFactor: Swift.Float?
     /// The algorithm used to define how percentage grew over time.
     public var growthType: AppConfigClientTypes.GrowthType?
     /// The deployment strategy ID.
@@ -1374,7 +1374,7 @@ public struct CreateDeploymentStrategyOutput: Swift.Equatable {
         deploymentDurationInMinutes: Swift.Int = 0,
         description: Swift.String? = nil,
         finalBakeTimeInMinutes: Swift.Int = 0,
-        growthFactor: Swift.Float = 0.0,
+        growthFactor: Swift.Float? = nil,
         growthType: AppConfigClientTypes.GrowthType? = nil,
         id: Swift.String? = nil,
         name: Swift.String? = nil,
@@ -1398,7 +1398,7 @@ struct CreateDeploymentStrategyOutputBody: Swift.Equatable {
     let description: Swift.String?
     let deploymentDurationInMinutes: Swift.Int
     let growthType: AppConfigClientTypes.GrowthType?
-    let growthFactor: Swift.Float
+    let growthFactor: Swift.Float?
     let finalBakeTimeInMinutes: Swift.Int
     let replicateTo: AppConfigClientTypes.ReplicateTo?
 }
@@ -1427,7 +1427,7 @@ extension CreateDeploymentStrategyOutputBody: Swift.Decodable {
         deploymentDurationInMinutes = deploymentDurationInMinutesDecoded
         let growthTypeDecoded = try containerValues.decodeIfPresent(AppConfigClientTypes.GrowthType.self, forKey: .growthType)
         growthType = growthTypeDecoded
-        let growthFactorDecoded = try containerValues.decodeIfPresent(Swift.Float.self, forKey: .growthFactor) ?? 0.0
+        let growthFactorDecoded = try containerValues.decodeIfPresent(Swift.Float.self, forKey: .growthFactor)
         growthFactor = growthFactorDecoded
         let finalBakeTimeInMinutesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .finalBakeTimeInMinutes) ?? 0
         finalBakeTimeInMinutes = finalBakeTimeInMinutesDecoded
@@ -3097,7 +3097,7 @@ extension AppConfigClientTypes.DeploymentStrategy: Swift.Codable {
         if finalBakeTimeInMinutes != 0 {
             try encodeContainer.encode(finalBakeTimeInMinutes, forKey: .finalBakeTimeInMinutes)
         }
-        if growthFactor != 0.0 {
+        if let growthFactor = self.growthFactor {
             try encodeContainer.encode(growthFactor, forKey: .growthFactor)
         }
         if let growthType = self.growthType {
@@ -3126,7 +3126,7 @@ extension AppConfigClientTypes.DeploymentStrategy: Swift.Codable {
         deploymentDurationInMinutes = deploymentDurationInMinutesDecoded
         let growthTypeDecoded = try containerValues.decodeIfPresent(AppConfigClientTypes.GrowthType.self, forKey: .growthType)
         growthType = growthTypeDecoded
-        let growthFactorDecoded = try containerValues.decodeIfPresent(Swift.Float.self, forKey: .growthFactor) ?? 0.0
+        let growthFactorDecoded = try containerValues.decodeIfPresent(Swift.Float.self, forKey: .growthFactor)
         growthFactor = growthFactorDecoded
         let finalBakeTimeInMinutesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .finalBakeTimeInMinutes) ?? 0
         finalBakeTimeInMinutes = finalBakeTimeInMinutesDecoded
@@ -3144,7 +3144,7 @@ extension AppConfigClientTypes {
         /// The amount of time that AppConfig monitored for alarms before considering the deployment to be complete and no longer eligible for automatic rollback.
         public var finalBakeTimeInMinutes: Swift.Int
         /// The percentage of targets that received a deployed configuration during each interval.
-        public var growthFactor: Swift.Float
+        public var growthFactor: Swift.Float?
         /// The algorithm used to define how percentage grew over time.
         public var growthType: AppConfigClientTypes.GrowthType?
         /// The deployment strategy ID.
@@ -3158,7 +3158,7 @@ extension AppConfigClientTypes {
             deploymentDurationInMinutes: Swift.Int = 0,
             description: Swift.String? = nil,
             finalBakeTimeInMinutes: Swift.Int = 0,
-            growthFactor: Swift.Float = 0.0,
+            growthFactor: Swift.Float? = nil,
             growthType: AppConfigClientTypes.GrowthType? = nil,
             id: Swift.String? = nil,
             name: Swift.String? = nil,
@@ -3214,13 +3214,13 @@ extension AppConfigClientTypes.DeploymentSummary: Swift.Codable {
         if finalBakeTimeInMinutes != 0 {
             try encodeContainer.encode(finalBakeTimeInMinutes, forKey: .finalBakeTimeInMinutes)
         }
-        if growthFactor != 0.0 {
+        if let growthFactor = self.growthFactor {
             try encodeContainer.encode(growthFactor, forKey: .growthFactor)
         }
         if let growthType = self.growthType {
             try encodeContainer.encode(growthType.rawValue, forKey: .growthType)
         }
-        if percentageComplete != 0.0 {
+        if let percentageComplete = self.percentageComplete {
             try encodeContainer.encode(percentageComplete, forKey: .percentageComplete)
         }
         if let startedAt = self.startedAt {
@@ -3246,13 +3246,13 @@ extension AppConfigClientTypes.DeploymentSummary: Swift.Codable {
         deploymentDurationInMinutes = deploymentDurationInMinutesDecoded
         let growthTypeDecoded = try containerValues.decodeIfPresent(AppConfigClientTypes.GrowthType.self, forKey: .growthType)
         growthType = growthTypeDecoded
-        let growthFactorDecoded = try containerValues.decodeIfPresent(Swift.Float.self, forKey: .growthFactor) ?? 0.0
+        let growthFactorDecoded = try containerValues.decodeIfPresent(Swift.Float.self, forKey: .growthFactor)
         growthFactor = growthFactorDecoded
         let finalBakeTimeInMinutesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .finalBakeTimeInMinutes) ?? 0
         finalBakeTimeInMinutes = finalBakeTimeInMinutesDecoded
         let stateDecoded = try containerValues.decodeIfPresent(AppConfigClientTypes.DeploymentState.self, forKey: .state)
         state = stateDecoded
-        let percentageCompleteDecoded = try containerValues.decodeIfPresent(Swift.Float.self, forKey: .percentageComplete) ?? 0.0
+        let percentageCompleteDecoded = try containerValues.decodeIfPresent(Swift.Float.self, forKey: .percentageComplete)
         percentageComplete = percentageCompleteDecoded
         let startedAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .startedAt)
         startedAt = startedAtDecoded
@@ -3279,11 +3279,11 @@ extension AppConfigClientTypes {
         /// The amount of time that AppConfig monitors for alarms before considering the deployment to be complete and no longer eligible for automatic rollback.
         public var finalBakeTimeInMinutes: Swift.Int
         /// The percentage of targets to receive a deployed configuration during each interval.
-        public var growthFactor: Swift.Float
+        public var growthFactor: Swift.Float?
         /// The algorithm used to define how percentage grows over time.
         public var growthType: AppConfigClientTypes.GrowthType?
         /// The percentage of targets for which the deployment is available.
-        public var percentageComplete: Swift.Float
+        public var percentageComplete: Swift.Float?
         /// Time the deployment started.
         public var startedAt: ClientRuntime.Date?
         /// The state of the deployment.
@@ -3298,9 +3298,9 @@ extension AppConfigClientTypes {
             deploymentDurationInMinutes: Swift.Int = 0,
             deploymentNumber: Swift.Int = 0,
             finalBakeTimeInMinutes: Swift.Int = 0,
-            growthFactor: Swift.Float = 0.0,
+            growthFactor: Swift.Float? = nil,
             growthType: AppConfigClientTypes.GrowthType? = nil,
-            percentageComplete: Swift.Float = 0.0,
+            percentageComplete: Swift.Float? = nil,
             startedAt: ClientRuntime.Date? = nil,
             state: AppConfigClientTypes.DeploymentState? = nil,
             versionLabel: Swift.String? = nil
@@ -4124,11 +4124,11 @@ extension GetDeploymentOutput: ClientRuntime.HttpResponseBinding {
             self.environmentId = nil
             self.eventLog = nil
             self.finalBakeTimeInMinutes = 0
-            self.growthFactor = 0.0
+            self.growthFactor = nil
             self.growthType = nil
             self.kmsKeyArn = nil
             self.kmsKeyIdentifier = nil
-            self.percentageComplete = 0.0
+            self.percentageComplete = nil
             self.startedAt = nil
             self.state = nil
             self.versionLabel = nil
@@ -4166,7 +4166,7 @@ public struct GetDeploymentOutput: Swift.Equatable {
     /// The amount of time that AppConfig monitored for alarms before considering the deployment to be complete and no longer eligible for automatic rollback.
     public var finalBakeTimeInMinutes: Swift.Int
     /// The percentage of targets to receive a deployed configuration during each interval.
-    public var growthFactor: Swift.Float
+    public var growthFactor: Swift.Float?
     /// The algorithm used to define how percentage grew over time.
     public var growthType: AppConfigClientTypes.GrowthType?
     /// The Amazon Resource Name of the Key Management Service key used to encrypt configuration data. You can encrypt secrets stored in Secrets Manager, Amazon Simple Storage Service (Amazon S3) objects encrypted with SSE-KMS, or secure string parameters stored in Amazon Web Services Systems Manager Parameter Store.
@@ -4174,7 +4174,7 @@ public struct GetDeploymentOutput: Swift.Equatable {
     /// The Key Management Service key identifier (key ID, key alias, or key ARN) provided when the resource was created or updated.
     public var kmsKeyIdentifier: Swift.String?
     /// The percentage of targets for which the deployment is available.
-    public var percentageComplete: Swift.Float
+    public var percentageComplete: Swift.Float?
     /// The time the deployment started.
     public var startedAt: ClientRuntime.Date?
     /// The state of the deployment.
@@ -4197,11 +4197,11 @@ public struct GetDeploymentOutput: Swift.Equatable {
         environmentId: Swift.String? = nil,
         eventLog: [AppConfigClientTypes.DeploymentEvent]? = nil,
         finalBakeTimeInMinutes: Swift.Int = 0,
-        growthFactor: Swift.Float = 0.0,
+        growthFactor: Swift.Float? = nil,
         growthType: AppConfigClientTypes.GrowthType? = nil,
         kmsKeyArn: Swift.String? = nil,
         kmsKeyIdentifier: Swift.String? = nil,
-        percentageComplete: Swift.Float = 0.0,
+        percentageComplete: Swift.Float? = nil,
         startedAt: ClientRuntime.Date? = nil,
         state: AppConfigClientTypes.DeploymentState? = nil,
         versionLabel: Swift.String? = nil
@@ -4244,11 +4244,11 @@ struct GetDeploymentOutputBody: Swift.Equatable {
     let description: Swift.String?
     let deploymentDurationInMinutes: Swift.Int
     let growthType: AppConfigClientTypes.GrowthType?
-    let growthFactor: Swift.Float
+    let growthFactor: Swift.Float?
     let finalBakeTimeInMinutes: Swift.Int
     let state: AppConfigClientTypes.DeploymentState?
     let eventLog: [AppConfigClientTypes.DeploymentEvent]?
-    let percentageComplete: Swift.Float
+    let percentageComplete: Swift.Float?
     let startedAt: ClientRuntime.Date?
     let completedAt: ClientRuntime.Date?
     let appliedExtensions: [AppConfigClientTypes.AppliedExtension]?
@@ -4307,7 +4307,7 @@ extension GetDeploymentOutputBody: Swift.Decodable {
         deploymentDurationInMinutes = deploymentDurationInMinutesDecoded
         let growthTypeDecoded = try containerValues.decodeIfPresent(AppConfigClientTypes.GrowthType.self, forKey: .growthType)
         growthType = growthTypeDecoded
-        let growthFactorDecoded = try containerValues.decodeIfPresent(Swift.Float.self, forKey: .growthFactor) ?? 0.0
+        let growthFactorDecoded = try containerValues.decodeIfPresent(Swift.Float.self, forKey: .growthFactor)
         growthFactor = growthFactorDecoded
         let finalBakeTimeInMinutesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .finalBakeTimeInMinutes) ?? 0
         finalBakeTimeInMinutes = finalBakeTimeInMinutesDecoded
@@ -4324,7 +4324,7 @@ extension GetDeploymentOutputBody: Swift.Decodable {
             }
         }
         eventLog = eventLogDecoded0
-        let percentageCompleteDecoded = try containerValues.decodeIfPresent(Swift.Float.self, forKey: .percentageComplete) ?? 0.0
+        let percentageCompleteDecoded = try containerValues.decodeIfPresent(Swift.Float.self, forKey: .percentageComplete)
         percentageComplete = percentageCompleteDecoded
         let startedAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .startedAt)
         startedAt = startedAtDecoded
@@ -4411,7 +4411,7 @@ extension GetDeploymentStrategyOutput: ClientRuntime.HttpResponseBinding {
             self.deploymentDurationInMinutes = 0
             self.description = nil
             self.finalBakeTimeInMinutes = 0
-            self.growthFactor = 0.0
+            self.growthFactor = nil
             self.growthType = nil
             self.id = nil
             self.name = nil
@@ -4428,7 +4428,7 @@ public struct GetDeploymentStrategyOutput: Swift.Equatable {
     /// The amount of time that AppConfig monitored for alarms before considering the deployment to be complete and no longer eligible for automatic rollback.
     public var finalBakeTimeInMinutes: Swift.Int
     /// The percentage of targets that received a deployed configuration during each interval.
-    public var growthFactor: Swift.Float
+    public var growthFactor: Swift.Float?
     /// The algorithm used to define how percentage grew over time.
     public var growthType: AppConfigClientTypes.GrowthType?
     /// The deployment strategy ID.
@@ -4442,7 +4442,7 @@ public struct GetDeploymentStrategyOutput: Swift.Equatable {
         deploymentDurationInMinutes: Swift.Int = 0,
         description: Swift.String? = nil,
         finalBakeTimeInMinutes: Swift.Int = 0,
-        growthFactor: Swift.Float = 0.0,
+        growthFactor: Swift.Float? = nil,
         growthType: AppConfigClientTypes.GrowthType? = nil,
         id: Swift.String? = nil,
         name: Swift.String? = nil,
@@ -4466,7 +4466,7 @@ struct GetDeploymentStrategyOutputBody: Swift.Equatable {
     let description: Swift.String?
     let deploymentDurationInMinutes: Swift.Int
     let growthType: AppConfigClientTypes.GrowthType?
-    let growthFactor: Swift.Float
+    let growthFactor: Swift.Float?
     let finalBakeTimeInMinutes: Swift.Int
     let replicateTo: AppConfigClientTypes.ReplicateTo?
 }
@@ -4495,7 +4495,7 @@ extension GetDeploymentStrategyOutputBody: Swift.Decodable {
         deploymentDurationInMinutes = deploymentDurationInMinutesDecoded
         let growthTypeDecoded = try containerValues.decodeIfPresent(AppConfigClientTypes.GrowthType.self, forKey: .growthType)
         growthType = growthTypeDecoded
-        let growthFactorDecoded = try containerValues.decodeIfPresent(Swift.Float.self, forKey: .growthFactor) ?? 0.0
+        let growthFactorDecoded = try containerValues.decodeIfPresent(Swift.Float.self, forKey: .growthFactor)
         growthFactor = growthFactorDecoded
         let finalBakeTimeInMinutesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .finalBakeTimeInMinutes) ?? 0
         finalBakeTimeInMinutes = finalBakeTimeInMinutesDecoded
@@ -7072,11 +7072,11 @@ extension StartDeploymentOutput: ClientRuntime.HttpResponseBinding {
             self.environmentId = nil
             self.eventLog = nil
             self.finalBakeTimeInMinutes = 0
-            self.growthFactor = 0.0
+            self.growthFactor = nil
             self.growthType = nil
             self.kmsKeyArn = nil
             self.kmsKeyIdentifier = nil
-            self.percentageComplete = 0.0
+            self.percentageComplete = nil
             self.startedAt = nil
             self.state = nil
             self.versionLabel = nil
@@ -7114,7 +7114,7 @@ public struct StartDeploymentOutput: Swift.Equatable {
     /// The amount of time that AppConfig monitored for alarms before considering the deployment to be complete and no longer eligible for automatic rollback.
     public var finalBakeTimeInMinutes: Swift.Int
     /// The percentage of targets to receive a deployed configuration during each interval.
-    public var growthFactor: Swift.Float
+    public var growthFactor: Swift.Float?
     /// The algorithm used to define how percentage grew over time.
     public var growthType: AppConfigClientTypes.GrowthType?
     /// The Amazon Resource Name of the Key Management Service key used to encrypt configuration data. You can encrypt secrets stored in Secrets Manager, Amazon Simple Storage Service (Amazon S3) objects encrypted with SSE-KMS, or secure string parameters stored in Amazon Web Services Systems Manager Parameter Store.
@@ -7122,7 +7122,7 @@ public struct StartDeploymentOutput: Swift.Equatable {
     /// The Key Management Service key identifier (key ID, key alias, or key ARN) provided when the resource was created or updated.
     public var kmsKeyIdentifier: Swift.String?
     /// The percentage of targets for which the deployment is available.
-    public var percentageComplete: Swift.Float
+    public var percentageComplete: Swift.Float?
     /// The time the deployment started.
     public var startedAt: ClientRuntime.Date?
     /// The state of the deployment.
@@ -7145,11 +7145,11 @@ public struct StartDeploymentOutput: Swift.Equatable {
         environmentId: Swift.String? = nil,
         eventLog: [AppConfigClientTypes.DeploymentEvent]? = nil,
         finalBakeTimeInMinutes: Swift.Int = 0,
-        growthFactor: Swift.Float = 0.0,
+        growthFactor: Swift.Float? = nil,
         growthType: AppConfigClientTypes.GrowthType? = nil,
         kmsKeyArn: Swift.String? = nil,
         kmsKeyIdentifier: Swift.String? = nil,
-        percentageComplete: Swift.Float = 0.0,
+        percentageComplete: Swift.Float? = nil,
         startedAt: ClientRuntime.Date? = nil,
         state: AppConfigClientTypes.DeploymentState? = nil,
         versionLabel: Swift.String? = nil
@@ -7192,11 +7192,11 @@ struct StartDeploymentOutputBody: Swift.Equatable {
     let description: Swift.String?
     let deploymentDurationInMinutes: Swift.Int
     let growthType: AppConfigClientTypes.GrowthType?
-    let growthFactor: Swift.Float
+    let growthFactor: Swift.Float?
     let finalBakeTimeInMinutes: Swift.Int
     let state: AppConfigClientTypes.DeploymentState?
     let eventLog: [AppConfigClientTypes.DeploymentEvent]?
-    let percentageComplete: Swift.Float
+    let percentageComplete: Swift.Float?
     let startedAt: ClientRuntime.Date?
     let completedAt: ClientRuntime.Date?
     let appliedExtensions: [AppConfigClientTypes.AppliedExtension]?
@@ -7255,7 +7255,7 @@ extension StartDeploymentOutputBody: Swift.Decodable {
         deploymentDurationInMinutes = deploymentDurationInMinutesDecoded
         let growthTypeDecoded = try containerValues.decodeIfPresent(AppConfigClientTypes.GrowthType.self, forKey: .growthType)
         growthType = growthTypeDecoded
-        let growthFactorDecoded = try containerValues.decodeIfPresent(Swift.Float.self, forKey: .growthFactor) ?? 0.0
+        let growthFactorDecoded = try containerValues.decodeIfPresent(Swift.Float.self, forKey: .growthFactor)
         growthFactor = growthFactorDecoded
         let finalBakeTimeInMinutesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .finalBakeTimeInMinutes) ?? 0
         finalBakeTimeInMinutes = finalBakeTimeInMinutesDecoded
@@ -7272,7 +7272,7 @@ extension StartDeploymentOutputBody: Swift.Decodable {
             }
         }
         eventLog = eventLogDecoded0
-        let percentageCompleteDecoded = try containerValues.decodeIfPresent(Swift.Float.self, forKey: .percentageComplete) ?? 0.0
+        let percentageCompleteDecoded = try containerValues.decodeIfPresent(Swift.Float.self, forKey: .percentageComplete)
         percentageComplete = percentageCompleteDecoded
         let startedAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .startedAt)
         startedAt = startedAtDecoded
@@ -7401,11 +7401,11 @@ extension StopDeploymentOutput: ClientRuntime.HttpResponseBinding {
             self.environmentId = nil
             self.eventLog = nil
             self.finalBakeTimeInMinutes = 0
-            self.growthFactor = 0.0
+            self.growthFactor = nil
             self.growthType = nil
             self.kmsKeyArn = nil
             self.kmsKeyIdentifier = nil
-            self.percentageComplete = 0.0
+            self.percentageComplete = nil
             self.startedAt = nil
             self.state = nil
             self.versionLabel = nil
@@ -7443,7 +7443,7 @@ public struct StopDeploymentOutput: Swift.Equatable {
     /// The amount of time that AppConfig monitored for alarms before considering the deployment to be complete and no longer eligible for automatic rollback.
     public var finalBakeTimeInMinutes: Swift.Int
     /// The percentage of targets to receive a deployed configuration during each interval.
-    public var growthFactor: Swift.Float
+    public var growthFactor: Swift.Float?
     /// The algorithm used to define how percentage grew over time.
     public var growthType: AppConfigClientTypes.GrowthType?
     /// The Amazon Resource Name of the Key Management Service key used to encrypt configuration data. You can encrypt secrets stored in Secrets Manager, Amazon Simple Storage Service (Amazon S3) objects encrypted with SSE-KMS, or secure string parameters stored in Amazon Web Services Systems Manager Parameter Store.
@@ -7451,7 +7451,7 @@ public struct StopDeploymentOutput: Swift.Equatable {
     /// The Key Management Service key identifier (key ID, key alias, or key ARN) provided when the resource was created or updated.
     public var kmsKeyIdentifier: Swift.String?
     /// The percentage of targets for which the deployment is available.
-    public var percentageComplete: Swift.Float
+    public var percentageComplete: Swift.Float?
     /// The time the deployment started.
     public var startedAt: ClientRuntime.Date?
     /// The state of the deployment.
@@ -7474,11 +7474,11 @@ public struct StopDeploymentOutput: Swift.Equatable {
         environmentId: Swift.String? = nil,
         eventLog: [AppConfigClientTypes.DeploymentEvent]? = nil,
         finalBakeTimeInMinutes: Swift.Int = 0,
-        growthFactor: Swift.Float = 0.0,
+        growthFactor: Swift.Float? = nil,
         growthType: AppConfigClientTypes.GrowthType? = nil,
         kmsKeyArn: Swift.String? = nil,
         kmsKeyIdentifier: Swift.String? = nil,
-        percentageComplete: Swift.Float = 0.0,
+        percentageComplete: Swift.Float? = nil,
         startedAt: ClientRuntime.Date? = nil,
         state: AppConfigClientTypes.DeploymentState? = nil,
         versionLabel: Swift.String? = nil
@@ -7521,11 +7521,11 @@ struct StopDeploymentOutputBody: Swift.Equatable {
     let description: Swift.String?
     let deploymentDurationInMinutes: Swift.Int
     let growthType: AppConfigClientTypes.GrowthType?
-    let growthFactor: Swift.Float
+    let growthFactor: Swift.Float?
     let finalBakeTimeInMinutes: Swift.Int
     let state: AppConfigClientTypes.DeploymentState?
     let eventLog: [AppConfigClientTypes.DeploymentEvent]?
-    let percentageComplete: Swift.Float
+    let percentageComplete: Swift.Float?
     let startedAt: ClientRuntime.Date?
     let completedAt: ClientRuntime.Date?
     let appliedExtensions: [AppConfigClientTypes.AppliedExtension]?
@@ -7584,7 +7584,7 @@ extension StopDeploymentOutputBody: Swift.Decodable {
         deploymentDurationInMinutes = deploymentDurationInMinutesDecoded
         let growthTypeDecoded = try containerValues.decodeIfPresent(AppConfigClientTypes.GrowthType.self, forKey: .growthType)
         growthType = growthTypeDecoded
-        let growthFactorDecoded = try containerValues.decodeIfPresent(Swift.Float.self, forKey: .growthFactor) ?? 0.0
+        let growthFactorDecoded = try containerValues.decodeIfPresent(Swift.Float.self, forKey: .growthFactor)
         growthFactor = growthFactorDecoded
         let finalBakeTimeInMinutesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .finalBakeTimeInMinutes) ?? 0
         finalBakeTimeInMinutes = finalBakeTimeInMinutesDecoded
@@ -7601,7 +7601,7 @@ extension StopDeploymentOutputBody: Swift.Decodable {
             }
         }
         eventLog = eventLogDecoded0
-        let percentageCompleteDecoded = try containerValues.decodeIfPresent(Swift.Float.self, forKey: .percentageComplete) ?? 0.0
+        let percentageCompleteDecoded = try containerValues.decodeIfPresent(Swift.Float.self, forKey: .percentageComplete)
         percentageComplete = percentageCompleteDecoded
         let startedAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .startedAt)
         startedAt = startedAtDecoded
@@ -8384,7 +8384,7 @@ extension UpdateDeploymentStrategyOutput: ClientRuntime.HttpResponseBinding {
             self.deploymentDurationInMinutes = 0
             self.description = nil
             self.finalBakeTimeInMinutes = 0
-            self.growthFactor = 0.0
+            self.growthFactor = nil
             self.growthType = nil
             self.id = nil
             self.name = nil
@@ -8401,7 +8401,7 @@ public struct UpdateDeploymentStrategyOutput: Swift.Equatable {
     /// The amount of time that AppConfig monitored for alarms before considering the deployment to be complete and no longer eligible for automatic rollback.
     public var finalBakeTimeInMinutes: Swift.Int
     /// The percentage of targets that received a deployed configuration during each interval.
-    public var growthFactor: Swift.Float
+    public var growthFactor: Swift.Float?
     /// The algorithm used to define how percentage grew over time.
     public var growthType: AppConfigClientTypes.GrowthType?
     /// The deployment strategy ID.
@@ -8415,7 +8415,7 @@ public struct UpdateDeploymentStrategyOutput: Swift.Equatable {
         deploymentDurationInMinutes: Swift.Int = 0,
         description: Swift.String? = nil,
         finalBakeTimeInMinutes: Swift.Int = 0,
-        growthFactor: Swift.Float = 0.0,
+        growthFactor: Swift.Float? = nil,
         growthType: AppConfigClientTypes.GrowthType? = nil,
         id: Swift.String? = nil,
         name: Swift.String? = nil,
@@ -8439,7 +8439,7 @@ struct UpdateDeploymentStrategyOutputBody: Swift.Equatable {
     let description: Swift.String?
     let deploymentDurationInMinutes: Swift.Int
     let growthType: AppConfigClientTypes.GrowthType?
-    let growthFactor: Swift.Float
+    let growthFactor: Swift.Float?
     let finalBakeTimeInMinutes: Swift.Int
     let replicateTo: AppConfigClientTypes.ReplicateTo?
 }
@@ -8468,7 +8468,7 @@ extension UpdateDeploymentStrategyOutputBody: Swift.Decodable {
         deploymentDurationInMinutes = deploymentDurationInMinutesDecoded
         let growthTypeDecoded = try containerValues.decodeIfPresent(AppConfigClientTypes.GrowthType.self, forKey: .growthType)
         growthType = growthTypeDecoded
-        let growthFactorDecoded = try containerValues.decodeIfPresent(Swift.Float.self, forKey: .growthFactor) ?? 0.0
+        let growthFactorDecoded = try containerValues.decodeIfPresent(Swift.Float.self, forKey: .growthFactor)
         growthFactor = growthFactorDecoded
         let finalBakeTimeInMinutesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .finalBakeTimeInMinutes) ?? 0
         finalBakeTimeInMinutes = finalBakeTimeInMinutesDecoded

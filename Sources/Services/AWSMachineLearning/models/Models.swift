@@ -6494,6 +6494,11 @@ extension MachineLearningClientTypes.RDSDatabaseCredentials: Swift.Codable {
     }
 }
 
+extension MachineLearningClientTypes.RDSDatabaseCredentials: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RDSDatabaseCredentials(username: \(Swift.String(describing: username)), password: \"CONTENT_REDACTED\")"}
+}
+
 extension MachineLearningClientTypes {
     /// The database credentials to connect to a database on an RDS DB instance.
     public struct RDSDatabaseCredentials: Swift.Equatable {
@@ -6887,6 +6892,11 @@ extension MachineLearningClientTypes.RedshiftDatabaseCredentials: Swift.Codable 
         let passwordDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .password)
         password = passwordDecoded
     }
+}
+
+extension MachineLearningClientTypes.RedshiftDatabaseCredentials: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RedshiftDatabaseCredentials(username: \(Swift.String(describing: username)), password: \"CONTENT_REDACTED\")"}
 }
 
 extension MachineLearningClientTypes {

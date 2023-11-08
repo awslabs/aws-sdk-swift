@@ -3,6 +3,37 @@
 import ClientRuntime
 
 extension ManagedBlockchainQueryClient {
+    /// Paginate over `[ListAssetContractsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListAssetContractsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAssetContractsOutput`
+    public func listAssetContractsPaginated(input: ListAssetContractsInput) -> ClientRuntime.PaginatorSequence<ListAssetContractsInput, ListAssetContractsOutput> {
+        return ClientRuntime.PaginatorSequence<ListAssetContractsInput, ListAssetContractsOutput>(input: input, inputKey: \ListAssetContractsInput.nextToken, outputKey: \ListAssetContractsOutput.nextToken, paginationFunction: self.listAssetContracts(input:))
+    }
+}
+
+extension ListAssetContractsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListAssetContractsInput {
+        return ListAssetContractsInput(
+            contractFilter: self.contractFilter,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where Input == ListAssetContractsInput, Output == ListAssetContractsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listAssetContractsPaginated`
+    /// to access the nested member `[ManagedBlockchainQueryClientTypes.AssetContract]`
+    /// - Returns: `[ManagedBlockchainQueryClientTypes.AssetContract]`
+    public func contracts() async throws -> [ManagedBlockchainQueryClientTypes.AssetContract] {
+        return try await self.asyncCompactMap { item in item.contracts }
+    }
+}
+extension ManagedBlockchainQueryClient {
     /// Paginate over `[ListTokenBalancesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

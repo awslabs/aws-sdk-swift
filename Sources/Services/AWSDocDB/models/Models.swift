@@ -564,6 +564,51 @@ extension DocDBClientTypes {
 
 }
 
+extension DocDBClientTypes.CertificateDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case caIdentifier = "CAIdentifier"
+        case validTill = "ValidTill"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let caIdentifier = caIdentifier {
+            try container.encode(caIdentifier, forKey: ClientRuntime.Key("CAIdentifier"))
+        }
+        if let validTill = validTill {
+            try container.encodeTimestamp(validTill, format: .dateTime, forKey: ClientRuntime.Key("ValidTill"))
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let caIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .caIdentifier)
+        caIdentifier = caIdentifierDecoded
+        let validTillDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .validTill)
+        validTill = validTillDecoded
+    }
+}
+
+extension DocDBClientTypes {
+    /// Returns the details of the DB instance’s server certificate. For more information, see [Updating Your Amazon DocumentDB TLS Certificates](https://docs.aws.amazon.com/documentdb/latest/developerguide/ca_cert_rotation.html) and [ Encrypting Data in Transit](https://docs.aws.amazon.com/documentdb/latest/developerguide/security.encryption.ssl.html) in the Amazon DocumentDB Developer Guide.
+    public struct CertificateDetails: Swift.Equatable {
+        /// The CA identifier of the CA certificate used for the DB instance's server certificate.
+        public var caIdentifier: Swift.String?
+        /// The expiration date of the DB instance’s server certificate.
+        public var validTill: ClientRuntime.Date?
+
+        public init(
+            caIdentifier: Swift.String? = nil,
+            validTill: ClientRuntime.Date? = nil
+        )
+        {
+            self.caIdentifier = caIdentifier
+            self.validTill = validTill
+        }
+    }
+
+}
+
 extension CertificateNotFoundFault {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
@@ -1899,6 +1944,9 @@ extension CreateDBInstanceInput: Swift.Encodable {
         if let availabilityZone = availabilityZone {
             try container.encode(availabilityZone, forKey: ClientRuntime.Key("AvailabilityZone"))
         }
+        if let caCertificateIdentifier = caCertificateIdentifier {
+            try container.encode(caCertificateIdentifier, forKey: ClientRuntime.Key("CACertificateIdentifier"))
+        }
         if let copyTagsToSnapshot = copyTagsToSnapshot {
             try container.encode(copyTagsToSnapshot, forKey: ClientRuntime.Key("CopyTagsToSnapshot"))
         }
@@ -1955,6 +2003,8 @@ public struct CreateDBInstanceInput: Swift.Equatable {
     public var autoMinorVersionUpgrade: Swift.Bool?
     /// The Amazon EC2 Availability Zone that the instance is created in. Default: A random, system-chosen Availability Zone in the endpoint's Amazon Web Services Region. Example: us-east-1d
     public var availabilityZone: Swift.String?
+    /// The CA certificate identifier to use for the DB instance's server certificate. For more information, see [Updating Your Amazon DocumentDB TLS Certificates](https://docs.aws.amazon.com/documentdb/latest/developerguide/ca_cert_rotation.html) and [ Encrypting Data in Transit](https://docs.aws.amazon.com/documentdb/latest/developerguide/security.encryption.ssl.html) in the Amazon DocumentDB Developer Guide.
+    public var caCertificateIdentifier: Swift.String?
     /// A value that indicates whether to copy tags from the DB instance to snapshots of the DB instance. By default, tags are not copied.
     public var copyTagsToSnapshot: Swift.Bool?
     /// The identifier of the cluster that the instance will belong to.
@@ -1992,6 +2042,7 @@ public struct CreateDBInstanceInput: Swift.Equatable {
     public init(
         autoMinorVersionUpgrade: Swift.Bool? = nil,
         availabilityZone: Swift.String? = nil,
+        caCertificateIdentifier: Swift.String? = nil,
         copyTagsToSnapshot: Swift.Bool? = nil,
         dbClusterIdentifier: Swift.String? = nil,
         dbInstanceClass: Swift.String? = nil,
@@ -2006,6 +2057,7 @@ public struct CreateDBInstanceInput: Swift.Equatable {
     {
         self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
         self.availabilityZone = availabilityZone
+        self.caCertificateIdentifier = caCertificateIdentifier
         self.copyTagsToSnapshot = copyTagsToSnapshot
         self.dbClusterIdentifier = dbClusterIdentifier
         self.dbInstanceClass = dbInstanceClass
@@ -2032,12 +2084,14 @@ struct CreateDBInstanceInputBody: Swift.Equatable {
     let promotionTier: Swift.Int?
     let enablePerformanceInsights: Swift.Bool?
     let performanceInsightsKMSKeyId: Swift.String?
+    let caCertificateIdentifier: Swift.String?
 }
 
 extension CreateDBInstanceInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case autoMinorVersionUpgrade = "AutoMinorVersionUpgrade"
         case availabilityZone = "AvailabilityZone"
+        case caCertificateIdentifier = "CACertificateIdentifier"
         case copyTagsToSnapshot = "CopyTagsToSnapshot"
         case dbClusterIdentifier = "DBClusterIdentifier"
         case dbInstanceClass = "DBInstanceClass"
@@ -2093,6 +2147,8 @@ extension CreateDBInstanceInputBody: Swift.Decodable {
         enablePerformanceInsights = enablePerformanceInsightsDecoded
         let performanceInsightsKMSKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .performanceInsightsKMSKeyId)
         performanceInsightsKMSKeyId = performanceInsightsKMSKeyIdDecoded
+        let caCertificateIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .caCertificateIdentifier)
+        caCertificateIdentifier = caCertificateIdentifierDecoded
     }
 }
 
@@ -2874,7 +2930,7 @@ extension DocDBClientTypes.DBCluster: Swift.Codable {
         if let dbClusterResourceId = dbClusterResourceId {
             try container.encode(dbClusterResourceId, forKey: ClientRuntime.Key("DbClusterResourceId"))
         }
-        if deletionProtection != false {
+        if let deletionProtection = deletionProtection {
             try container.encode(deletionProtection, forKey: ClientRuntime.Key("DeletionProtection"))
         }
         if let earliestRestorableTime = earliestRestorableTime {
@@ -2913,7 +2969,7 @@ extension DocDBClientTypes.DBCluster: Swift.Codable {
         if let masterUsername = masterUsername {
             try container.encode(masterUsername, forKey: ClientRuntime.Key("MasterUsername"))
         }
-        if multiAZ != false {
+        if let multiAZ = multiAZ {
             try container.encode(multiAZ, forKey: ClientRuntime.Key("MultiAZ"))
         }
         if let percentProgress = percentProgress {
@@ -2949,7 +3005,7 @@ extension DocDBClientTypes.DBCluster: Swift.Codable {
         if let status = status {
             try container.encode(status, forKey: ClientRuntime.Key("Status"))
         }
-        if storageEncrypted != false {
+        if let storageEncrypted = storageEncrypted {
             try container.encode(storageEncrypted, forKey: ClientRuntime.Key("StorageEncrypted"))
         }
         if let vpcSecurityGroups = vpcSecurityGroups {
@@ -3005,7 +3061,7 @@ extension DocDBClientTypes.DBCluster: Swift.Codable {
         endpoint = endpointDecoded
         let readerEndpointDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .readerEndpoint)
         readerEndpoint = readerEndpointDecoded
-        let multiAZDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .multiAZ) ?? false
+        let multiAZDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .multiAZ)
         multiAZ = multiAZDecoded
         let engineDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .engine)
         engine = engineDecoded
@@ -3082,7 +3138,7 @@ extension DocDBClientTypes.DBCluster: Swift.Codable {
         }
         let hostedZoneIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .hostedZoneId)
         hostedZoneId = hostedZoneIdDecoded
-        let storageEncryptedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .storageEncrypted) ?? false
+        let storageEncryptedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .storageEncrypted)
         storageEncrypted = storageEncryptedDecoded
         let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
         kmsKeyId = kmsKeyIdDecoded
@@ -3132,7 +3188,7 @@ extension DocDBClientTypes.DBCluster: Swift.Codable {
         } else {
             enabledCloudwatchLogsExports = nil
         }
-        let deletionProtectionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deletionProtection) ?? false
+        let deletionProtectionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deletionProtection)
         deletionProtection = deletionProtectionDecoded
     }
 }
@@ -3163,7 +3219,7 @@ extension DocDBClientTypes {
         /// Specifies information on the subnet group that is associated with the cluster, including the name, description, and subnets in the subnet group.
         public var dbSubnetGroup: Swift.String?
         /// Specifies whether this cluster can be deleted. If DeletionProtection is enabled, the cluster cannot be deleted unless it is modified and DeletionProtection is disabled. DeletionProtection protects clusters from being accidentally deleted.
-        public var deletionProtection: Swift.Bool
+        public var deletionProtection: Swift.Bool?
         /// The earliest time to which a database can be restored with point-in-time restore.
         public var earliestRestorableTime: ClientRuntime.Date?
         /// A list of log types that this cluster is configured to export to Amazon CloudWatch Logs.
@@ -3183,7 +3239,7 @@ extension DocDBClientTypes {
         /// Contains the master user name for the cluster.
         public var masterUsername: Swift.String?
         /// Specifies whether the cluster has instances in multiple Availability Zones.
-        public var multiAZ: Swift.Bool
+        public var multiAZ: Swift.Bool?
         /// Specifies the progress of the operation as a percentage.
         public var percentProgress: Swift.String?
         /// Specifies the port that the database engine is listening on.
@@ -3201,7 +3257,7 @@ extension DocDBClientTypes {
         /// Specifies the current state of this cluster.
         public var status: Swift.String?
         /// Specifies whether the cluster is encrypted.
-        public var storageEncrypted: Swift.Bool
+        public var storageEncrypted: Swift.Bool?
         /// Provides a list of virtual private cloud (VPC) security groups that the cluster belongs to.
         public var vpcSecurityGroups: [DocDBClientTypes.VpcSecurityGroupMembership]?
 
@@ -3217,7 +3273,7 @@ extension DocDBClientTypes {
             dbClusterParameterGroup: Swift.String? = nil,
             dbClusterResourceId: Swift.String? = nil,
             dbSubnetGroup: Swift.String? = nil,
-            deletionProtection: Swift.Bool = false,
+            deletionProtection: Swift.Bool? = nil,
             earliestRestorableTime: ClientRuntime.Date? = nil,
             enabledCloudwatchLogsExports: [Swift.String]? = nil,
             endpoint: Swift.String? = nil,
@@ -3227,7 +3283,7 @@ extension DocDBClientTypes {
             kmsKeyId: Swift.String? = nil,
             latestRestorableTime: ClientRuntime.Date? = nil,
             masterUsername: Swift.String? = nil,
-            multiAZ: Swift.Bool = false,
+            multiAZ: Swift.Bool? = nil,
             percentProgress: Swift.String? = nil,
             port: Swift.Int? = nil,
             preferredBackupWindow: Swift.String? = nil,
@@ -3236,7 +3292,7 @@ extension DocDBClientTypes {
             readerEndpoint: Swift.String? = nil,
             replicationSourceIdentifier: Swift.String? = nil,
             status: Swift.String? = nil,
-            storageEncrypted: Swift.Bool = false,
+            storageEncrypted: Swift.Bool? = nil,
             vpcSecurityGroups: [DocDBClientTypes.VpcSecurityGroupMembership]? = nil
         )
         {
@@ -3347,7 +3403,7 @@ extension DocDBClientTypes.DBClusterMember: Swift.Codable {
         if let dbInstanceIdentifier = dbInstanceIdentifier {
             try container.encode(dbInstanceIdentifier, forKey: ClientRuntime.Key("DBInstanceIdentifier"))
         }
-        if isClusterWriter != false {
+        if let isClusterWriter = isClusterWriter {
             try container.encode(isClusterWriter, forKey: ClientRuntime.Key("IsClusterWriter"))
         }
         if let promotionTier = promotionTier {
@@ -3359,7 +3415,7 @@ extension DocDBClientTypes.DBClusterMember: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dbInstanceIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbInstanceIdentifier)
         dbInstanceIdentifier = dbInstanceIdentifierDecoded
-        let isClusterWriterDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isClusterWriter) ?? false
+        let isClusterWriterDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isClusterWriter)
         isClusterWriter = isClusterWriterDecoded
         let dbClusterParameterGroupStatusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbClusterParameterGroupStatus)
         dbClusterParameterGroupStatus = dbClusterParameterGroupStatusDecoded
@@ -3376,14 +3432,14 @@ extension DocDBClientTypes {
         /// Specifies the instance identifier for this member of the cluster.
         public var dbInstanceIdentifier: Swift.String?
         /// A value that is true if the cluster member is the primary instance for the cluster and false otherwise.
-        public var isClusterWriter: Swift.Bool
+        public var isClusterWriter: Swift.Bool?
         /// A value that specifies the order in which an Amazon DocumentDB replica is promoted to the primary instance after a failure of the existing primary instance.
         public var promotionTier: Swift.Int?
 
         public init(
             dbClusterParameterGroupStatus: Swift.String? = nil,
             dbInstanceIdentifier: Swift.String? = nil,
-            isClusterWriter: Swift.Bool = false,
+            isClusterWriter: Swift.Bool? = nil,
             promotionTier: Swift.Int? = nil
         )
         {
@@ -3733,10 +3789,10 @@ extension DocDBClientTypes.DBClusterSnapshot: Swift.Codable {
         if let masterUsername = masterUsername {
             try container.encode(masterUsername, forKey: ClientRuntime.Key("MasterUsername"))
         }
-        if percentProgress != 0 {
+        if let percentProgress = percentProgress {
             try container.encode(percentProgress, forKey: ClientRuntime.Key("PercentProgress"))
         }
-        if port != 0 {
+        if let port = port {
             try container.encode(port, forKey: ClientRuntime.Key("Port"))
         }
         if let snapshotCreateTime = snapshotCreateTime {
@@ -3751,7 +3807,7 @@ extension DocDBClientTypes.DBClusterSnapshot: Swift.Codable {
         if let status = status {
             try container.encode(status, forKey: ClientRuntime.Key("Status"))
         }
-        if storageEncrypted != false {
+        if let storageEncrypted = storageEncrypted {
             try container.encode(storageEncrypted, forKey: ClientRuntime.Key("StorageEncrypted"))
         }
         if let vpcId = vpcId {
@@ -3790,7 +3846,7 @@ extension DocDBClientTypes.DBClusterSnapshot: Swift.Codable {
         engine = engineDecoded
         let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
         status = statusDecoded
-        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port) ?? 0
+        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port)
         port = portDecoded
         let vpcIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vpcId)
         vpcId = vpcIdDecoded
@@ -3802,9 +3858,9 @@ extension DocDBClientTypes.DBClusterSnapshot: Swift.Codable {
         engineVersion = engineVersionDecoded
         let snapshotTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .snapshotType)
         snapshotType = snapshotTypeDecoded
-        let percentProgressDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .percentProgress) ?? 0
+        let percentProgressDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .percentProgress)
         percentProgress = percentProgressDecoded
-        let storageEncryptedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .storageEncrypted) ?? false
+        let storageEncryptedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .storageEncrypted)
         storageEncrypted = storageEncryptedDecoded
         let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
         kmsKeyId = kmsKeyIdDecoded
@@ -3837,9 +3893,9 @@ extension DocDBClientTypes {
         /// Provides the master user name for the cluster snapshot.
         public var masterUsername: Swift.String?
         /// Specifies the percentage of the estimated data that has been transferred.
-        public var percentProgress: Swift.Int
+        public var percentProgress: Swift.Int?
         /// Specifies the port that the cluster was listening on at the time of the snapshot.
-        public var port: Swift.Int
+        public var port: Swift.Int?
         /// Provides the time when the snapshot was taken, in UTC.
         public var snapshotCreateTime: ClientRuntime.Date?
         /// Provides the type of the cluster snapshot.
@@ -3849,7 +3905,7 @@ extension DocDBClientTypes {
         /// Specifies the status of this cluster snapshot.
         public var status: Swift.String?
         /// Specifies whether the cluster snapshot is encrypted.
-        public var storageEncrypted: Swift.Bool
+        public var storageEncrypted: Swift.Bool?
         /// Provides the virtual private cloud (VPC) ID that is associated with the cluster snapshot.
         public var vpcId: Swift.String?
 
@@ -3863,13 +3919,13 @@ extension DocDBClientTypes {
             engineVersion: Swift.String? = nil,
             kmsKeyId: Swift.String? = nil,
             masterUsername: Swift.String? = nil,
-            percentProgress: Swift.Int = 0,
-            port: Swift.Int = 0,
+            percentProgress: Swift.Int? = nil,
+            port: Swift.Int? = nil,
             snapshotCreateTime: ClientRuntime.Date? = nil,
             snapshotType: Swift.String? = nil,
             sourceDBClusterSnapshotArn: Swift.String? = nil,
             status: Swift.String? = nil,
-            storageEncrypted: Swift.Bool = false,
+            storageEncrypted: Swift.Bool? = nil,
             vpcId: Swift.String? = nil
         )
         {
@@ -4153,6 +4209,8 @@ extension DocDBClientTypes.DBEngineVersion: Swift.Codable {
         case engine = "Engine"
         case engineVersion = "EngineVersion"
         case exportableLogTypes = "ExportableLogTypes"
+        case supportedCACertificateIdentifiers = "SupportedCACertificateIdentifiers"
+        case supportsCertificateRotationWithoutRestart = "SupportsCertificateRotationWithoutRestart"
         case supportsLogExportsToCloudwatchLogs = "SupportsLogExportsToCloudwatchLogs"
         case validUpgradeTarget = "ValidUpgradeTarget"
     }
@@ -4186,7 +4244,22 @@ extension DocDBClientTypes.DBEngineVersion: Swift.Codable {
                 try exportableLogTypesContainer.encode("", forKey: ClientRuntime.Key(""))
             }
         }
-        if supportsLogExportsToCloudwatchLogs != false {
+        if let supportedCACertificateIdentifiers = supportedCACertificateIdentifiers {
+            if !supportedCACertificateIdentifiers.isEmpty {
+                var supportedCACertificateIdentifiersContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("SupportedCACertificateIdentifiers"))
+                for (index0, string0) in supportedCACertificateIdentifiers.enumerated() {
+                    try supportedCACertificateIdentifiersContainer.encode(string0, forKey: ClientRuntime.Key("member.\(index0.advanced(by: 1))"))
+                }
+            }
+            else {
+                var supportedCACertificateIdentifiersContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("SupportedCACertificateIdentifiers"))
+                try supportedCACertificateIdentifiersContainer.encode("", forKey: ClientRuntime.Key(""))
+            }
+        }
+        if let supportsCertificateRotationWithoutRestart = supportsCertificateRotationWithoutRestart {
+            try container.encode(supportsCertificateRotationWithoutRestart, forKey: ClientRuntime.Key("SupportsCertificateRotationWithoutRestart"))
+        }
+        if let supportsLogExportsToCloudwatchLogs = supportsLogExportsToCloudwatchLogs {
             try container.encode(supportsLogExportsToCloudwatchLogs, forKey: ClientRuntime.Key("SupportsLogExportsToCloudwatchLogs"))
         }
         if let validUpgradeTarget = validUpgradeTarget {
@@ -4253,8 +4326,29 @@ extension DocDBClientTypes.DBEngineVersion: Swift.Codable {
         } else {
             exportableLogTypes = nil
         }
-        let supportsLogExportsToCloudwatchLogsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsLogExportsToCloudwatchLogs) ?? false
+        let supportsLogExportsToCloudwatchLogsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsLogExportsToCloudwatchLogs)
         supportsLogExportsToCloudwatchLogs = supportsLogExportsToCloudwatchLogsDecoded
+        if containerValues.contains(.supportedCACertificateIdentifiers) {
+            struct KeyVal0{struct member{}}
+            let supportedCACertificateIdentifiersWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.member>.CodingKeys.self, forKey: .supportedCACertificateIdentifiers)
+            if let supportedCACertificateIdentifiersWrappedContainer = supportedCACertificateIdentifiersWrappedContainer {
+                let supportedCACertificateIdentifiersContainer = try supportedCACertificateIdentifiersWrappedContainer.decodeIfPresent([Swift.String].self, forKey: .member)
+                var supportedCACertificateIdentifiersBuffer:[Swift.String]? = nil
+                if let supportedCACertificateIdentifiersContainer = supportedCACertificateIdentifiersContainer {
+                    supportedCACertificateIdentifiersBuffer = [Swift.String]()
+                    for stringContainer0 in supportedCACertificateIdentifiersContainer {
+                        supportedCACertificateIdentifiersBuffer?.append(stringContainer0)
+                    }
+                }
+                supportedCACertificateIdentifiers = supportedCACertificateIdentifiersBuffer
+            } else {
+                supportedCACertificateIdentifiers = []
+            }
+        } else {
+            supportedCACertificateIdentifiers = nil
+        }
+        let supportsCertificateRotationWithoutRestartDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsCertificateRotationWithoutRestart)
+        supportsCertificateRotationWithoutRestart = supportsCertificateRotationWithoutRestartDecoded
     }
 }
 
@@ -4273,8 +4367,12 @@ extension DocDBClientTypes {
         public var engineVersion: Swift.String?
         /// The types of logs that the database engine has available for export to Amazon CloudWatch Logs.
         public var exportableLogTypes: [Swift.String]?
+        /// A list of the supported CA certificate identifiers. For more information, see [Updating Your Amazon DocumentDB TLS Certificates](https://docs.aws.amazon.com/documentdb/latest/developerguide/ca_cert_rotation.html) and [ Encrypting Data in Transit](https://docs.aws.amazon.com/documentdb/latest/developerguide/security.encryption.ssl.html) in the Amazon DocumentDB Developer Guide.
+        public var supportedCACertificateIdentifiers: [Swift.String]?
+        /// Indicates whether the engine version supports rotating the server certificate without rebooting the DB instance.
+        public var supportsCertificateRotationWithoutRestart: Swift.Bool?
         /// A value that indicates whether the engine version supports exporting the log types specified by ExportableLogTypes to CloudWatch Logs.
-        public var supportsLogExportsToCloudwatchLogs: Swift.Bool
+        public var supportsLogExportsToCloudwatchLogs: Swift.Bool?
         /// A list of engine versions that this database engine version can be upgraded to.
         public var validUpgradeTarget: [DocDBClientTypes.UpgradeTarget]?
 
@@ -4285,7 +4383,9 @@ extension DocDBClientTypes {
             engine: Swift.String? = nil,
             engineVersion: Swift.String? = nil,
             exportableLogTypes: [Swift.String]? = nil,
-            supportsLogExportsToCloudwatchLogs: Swift.Bool = false,
+            supportedCACertificateIdentifiers: [Swift.String]? = nil,
+            supportsCertificateRotationWithoutRestart: Swift.Bool? = nil,
+            supportsLogExportsToCloudwatchLogs: Swift.Bool? = nil,
             validUpgradeTarget: [DocDBClientTypes.UpgradeTarget]? = nil
         )
         {
@@ -4295,6 +4395,8 @@ extension DocDBClientTypes {
             self.engine = engine
             self.engineVersion = engineVersion
             self.exportableLogTypes = exportableLogTypes
+            self.supportedCACertificateIdentifiers = supportedCACertificateIdentifiers
+            self.supportsCertificateRotationWithoutRestart = supportsCertificateRotationWithoutRestart
             self.supportsLogExportsToCloudwatchLogs = supportsLogExportsToCloudwatchLogs
             self.validUpgradeTarget = validUpgradeTarget
         }
@@ -4308,6 +4410,7 @@ extension DocDBClientTypes.DBInstance: Swift.Codable {
         case availabilityZone = "AvailabilityZone"
         case backupRetentionPeriod = "BackupRetentionPeriod"
         case caCertificateIdentifier = "CACertificateIdentifier"
+        case certificateDetails = "CertificateDetails"
         case copyTagsToSnapshot = "CopyTagsToSnapshot"
         case dbClusterIdentifier = "DBClusterIdentifier"
         case dbInstanceArn = "DBInstanceArn"
@@ -4335,17 +4438,20 @@ extension DocDBClientTypes.DBInstance: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if autoMinorVersionUpgrade != false {
+        if let autoMinorVersionUpgrade = autoMinorVersionUpgrade {
             try container.encode(autoMinorVersionUpgrade, forKey: ClientRuntime.Key("AutoMinorVersionUpgrade"))
         }
         if let availabilityZone = availabilityZone {
             try container.encode(availabilityZone, forKey: ClientRuntime.Key("AvailabilityZone"))
         }
-        if backupRetentionPeriod != 0 {
+        if let backupRetentionPeriod = backupRetentionPeriod {
             try container.encode(backupRetentionPeriod, forKey: ClientRuntime.Key("BackupRetentionPeriod"))
         }
         if let caCertificateIdentifier = caCertificateIdentifier {
             try container.encode(caCertificateIdentifier, forKey: ClientRuntime.Key("CACertificateIdentifier"))
+        }
+        if let certificateDetails = certificateDetails {
+            try container.encode(certificateDetails, forKey: ClientRuntime.Key("CertificateDetails"))
         }
         if let copyTagsToSnapshot = copyTagsToSnapshot {
             try container.encode(copyTagsToSnapshot, forKey: ClientRuntime.Key("CopyTagsToSnapshot"))
@@ -4413,7 +4519,7 @@ extension DocDBClientTypes.DBInstance: Swift.Codable {
         if let promotionTier = promotionTier {
             try container.encode(promotionTier, forKey: ClientRuntime.Key("PromotionTier"))
         }
-        if publiclyAccessible != false {
+        if let publiclyAccessible = publiclyAccessible {
             try container.encode(publiclyAccessible, forKey: ClientRuntime.Key("PubliclyAccessible"))
         }
         if let statusInfos = statusInfos {
@@ -4428,7 +4534,7 @@ extension DocDBClientTypes.DBInstance: Swift.Codable {
                 try statusInfosContainer.encode("", forKey: ClientRuntime.Key(""))
             }
         }
-        if storageEncrypted != false {
+        if let storageEncrypted = storageEncrypted {
             try container.encode(storageEncrypted, forKey: ClientRuntime.Key("StorageEncrypted"))
         }
         if let vpcSecurityGroups = vpcSecurityGroups {
@@ -4461,7 +4567,7 @@ extension DocDBClientTypes.DBInstance: Swift.Codable {
         instanceCreateTime = instanceCreateTimeDecoded
         let preferredBackupWindowDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .preferredBackupWindow)
         preferredBackupWindow = preferredBackupWindowDecoded
-        let backupRetentionPeriodDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .backupRetentionPeriod) ?? 0
+        let backupRetentionPeriodDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .backupRetentionPeriod)
         backupRetentionPeriod = backupRetentionPeriodDecoded
         if containerValues.contains(.vpcSecurityGroups) {
             struct KeyVal0{struct VpcSecurityGroupMembership{}}
@@ -4494,9 +4600,9 @@ extension DocDBClientTypes.DBInstance: Swift.Codable {
         latestRestorableTime = latestRestorableTimeDecoded
         let engineVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .engineVersion)
         engineVersion = engineVersionDecoded
-        let autoMinorVersionUpgradeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoMinorVersionUpgrade) ?? false
+        let autoMinorVersionUpgradeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoMinorVersionUpgrade)
         autoMinorVersionUpgrade = autoMinorVersionUpgradeDecoded
-        let publiclyAccessibleDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .publiclyAccessible) ?? false
+        let publiclyAccessibleDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .publiclyAccessible)
         publiclyAccessible = publiclyAccessibleDecoded
         if containerValues.contains(.statusInfos) {
             struct KeyVal0{struct DBInstanceStatusInfo{}}
@@ -4519,7 +4625,7 @@ extension DocDBClientTypes.DBInstance: Swift.Codable {
         }
         let dbClusterIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbClusterIdentifier)
         dbClusterIdentifier = dbClusterIdentifierDecoded
-        let storageEncryptedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .storageEncrypted) ?? false
+        let storageEncryptedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .storageEncrypted)
         storageEncrypted = storageEncryptedDecoded
         let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
         kmsKeyId = kmsKeyIdDecoded
@@ -4552,6 +4658,8 @@ extension DocDBClientTypes.DBInstance: Swift.Codable {
         } else {
             enabledCloudwatchLogsExports = nil
         }
+        let certificateDetailsDecoded = try containerValues.decodeIfPresent(DocDBClientTypes.CertificateDetails.self, forKey: .certificateDetails)
+        certificateDetails = certificateDetailsDecoded
     }
 }
 
@@ -4559,13 +4667,15 @@ extension DocDBClientTypes {
     /// Detailed information about an instance.
     public struct DBInstance: Swift.Equatable {
         /// Does not apply. This parameter does not apply to Amazon DocumentDB. Amazon DocumentDB does not perform minor version upgrades regardless of the value set.
-        public var autoMinorVersionUpgrade: Swift.Bool
+        public var autoMinorVersionUpgrade: Swift.Bool?
         /// Specifies the name of the Availability Zone that the instance is located in.
         public var availabilityZone: Swift.String?
         /// Specifies the number of days for which automatic snapshots are retained.
-        public var backupRetentionPeriod: Swift.Int
+        public var backupRetentionPeriod: Swift.Int?
         /// The identifier of the CA certificate for this DB instance.
         public var caCertificateIdentifier: Swift.String?
+        /// The details of the DB instance's server certificate.
+        public var certificateDetails: DocDBClientTypes.CertificateDetails?
         /// A value that indicates whether to copy tags from the DB instance to snapshots of the DB instance. By default, tags are not copied.
         public var copyTagsToSnapshot: Swift.Bool?
         /// Contains the name of the cluster that the instance is a member of if the instance is a member of a cluster.
@@ -4605,19 +4715,20 @@ extension DocDBClientTypes {
         /// A value that specifies the order in which an Amazon DocumentDB replica is promoted to the primary instance after a failure of the existing primary instance.
         public var promotionTier: Swift.Int?
         /// Not supported. Amazon DocumentDB does not currently support public endpoints. The value of PubliclyAccessible is always false.
-        public var publiclyAccessible: Swift.Bool
+        public var publiclyAccessible: Swift.Bool?
         /// The status of a read replica. If the instance is not a read replica, this is blank.
         public var statusInfos: [DocDBClientTypes.DBInstanceStatusInfo]?
         /// Specifies whether or not the instance is encrypted.
-        public var storageEncrypted: Swift.Bool
+        public var storageEncrypted: Swift.Bool?
         /// Provides a list of VPC security group elements that the instance belongs to.
         public var vpcSecurityGroups: [DocDBClientTypes.VpcSecurityGroupMembership]?
 
         public init(
-            autoMinorVersionUpgrade: Swift.Bool = false,
+            autoMinorVersionUpgrade: Swift.Bool? = nil,
             availabilityZone: Swift.String? = nil,
-            backupRetentionPeriod: Swift.Int = 0,
+            backupRetentionPeriod: Swift.Int? = nil,
             caCertificateIdentifier: Swift.String? = nil,
+            certificateDetails: DocDBClientTypes.CertificateDetails? = nil,
             copyTagsToSnapshot: Swift.Bool? = nil,
             dbClusterIdentifier: Swift.String? = nil,
             dbInstanceArn: Swift.String? = nil,
@@ -4637,9 +4748,9 @@ extension DocDBClientTypes {
             preferredBackupWindow: Swift.String? = nil,
             preferredMaintenanceWindow: Swift.String? = nil,
             promotionTier: Swift.Int? = nil,
-            publiclyAccessible: Swift.Bool = false,
+            publiclyAccessible: Swift.Bool? = nil,
             statusInfos: [DocDBClientTypes.DBInstanceStatusInfo]? = nil,
-            storageEncrypted: Swift.Bool = false,
+            storageEncrypted: Swift.Bool? = nil,
             vpcSecurityGroups: [DocDBClientTypes.VpcSecurityGroupMembership]? = nil
         )
         {
@@ -4647,6 +4758,7 @@ extension DocDBClientTypes {
             self.availabilityZone = availabilityZone
             self.backupRetentionPeriod = backupRetentionPeriod
             self.caCertificateIdentifier = caCertificateIdentifier
+            self.certificateDetails = certificateDetails
             self.copyTagsToSnapshot = copyTagsToSnapshot
             self.dbClusterIdentifier = dbClusterIdentifier
             self.dbInstanceArn = dbInstanceArn
@@ -4796,7 +4908,7 @@ extension DocDBClientTypes.DBInstanceStatusInfo: Swift.Codable {
         if let message = message {
             try container.encode(message, forKey: ClientRuntime.Key("Message"))
         }
-        if normal != false {
+        if let normal = normal {
             try container.encode(normal, forKey: ClientRuntime.Key("Normal"))
         }
         if let status = status {
@@ -4811,7 +4923,7 @@ extension DocDBClientTypes.DBInstanceStatusInfo: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let statusTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .statusType)
         statusType = statusTypeDecoded
-        let normalDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .normal) ?? false
+        let normalDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .normal)
         normal = normalDecoded
         let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
         status = statusDecoded
@@ -4826,7 +4938,7 @@ extension DocDBClientTypes {
         /// Details of the error if there is an error for the instance. If the instance is not in an error state, this value is blank.
         public var message: Swift.String?
         /// A Boolean value that is true if the instance is operating normally, or false if the instance is in an error state.
-        public var normal: Swift.Bool
+        public var normal: Swift.Bool?
         /// Status of the instance. For a StatusType of read replica, the values can be replicating, error, stopped, or terminated.
         public var status: Swift.String?
         /// This value is currently "read replication."
@@ -4834,7 +4946,7 @@ extension DocDBClientTypes {
 
         public init(
             message: Swift.String? = nil,
-            normal: Swift.Bool = false,
+            normal: Swift.Bool? = nil,
             status: Swift.String? = nil,
             statusType: Swift.String? = nil
         )
@@ -5677,7 +5789,7 @@ extension DeleteDBClusterInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dbClusterIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbClusterIdentifier)
         dbClusterIdentifier = dbClusterIdentifierDecoded
-        let skipFinalSnapshotDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .skipFinalSnapshot) ?? false
+        let skipFinalSnapshotDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .skipFinalSnapshot)
         skipFinalSnapshot = skipFinalSnapshotDecoded
         let finalDBSnapshotIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .finalDBSnapshotIdentifier)
         finalDBSnapshotIdentifier = finalDBSnapshotIdentifierDecoded
@@ -7112,9 +7224,9 @@ extension DescribeDBClusterSnapshotsInputBody: Swift.Decodable {
         maxRecords = maxRecordsDecoded
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
-        let includeSharedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .includeShared) ?? false
+        let includeSharedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .includeShared)
         includeShared = includeSharedDecoded
-        let includePublicDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .includePublic) ?? false
+        let includePublicDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .includePublic)
         includePublic = includePublicDecoded
     }
 }
@@ -7539,7 +7651,7 @@ extension DescribeDBEngineVersionsInputBody: Swift.Decodable {
         maxRecords = maxRecordsDecoded
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
-        let defaultOnlyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .defaultOnly) ?? false
+        let defaultOnlyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .defaultOnly)
         defaultOnly = defaultOnlyDecoded
         let listSupportedCharacterSetsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .listSupportedCharacterSets)
         listSupportedCharacterSets = listSupportedCharacterSetsDecoded
@@ -9380,7 +9492,7 @@ extension DocDBClientTypes.Endpoint: Swift.Codable {
         if let hostedZoneId = hostedZoneId {
             try container.encode(hostedZoneId, forKey: ClientRuntime.Key("HostedZoneId"))
         }
-        if port != 0 {
+        if let port = port {
             try container.encode(port, forKey: ClientRuntime.Key("Port"))
         }
     }
@@ -9389,7 +9501,7 @@ extension DocDBClientTypes.Endpoint: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let addressDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .address)
         address = addressDecoded
-        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port) ?? 0
+        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port)
         port = portDecoded
         let hostedZoneIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .hostedZoneId)
         hostedZoneId = hostedZoneIdDecoded
@@ -9404,12 +9516,12 @@ extension DocDBClientTypes {
         /// Specifies the ID that Amazon Route 53 assigns when you create a hosted zone.
         public var hostedZoneId: Swift.String?
         /// Specifies the port that the database engine is listening on.
-        public var port: Swift.Int
+        public var port: Swift.Int?
 
         public init(
             address: Swift.String? = nil,
             hostedZoneId: Swift.String? = nil,
-            port: Swift.Int = 0
+            port: Swift.Int? = nil
         )
         {
             self.address = address
@@ -9705,7 +9817,7 @@ extension DocDBClientTypes.EventSubscription: Swift.Codable {
         if let customerAwsId = customerAwsId {
             try container.encode(customerAwsId, forKey: ClientRuntime.Key("CustomerAwsId"))
         }
-        if enabled != false {
+        if let enabled = enabled {
             try container.encode(enabled, forKey: ClientRuntime.Key("Enabled"))
         }
         if let eventCategoriesList = eventCategoriesList {
@@ -9801,7 +9913,7 @@ extension DocDBClientTypes.EventSubscription: Swift.Codable {
         } else {
             eventCategoriesList = nil
         }
-        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled) ?? false
+        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled)
         enabled = enabledDecoded
         let eventSubscriptionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .eventSubscriptionArn)
         eventSubscriptionArn = eventSubscriptionArnDecoded
@@ -9816,7 +9928,7 @@ extension DocDBClientTypes {
         /// The Amazon Web Services customer account that is associated with the Amazon DocumentDB event notification subscription.
         public var customerAwsId: Swift.String?
         /// A Boolean value indicating whether the subscription is enabled. A value of true indicates that the subscription is enabled.
-        public var enabled: Swift.Bool
+        public var enabled: Swift.Bool?
         /// A list of event categories for the Amazon DocumentDB event notification subscription.
         public var eventCategoriesList: [Swift.String]?
         /// The Amazon Resource Name (ARN) for the event subscription.
@@ -9835,7 +9947,7 @@ extension DocDBClientTypes {
         public init(
             custSubscriptionId: Swift.String? = nil,
             customerAwsId: Swift.String? = nil,
-            enabled: Swift.Bool = false,
+            enabled: Swift.Bool? = nil,
             eventCategoriesList: [Swift.String]? = nil,
             eventSubscriptionArn: Swift.String? = nil,
             snsTopicArn: Swift.String? = nil,
@@ -10316,7 +10428,7 @@ extension DocDBClientTypes.GlobalClusterMember: Swift.Codable {
         if let dbClusterArn = dbClusterArn {
             try container.encode(dbClusterArn, forKey: ClientRuntime.Key("DBClusterArn"))
         }
-        if isWriter != false {
+        if let isWriter = isWriter {
             try container.encode(isWriter, forKey: ClientRuntime.Key("IsWriter"))
         }
         if let readers = readers {
@@ -10356,7 +10468,7 @@ extension DocDBClientTypes.GlobalClusterMember: Swift.Codable {
         } else {
             readers = nil
         }
-        let isWriterDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isWriter) ?? false
+        let isWriterDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isWriter)
         isWriter = isWriterDecoded
     }
 }
@@ -10367,13 +10479,13 @@ extension DocDBClientTypes {
         /// The Amazon Resource Name (ARN) for each Amazon DocumentDB cluster.
         public var dbClusterArn: Swift.String?
         /// Specifies whether the Amazon DocumentDB cluster is the primary cluster (that is, has read-write capability) for the Amazon DocumentDB global cluster with which it is associated.
-        public var isWriter: Swift.Bool
+        public var isWriter: Swift.Bool?
         /// The Amazon Resource Name (ARN) for each read-only secondary cluster associated with the Aurora global cluster.
         public var readers: [Swift.String]?
 
         public init(
             dbClusterArn: Swift.String? = nil,
-            isWriter: Swift.Bool = false,
+            isWriter: Swift.Bool? = nil,
             readers: [Swift.String]? = nil
         )
         {
@@ -11813,7 +11925,7 @@ extension ModifyDBClusterInputBody: Swift.Decodable {
         dbClusterIdentifier = dbClusterIdentifierDecoded
         let newDBClusterIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .newDBClusterIdentifier)
         newDBClusterIdentifier = newDBClusterIdentifierDecoded
-        let applyImmediatelyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .applyImmediately) ?? false
+        let applyImmediatelyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .applyImmediately)
         applyImmediately = applyImmediatelyDecoded
         let backupRetentionPeriodDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .backupRetentionPeriod)
         backupRetentionPeriod = backupRetentionPeriodDecoded
@@ -11850,7 +11962,7 @@ extension ModifyDBClusterInputBody: Swift.Decodable {
         cloudwatchLogsExportConfiguration = cloudwatchLogsExportConfigurationDecoded
         let engineVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .engineVersion)
         engineVersion = engineVersionDecoded
-        let allowMajorVersionUpgradeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowMajorVersionUpgrade) ?? false
+        let allowMajorVersionUpgradeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowMajorVersionUpgrade)
         allowMajorVersionUpgrade = allowMajorVersionUpgradeDecoded
         let deletionProtectionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deletionProtection)
         deletionProtection = deletionProtectionDecoded
@@ -12263,6 +12375,9 @@ extension ModifyDBInstanceInput: Swift.Encodable {
         if let caCertificateIdentifier = caCertificateIdentifier {
             try container.encode(caCertificateIdentifier, forKey: ClientRuntime.Key("CACertificateIdentifier"))
         }
+        if let certificateRotationRestart = certificateRotationRestart {
+            try container.encode(certificateRotationRestart, forKey: ClientRuntime.Key("CertificateRotationRestart"))
+        }
         if let copyTagsToSnapshot = copyTagsToSnapshot {
             try container.encode(copyTagsToSnapshot, forKey: ClientRuntime.Key("CopyTagsToSnapshot"))
         }
@@ -12306,6 +12421,8 @@ public struct ModifyDBInstanceInput: Swift.Equatable {
     public var autoMinorVersionUpgrade: Swift.Bool?
     /// Indicates the certificate that needs to be associated with the instance.
     public var caCertificateIdentifier: Swift.String?
+    /// Specifies whether the DB instance is restarted when you rotate your SSL/TLS certificate. By default, the DB instance is restarted when you rotate your SSL/TLS certificate. The certificate is not updated until the DB instance is restarted. Set this parameter only if you are not using SSL/TLS to connect to the DB instance. If you are using SSL/TLS to connect to the DB instance, see [Updating Your Amazon DocumentDB TLS Certificates](https://docs.aws.amazon.com/documentdb/latest/developerguide/ca_cert_rotation.html) and [ Encrypting Data in Transit](https://docs.aws.amazon.com/documentdb/latest/developerguide/security.encryption.ssl.html) in the Amazon DocumentDB Developer Guide.
+    public var certificateRotationRestart: Swift.Bool?
     /// A value that indicates whether to copy all tags from the DB instance to snapshots of the DB instance. By default, tags are not copied.
     public var copyTagsToSnapshot: Swift.Bool?
     /// The new compute and memory capacity of the instance; for example, db.r5.large. Not all instance classes are available in all Amazon Web Services Regions. If you modify the instance class, an outage occurs during the change. The change is applied during the next maintenance window, unless ApplyImmediately is specified as true for this request. Default: Uses existing setting.
@@ -12339,6 +12456,7 @@ public struct ModifyDBInstanceInput: Swift.Equatable {
         applyImmediately: Swift.Bool? = nil,
         autoMinorVersionUpgrade: Swift.Bool? = nil,
         caCertificateIdentifier: Swift.String? = nil,
+        certificateRotationRestart: Swift.Bool? = nil,
         copyTagsToSnapshot: Swift.Bool? = nil,
         dbInstanceClass: Swift.String? = nil,
         dbInstanceIdentifier: Swift.String? = nil,
@@ -12352,6 +12470,7 @@ public struct ModifyDBInstanceInput: Swift.Equatable {
         self.applyImmediately = applyImmediately
         self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
         self.caCertificateIdentifier = caCertificateIdentifier
+        self.certificateRotationRestart = certificateRotationRestart
         self.copyTagsToSnapshot = copyTagsToSnapshot
         self.dbInstanceClass = dbInstanceClass
         self.dbInstanceIdentifier = dbInstanceIdentifier
@@ -12375,6 +12494,7 @@ struct ModifyDBInstanceInputBody: Swift.Equatable {
     let promotionTier: Swift.Int?
     let enablePerformanceInsights: Swift.Bool?
     let performanceInsightsKMSKeyId: Swift.String?
+    let certificateRotationRestart: Swift.Bool?
 }
 
 extension ModifyDBInstanceInputBody: Swift.Decodable {
@@ -12382,6 +12502,7 @@ extension ModifyDBInstanceInputBody: Swift.Decodable {
         case applyImmediately = "ApplyImmediately"
         case autoMinorVersionUpgrade = "AutoMinorVersionUpgrade"
         case caCertificateIdentifier = "CACertificateIdentifier"
+        case certificateRotationRestart = "CertificateRotationRestart"
         case copyTagsToSnapshot = "CopyTagsToSnapshot"
         case dbInstanceClass = "DBInstanceClass"
         case dbInstanceIdentifier = "DBInstanceIdentifier"
@@ -12398,7 +12519,7 @@ extension ModifyDBInstanceInputBody: Swift.Decodable {
         dbInstanceIdentifier = dbInstanceIdentifierDecoded
         let dbInstanceClassDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbInstanceClass)
         dbInstanceClass = dbInstanceClassDecoded
-        let applyImmediatelyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .applyImmediately) ?? false
+        let applyImmediatelyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .applyImmediately)
         applyImmediately = applyImmediatelyDecoded
         let preferredMaintenanceWindowDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .preferredMaintenanceWindow)
         preferredMaintenanceWindow = preferredMaintenanceWindowDecoded
@@ -12416,6 +12537,8 @@ extension ModifyDBInstanceInputBody: Swift.Decodable {
         enablePerformanceInsights = enablePerformanceInsightsDecoded
         let performanceInsightsKMSKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .performanceInsightsKMSKeyId)
         performanceInsightsKMSKeyId = performanceInsightsKMSKeyIdDecoded
+        let certificateRotationRestartDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .certificateRotationRestart)
+        certificateRotationRestart = certificateRotationRestartDecoded
     }
 }
 
@@ -12970,7 +13093,7 @@ extension DocDBClientTypes.OrderableDBInstanceOption: Swift.Codable {
         if let licenseModel = licenseModel {
             try container.encode(licenseModel, forKey: ClientRuntime.Key("LicenseModel"))
         }
-        if vpc != false {
+        if let vpc = vpc {
             try container.encode(vpc, forKey: ClientRuntime.Key("Vpc"))
         }
     }
@@ -13004,7 +13127,7 @@ extension DocDBClientTypes.OrderableDBInstanceOption: Swift.Codable {
         } else {
             availabilityZones = nil
         }
-        let vpcDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .vpc) ?? false
+        let vpcDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .vpc)
         vpc = vpcDecoded
     }
 }
@@ -13023,7 +13146,7 @@ extension DocDBClientTypes {
         /// The license model for an instance.
         public var licenseModel: Swift.String?
         /// Indicates whether an instance is in a virtual private cloud (VPC).
-        public var vpc: Swift.Bool
+        public var vpc: Swift.Bool?
 
         public init(
             availabilityZones: [DocDBClientTypes.AvailabilityZone]? = nil,
@@ -13031,7 +13154,7 @@ extension DocDBClientTypes {
             engine: Swift.String? = nil,
             engineVersion: Swift.String? = nil,
             licenseModel: Swift.String? = nil,
-            vpc: Swift.Bool = false
+            vpc: Swift.Bool? = nil
         )
         {
             self.availabilityZones = availabilityZones
@@ -13076,7 +13199,7 @@ extension DocDBClientTypes.Parameter: Swift.Codable {
         if let description = description {
             try container.encode(description, forKey: ClientRuntime.Key("Description"))
         }
-        if isModifiable != false {
+        if let isModifiable = isModifiable {
             try container.encode(isModifiable, forKey: ClientRuntime.Key("IsModifiable"))
         }
         if let minimumEngineVersion = minimumEngineVersion {
@@ -13109,7 +13232,7 @@ extension DocDBClientTypes.Parameter: Swift.Codable {
         dataType = dataTypeDecoded
         let allowedValuesDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .allowedValues)
         allowedValues = allowedValuesDecoded
-        let isModifiableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isModifiable) ?? false
+        let isModifiableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isModifiable)
         isModifiable = isModifiableDecoded
         let minimumEngineVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .minimumEngineVersion)
         minimumEngineVersion = minimumEngineVersionDecoded
@@ -13132,7 +13255,7 @@ extension DocDBClientTypes {
         /// Provides a description of the parameter.
         public var description: Swift.String?
         /// Indicates whether (true) or not (false) the parameter can be modified. Some parameters have security or operational implications that prevent them from being changed.
-        public var isModifiable: Swift.Bool
+        public var isModifiable: Swift.Bool?
         /// The earliest engine version to which the parameter can apply.
         public var minimumEngineVersion: Swift.String?
         /// Specifies the name of the parameter.
@@ -13148,7 +13271,7 @@ extension DocDBClientTypes {
             applyType: Swift.String? = nil,
             dataType: Swift.String? = nil,
             description: Swift.String? = nil,
-            isModifiable: Swift.Bool = false,
+            isModifiable: Swift.Bool? = nil,
             minimumEngineVersion: Swift.String? = nil,
             parameterName: Swift.String? = nil,
             parameterValue: Swift.String? = nil,
@@ -14030,7 +14153,7 @@ extension ResetDBClusterParameterGroupInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dbClusterParameterGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbClusterParameterGroupName)
         dbClusterParameterGroupName = dbClusterParameterGroupNameDecoded
-        let resetAllParametersDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .resetAllParameters) ?? false
+        let resetAllParametersDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .resetAllParameters)
         resetAllParameters = resetAllParametersDecoded
         if containerValues.contains(.parameters) {
             struct KeyVal0{struct Parameter{}}
@@ -14815,7 +14938,7 @@ extension RestoreDBClusterToPointInTimeInputBody: Swift.Decodable {
         sourceDBClusterIdentifier = sourceDBClusterIdentifierDecoded
         let restoreToTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .restoreToTime)
         restoreToTime = restoreToTimeDecoded
-        let useLatestRestorableTimeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .useLatestRestorableTime) ?? false
+        let useLatestRestorableTimeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .useLatestRestorableTime)
         useLatestRestorableTime = useLatestRestorableTimeDecoded
         let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port)
         port = portDecoded
@@ -15951,7 +16074,7 @@ extension DocDBClientTypes.UpgradeTarget: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if autoUpgrade != false {
+        if let autoUpgrade = autoUpgrade {
             try container.encode(autoUpgrade, forKey: ClientRuntime.Key("AutoUpgrade"))
         }
         if let description = description {
@@ -15963,7 +16086,7 @@ extension DocDBClientTypes.UpgradeTarget: Swift.Codable {
         if let engineVersion = engineVersion {
             try container.encode(engineVersion, forKey: ClientRuntime.Key("EngineVersion"))
         }
-        if isMajorVersionUpgrade != false {
+        if let isMajorVersionUpgrade = isMajorVersionUpgrade {
             try container.encode(isMajorVersionUpgrade, forKey: ClientRuntime.Key("IsMajorVersionUpgrade"))
         }
     }
@@ -15976,9 +16099,9 @@ extension DocDBClientTypes.UpgradeTarget: Swift.Codable {
         engineVersion = engineVersionDecoded
         let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
         description = descriptionDecoded
-        let autoUpgradeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoUpgrade) ?? false
+        let autoUpgradeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoUpgrade)
         autoUpgrade = autoUpgradeDecoded
-        let isMajorVersionUpgradeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isMajorVersionUpgrade) ?? false
+        let isMajorVersionUpgradeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isMajorVersionUpgrade)
         isMajorVersionUpgrade = isMajorVersionUpgradeDecoded
     }
 }
@@ -15987,7 +16110,7 @@ extension DocDBClientTypes {
     /// The version of the database engine that an instance can be upgraded to.
     public struct UpgradeTarget: Swift.Equatable {
         /// A value that indicates whether the target version is applied to any source DB instances that have AutoMinorVersionUpgrade set to true.
-        public var autoUpgrade: Swift.Bool
+        public var autoUpgrade: Swift.Bool?
         /// The version of the database engine that an instance can be upgraded to.
         public var description: Swift.String?
         /// The name of the upgrade target database engine.
@@ -15995,14 +16118,14 @@ extension DocDBClientTypes {
         /// The version number of the upgrade target database engine.
         public var engineVersion: Swift.String?
         /// A value that indicates whether a database engine is upgraded to a major version.
-        public var isMajorVersionUpgrade: Swift.Bool
+        public var isMajorVersionUpgrade: Swift.Bool?
 
         public init(
-            autoUpgrade: Swift.Bool = false,
+            autoUpgrade: Swift.Bool? = nil,
             description: Swift.String? = nil,
             engine: Swift.String? = nil,
             engineVersion: Swift.String? = nil,
-            isMajorVersionUpgrade: Swift.Bool = false
+            isMajorVersionUpgrade: Swift.Bool? = nil
         )
         {
             self.autoUpgrade = autoUpgrade

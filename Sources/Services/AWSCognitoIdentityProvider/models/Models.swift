@@ -16284,7 +16284,7 @@ extension CognitoIdentityProviderClientTypes.PasswordPolicyType: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if minimumLength != 0 {
+        if let minimumLength = self.minimumLength {
             try encodeContainer.encode(minimumLength, forKey: .minimumLength)
         }
         if requireLowercase != false {
@@ -16306,7 +16306,7 @@ extension CognitoIdentityProviderClientTypes.PasswordPolicyType: Swift.Codable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let minimumLengthDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .minimumLength) ?? 0
+        let minimumLengthDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .minimumLength)
         minimumLength = minimumLengthDecoded
         let requireUppercaseDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .requireUppercase) ?? false
         requireUppercase = requireUppercaseDecoded
@@ -16325,7 +16325,7 @@ extension CognitoIdentityProviderClientTypes {
     /// The password policy type.
     public struct PasswordPolicyType: Swift.Equatable {
         /// The minimum length of the password in the policy that you have set. This value can't be less than 6.
-        public var minimumLength: Swift.Int
+        public var minimumLength: Swift.Int?
         /// In the password policy that you have set, refers to whether you have required users to use at least one lowercase letter in their password.
         public var requireLowercase: Swift.Bool
         /// In the password policy that you have set, refers to whether you have required users to use at least one number in their password.
@@ -16338,7 +16338,7 @@ extension CognitoIdentityProviderClientTypes {
         public var temporaryPasswordValidityDays: Swift.Int
 
         public init(
-            minimumLength: Swift.Int = 0,
+            minimumLength: Swift.Int? = nil,
             requireLowercase: Swift.Bool = false,
             requireNumbers: Swift.Bool = false,
             requireSymbols: Swift.Bool = false,
@@ -16667,14 +16667,14 @@ extension CognitoIdentityProviderClientTypes.RecoveryOptionType: Swift.Codable {
         if let name = self.name {
             try encodeContainer.encode(name.rawValue, forKey: .name)
         }
-        if priority != 0 {
+        if let priority = self.priority {
             try encodeContainer.encode(priority, forKey: .priority)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let priorityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .priority) ?? 0
+        let priorityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .priority)
         priority = priorityDecoded
         let nameDecoded = try containerValues.decodeIfPresent(CognitoIdentityProviderClientTypes.RecoveryOptionNameType.self, forKey: .name)
         name = nameDecoded
@@ -16689,11 +16689,11 @@ extension CognitoIdentityProviderClientTypes {
         public var name: CognitoIdentityProviderClientTypes.RecoveryOptionNameType?
         /// A positive integer specifying priority of a method with 1 being the highest priority.
         /// This member is required.
-        public var priority: Swift.Int
+        public var priority: Swift.Int?
 
         public init(
             name: CognitoIdentityProviderClientTypes.RecoveryOptionNameType? = nil,
-            priority: Swift.Int = 0
+            priority: Swift.Int? = nil
         )
         {
             self.name = name

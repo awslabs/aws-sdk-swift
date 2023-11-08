@@ -442,6 +442,391 @@ extension AuthorizationErrorExceptionBody: Swift.Decodable {
     }
 }
 
+extension ApplicationDiscoveryClientTypes.BatchDeleteAgentError: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case agentId
+        case errorCode
+        case errorMessage
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let agentId = self.agentId {
+            try encodeContainer.encode(agentId, forKey: .agentId)
+        }
+        if let errorCode = self.errorCode {
+            try encodeContainer.encode(errorCode.rawValue, forKey: .errorCode)
+        }
+        if let errorMessage = self.errorMessage {
+            try encodeContainer.encode(errorMessage, forKey: .errorMessage)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let agentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .agentId)
+        agentId = agentIdDecoded
+        let errorMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorMessage)
+        errorMessage = errorMessageDecoded
+        let errorCodeDecoded = try containerValues.decodeIfPresent(ApplicationDiscoveryClientTypes.DeleteAgentErrorCode.self, forKey: .errorCode)
+        errorCode = errorCodeDecoded
+    }
+}
+
+extension ApplicationDiscoveryClientTypes {
+    /// An object representing the agent or data collector that failed to delete, each containing agentId, errorMessage, and errorCode.
+    public struct BatchDeleteAgentError: Swift.Equatable {
+        /// The ID of the agent or data collector to delete.
+        /// This member is required.
+        public var agentId: Swift.String?
+        /// The type of error that occurred for the delete failed agent. Valid status are: AGENT_IN_USE | NOT_FOUND | INTERNAL_SERVER_ERROR.
+        /// This member is required.
+        public var errorCode: ApplicationDiscoveryClientTypes.DeleteAgentErrorCode?
+        /// The description of the error that occurred for the delete failed agent.
+        /// This member is required.
+        public var errorMessage: Swift.String?
+
+        public init(
+            agentId: Swift.String? = nil,
+            errorCode: ApplicationDiscoveryClientTypes.DeleteAgentErrorCode? = nil,
+            errorMessage: Swift.String? = nil
+        )
+        {
+            self.agentId = agentId
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+        }
+    }
+
+}
+
+extension BatchDeleteAgentsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case deleteAgents
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let deleteAgents = deleteAgents {
+            var deleteAgentsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .deleteAgents)
+            for deleteagent0 in deleteAgents {
+                try deleteAgentsContainer.encode(deleteagent0)
+            }
+        }
+    }
+}
+
+extension BatchDeleteAgentsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct BatchDeleteAgentsInput: Swift.Equatable {
+    /// The list of agents to delete.
+    /// This member is required.
+    public var deleteAgents: [ApplicationDiscoveryClientTypes.DeleteAgent]?
+
+    public init(
+        deleteAgents: [ApplicationDiscoveryClientTypes.DeleteAgent]? = nil
+    )
+    {
+        self.deleteAgents = deleteAgents
+    }
+}
+
+struct BatchDeleteAgentsInputBody: Swift.Equatable {
+    let deleteAgents: [ApplicationDiscoveryClientTypes.DeleteAgent]?
+}
+
+extension BatchDeleteAgentsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case deleteAgents
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let deleteAgentsContainer = try containerValues.decodeIfPresent([ApplicationDiscoveryClientTypes.DeleteAgent?].self, forKey: .deleteAgents)
+        var deleteAgentsDecoded0:[ApplicationDiscoveryClientTypes.DeleteAgent]? = nil
+        if let deleteAgentsContainer = deleteAgentsContainer {
+            deleteAgentsDecoded0 = [ApplicationDiscoveryClientTypes.DeleteAgent]()
+            for structure0 in deleteAgentsContainer {
+                if let structure0 = structure0 {
+                    deleteAgentsDecoded0?.append(structure0)
+                }
+            }
+        }
+        deleteAgents = deleteAgentsDecoded0
+    }
+}
+
+extension BatchDeleteAgentsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: BatchDeleteAgentsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.errors = output.errors
+        } else {
+            self.errors = nil
+        }
+    }
+}
+
+public struct BatchDeleteAgentsOutput: Swift.Equatable {
+    /// A list of agent IDs that failed to delete during the deletion task, each paired with an error message.
+    public var errors: [ApplicationDiscoveryClientTypes.BatchDeleteAgentError]?
+
+    public init(
+        errors: [ApplicationDiscoveryClientTypes.BatchDeleteAgentError]? = nil
+    )
+    {
+        self.errors = errors
+    }
+}
+
+struct BatchDeleteAgentsOutputBody: Swift.Equatable {
+    let errors: [ApplicationDiscoveryClientTypes.BatchDeleteAgentError]?
+}
+
+extension BatchDeleteAgentsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case errors
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let errorsContainer = try containerValues.decodeIfPresent([ApplicationDiscoveryClientTypes.BatchDeleteAgentError?].self, forKey: .errors)
+        var errorsDecoded0:[ApplicationDiscoveryClientTypes.BatchDeleteAgentError]? = nil
+        if let errorsContainer = errorsContainer {
+            errorsDecoded0 = [ApplicationDiscoveryClientTypes.BatchDeleteAgentError]()
+            for structure0 in errorsContainer {
+                if let structure0 = structure0 {
+                    errorsDecoded0?.append(structure0)
+                }
+            }
+        }
+        errors = errorsDecoded0
+    }
+}
+
+enum BatchDeleteAgentsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AuthorizationErrorException": return try await AuthorizationErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServerInternalErrorException": return try await ServerInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ApplicationDiscoveryClientTypes.BatchDeleteConfigurationTask: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case configurationType
+        case deletedConfigurations
+        case deletionWarnings
+        case endTime
+        case failedConfigurations
+        case requestedConfigurations
+        case startTime
+        case status
+        case taskId
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let configurationType = self.configurationType {
+            try encodeContainer.encode(configurationType.rawValue, forKey: .configurationType)
+        }
+        if let deletedConfigurations = deletedConfigurations {
+            var deletedConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .deletedConfigurations)
+            for configurationid0 in deletedConfigurations {
+                try deletedConfigurationsContainer.encode(configurationid0)
+            }
+        }
+        if let deletionWarnings = deletionWarnings {
+            var deletionWarningsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .deletionWarnings)
+            for deletionwarning0 in deletionWarnings {
+                try deletionWarningsContainer.encode(deletionwarning0)
+            }
+        }
+        if let endTime = self.endTime {
+            try encodeContainer.encodeTimestamp(endTime, format: .epochSeconds, forKey: .endTime)
+        }
+        if let failedConfigurations = failedConfigurations {
+            var failedConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .failedConfigurations)
+            for failedconfiguration0 in failedConfigurations {
+                try failedConfigurationsContainer.encode(failedconfiguration0)
+            }
+        }
+        if let requestedConfigurations = requestedConfigurations {
+            var requestedConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .requestedConfigurations)
+            for configurationid0 in requestedConfigurations {
+                try requestedConfigurationsContainer.encode(configurationid0)
+            }
+        }
+        if let startTime = self.startTime {
+            try encodeContainer.encodeTimestamp(startTime, format: .epochSeconds, forKey: .startTime)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+        if let taskId = self.taskId {
+            try encodeContainer.encode(taskId, forKey: .taskId)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let taskIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .taskId)
+        taskId = taskIdDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(ApplicationDiscoveryClientTypes.BatchDeleteConfigurationTaskStatus.self, forKey: .status)
+        status = statusDecoded
+        let startTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .startTime)
+        startTime = startTimeDecoded
+        let endTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .endTime)
+        endTime = endTimeDecoded
+        let configurationTypeDecoded = try containerValues.decodeIfPresent(ApplicationDiscoveryClientTypes.DeletionConfigurationItemType.self, forKey: .configurationType)
+        configurationType = configurationTypeDecoded
+        let requestedConfigurationsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .requestedConfigurations)
+        var requestedConfigurationsDecoded0:[Swift.String]? = nil
+        if let requestedConfigurationsContainer = requestedConfigurationsContainer {
+            requestedConfigurationsDecoded0 = [Swift.String]()
+            for string0 in requestedConfigurationsContainer {
+                if let string0 = string0 {
+                    requestedConfigurationsDecoded0?.append(string0)
+                }
+            }
+        }
+        requestedConfigurations = requestedConfigurationsDecoded0
+        let deletedConfigurationsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .deletedConfigurations)
+        var deletedConfigurationsDecoded0:[Swift.String]? = nil
+        if let deletedConfigurationsContainer = deletedConfigurationsContainer {
+            deletedConfigurationsDecoded0 = [Swift.String]()
+            for string0 in deletedConfigurationsContainer {
+                if let string0 = string0 {
+                    deletedConfigurationsDecoded0?.append(string0)
+                }
+            }
+        }
+        deletedConfigurations = deletedConfigurationsDecoded0
+        let failedConfigurationsContainer = try containerValues.decodeIfPresent([ApplicationDiscoveryClientTypes.FailedConfiguration?].self, forKey: .failedConfigurations)
+        var failedConfigurationsDecoded0:[ApplicationDiscoveryClientTypes.FailedConfiguration]? = nil
+        if let failedConfigurationsContainer = failedConfigurationsContainer {
+            failedConfigurationsDecoded0 = [ApplicationDiscoveryClientTypes.FailedConfiguration]()
+            for structure0 in failedConfigurationsContainer {
+                if let structure0 = structure0 {
+                    failedConfigurationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        failedConfigurations = failedConfigurationsDecoded0
+        let deletionWarningsContainer = try containerValues.decodeIfPresent([ApplicationDiscoveryClientTypes.DeletionWarning?].self, forKey: .deletionWarnings)
+        var deletionWarningsDecoded0:[ApplicationDiscoveryClientTypes.DeletionWarning]? = nil
+        if let deletionWarningsContainer = deletionWarningsContainer {
+            deletionWarningsDecoded0 = [ApplicationDiscoveryClientTypes.DeletionWarning]()
+            for structure0 in deletionWarningsContainer {
+                if let structure0 = structure0 {
+                    deletionWarningsDecoded0?.append(structure0)
+                }
+            }
+        }
+        deletionWarnings = deletionWarningsDecoded0
+    }
+}
+
+extension ApplicationDiscoveryClientTypes {
+    /// A metadata object that represents the deletion task being executed.
+    public struct BatchDeleteConfigurationTask: Swift.Equatable {
+        /// The type of configuration item to delete. Supported types are: SERVER.
+        public var configurationType: ApplicationDiscoveryClientTypes.DeletionConfigurationItemType?
+        /// The list of configuration IDs that were successfully deleted by the deletion task.
+        public var deletedConfigurations: [Swift.String]?
+        /// A list of configuration IDs that produced warnings regarding their deletion, paired with a warning message.
+        public var deletionWarnings: [ApplicationDiscoveryClientTypes.DeletionWarning]?
+        /// An epoch seconds timestamp (UTC) of when the deletion task was completed or failed.
+        public var endTime: ClientRuntime.Date?
+        /// A list of configuration IDs that failed to delete during the deletion task, each paired with an error message.
+        public var failedConfigurations: [ApplicationDiscoveryClientTypes.FailedConfiguration]?
+        /// The list of configuration IDs that were originally requested to be deleted by the deletion task.
+        public var requestedConfigurations: [Swift.String]?
+        /// An epoch seconds timestamp (UTC) of when the deletion task was started.
+        public var startTime: ClientRuntime.Date?
+        /// The current execution status of the deletion task. Valid status are: INITIALIZING | VALIDATING | DELETING | COMPLETED | FAILED.
+        public var status: ApplicationDiscoveryClientTypes.BatchDeleteConfigurationTaskStatus?
+        /// The deletion task's unique identifier.
+        public var taskId: Swift.String?
+
+        public init(
+            configurationType: ApplicationDiscoveryClientTypes.DeletionConfigurationItemType? = nil,
+            deletedConfigurations: [Swift.String]? = nil,
+            deletionWarnings: [ApplicationDiscoveryClientTypes.DeletionWarning]? = nil,
+            endTime: ClientRuntime.Date? = nil,
+            failedConfigurations: [ApplicationDiscoveryClientTypes.FailedConfiguration]? = nil,
+            requestedConfigurations: [Swift.String]? = nil,
+            startTime: ClientRuntime.Date? = nil,
+            status: ApplicationDiscoveryClientTypes.BatchDeleteConfigurationTaskStatus? = nil,
+            taskId: Swift.String? = nil
+        )
+        {
+            self.configurationType = configurationType
+            self.deletedConfigurations = deletedConfigurations
+            self.deletionWarnings = deletionWarnings
+            self.endTime = endTime
+            self.failedConfigurations = failedConfigurations
+            self.requestedConfigurations = requestedConfigurations
+            self.startTime = startTime
+            self.status = status
+            self.taskId = taskId
+        }
+    }
+
+}
+
+extension ApplicationDiscoveryClientTypes {
+    public enum BatchDeleteConfigurationTaskStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case completed
+        case deleting
+        case failed
+        case initializing
+        case validating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BatchDeleteConfigurationTaskStatus] {
+            return [
+                .completed,
+                .deleting,
+                .failed,
+                .initializing,
+                .validating,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .completed: return "COMPLETED"
+            case .deleting: return "DELETING"
+            case .failed: return "FAILED"
+            case .initializing: return "INITIALIZING"
+            case .validating: return "VALIDATING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = BatchDeleteConfigurationTaskStatus(rawValue: rawValue) ?? BatchDeleteConfigurationTaskStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension ApplicationDiscoveryClientTypes.BatchDeleteImportDataError: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case errorCode
@@ -534,11 +919,15 @@ extension ApplicationDiscoveryClientTypes {
 
 extension BatchDeleteImportDataInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case deleteHistory
         case importTaskIds
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let deleteHistory = self.deleteHistory {
+            try encodeContainer.encode(deleteHistory, forKey: .deleteHistory)
+        }
         if let importTaskIds = importTaskIds {
             var importTaskIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .importTaskIds)
             for importtaskidentifier0 in importTaskIds {
@@ -555,24 +944,30 @@ extension BatchDeleteImportDataInput: ClientRuntime.URLPathProvider {
 }
 
 public struct BatchDeleteImportDataInput: Swift.Equatable {
+    /// Set to true to remove the deleted import task from [DescribeImportTasks].
+    public var deleteHistory: Swift.Bool?
     /// The IDs for the import tasks that you want to delete.
     /// This member is required.
     public var importTaskIds: [Swift.String]?
 
     public init(
+        deleteHistory: Swift.Bool? = nil,
         importTaskIds: [Swift.String]? = nil
     )
     {
+        self.deleteHistory = deleteHistory
         self.importTaskIds = importTaskIds
     }
 }
 
 struct BatchDeleteImportDataInputBody: Swift.Equatable {
     let importTaskIds: [Swift.String]?
+    let deleteHistory: Swift.Bool?
 }
 
 extension BatchDeleteImportDataInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case deleteHistory
         case importTaskIds
     }
 
@@ -589,6 +984,8 @@ extension BatchDeleteImportDataInputBody: Swift.Decodable {
             }
         }
         importTaskIds = importTaskIdsDecoded0
+        let deleteHistoryDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deleteHistory)
+        deleteHistory = deleteHistoryDecoded
     }
 }
 
@@ -784,7 +1181,7 @@ extension ConflictErrorException {
     }
 }
 
-///
+/// Conflict error.
 public struct ConflictErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -1697,6 +2094,87 @@ extension ApplicationDiscoveryClientTypes {
     }
 }
 
+extension ApplicationDiscoveryClientTypes.DeleteAgent: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case agentId
+        case force
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let agentId = self.agentId {
+            try encodeContainer.encode(agentId, forKey: .agentId)
+        }
+        if force != false {
+            try encodeContainer.encode(force, forKey: .force)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let agentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .agentId)
+        agentId = agentIdDecoded
+        let forceDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .force) ?? false
+        force = forceDecoded
+    }
+}
+
+extension ApplicationDiscoveryClientTypes {
+    /// An object representing the agent or data collector to be deleted along with the optional configurations for error handling.
+    public struct DeleteAgent: Swift.Equatable {
+        /// The ID of the agent or data collector to delete.
+        /// This member is required.
+        public var agentId: Swift.String?
+        /// Optional flag used to force delete an agent or data collector. It is needed to delete any agent in HEALTHY/UNHEALTHY/RUNNING status. Note that deleting an agent that is actively reporting health causes it to be re-registered with a different agent ID after data collector re-connects with Amazon Web Services.
+        public var force: Swift.Bool
+
+        public init(
+            agentId: Swift.String? = nil,
+            force: Swift.Bool = false
+        )
+        {
+            self.agentId = agentId
+            self.force = force
+        }
+    }
+
+}
+
+extension ApplicationDiscoveryClientTypes {
+    public enum DeleteAgentErrorCode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case agentInUse
+        case internalServerError
+        case notFound
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DeleteAgentErrorCode] {
+            return [
+                .agentInUse,
+                .internalServerError,
+                .notFound,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .agentInUse: return "AGENT_IN_USE"
+            case .internalServerError: return "INTERNAL_SERVER_ERROR"
+            case .notFound: return "NOT_FOUND"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = DeleteAgentErrorCode(rawValue: rawValue) ?? DeleteAgentErrorCode.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension DeleteApplicationsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case configurationIds
@@ -1892,6 +2370,90 @@ enum DeleteTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension ApplicationDiscoveryClientTypes {
+    public enum DeletionConfigurationItemType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case server
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DeletionConfigurationItemType] {
+            return [
+                .server,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .server: return "SERVER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = DeletionConfigurationItemType(rawValue: rawValue) ?? DeletionConfigurationItemType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ApplicationDiscoveryClientTypes.DeletionWarning: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case configurationId
+        case warningCode
+        case warningText
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let configurationId = self.configurationId {
+            try encodeContainer.encode(configurationId, forKey: .configurationId)
+        }
+        if warningCode != 0 {
+            try encodeContainer.encode(warningCode, forKey: .warningCode)
+        }
+        if let warningText = self.warningText {
+            try encodeContainer.encode(warningText, forKey: .warningText)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let configurationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .configurationId)
+        configurationId = configurationIdDecoded
+        let warningCodeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .warningCode) ?? 0
+        warningCode = warningCodeDecoded
+        let warningTextDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .warningText)
+        warningText = warningTextDecoded
+    }
+}
+
+extension ApplicationDiscoveryClientTypes {
+    /// A configuration ID paired with a warning message.
+    public struct DeletionWarning: Swift.Equatable {
+        /// The unique identifier of the configuration that produced a warning.
+        public var configurationId: Swift.String?
+        /// The integer warning code associated with the warning message.
+        public var warningCode: Swift.Int
+        /// A descriptive message of the warning the associated configuration ID produced.
+        public var warningText: Swift.String?
+
+        public init(
+            configurationId: Swift.String? = nil,
+            warningCode: Swift.Int = 0,
+            warningText: Swift.String? = nil
+        )
+        {
+            self.configurationId = configurationId
+            self.warningCode = warningCode
+            self.warningText = warningText
+        }
+    }
+
+}
+
 extension DescribeAgentsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case agentIds
@@ -2066,6 +2628,108 @@ enum DescribeAgentsOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "AuthorizationErrorException": return try await AuthorizationErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "HomeRegionNotSetException": return try await HomeRegionNotSetException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServerInternalErrorException": return try await ServerInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DescribeBatchDeleteConfigurationTaskInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case taskId
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let taskId = self.taskId {
+            try encodeContainer.encode(taskId, forKey: .taskId)
+        }
+    }
+}
+
+extension DescribeBatchDeleteConfigurationTaskInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeBatchDeleteConfigurationTaskInput: Swift.Equatable {
+    /// The ID of the task to delete.
+    /// This member is required.
+    public var taskId: Swift.String?
+
+    public init(
+        taskId: Swift.String? = nil
+    )
+    {
+        self.taskId = taskId
+    }
+}
+
+struct DescribeBatchDeleteConfigurationTaskInputBody: Swift.Equatable {
+    let taskId: Swift.String?
+}
+
+extension DescribeBatchDeleteConfigurationTaskInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case taskId
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let taskIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .taskId)
+        taskId = taskIdDecoded
+    }
+}
+
+extension DescribeBatchDeleteConfigurationTaskOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeBatchDeleteConfigurationTaskOutputBody = try responseDecoder.decode(responseBody: data)
+            self.task = output.task
+        } else {
+            self.task = nil
+        }
+    }
+}
+
+public struct DescribeBatchDeleteConfigurationTaskOutput: Swift.Equatable {
+    /// The BatchDeleteConfigurationTask that represents the deletion task being executed.
+    public var task: ApplicationDiscoveryClientTypes.BatchDeleteConfigurationTask?
+
+    public init(
+        task: ApplicationDiscoveryClientTypes.BatchDeleteConfigurationTask? = nil
+    )
+    {
+        self.task = task
+    }
+}
+
+struct DescribeBatchDeleteConfigurationTaskOutputBody: Swift.Equatable {
+    let task: ApplicationDiscoveryClientTypes.BatchDeleteConfigurationTask?
+}
+
+extension DescribeBatchDeleteConfigurationTaskOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case task
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let taskDecoded = try containerValues.decodeIfPresent(ApplicationDiscoveryClientTypes.BatchDeleteConfigurationTask.self, forKey: .task)
+        task = taskDecoded
+    }
+}
+
+enum DescribeBatchDeleteConfigurationTaskOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AuthorizationErrorException": return try await AuthorizationErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "HomeRegionNotSetException": return try await HomeRegionNotSetException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ServerInternalErrorException": return try await ServerInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
@@ -3590,6 +4254,61 @@ extension ApplicationDiscoveryClientTypes {
     }
 }
 
+extension ApplicationDiscoveryClientTypes.FailedConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case configurationId
+        case errorMessage
+        case errorStatusCode
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let configurationId = self.configurationId {
+            try encodeContainer.encode(configurationId, forKey: .configurationId)
+        }
+        if let errorMessage = self.errorMessage {
+            try encodeContainer.encode(errorMessage, forKey: .errorMessage)
+        }
+        if errorStatusCode != 0 {
+            try encodeContainer.encode(errorStatusCode, forKey: .errorStatusCode)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let configurationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .configurationId)
+        configurationId = configurationIdDecoded
+        let errorStatusCodeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .errorStatusCode) ?? 0
+        errorStatusCode = errorStatusCodeDecoded
+        let errorMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorMessage)
+        errorMessage = errorMessageDecoded
+    }
+}
+
+extension ApplicationDiscoveryClientTypes {
+    /// A configuration ID paired with an error message.
+    public struct FailedConfiguration: Swift.Equatable {
+        /// The unique identifier of the configuration the failed to delete.
+        public var configurationId: Swift.String?
+        /// A descriptive message indicating why the associated configuration failed to delete.
+        public var errorMessage: Swift.String?
+        /// The integer error code associated with the error message.
+        public var errorStatusCode: Swift.Int
+
+        public init(
+            configurationId: Swift.String? = nil,
+            errorMessage: Swift.String? = nil,
+            errorStatusCode: Swift.Int = 0
+        )
+        {
+            self.configurationId = configurationId
+            self.errorMessage = errorMessage
+            self.errorStatusCode = errorStatusCode
+        }
+    }
+
+}
+
 extension ApplicationDiscoveryClientTypes.Filter: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case condition
@@ -4273,6 +4992,61 @@ struct InvalidParameterValueExceptionBody: Swift.Equatable {
 }
 
 extension InvalidParameterValueExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension LimitExceededException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: LimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// The limit of 200 configuration IDs per request has been exceeded.
+public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "LimitExceededException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct LimitExceededExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension LimitExceededExceptionBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case message
     }
@@ -5179,6 +5953,135 @@ extension ServerInternalErrorExceptionBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
+    }
+}
+
+extension StartBatchDeleteConfigurationTaskInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case configurationIds
+        case configurationType
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let configurationIds = configurationIds {
+            var configurationIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .configurationIds)
+            for configurationid0 in configurationIds {
+                try configurationIdsContainer.encode(configurationid0)
+            }
+        }
+        if let configurationType = self.configurationType {
+            try encodeContainer.encode(configurationType.rawValue, forKey: .configurationType)
+        }
+    }
+}
+
+extension StartBatchDeleteConfigurationTaskInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct StartBatchDeleteConfigurationTaskInput: Swift.Equatable {
+    /// The list of configuration IDs that will be deleted by the task.
+    /// This member is required.
+    public var configurationIds: [Swift.String]?
+    /// The type of configuration item to delete. Supported types are: SERVER.
+    /// This member is required.
+    public var configurationType: ApplicationDiscoveryClientTypes.DeletionConfigurationItemType?
+
+    public init(
+        configurationIds: [Swift.String]? = nil,
+        configurationType: ApplicationDiscoveryClientTypes.DeletionConfigurationItemType? = nil
+    )
+    {
+        self.configurationIds = configurationIds
+        self.configurationType = configurationType
+    }
+}
+
+struct StartBatchDeleteConfigurationTaskInputBody: Swift.Equatable {
+    let configurationType: ApplicationDiscoveryClientTypes.DeletionConfigurationItemType?
+    let configurationIds: [Swift.String]?
+}
+
+extension StartBatchDeleteConfigurationTaskInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case configurationIds
+        case configurationType
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let configurationTypeDecoded = try containerValues.decodeIfPresent(ApplicationDiscoveryClientTypes.DeletionConfigurationItemType.self, forKey: .configurationType)
+        configurationType = configurationTypeDecoded
+        let configurationIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .configurationIds)
+        var configurationIdsDecoded0:[Swift.String]? = nil
+        if let configurationIdsContainer = configurationIdsContainer {
+            configurationIdsDecoded0 = [Swift.String]()
+            for string0 in configurationIdsContainer {
+                if let string0 = string0 {
+                    configurationIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        configurationIds = configurationIdsDecoded0
+    }
+}
+
+extension StartBatchDeleteConfigurationTaskOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: StartBatchDeleteConfigurationTaskOutputBody = try responseDecoder.decode(responseBody: data)
+            self.taskId = output.taskId
+        } else {
+            self.taskId = nil
+        }
+    }
+}
+
+public struct StartBatchDeleteConfigurationTaskOutput: Swift.Equatable {
+    /// The unique identifier associated with the newly started deletion task.
+    public var taskId: Swift.String?
+
+    public init(
+        taskId: Swift.String? = nil
+    )
+    {
+        self.taskId = taskId
+    }
+}
+
+struct StartBatchDeleteConfigurationTaskOutputBody: Swift.Equatable {
+    let taskId: Swift.String?
+}
+
+extension StartBatchDeleteConfigurationTaskOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case taskId
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let taskIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .taskId)
+        taskId = taskIdDecoded
+    }
+}
+
+enum StartBatchDeleteConfigurationTaskOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AuthorizationErrorException": return try await AuthorizationErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "HomeRegionNotSetException": return try await HomeRegionNotSetException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotPermittedException": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServerInternalErrorException": return try await ServerInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 

@@ -2,7 +2,7 @@
 
 import ClientRuntime
 
-/// Amazon Inspector is a vulnerability discovery service that automates continuous scanning for security vulnerabilities within your Amazon EC2 and Amazon ECR environments.
+/// Amazon Inspector is a vulnerability discovery service that automates continuous scanning for security vulnerabilities within your Amazon EC2, Amazon ECR, and Amazon Web Services Lambda environments.
 public protocol Inspector2ClientProtocol {
     /// Associates an Amazon Web Services account with an Amazon Inspector delegated administrator. An HTTP 200 response indicates the association was successfully started, but doesn’t indicate whether it was completed. You can check if the association completed by using [ListMembers](https://docs.aws.amazon.com/inspector/v2/APIReference/API_ListMembers.html) for multiple accounts or [GetMembers](https://docs.aws.amazon.com/inspector/v2/APIReference/API_GetMember.html) for a single account.
     ///
@@ -133,7 +133,7 @@ public protocol Inspector2ClientProtocol {
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
     func cancelSbomExport(input: CancelSbomExportInput) async throws -> CancelSbomExportOutput
-    /// Creates a filter resource using specified filter criteria.
+    /// Creates a filter resource using specified filter criteria. When the filter action is set to SUPPRESS this action creates a suppression rule.
     ///
     /// - Parameter CreateFilterInput : [no documentation found]
     ///

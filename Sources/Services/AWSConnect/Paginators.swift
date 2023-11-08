@@ -691,6 +691,7 @@ extension ConnectClient {
 extension ListPhoneNumbersV2Input: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> ListPhoneNumbersV2Input {
         return ListPhoneNumbersV2Input(
+            instanceId: self.instanceId,
             maxResults: self.maxResults,
             nextToken: token,
             phoneNumberCountryCodes: self.phoneNumberCountryCodes,
@@ -1327,6 +1328,7 @@ extension ConnectClient {
 extension SearchAvailablePhoneNumbersInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> SearchAvailablePhoneNumbersInput {
         return SearchAvailablePhoneNumbersInput(
+            instanceId: self.instanceId,
             maxResults: self.maxResults,
             nextToken: token,
             phoneNumberCountryCode: self.phoneNumberCountryCode,

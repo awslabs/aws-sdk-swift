@@ -7514,7 +7514,7 @@ extension DynamoDBClientTypes {
         public var exportStatus: DynamoDBClientTypes.ExportStatus?
         /// Point in time from which table data was exported.
         public var exportTime: ClientRuntime.Date?
-        /// Choice of whether to execute as a full export or incremental export. Valid values are FULL_EXPORT or INCREMENTAL_EXPORT. If INCREMENTAL_EXPORT is provided, the IncrementalExportSpecification must also be used.
+        /// The type of export that was performed. Valid values are FULL_EXPORT or INCREMENTAL_EXPORT.
         public var exportType: DynamoDBClientTypes.ExportType?
         /// Status code for the result of the failed export.
         public var failureCode: Swift.String?
@@ -7755,7 +7755,7 @@ extension DynamoDBClientTypes {
         public var exportArn: Swift.String?
         /// Export can be in one of the following states: IN_PROGRESS, COMPLETED, or FAILED.
         public var exportStatus: DynamoDBClientTypes.ExportStatus?
-        /// Choice of whether to execute as a full export or incremental export. Valid values are FULL_EXPORT or INCREMENTAL_EXPORT. If INCREMENTAL_EXPORT is provided, the IncrementalExportSpecification must also be used.
+        /// The type of export that was performed. Valid values are FULL_EXPORT or INCREMENTAL_EXPORT.
         public var exportType: DynamoDBClientTypes.ExportType?
 
         public init(
@@ -7838,7 +7838,7 @@ public struct ExportTableToPointInTimeInput: Swift.Equatable {
     public var exportFormat: DynamoDBClientTypes.ExportFormat?
     /// Time in the past from which to export table data, counted in seconds from the start of the Unix epoch. The table export will be a snapshot of the table's state at this point in time.
     public var exportTime: ClientRuntime.Date?
-    /// Choice of whether to execute as a full export or incremental export. Valid values are FULL_EXPORT or INCREMENTAL_EXPORT. If INCREMENTAL_EXPORT is provided, the IncrementalExportSpecification must also be used.
+    /// Choice of whether to execute as a full export or incremental export. Valid values are FULL_EXPORT or INCREMENTAL_EXPORT. The default value is FULL_EXPORT. If INCREMENTAL_EXPORT is provided, the IncrementalExportSpecification must also be used.
     public var exportType: DynamoDBClientTypes.ExportType?
     /// Optional object containing the parameters specific to an incremental export.
     public var incrementalExportSpecification: DynamoDBClientTypes.IncrementalExportSpecification?
@@ -9977,7 +9977,7 @@ extension DynamoDBClientTypes {
         public var exportFromTime: ClientRuntime.Date?
         /// Time in the past which provides the exclusive end range for the export table's data, counted in seconds from the start of the Unix epoch. The incremental export will reflect the table's state just prior to this point in time. If this is not provided, the latest time with data available will be used.
         public var exportToTime: ClientRuntime.Date?
-        /// Choice of whether to output the previous item image prior to the start time of the incremental export. Valid values are NEW_AND_OLD_IMAGES and NEW_IMAGES.
+        /// The view type that was chosen for the export. Valid values are NEW_AND_OLD_IMAGES and NEW_IMAGES. The default value is NEW_AND_OLD_IMAGES.
         public var exportViewType: DynamoDBClientTypes.ExportViewType?
 
         public init(
@@ -16282,7 +16282,7 @@ public struct ScanInput: Swift.Equatable {
     public var expressionAttributeNames: [Swift.String:Swift.String]?
     /// One or more values that can be substituted in an expression. Use the : (colon) character in an expression to dereference an attribute value. For example, suppose that you wanted to check whether the value of the ProductStatus attribute was one of the following: Available | Backordered | Discontinued You would first need to specify ExpressionAttributeValues as follows: { ":avail":{"S":"Available"}, ":back":{"S":"Backordered"}, ":disc":{"S":"Discontinued"} } You could then use these values in an expression, such as this: ProductStatus IN (:avail, :back, :disc) For more information on expression attribute values, see [Condition Expressions](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.SpecifyingConditions.html) in the Amazon DynamoDB Developer Guide.
     public var expressionAttributeValues: [Swift.String:DynamoDBClientTypes.AttributeValue]?
-    /// A string that contains conditions that DynamoDB applies after the Scan operation, but before the data is returned to you. Items that do not satisfy the FilterExpression criteria are not returned. A FilterExpression is applied after the items have already been read; the process of filtering does not consume any additional read capacity units. For more information, see [Filter Expressions](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/QueryAndScan.html#Query.FilterExpression) in the Amazon DynamoDB Developer Guide.
+    /// A string that contains conditions that DynamoDB applies after the Scan operation, but before the data is returned to you. Items that do not satisfy the FilterExpression criteria are not returned. A FilterExpression is applied after the items have already been read; the process of filtering does not consume any additional read capacity units. For more information, see [Filter Expressions](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Scan.html#Scan.FilterExpression) in the Amazon DynamoDB Developer Guide.
     public var filterExpression: Swift.String?
     /// The name of a secondary index to scan. This index can be any local secondary index or global secondary index. Note that if you use the IndexName parameter, you must also provide TableName.
     public var indexName: Swift.String?
@@ -18651,6 +18651,8 @@ extension TransactionCanceledException {
 /// * An item size becomes too large (larger than 400 KB), or a local secondary index (LSI) becomes too large, or a similar validation error occurs because of changes made by the transaction.
 ///
 /// * There is a user error, such as an invalid data format.
+///
+/// * There is an ongoing TransactWriteItems operation that conflicts with a concurrent TransactWriteItems request. In this case the TransactWriteItems operation fails with a TransactionCanceledException.
 ///
 ///
 /// DynamoDB cancels a TransactGetItems request under the following circumstances:

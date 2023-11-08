@@ -125,6 +125,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// - `ClusterNotFoundFault` : The ClusterIdentifier parameter does not refer to an existing cluster.
     /// - `PartnerNotFoundFault` : The name of the partner was not found.
     /// - `UnauthorizedPartnerIntegrationFault` : The partner integration is not authorized.
+    /// - `UnsupportedOperationFault` : The requested operation isn't supported.
     public func addPartner(input: AddPartnerInput) async throws -> AddPartnerOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -539,6 +540,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `ClusterNotFoundFault` : The ClusterIdentifier parameter does not refer to an existing cluster.
     /// - `ClusterSnapshotAlreadyExistsFault` : The value specified as a snapshot identifier is already used by an existing snapshot.
     /// - `ClusterSnapshotNotFoundFault` : The snapshot identifier does not refer to an existing cluster snapshot.
     /// - `ClusterSnapshotQuotaExceededFault` : The request would result in the user exceeding the allowed number of cluster snapshots.
@@ -649,12 +651,14 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// - `InvalidSubnet` : The requested subnet is not valid, or not all of the subnets are in the same VPC.
     /// - `InvalidTagFault` : The tag is invalid.
     /// - `InvalidVPCNetworkStateFault` : The cluster subnet group does not cover all Availability Zones.
+    /// - `Ipv6CidrBlockNotFoundFault` : There are no subnets in your VPC with associated IPv6 CIDR blocks. To use dual-stack mode, associate an IPv6 CIDR block with each subnet in your VPC.
     /// - `LimitExceededFault` : The encryption key has exceeded its grant limit in Amazon Web Services KMS.
     /// - `NumberOfNodesPerClusterLimitExceededFault` : The operation would exceed the number of nodes allowed for a cluster.
     /// - `NumberOfNodesQuotaExceededFault` : The operation would exceed the number of nodes allotted to the account. For information about increasing your quota, go to [Limits in Amazon Redshift](https://docs.aws.amazon.com/redshift/latest/mgmt/amazon-redshift-limits.html) in the Amazon Redshift Cluster Management Guide.
     /// - `SnapshotScheduleNotFoundFault` : We could not find the specified snapshot schedule.
     /// - `TagLimitExceededFault` : You have exceeded the number of tags allowed.
     /// - `UnauthorizedOperation` : Your account is not authorized to perform the requested operation.
+    /// - `UnsupportedOperationFault` : The requested operation isn't supported.
     public func createCluster(input: CreateClusterInput) async throws -> CreateClusterOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1140,12 +1144,14 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `ClusterNotFoundFault` : The ClusterIdentifier parameter does not refer to an existing cluster.
     /// - `InvalidScheduledActionFault` : The scheduled action is not valid.
     /// - `InvalidScheduleFault` : The schedule you submitted isn't valid.
     /// - `ScheduledActionAlreadyExistsFault` : The scheduled action already exists.
     /// - `ScheduledActionQuotaExceededFault` : The quota for scheduled actions exceeded.
     /// - `ScheduledActionTypeUnsupportedFault` : The action type specified for a scheduled action is not supported.
     /// - `UnauthorizedOperation` : Your account is not authorized to perform the requested operation.
+    /// - `UnsupportedOperationFault` : The requested operation isn't supported.
     public func createScheduledAction(input: CreateScheduledActionInput) async throws -> CreateScheduledActionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1934,6 +1940,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// - `ClusterNotFoundFault` : The ClusterIdentifier parameter does not refer to an existing cluster.
     /// - `PartnerNotFoundFault` : The name of the partner was not found.
     /// - `UnauthorizedPartnerIntegrationFault` : The partner integration is not authorized.
+    /// - `UnsupportedOperationFault` : The requested operation isn't supported.
     public func deletePartner(input: DeletePartnerInput) async throws -> DeletePartnerOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1964,6 +1971,51 @@ extension RedshiftClient: RedshiftClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeletePartnerOutput, DeletePartnerOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeletePartnerOutput, DeletePartnerOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeletePartnerOutput, DeletePartnerOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Deletes the resource policy for a specified resource.
+    ///
+    /// - Parameter DeleteResourcePolicyInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteResourcePolicyOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFoundFault` : The resource could not be found.
+    /// - `UnsupportedOperationFault` : The requested operation isn't supported.
+    public func deleteResourcePolicy(input: DeleteResourcePolicyInput) async throws -> DeleteResourcePolicyOutput
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteResourcePolicy")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "redshift")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<DeleteResourcePolicyInput, DeleteResourcePolicyOutput, DeleteResourcePolicyOutputError>(id: "deleteResourcePolicy")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput, DeleteResourcePolicyOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteResourcePolicyOutput, DeleteResourcePolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(xmlName: "DeleteResourcePolicyMessage"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(contentType: "application/x-www-form-urlencoded"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteResourcePolicyOutput, DeleteResourcePolicyOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteResourcePolicyOutput, DeleteResourcePolicyOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteResourcePolicyOutput, DeleteResourcePolicyOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteResourcePolicyOutput, DeleteResourcePolicyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2677,7 +2729,7 @@ extension RedshiftClient: RedshiftClientProtocol {
         return result
     }
 
-    /// Contains information for custom domain associations for a cluster.
+    /// Contains information about custom domain associations for a cluster.
     ///
     /// - Parameter DescribeCustomDomainAssociationsInput : [no documentation found]
     ///
@@ -3197,6 +3249,52 @@ extension RedshiftClient: RedshiftClientProtocol {
         return result
     }
 
+    /// Returns a list of inbound integrations.
+    ///
+    /// - Parameter DescribeInboundIntegrationsInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeInboundIntegrationsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `IntegrationNotFoundFault` : The integration can't be found.
+    /// - `InvalidNamespaceFault` : The namespace isn't valid because the namespace doesn't exist. Provide a valid namespace.
+    /// - `UnsupportedOperationFault` : The requested operation isn't supported.
+    public func describeInboundIntegrations(input: DescribeInboundIntegrationsInput) async throws -> DescribeInboundIntegrationsOutput
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeInboundIntegrations")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "redshift")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<DescribeInboundIntegrationsInput, DescribeInboundIntegrationsOutput, DescribeInboundIntegrationsOutputError>(id: "describeInboundIntegrations")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeInboundIntegrationsInput, DescribeInboundIntegrationsOutput, DescribeInboundIntegrationsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeInboundIntegrationsInput, DescribeInboundIntegrationsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeInboundIntegrationsOutput, DescribeInboundIntegrationsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeInboundIntegrationsInput, DescribeInboundIntegrationsOutput>(xmlName: "DescribeInboundIntegrationsMessage"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeInboundIntegrationsInput, DescribeInboundIntegrationsOutput>(contentType: "application/x-www-form-urlencoded"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeInboundIntegrationsOutput, DescribeInboundIntegrationsOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeInboundIntegrationsOutput, DescribeInboundIntegrationsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeInboundIntegrationsOutput, DescribeInboundIntegrationsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeInboundIntegrationsOutput, DescribeInboundIntegrationsOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Describes whether information, such as queries and connection attempts, is being logged for the specified Amazon Redshift cluster.
     ///
     /// - Parameter DescribeLoggingStatusInput :
@@ -3207,6 +3305,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ClusterNotFoundFault` : The ClusterIdentifier parameter does not refer to an existing cluster.
+    /// - `UnsupportedOperationFault` : The requested operation isn't supported.
     public func describeLoggingStatus(input: DescribeLoggingStatusInput) async throws -> DescribeLoggingStatusOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3339,6 +3438,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// __Possible Exceptions:__
     /// - `ClusterNotFoundFault` : The ClusterIdentifier parameter does not refer to an existing cluster.
     /// - `UnauthorizedPartnerIntegrationFault` : The partner integration is not authorized.
+    /// - `UnsupportedOperationFault` : The requested operation isn't supported.
     public func describePartners(input: DescribePartnersInput) async throws -> DescribePartnersOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3521,6 +3621,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// __Possible Exceptions:__
     /// - `ClusterNotFoundFault` : The ClusterIdentifier parameter does not refer to an existing cluster.
     /// - `ResizeNotFoundFault` : A resize operation for the specified cluster is not found.
+    /// - `UnsupportedOperationFault` : The requested operation isn't supported.
     public func describeResize(input: DescribeResizeInput) async throws -> DescribeResizeOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3886,6 +3987,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// __Possible Exceptions:__
     /// - `ClusterNotFoundFault` : The ClusterIdentifier parameter does not refer to an existing cluster.
     /// - `InvalidClusterStateFault` : The specified cluster is not in the available state.
+    /// - `UnsupportedOperationFault` : The requested operation isn't supported.
     public func disableLogging(input: DisableLoggingInput) async throws -> DisableLoggingOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3933,6 +4035,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// - `InvalidClusterStateFault` : The specified cluster is not in the available state.
     /// - `SnapshotCopyAlreadyDisabledFault` : The cluster already has cross-region snapshot copy disabled.
     /// - `UnauthorizedOperation` : Your account is not authorized to perform the requested operation.
+    /// - `UnsupportedOperationFault` : The requested operation isn't supported.
     public func disableSnapshotCopy(input: DisableSnapshotCopyInput) async throws -> DisableSnapshotCopyOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4027,6 +4130,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// - `InvalidClusterStateFault` : The specified cluster is not in the available state.
     /// - `InvalidS3BucketNameFault` : The S3 bucket name is invalid. For more information about naming rules, go to [Bucket Restrictions and Limitations](https://docs.aws.amazon.com/AmazonS3/latest/dev/BucketRestrictions.html) in the Amazon Simple Storage Service (S3) Developer Guide.
     /// - `InvalidS3KeyPrefixFault` : The string specified for the logging S3 key prefix does not comply with the documented constraints.
+    /// - `UnsupportedOperationFault` : The requested operation isn't supported.
     public func enableLogging(input: EnableLoggingInput) async throws -> EnableLoggingOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4111,6 +4215,53 @@ extension RedshiftClient: RedshiftClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<EnableSnapshotCopyOutput, EnableSnapshotCopyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<EnableSnapshotCopyOutput, EnableSnapshotCopyOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<EnableSnapshotCopyOutput, EnableSnapshotCopyOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Fails over the primary compute unit of the specified Multi-AZ cluster to another Availability Zone.
+    ///
+    /// - Parameter FailoverPrimaryComputeInput : [no documentation found]
+    ///
+    /// - Returns: `FailoverPrimaryComputeOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ClusterNotFoundFault` : The ClusterIdentifier parameter does not refer to an existing cluster.
+    /// - `InvalidClusterStateFault` : The specified cluster is not in the available state.
+    /// - `UnauthorizedOperation` : Your account is not authorized to perform the requested operation.
+    /// - `UnsupportedOperationFault` : The requested operation isn't supported.
+    public func failoverPrimaryCompute(input: FailoverPrimaryComputeInput) async throws -> FailoverPrimaryComputeOutput
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "failoverPrimaryCompute")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "redshift")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<FailoverPrimaryComputeInput, FailoverPrimaryComputeOutput, FailoverPrimaryComputeOutputError>(id: "failoverPrimaryCompute")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<FailoverPrimaryComputeInput, FailoverPrimaryComputeOutput, FailoverPrimaryComputeOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<FailoverPrimaryComputeInput, FailoverPrimaryComputeOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<FailoverPrimaryComputeOutput, FailoverPrimaryComputeOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<FailoverPrimaryComputeInput, FailoverPrimaryComputeOutput>(xmlName: "FailoverPrimaryComputeInputMessage"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<FailoverPrimaryComputeInput, FailoverPrimaryComputeOutput>(contentType: "application/x-www-form-urlencoded"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, FailoverPrimaryComputeOutput, FailoverPrimaryComputeOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<FailoverPrimaryComputeOutput, FailoverPrimaryComputeOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<FailoverPrimaryComputeOutput, FailoverPrimaryComputeOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<FailoverPrimaryComputeOutput, FailoverPrimaryComputeOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -4305,6 +4456,52 @@ extension RedshiftClient: RedshiftClientProtocol {
         return result
     }
 
+    /// Get the resource policy for a specified resource.
+    ///
+    /// - Parameter GetResourcePolicyInput : [no documentation found]
+    ///
+    /// - Returns: `GetResourcePolicyOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidPolicyFault` : The resource policy isn't valid.
+    /// - `ResourceNotFoundFault` : The resource could not be found.
+    /// - `UnsupportedOperationFault` : The requested operation isn't supported.
+    public func getResourcePolicy(input: GetResourcePolicyInput) async throws -> GetResourcePolicyOutput
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getResourcePolicy")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "redshift")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<GetResourcePolicyInput, GetResourcePolicyOutput, GetResourcePolicyOutputError>(id: "getResourcePolicy")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput, GetResourcePolicyOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetResourcePolicyOutput, GetResourcePolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(xmlName: "GetResourcePolicyMessage"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(contentType: "application/x-www-form-urlencoded"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetResourcePolicyOutput, GetResourcePolicyOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetResourcePolicyOutput, GetResourcePolicyOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetResourcePolicyOutput, GetResourcePolicyOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetResourcePolicyOutput, GetResourcePolicyOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// This operation is retired. Calling this operation does not change AQUA configuration. Amazon Redshift automatically determines whether to use AQUA (Advanced Query Accelerator).
     ///
     /// - Parameter ModifyAquaConfigurationInput : [no documentation found]
@@ -4420,6 +4617,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// - `InvalidClusterTrackFault` : The provided cluster track name is not valid.
     /// - `InvalidElasticIpFault` : The Elastic IP (EIP) is invalid or cannot be found.
     /// - `InvalidRetentionPeriodFault` : The retention period specified is either in the past or is not a valid value. The value must be either -1 or an integer between 1 and 3,653.
+    /// - `Ipv6CidrBlockNotFoundFault` : There are no subnets in your VPC with associated IPv6 CIDR blocks. To use dual-stack mode, associate an IPv6 CIDR block with each subnet in your VPC.
     /// - `LimitExceededFault` : The encryption key has exceeded its grant limit in Amazon Web Services KMS.
     /// - `NumberOfNodesPerClusterLimitExceededFault` : The operation would exceed the number of nodes allowed for a cluster.
     /// - `NumberOfNodesQuotaExceededFault` : The operation would exceed the number of nodes allotted to the account. For information about increasing your quota, go to [Limits in Amazon Redshift](https://docs.aws.amazon.com/redshift/latest/mgmt/amazon-redshift-limits.html) in the Amazon Redshift Cluster Management Guide.
@@ -4473,6 +4671,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// - `ClusterNotFoundFault` : The ClusterIdentifier parameter does not refer to an existing cluster.
     /// - `ClusterOnLatestRevisionFault` : Cluster is already on the latest database revision.
     /// - `InvalidClusterStateFault` : The specified cluster is not in the available state.
+    /// - `UnsupportedOperationFault` : The requested operation isn't supported.
     public func modifyClusterDbRevision(input: ModifyClusterDbRevisionInput) async throws -> ModifyClusterDbRevisionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4939,11 +5138,13 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `ClusterNotFoundFault` : The ClusterIdentifier parameter does not refer to an existing cluster.
     /// - `InvalidScheduledActionFault` : The scheduled action is not valid.
     /// - `InvalidScheduleFault` : The schedule you submitted isn't valid.
     /// - `ScheduledActionNotFoundFault` : The scheduled action cannot be found.
     /// - `ScheduledActionTypeUnsupportedFault` : The action type specified for a scheduled action is not supported.
     /// - `UnauthorizedOperation` : Your account is not authorized to perform the requested operation.
+    /// - `UnsupportedOperationFault` : The requested operation isn't supported.
     public func modifyScheduledAction(input: ModifyScheduledActionInput) async throws -> ModifyScheduledActionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -5129,6 +5330,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// __Possible Exceptions:__
     /// - `ClusterNotFoundFault` : The ClusterIdentifier parameter does not refer to an existing cluster.
     /// - `InvalidClusterStateFault` : The specified cluster is not in the available state.
+    /// - `UnsupportedOperationFault` : The requested operation isn't supported.
     public func pauseCluster(input: PauseClusterInput) async throws -> PauseClusterOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -5206,6 +5408,53 @@ extension RedshiftClient: RedshiftClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PurchaseReservedNodeOfferingOutput, PurchaseReservedNodeOfferingOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PurchaseReservedNodeOfferingOutput, PurchaseReservedNodeOfferingOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PurchaseReservedNodeOfferingOutput, PurchaseReservedNodeOfferingOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Updates the resource policy for a specified resource.
+    ///
+    /// - Parameter PutResourcePolicyInput : [no documentation found]
+    ///
+    /// - Returns: `PutResourcePolicyOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictPolicyUpdateFault` : There is a conflict while updating the resource policy.
+    /// - `InvalidPolicyFault` : The resource policy isn't valid.
+    /// - `ResourceNotFoundFault` : The resource could not be found.
+    /// - `UnsupportedOperationFault` : The requested operation isn't supported.
+    public func putResourcePolicy(input: PutResourcePolicyInput) async throws -> PutResourcePolicyOutput
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "putResourcePolicy")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "redshift")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<PutResourcePolicyInput, PutResourcePolicyOutput, PutResourcePolicyOutputError>(id: "putResourcePolicy")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput, PutResourcePolicyOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutResourcePolicyOutput, PutResourcePolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(xmlName: "PutResourcePolicyMessage"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(contentType: "application/x-www-form-urlencoded"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutResourcePolicyOutput, PutResourcePolicyOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutResourcePolicyOutput, PutResourcePolicyOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutResourcePolicyOutput, PutResourcePolicyOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutResourcePolicyOutput, PutResourcePolicyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -5457,6 +5706,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// - `InvalidSubnet` : The requested subnet is not valid, or not all of the subnets are in the same VPC.
     /// - `InvalidTagFault` : The tag is invalid.
     /// - `InvalidVPCNetworkStateFault` : The cluster subnet group does not cover all Availability Zones.
+    /// - `Ipv6CidrBlockNotFoundFault` : There are no subnets in your VPC with associated IPv6 CIDR blocks. To use dual-stack mode, associate an IPv6 CIDR block with each subnet in your VPC.
     /// - `LimitExceededFault` : The encryption key has exceeded its grant limit in Amazon Web Services KMS.
     /// - `NumberOfNodesPerClusterLimitExceededFault` : The operation would exceed the number of nodes allowed for a cluster.
     /// - `NumberOfNodesQuotaExceededFault` : The operation would exceed the number of nodes allotted to the account. For information about increasing your quota, go to [Limits in Amazon Redshift](https://docs.aws.amazon.com/redshift/latest/mgmt/amazon-redshift-limits.html) in the Amazon Redshift Cluster Management Guide.
@@ -5564,6 +5814,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// - `ClusterNotFoundFault` : The ClusterIdentifier parameter does not refer to an existing cluster.
     /// - `InsufficientClusterCapacityFault` : The number of nodes specified exceeds the allotted capacity of the cluster.
     /// - `InvalidClusterStateFault` : The specified cluster is not in the available state.
+    /// - `UnsupportedOperationFault` : The requested operation isn't supported.
     public func resumeCluster(input: ResumeClusterInput) async throws -> ResumeClusterOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -5753,6 +6004,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// - `ClusterNotFoundFault` : The ClusterIdentifier parameter does not refer to an existing cluster.
     /// - `DependentServiceRequestThrottlingFault` : The request cannot be completed because a dependent service is throttling requests made by Amazon Redshift on your behalf. Wait and retry the request.
     /// - `InvalidClusterStateFault` : The specified cluster is not in the available state.
+    /// - `UnsupportedOperationFault` : The requested operation isn't supported.
     public func rotateEncryptionKey(input: RotateEncryptionKeyInput) async throws -> RotateEncryptionKeyOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -5799,6 +6051,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// - `ClusterNotFoundFault` : The ClusterIdentifier parameter does not refer to an existing cluster.
     /// - `PartnerNotFoundFault` : The name of the partner was not found.
     /// - `UnauthorizedPartnerIntegrationFault` : The partner integration is not authorized.
+    /// - `UnsupportedOperationFault` : The requested operation isn't supported.
     public func updatePartnerStatus(input: UpdatePartnerStatusInput) async throws -> UpdatePartnerStatusOutput
     {
         let context = ClientRuntime.HttpContextBuilder()

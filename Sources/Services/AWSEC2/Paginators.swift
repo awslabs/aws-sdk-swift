@@ -131,6 +131,42 @@ extension PaginatorSequence where Input == DescribeByoipCidrsInput, Output == De
     }
 }
 extension EC2Client {
+    /// Paginate over `[DescribeCapacityBlockOfferingsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeCapacityBlockOfferingsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeCapacityBlockOfferingsOutput`
+    public func describeCapacityBlockOfferingsPaginated(input: DescribeCapacityBlockOfferingsInput) -> ClientRuntime.PaginatorSequence<DescribeCapacityBlockOfferingsInput, DescribeCapacityBlockOfferingsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeCapacityBlockOfferingsInput, DescribeCapacityBlockOfferingsOutput>(input: input, inputKey: \DescribeCapacityBlockOfferingsInput.nextToken, outputKey: \DescribeCapacityBlockOfferingsOutput.nextToken, paginationFunction: self.describeCapacityBlockOfferings(input:))
+    }
+}
+
+extension DescribeCapacityBlockOfferingsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeCapacityBlockOfferingsInput {
+        return DescribeCapacityBlockOfferingsInput(
+            capacityDurationHours: self.capacityDurationHours,
+            dryRun: self.dryRun,
+            endDateRange: self.endDateRange,
+            instanceCount: self.instanceCount,
+            instanceType: self.instanceType,
+            maxResults: self.maxResults,
+            nextToken: token,
+            startDateRange: self.startDateRange
+        )}
+}
+
+extension PaginatorSequence where Input == DescribeCapacityBlockOfferingsInput, Output == DescribeCapacityBlockOfferingsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `describeCapacityBlockOfferingsPaginated`
+    /// to access the nested member `[EC2ClientTypes.CapacityBlockOffering]`
+    /// - Returns: `[EC2ClientTypes.CapacityBlockOffering]`
+    public func capacityBlockOfferings() async throws -> [EC2ClientTypes.CapacityBlockOffering] {
+        return try await self.asyncCompactMap { item in item.capacityBlockOfferings }
+    }
+}
+extension EC2Client {
     /// Paginate over `[DescribeCapacityReservationFleetsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -877,6 +913,7 @@ extension DescribeImagesInput: ClientRuntime.PaginateToken {
             filters: self.filters,
             imageIds: self.imageIds,
             includeDeprecated: self.includeDeprecated,
+            includeDisabled: self.includeDisabled,
             maxResults: self.maxResults,
             nextToken: token,
             owners: self.owners
@@ -4124,6 +4161,39 @@ extension PaginatorSequence where Input == GetNetworkInsightsAccessScopeAnalysis
     /// - Returns: `[EC2ClientTypes.AccessScopeAnalysisFinding]`
     public func analysisFindings() async throws -> [EC2ClientTypes.AccessScopeAnalysisFinding] {
         return try await self.asyncCompactMap { item in item.analysisFindings }
+    }
+}
+extension EC2Client {
+    /// Paginate over `[GetSecurityGroupsForVpcOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetSecurityGroupsForVpcInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetSecurityGroupsForVpcOutput`
+    public func getSecurityGroupsForVpcPaginated(input: GetSecurityGroupsForVpcInput) -> ClientRuntime.PaginatorSequence<GetSecurityGroupsForVpcInput, GetSecurityGroupsForVpcOutput> {
+        return ClientRuntime.PaginatorSequence<GetSecurityGroupsForVpcInput, GetSecurityGroupsForVpcOutput>(input: input, inputKey: \GetSecurityGroupsForVpcInput.nextToken, outputKey: \GetSecurityGroupsForVpcOutput.nextToken, paginationFunction: self.getSecurityGroupsForVpc(input:))
+    }
+}
+
+extension GetSecurityGroupsForVpcInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> GetSecurityGroupsForVpcInput {
+        return GetSecurityGroupsForVpcInput(
+            dryRun: self.dryRun,
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
+            vpcId: self.vpcId
+        )}
+}
+
+extension PaginatorSequence where Input == GetSecurityGroupsForVpcInput, Output == GetSecurityGroupsForVpcOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `getSecurityGroupsForVpcPaginated`
+    /// to access the nested member `[EC2ClientTypes.SecurityGroupForVpc]`
+    /// - Returns: `[EC2ClientTypes.SecurityGroupForVpc]`
+    public func securityGroupForVpcs() async throws -> [EC2ClientTypes.SecurityGroupForVpc] {
+        return try await self.asyncCompactMap { item in item.securityGroupForVpcs }
     }
 }
 extension EC2Client {

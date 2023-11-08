@@ -14,10 +14,10 @@ extension RDSClientTypes.AccountQuota: Swift.Codable {
         if let accountQuotaName = accountQuotaName {
             try container.encode(accountQuotaName, forKey: ClientRuntime.Key("AccountQuotaName"))
         }
-        if max != 0 {
+        if let max = max {
             try container.encode(max, forKey: ClientRuntime.Key("Max"))
         }
-        if used != 0 {
+        if let used = used {
             try container.encode(used, forKey: ClientRuntime.Key("Used"))
         }
     }
@@ -26,9 +26,9 @@ extension RDSClientTypes.AccountQuota: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let accountQuotaNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountQuotaName)
         accountQuotaName = accountQuotaNameDecoded
-        let usedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .used) ?? 0
+        let usedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .used)
         used = usedDecoded
-        let maxDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .max) ?? 0
+        let maxDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .max)
         max = maxDecoded
     }
 }
@@ -78,14 +78,14 @@ extension RDSClientTypes {
         /// The name of the Amazon RDS quota for this Amazon Web Services account.
         public var accountQuotaName: Swift.String?
         /// The maximum allowed value for the quota.
-        public var max: Swift.Int
+        public var max: Swift.Int?
         /// The amount currently used toward the quota maximum.
-        public var used: Swift.Int
+        public var used: Swift.Int?
 
         public init(
             accountQuotaName: Swift.String? = nil,
-            max: Swift.Int = 0,
-            used: Swift.Int = 0
+            max: Swift.Int? = nil,
+            used: Swift.Int? = nil
         )
         {
             self.accountQuotaName = accountQuotaName
@@ -619,6 +619,7 @@ enum AddTagsToResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "DBProxyNotFoundFault": return try await DBProxyNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "DBProxyTargetGroupNotFoundFault": return try await DBProxyTargetGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "DBSnapshotNotFound": return try await DBSnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "IntegrationNotFoundFault": return try await IntegrationNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
@@ -1999,7 +2000,7 @@ extension CancelExportTaskOutput: ClientRuntime.HttpResponseBinding {
             self.failureCause = nil
             self.iamRoleArn = nil
             self.kmsKeyId = nil
-            self.percentProgress = 0
+            self.percentProgress = nil
             self.s3Bucket = nil
             self.s3Prefix = nil
             self.snapshotTime = nil
@@ -2008,7 +2009,7 @@ extension CancelExportTaskOutput: ClientRuntime.HttpResponseBinding {
             self.status = nil
             self.taskEndTime = nil
             self.taskStartTime = nil
-            self.totalExtractedDataInGB = 0
+            self.totalExtractedDataInGB = nil
             self.warningMessage = nil
         }
     }
@@ -2035,7 +2036,7 @@ public struct CancelExportTaskOutput: Swift.Equatable {
     /// The key identifier of the Amazon Web Services KMS key that is used to encrypt the data when it's exported to Amazon S3. The KMS key identifier is its key ARN, key ID, alias ARN, or alias name. The IAM role used for the export must have encryption and decryption permissions to use this KMS key.
     public var kmsKeyId: Swift.String?
     /// The progress of the snapshot or cluster export task as a percentage.
-    public var percentProgress: Swift.Int
+    public var percentProgress: Swift.Int?
     /// The Amazon S3 bucket where the snapshot or cluster is exported to.
     public var s3Bucket: Swift.String?
     /// The Amazon S3 bucket prefix that is the file name and path of the exported data.
@@ -2065,7 +2066,7 @@ public struct CancelExportTaskOutput: Swift.Equatable {
     /// The time when the snapshot or cluster export task started.
     public var taskStartTime: ClientRuntime.Date?
     /// The total amount of data exported, in gigabytes.
-    public var totalExtractedDataInGB: Swift.Int
+    public var totalExtractedDataInGB: Swift.Int?
     /// A warning about the snapshot or cluster export task.
     public var warningMessage: Swift.String?
 
@@ -2075,7 +2076,7 @@ public struct CancelExportTaskOutput: Swift.Equatable {
         failureCause: Swift.String? = nil,
         iamRoleArn: Swift.String? = nil,
         kmsKeyId: Swift.String? = nil,
-        percentProgress: Swift.Int = 0,
+        percentProgress: Swift.Int? = nil,
         s3Bucket: Swift.String? = nil,
         s3Prefix: Swift.String? = nil,
         snapshotTime: ClientRuntime.Date? = nil,
@@ -2084,7 +2085,7 @@ public struct CancelExportTaskOutput: Swift.Equatable {
         status: Swift.String? = nil,
         taskEndTime: ClientRuntime.Date? = nil,
         taskStartTime: ClientRuntime.Date? = nil,
-        totalExtractedDataInGB: Swift.Int = 0,
+        totalExtractedDataInGB: Swift.Int? = nil,
         warningMessage: Swift.String? = nil
     )
     {
@@ -2119,8 +2120,8 @@ struct CancelExportTaskOutputBody: Swift.Equatable {
     let iamRoleArn: Swift.String?
     let kmsKeyId: Swift.String?
     let status: Swift.String?
-    let percentProgress: Swift.Int
-    let totalExtractedDataInGB: Swift.Int
+    let percentProgress: Swift.Int?
+    let totalExtractedDataInGB: Swift.Int?
     let failureCause: Swift.String?
     let warningMessage: Swift.String?
     let sourceType: RDSClientTypes.ExportSourceType?
@@ -2188,9 +2189,9 @@ extension CancelExportTaskOutputBody: Swift.Decodable {
         kmsKeyId = kmsKeyIdDecoded
         let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
         status = statusDecoded
-        let percentProgressDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .percentProgress) ?? 0
+        let percentProgressDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .percentProgress)
         percentProgress = percentProgressDecoded
-        let totalExtractedDataInGBDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalExtractedDataInGB) ?? 0
+        let totalExtractedDataInGBDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalExtractedDataInGB)
         totalExtractedDataInGB = totalExtractedDataInGBDecoded
         let failureCauseDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .failureCause)
         failureCause = failureCauseDecoded
@@ -2606,6 +2607,7 @@ extension RDSClientTypes.ClusterPendingModifiedValues: Swift.Codable {
         case iops = "Iops"
         case masterUserPassword = "MasterUserPassword"
         case pendingCloudwatchLogsExports = "PendingCloudwatchLogsExports"
+        case rdsCustomClusterConfiguration = "RdsCustomClusterConfiguration"
         case storageType = "StorageType"
     }
 
@@ -2635,6 +2637,9 @@ extension RDSClientTypes.ClusterPendingModifiedValues: Swift.Codable {
         if let pendingCloudwatchLogsExports = pendingCloudwatchLogsExports {
             try container.encode(pendingCloudwatchLogsExports, forKey: ClientRuntime.Key("PendingCloudwatchLogsExports"))
         }
+        if let rdsCustomClusterConfiguration = rdsCustomClusterConfiguration {
+            try container.encode(rdsCustomClusterConfiguration, forKey: ClientRuntime.Key("RdsCustomClusterConfiguration"))
+        }
         if let storageType = storageType {
             try container.encode(storageType, forKey: ClientRuntime.Key("StorageType"))
         }
@@ -2656,6 +2661,8 @@ extension RDSClientTypes.ClusterPendingModifiedValues: Swift.Codable {
         backupRetentionPeriod = backupRetentionPeriodDecoded
         let allocatedStorageDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .allocatedStorage)
         allocatedStorage = allocatedStorageDecoded
+        let rdsCustomClusterConfigurationDecoded = try containerValues.decodeIfPresent(RDSClientTypes.RdsCustomClusterConfiguration.self, forKey: .rdsCustomClusterConfiguration)
+        rdsCustomClusterConfiguration = rdsCustomClusterConfigurationDecoded
         let iopsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .iops)
         iops = iopsDecoded
         let storageTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .storageType)
@@ -2682,6 +2689,8 @@ extension RDSClientTypes {
         public var masterUserPassword: Swift.String?
         /// A list of the log types whose configuration is still pending. In other words, these log types are in the process of being activated or deactivated.
         public var pendingCloudwatchLogsExports: RDSClientTypes.PendingCloudwatchLogsExports?
+        /// Reserved for future use.
+        public var rdsCustomClusterConfiguration: RDSClientTypes.RdsCustomClusterConfiguration?
         /// The storage type for the DB cluster.
         public var storageType: Swift.String?
 
@@ -2694,6 +2703,7 @@ extension RDSClientTypes {
             iops: Swift.Int? = nil,
             masterUserPassword: Swift.String? = nil,
             pendingCloudwatchLogsExports: RDSClientTypes.PendingCloudwatchLogsExports? = nil,
+            rdsCustomClusterConfiguration: RDSClientTypes.RdsCustomClusterConfiguration? = nil,
             storageType: Swift.String? = nil
         )
         {
@@ -2705,6 +2715,7 @@ extension RDSClientTypes {
             self.iops = iops
             self.masterUserPassword = masterUserPassword
             self.pendingCloudwatchLogsExports = pendingCloudwatchLogsExports
+            self.rdsCustomClusterConfiguration = rdsCustomClusterConfiguration
             self.storageType = storageType
         }
     }
@@ -2829,16 +2840,16 @@ extension RDSClientTypes.ConnectionPoolConfigurationInfo: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if connectionBorrowTimeout != 0 {
+        if let connectionBorrowTimeout = connectionBorrowTimeout {
             try container.encode(connectionBorrowTimeout, forKey: ClientRuntime.Key("ConnectionBorrowTimeout"))
         }
         if let initQuery = initQuery {
             try container.encode(initQuery, forKey: ClientRuntime.Key("InitQuery"))
         }
-        if maxConnectionsPercent != 0 {
+        if let maxConnectionsPercent = maxConnectionsPercent {
             try container.encode(maxConnectionsPercent, forKey: ClientRuntime.Key("MaxConnectionsPercent"))
         }
-        if maxIdleConnectionsPercent != 0 {
+        if let maxIdleConnectionsPercent = maxIdleConnectionsPercent {
             try container.encode(maxIdleConnectionsPercent, forKey: ClientRuntime.Key("MaxIdleConnectionsPercent"))
         }
         if let sessionPinningFilters = sessionPinningFilters {
@@ -2857,11 +2868,11 @@ extension RDSClientTypes.ConnectionPoolConfigurationInfo: Swift.Codable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let maxConnectionsPercentDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxConnectionsPercent) ?? 0
+        let maxConnectionsPercentDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxConnectionsPercent)
         maxConnectionsPercent = maxConnectionsPercentDecoded
-        let maxIdleConnectionsPercentDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxIdleConnectionsPercent) ?? 0
+        let maxIdleConnectionsPercentDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxIdleConnectionsPercent)
         maxIdleConnectionsPercent = maxIdleConnectionsPercentDecoded
-        let connectionBorrowTimeoutDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .connectionBorrowTimeout) ?? 0
+        let connectionBorrowTimeoutDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .connectionBorrowTimeout)
         connectionBorrowTimeout = connectionBorrowTimeoutDecoded
         if containerValues.contains(.sessionPinningFilters) {
             struct KeyVal0{struct member{}}
@@ -2891,21 +2902,21 @@ extension RDSClientTypes {
     /// Displays the settings that control the size and behavior of the connection pool associated with a DBProxyTarget.
     public struct ConnectionPoolConfigurationInfo: Swift.Equatable {
         /// The number of seconds for a proxy to wait for a connection to become available in the connection pool. Only applies when the proxy has opened its maximum number of connections and all connections are busy with client sessions.
-        public var connectionBorrowTimeout: Swift.Int
+        public var connectionBorrowTimeout: Swift.Int?
         /// One or more SQL statements for the proxy to run when opening each new database connection. Typically used with SET statements to make sure that each connection has identical settings such as time zone and character set. This setting is empty by default. For multiple statements, use semicolons as the separator. You can also include multiple variables in a single SET statement, such as SET x=1, y=2.
         public var initQuery: Swift.String?
         /// The maximum size of the connection pool for each target in a target group. The value is expressed as a percentage of the max_connections setting for the RDS DB instance or Aurora DB cluster used by the target group.
-        public var maxConnectionsPercent: Swift.Int
+        public var maxConnectionsPercent: Swift.Int?
         /// Controls how actively the proxy closes idle database connections in the connection pool. The value is expressed as a percentage of the max_connections setting for the RDS DB instance or Aurora DB cluster used by the target group. With a high value, the proxy leaves a high percentage of idle database connections open. A low value causes the proxy to close more idle connections and return them to the database.
-        public var maxIdleConnectionsPercent: Swift.Int
+        public var maxIdleConnectionsPercent: Swift.Int?
         /// Each item in the list represents a class of SQL operations that normally cause all later statements in a session using a proxy to be pinned to the same underlying database connection. Including an item in the list exempts that class of SQL operations from the pinning behavior. This setting is only supported for MySQL engine family databases. Currently, the only allowed value is EXCLUDE_VARIABLE_SETS.
         public var sessionPinningFilters: [Swift.String]?
 
         public init(
-            connectionBorrowTimeout: Swift.Int = 0,
+            connectionBorrowTimeout: Swift.Int? = nil,
             initQuery: Swift.String? = nil,
-            maxConnectionsPercent: Swift.Int = 0,
-            maxIdleConnectionsPercent: Swift.Int = 0,
+            maxConnectionsPercent: Swift.Int? = nil,
+            maxIdleConnectionsPercent: Swift.Int? = nil,
             sessionPinningFilters: [Swift.String]? = nil
         )
         {
@@ -3919,11 +3930,17 @@ extension CreateBlueGreenDeploymentInput: Swift.Encodable {
         if let targetDBClusterParameterGroupName = targetDBClusterParameterGroupName {
             try container.encode(targetDBClusterParameterGroupName, forKey: ClientRuntime.Key("TargetDBClusterParameterGroupName"))
         }
+        if let targetDBInstanceClass = targetDBInstanceClass {
+            try container.encode(targetDBInstanceClass, forKey: ClientRuntime.Key("TargetDBInstanceClass"))
+        }
         if let targetDBParameterGroupName = targetDBParameterGroupName {
             try container.encode(targetDBParameterGroupName, forKey: ClientRuntime.Key("TargetDBParameterGroupName"))
         }
         if let targetEngineVersion = targetEngineVersion {
             try container.encode(targetEngineVersion, forKey: ClientRuntime.Key("TargetEngineVersion"))
+        }
+        if let upgradeTargetStorageConfig = upgradeTargetStorageConfig {
+            try container.encode(upgradeTargetStorageConfig, forKey: ClientRuntime.Key("UpgradeTargetStorageConfig"))
         }
         try container.encode("CreateBlueGreenDeployment", forKey:ClientRuntime.Key("Action"))
         try container.encode("2014-10-31", forKey:ClientRuntime.Key("Version"))
@@ -3949,26 +3966,34 @@ public struct CreateBlueGreenDeploymentInput: Swift.Equatable {
     public var tags: [RDSClientTypes.Tag]?
     /// The DB cluster parameter group associated with the Aurora DB cluster in the green environment. To test parameter changes, specify a DB cluster parameter group that is different from the one associated with the source DB cluster.
     public var targetDBClusterParameterGroupName: Swift.String?
+    /// Specify the DB instance class for the databases in the green environment.
+    public var targetDBInstanceClass: Swift.String?
     /// The DB parameter group associated with the DB instance in the green environment. To test parameter changes, specify a DB parameter group that is different from the one associated with the source DB instance.
     public var targetDBParameterGroupName: Swift.String?
     /// The engine version of the database in the green environment. Specify the engine version to upgrade to in the green environment.
     public var targetEngineVersion: Swift.String?
+    /// Whether to upgrade the storage file system configuration on the green database. This option migrates the green DB instance from the older 32-bit file system to the preferred configuration. For more information, see [Upgrading the storage file system for a DB instance](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_PIOPS.StorageTypes.html#USER_PIOPS.UpgradeFileSystem).
+    public var upgradeTargetStorageConfig: Swift.Bool?
 
     public init(
         blueGreenDeploymentName: Swift.String? = nil,
         source: Swift.String? = nil,
         tags: [RDSClientTypes.Tag]? = nil,
         targetDBClusterParameterGroupName: Swift.String? = nil,
+        targetDBInstanceClass: Swift.String? = nil,
         targetDBParameterGroupName: Swift.String? = nil,
-        targetEngineVersion: Swift.String? = nil
+        targetEngineVersion: Swift.String? = nil,
+        upgradeTargetStorageConfig: Swift.Bool? = nil
     )
     {
         self.blueGreenDeploymentName = blueGreenDeploymentName
         self.source = source
         self.tags = tags
         self.targetDBClusterParameterGroupName = targetDBClusterParameterGroupName
+        self.targetDBInstanceClass = targetDBInstanceClass
         self.targetDBParameterGroupName = targetDBParameterGroupName
         self.targetEngineVersion = targetEngineVersion
+        self.upgradeTargetStorageConfig = upgradeTargetStorageConfig
     }
 }
 
@@ -3979,6 +4004,8 @@ struct CreateBlueGreenDeploymentInputBody: Swift.Equatable {
     let targetDBParameterGroupName: Swift.String?
     let targetDBClusterParameterGroupName: Swift.String?
     let tags: [RDSClientTypes.Tag]?
+    let targetDBInstanceClass: Swift.String?
+    let upgradeTargetStorageConfig: Swift.Bool?
 }
 
 extension CreateBlueGreenDeploymentInputBody: Swift.Decodable {
@@ -3987,8 +4014,10 @@ extension CreateBlueGreenDeploymentInputBody: Swift.Decodable {
         case source = "Source"
         case tags = "Tags"
         case targetDBClusterParameterGroupName = "TargetDBClusterParameterGroupName"
+        case targetDBInstanceClass = "TargetDBInstanceClass"
         case targetDBParameterGroupName = "TargetDBParameterGroupName"
         case targetEngineVersion = "TargetEngineVersion"
+        case upgradeTargetStorageConfig = "UpgradeTargetStorageConfig"
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -4022,6 +4051,10 @@ extension CreateBlueGreenDeploymentInputBody: Swift.Decodable {
         } else {
             tags = nil
         }
+        let targetDBInstanceClassDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .targetDBInstanceClass)
+        targetDBInstanceClass = targetDBInstanceClassDecoded
+        let upgradeTargetStorageConfigDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .upgradeTargetStorageConfig)
+        upgradeTargetStorageConfig = upgradeTargetStorageConfigDecoded
     }
 }
 
@@ -4354,6 +4387,7 @@ extension CreateCustomDBEngineVersionOutput: ClientRuntime.HttpResponseBinding {
             self.supportsBabelfish = output.supportsBabelfish
             self.supportsCertificateRotationWithoutRestart = output.supportsCertificateRotationWithoutRestart
             self.supportsGlobalDatabases = output.supportsGlobalDatabases
+            self.supportsIntegrations = output.supportsIntegrations
             self.supportsLocalWriteForwarding = output.supportsLocalWriteForwarding
             self.supportsLogExportsToCloudwatchLogs = output.supportsLogExportsToCloudwatchLogs
             self.supportsParallelQuery = output.supportsParallelQuery
@@ -4384,13 +4418,14 @@ extension CreateCustomDBEngineVersionOutput: ClientRuntime.HttpResponseBinding {
             self.supportedFeatureNames = nil
             self.supportedNcharCharacterSets = nil
             self.supportedTimezones = nil
-            self.supportsBabelfish = false
+            self.supportsBabelfish = nil
             self.supportsCertificateRotationWithoutRestart = nil
-            self.supportsGlobalDatabases = false
+            self.supportsGlobalDatabases = nil
+            self.supportsIntegrations = nil
             self.supportsLocalWriteForwarding = nil
-            self.supportsLogExportsToCloudwatchLogs = false
-            self.supportsParallelQuery = false
-            self.supportsReadReplica = false
+            self.supportsLogExportsToCloudwatchLogs = nil
+            self.supportsParallelQuery = nil
+            self.supportsReadReplica = nil
             self.tagList = nil
             self.validUpgradeTarget = nil
         }
@@ -4446,19 +4481,21 @@ public struct CreateCustomDBEngineVersionOutput: Swift.Equatable {
     /// A list of the time zones supported by this engine for the Timezone parameter of the CreateDBInstance action.
     public var supportedTimezones: [RDSClientTypes.Timezone]?
     /// Indicates whether the engine version supports Babelfish for Aurora PostgreSQL.
-    public var supportsBabelfish: Swift.Bool
+    public var supportsBabelfish: Swift.Bool?
     /// Indicates whether the engine version supports rotating the server certificate without rebooting the DB instance.
     public var supportsCertificateRotationWithoutRestart: Swift.Bool?
     /// Indicates whether you can use Aurora global databases with a specific DB engine version.
-    public var supportsGlobalDatabases: Swift.Bool
+    public var supportsGlobalDatabases: Swift.Bool?
+    /// Indicates whether the DB engine version supports Aurora zero-ETL integrations with Amazon Redshift.
+    public var supportsIntegrations: Swift.Bool?
     /// Indicates whether the DB engine version supports forwarding write operations from reader DB instances to the writer DB instance in the DB cluster. By default, write operations aren't allowed on reader DB instances. Valid for: Aurora DB clusters only
     public var supportsLocalWriteForwarding: Swift.Bool?
     /// Indicates whether the engine version supports exporting the log types specified by ExportableLogTypes to CloudWatch Logs.
-    public var supportsLogExportsToCloudwatchLogs: Swift.Bool
+    public var supportsLogExportsToCloudwatchLogs: Swift.Bool?
     /// Indicates whether you can use Aurora parallel query with a specific DB engine version.
-    public var supportsParallelQuery: Swift.Bool
+    public var supportsParallelQuery: Swift.Bool?
     /// Indicates whether the database engine version supports read replicas.
-    public var supportsReadReplica: Swift.Bool
+    public var supportsReadReplica: Swift.Bool?
     /// A list of tags. For more information, see [Tagging Amazon RDS Resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide.
     public var tagList: [RDSClientTypes.Tag]?
     /// A list of engine versions that this database engine version can be upgraded to.
@@ -4488,13 +4525,14 @@ public struct CreateCustomDBEngineVersionOutput: Swift.Equatable {
         supportedFeatureNames: [Swift.String]? = nil,
         supportedNcharCharacterSets: [RDSClientTypes.CharacterSet]? = nil,
         supportedTimezones: [RDSClientTypes.Timezone]? = nil,
-        supportsBabelfish: Swift.Bool = false,
+        supportsBabelfish: Swift.Bool? = nil,
         supportsCertificateRotationWithoutRestart: Swift.Bool? = nil,
-        supportsGlobalDatabases: Swift.Bool = false,
+        supportsGlobalDatabases: Swift.Bool? = nil,
+        supportsIntegrations: Swift.Bool? = nil,
         supportsLocalWriteForwarding: Swift.Bool? = nil,
-        supportsLogExportsToCloudwatchLogs: Swift.Bool = false,
-        supportsParallelQuery: Swift.Bool = false,
-        supportsReadReplica: Swift.Bool = false,
+        supportsLogExportsToCloudwatchLogs: Swift.Bool? = nil,
+        supportsParallelQuery: Swift.Bool? = nil,
+        supportsReadReplica: Swift.Bool? = nil,
         tagList: [RDSClientTypes.Tag]? = nil,
         validUpgradeTarget: [RDSClientTypes.UpgradeTarget]? = nil
     )
@@ -4525,6 +4563,7 @@ public struct CreateCustomDBEngineVersionOutput: Swift.Equatable {
         self.supportsBabelfish = supportsBabelfish
         self.supportsCertificateRotationWithoutRestart = supportsCertificateRotationWithoutRestart
         self.supportsGlobalDatabases = supportsGlobalDatabases
+        self.supportsIntegrations = supportsIntegrations
         self.supportsLocalWriteForwarding = supportsLocalWriteForwarding
         self.supportsLogExportsToCloudwatchLogs = supportsLogExportsToCloudwatchLogs
         self.supportsParallelQuery = supportsParallelQuery
@@ -4548,13 +4587,13 @@ struct CreateCustomDBEngineVersionOutputBody: Swift.Equatable {
     let validUpgradeTarget: [RDSClientTypes.UpgradeTarget]?
     let supportedTimezones: [RDSClientTypes.Timezone]?
     let exportableLogTypes: [Swift.String]?
-    let supportsLogExportsToCloudwatchLogs: Swift.Bool
-    let supportsReadReplica: Swift.Bool
+    let supportsLogExportsToCloudwatchLogs: Swift.Bool?
+    let supportsReadReplica: Swift.Bool?
     let supportedEngineModes: [Swift.String]?
     let supportedFeatureNames: [Swift.String]?
     let status: Swift.String?
-    let supportsParallelQuery: Swift.Bool
-    let supportsGlobalDatabases: Swift.Bool
+    let supportsParallelQuery: Swift.Bool?
+    let supportsGlobalDatabases: Swift.Bool?
     let majorEngineVersion: Swift.String?
     let databaseInstallationFilesS3BucketName: Swift.String?
     let databaseInstallationFilesS3Prefix: Swift.String?
@@ -4562,11 +4601,12 @@ struct CreateCustomDBEngineVersionOutputBody: Swift.Equatable {
     let kmsKeyId: Swift.String?
     let createTime: ClientRuntime.Date?
     let tagList: [RDSClientTypes.Tag]?
-    let supportsBabelfish: Swift.Bool
+    let supportsBabelfish: Swift.Bool?
     let customDBEngineVersionManifest: Swift.String?
     let supportsCertificateRotationWithoutRestart: Swift.Bool?
     let supportedCACertificateIdentifiers: [Swift.String]?
     let supportsLocalWriteForwarding: Swift.Bool?
+    let supportsIntegrations: Swift.Bool?
 }
 
 extension CreateCustomDBEngineVersionOutputBody: Swift.Decodable {
@@ -4597,6 +4637,7 @@ extension CreateCustomDBEngineVersionOutputBody: Swift.Decodable {
         case supportsBabelfish = "SupportsBabelfish"
         case supportsCertificateRotationWithoutRestart = "SupportsCertificateRotationWithoutRestart"
         case supportsGlobalDatabases = "SupportsGlobalDatabases"
+        case supportsIntegrations = "SupportsIntegrations"
         case supportsLocalWriteForwarding = "SupportsLocalWriteForwarding"
         case supportsLogExportsToCloudwatchLogs = "SupportsLogExportsToCloudwatchLogs"
         case supportsParallelQuery = "SupportsParallelQuery"
@@ -4719,9 +4760,9 @@ extension CreateCustomDBEngineVersionOutputBody: Swift.Decodable {
         } else {
             exportableLogTypes = nil
         }
-        let supportsLogExportsToCloudwatchLogsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsLogExportsToCloudwatchLogs) ?? false
+        let supportsLogExportsToCloudwatchLogsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsLogExportsToCloudwatchLogs)
         supportsLogExportsToCloudwatchLogs = supportsLogExportsToCloudwatchLogsDecoded
-        let supportsReadReplicaDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsReadReplica) ?? false
+        let supportsReadReplicaDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsReadReplica)
         supportsReadReplica = supportsReadReplicaDecoded
         if containerValues.contains(.supportedEngineModes) {
             struct KeyVal0{struct member{}}
@@ -4763,9 +4804,9 @@ extension CreateCustomDBEngineVersionOutputBody: Swift.Decodable {
         }
         let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
         status = statusDecoded
-        let supportsParallelQueryDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsParallelQuery) ?? false
+        let supportsParallelQueryDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsParallelQuery)
         supportsParallelQuery = supportsParallelQueryDecoded
-        let supportsGlobalDatabasesDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsGlobalDatabases) ?? false
+        let supportsGlobalDatabasesDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsGlobalDatabases)
         supportsGlobalDatabases = supportsGlobalDatabasesDecoded
         let majorEngineVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .majorEngineVersion)
         majorEngineVersion = majorEngineVersionDecoded
@@ -4798,7 +4839,7 @@ extension CreateCustomDBEngineVersionOutputBody: Swift.Decodable {
         } else {
             tagList = nil
         }
-        let supportsBabelfishDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsBabelfish) ?? false
+        let supportsBabelfishDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsBabelfish)
         supportsBabelfish = supportsBabelfishDecoded
         let customDBEngineVersionManifestDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .customDBEngineVersionManifest)
         customDBEngineVersionManifest = customDBEngineVersionManifestDecoded
@@ -4825,6 +4866,8 @@ extension CreateCustomDBEngineVersionOutputBody: Swift.Decodable {
         }
         let supportsLocalWriteForwardingDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsLocalWriteForwarding)
         supportsLocalWriteForwarding = supportsLocalWriteForwardingDecoded
+        let supportsIntegrationsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsIntegrations)
+        supportsIntegrations = supportsIntegrationsDecoded
     }
 }
 
@@ -5365,6 +5408,9 @@ extension CreateDBClusterInput: Swift.Encodable {
         if let publiclyAccessible = publiclyAccessible {
             try container.encode(publiclyAccessible, forKey: ClientRuntime.Key("PubliclyAccessible"))
         }
+        if let rdsCustomClusterConfiguration = rdsCustomClusterConfiguration {
+            try container.encode(rdsCustomClusterConfiguration, forKey: ClientRuntime.Key("RdsCustomClusterConfiguration"))
+        }
         if let replicationSourceIdentifier = replicationSourceIdentifier {
             try container.encode(replicationSourceIdentifier, forKey: ClientRuntime.Key("ReplicationSourceIdentifier"))
         }
@@ -5628,6 +5674,8 @@ public struct CreateDBClusterInput: Swift.Equatable {
     ///
     /// * If the subnets are part of a VPC that has an internet gateway attached to it, the DB cluster is public.
     public var publiclyAccessible: Swift.Bool?
+    /// Reserved for future use.
+    public var rdsCustomClusterConfiguration: RDSClientTypes.RdsCustomClusterConfiguration?
     /// The Amazon Resource Name (ARN) of the source DB instance or DB cluster if this DB cluster is created as a read replica. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
     public var replicationSourceIdentifier: Swift.String?
     /// For DB clusters in serverless DB engine mode, the scaling properties of the DB cluster. Valid for Cluster Type: Aurora DB clusters only
@@ -5701,6 +5749,7 @@ public struct CreateDBClusterInput: Swift.Equatable {
         preferredBackupWindow: Swift.String? = nil,
         preferredMaintenanceWindow: Swift.String? = nil,
         publiclyAccessible: Swift.Bool? = nil,
+        rdsCustomClusterConfiguration: RDSClientTypes.RdsCustomClusterConfiguration? = nil,
         replicationSourceIdentifier: Swift.String? = nil,
         scalingConfiguration: RDSClientTypes.ScalingConfiguration? = nil,
         serverlessV2ScalingConfiguration: RDSClientTypes.ServerlessV2ScalingConfiguration? = nil,
@@ -5753,6 +5802,7 @@ public struct CreateDBClusterInput: Swift.Equatable {
         self.preferredBackupWindow = preferredBackupWindow
         self.preferredMaintenanceWindow = preferredMaintenanceWindow
         self.publiclyAccessible = publiclyAccessible
+        self.rdsCustomClusterConfiguration = rdsCustomClusterConfiguration
         self.replicationSourceIdentifier = replicationSourceIdentifier
         self.scalingConfiguration = scalingConfiguration
         self.serverlessV2ScalingConfiguration = serverlessV2ScalingConfiguration
@@ -5790,6 +5840,7 @@ struct CreateDBClusterInputBody: Swift.Equatable {
     let enableCloudwatchLogsExports: [Swift.String]?
     let engineMode: Swift.String?
     let scalingConfiguration: RDSClientTypes.ScalingConfiguration?
+    let rdsCustomClusterConfiguration: RDSClientTypes.RdsCustomClusterConfiguration?
     let deletionProtection: Swift.Bool?
     let globalClusterIdentifier: Swift.String?
     let enableHttpEndpoint: Swift.Bool?
@@ -5861,6 +5912,7 @@ extension CreateDBClusterInputBody: Swift.Decodable {
         case preferredBackupWindow = "PreferredBackupWindow"
         case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
         case publiclyAccessible = "PubliclyAccessible"
+        case rdsCustomClusterConfiguration = "RdsCustomClusterConfiguration"
         case replicationSourceIdentifier = "ReplicationSourceIdentifier"
         case scalingConfiguration = "ScalingConfiguration"
         case serverlessV2ScalingConfiguration = "ServerlessV2ScalingConfiguration"
@@ -5992,6 +6044,8 @@ extension CreateDBClusterInputBody: Swift.Decodable {
         engineMode = engineModeDecoded
         let scalingConfigurationDecoded = try containerValues.decodeIfPresent(RDSClientTypes.ScalingConfiguration.self, forKey: .scalingConfiguration)
         scalingConfiguration = scalingConfigurationDecoded
+        let rdsCustomClusterConfigurationDecoded = try containerValues.decodeIfPresent(RDSClientTypes.RdsCustomClusterConfiguration.self, forKey: .rdsCustomClusterConfiguration)
+        rdsCustomClusterConfiguration = rdsCustomClusterConfigurationDecoded
         let deletionProtectionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deletionProtection)
         deletionProtection = deletionProtectionDecoded
         let globalClusterIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .globalClusterIdentifier)
@@ -6512,6 +6566,9 @@ extension CreateDBInstanceInput: Swift.Encodable {
         if let dbSystemId = dbSystemId {
             try container.encode(dbSystemId, forKey: ClientRuntime.Key("DBSystemId"))
         }
+        if let dedicatedLogVolume = dedicatedLogVolume {
+            try container.encode(dedicatedLogVolume, forKey: ClientRuntime.Key("DedicatedLogVolume"))
+        }
         if let deletionProtection = deletionProtection {
             try container.encode(deletionProtection, forKey: ClientRuntime.Key("DeletionProtection"))
         }
@@ -6911,6 +6968,8 @@ public struct CreateDBInstanceInput: Swift.Equatable {
     public var dbSubnetGroupName: Swift.String?
     /// The Oracle system identifier (SID), which is the name of the Oracle database instance that manages your database files. In this context, the term "Oracle database instance" refers exclusively to the system global area (SGA) and Oracle background processes. If you don't specify a SID, the value defaults to RDSCDB. The Oracle SID is also the name of your CDB.
     public var dbSystemId: Swift.String?
+    /// Indicates whether the DB instance has a dedicated log volume (DLV) enabled.
+    public var dedicatedLogVolume: Swift.Bool?
     /// Specifies whether the DB instance has deletion protection enabled. The database can't be deleted when deletion protection is enabled. By default, deletion protection isn't enabled. For more information, see [ Deleting a DB Instance](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_DeleteInstance.html). This setting doesn't apply to Amazon Aurora DB instances. You can enable or disable deletion protection for the DB cluster. For more information, see CreateDBCluster. DB instances in a DB cluster can be deleted even when deletion protection is enabled for the DB cluster.
     public var deletionProtection: Swift.Bool?
     /// The Active Directory directory ID to create the DB instance in. Currently, only Microsoft SQL Server, MySQL, Oracle, and PostgreSQL DB instances can be created in an Active Directory Domain. For more information, see [ Kerberos Authentication](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/kerberos-authentication.html) in the Amazon RDS User Guide. This setting doesn't apply to the following DB instances:
@@ -7199,6 +7258,7 @@ public struct CreateDBInstanceInput: Swift.Equatable {
         dbSecurityGroups: [Swift.String]? = nil,
         dbSubnetGroupName: Swift.String? = nil,
         dbSystemId: Swift.String? = nil,
+        dedicatedLogVolume: Swift.Bool? = nil,
         deletionProtection: Swift.Bool? = nil,
         domain: Swift.String? = nil,
         domainAuthSecretArn: Swift.String? = nil,
@@ -7261,6 +7321,7 @@ public struct CreateDBInstanceInput: Swift.Equatable {
         self.dbSecurityGroups = dbSecurityGroups
         self.dbSubnetGroupName = dbSubnetGroupName
         self.dbSystemId = dbSystemId
+        self.dedicatedLogVolume = dedicatedLogVolume
         self.deletionProtection = deletionProtection
         self.domain = domain
         self.domainAuthSecretArn = domainAuthSecretArn
@@ -7368,6 +7429,7 @@ struct CreateDBInstanceInputBody: Swift.Equatable {
     let masterUserSecretKmsKeyId: Swift.String?
     let caCertificateIdentifier: Swift.String?
     let dbSystemId: Swift.String?
+    let dedicatedLogVolume: Swift.Bool?
 }
 
 extension CreateDBInstanceInputBody: Swift.Decodable {
@@ -7389,6 +7451,7 @@ extension CreateDBInstanceInputBody: Swift.Decodable {
         case dbSecurityGroups = "DBSecurityGroups"
         case dbSubnetGroupName = "DBSubnetGroupName"
         case dbSystemId = "DBSystemId"
+        case dedicatedLogVolume = "DedicatedLogVolume"
         case deletionProtection = "DeletionProtection"
         case domain = "Domain"
         case domainAuthSecretArn = "DomainAuthSecretArn"
@@ -7658,6 +7721,8 @@ extension CreateDBInstanceInputBody: Swift.Decodable {
         caCertificateIdentifier = caCertificateIdentifierDecoded
         let dbSystemIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbSystemId)
         dbSystemId = dbSystemIdDecoded
+        let dedicatedLogVolumeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dedicatedLogVolume)
+        dedicatedLogVolume = dedicatedLogVolumeDecoded
     }
 }
 
@@ -7761,6 +7826,9 @@ extension CreateDBInstanceReadReplicaInput: Swift.Encodable {
         }
         if let dbSubnetGroupName = dbSubnetGroupName {
             try container.encode(dbSubnetGroupName, forKey: ClientRuntime.Key("DBSubnetGroupName"))
+        }
+        if let dedicatedLogVolume = dedicatedLogVolume {
+            try container.encode(dedicatedLogVolume, forKey: ClientRuntime.Key("DedicatedLogVolume"))
         }
         if let deletionProtection = deletionProtection {
             try container.encode(deletionProtection, forKey: ClientRuntime.Key("DeletionProtection"))
@@ -7891,6 +7959,9 @@ extension CreateDBInstanceReadReplicaInput: Swift.Encodable {
                 try tagsContainer.encode("", forKey: ClientRuntime.Key(""))
             }
         }
+        if let upgradeStorageConfig = upgradeStorageConfig {
+            try container.encode(upgradeStorageConfig, forKey: ClientRuntime.Key("UpgradeStorageConfig"))
+        }
         if let useDefaultProcessorFeatures = useDefaultProcessorFeatures {
             try container.encode(useDefaultProcessorFeatures, forKey: ClientRuntime.Key("UseDefaultProcessorFeatures"))
         }
@@ -7968,6 +8039,8 @@ public struct CreateDBInstanceReadReplicaInput: Swift.Equatable {
     ///
     /// Example: mydbsubnetgroup
     public var dbSubnetGroupName: Swift.String?
+    /// Indicates whether the DB instance has a dedicated log volume (DLV) enabled.
+    public var dedicatedLogVolume: Swift.Bool?
     /// Specifies whether to enable deletion protection for the DB instance. The database can't be deleted when deletion protection is enabled. By default, deletion protection isn't enabled. For more information, see [ Deleting a DB Instance](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_DeleteInstance.html).
     public var deletionProtection: Swift.Bool?
     /// The Active Directory directory ID to create the DB instance in. Currently, only MySQL, Microsoft SQL Server, Oracle, and PostgreSQL DB instances can be created in an Active Directory Domain. For more information, see [ Kerberos Authentication](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/kerberos-authentication.html) in the Amazon RDS User Guide. This setting doesn't apply to RDS Custom DB instances.
@@ -8094,6 +8167,8 @@ public struct CreateDBInstanceReadReplicaInput: Swift.Equatable {
     public var storageType: Swift.String?
     /// A list of tags. For more information, see [Tagging Amazon RDS Resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide.
     public var tags: [RDSClientTypes.Tag]?
+    /// Whether to upgrade the storage file system configuration on the read replica. This option migrates the read replica from the old storage file system layout to the preferred layout.
+    public var upgradeStorageConfig: Swift.Bool?
     /// Specifies whether the DB instance class of the DB instance uses its default processor features. This setting doesn't apply to RDS Custom DB instances.
     public var useDefaultProcessorFeatures: Swift.Bool?
     /// A list of Amazon EC2 VPC security groups to associate with the read replica. This setting doesn't apply to RDS Custom DB instances. Default: The default EC2 VPC security group for the DB subnet group's VPC.
@@ -8109,6 +8184,7 @@ public struct CreateDBInstanceReadReplicaInput: Swift.Equatable {
         dbInstanceIdentifier: Swift.String? = nil,
         dbParameterGroupName: Swift.String? = nil,
         dbSubnetGroupName: Swift.String? = nil,
+        dedicatedLogVolume: Swift.Bool? = nil,
         deletionProtection: Swift.Bool? = nil,
         domain: Swift.String? = nil,
         domainAuthSecretArn: Swift.String? = nil,
@@ -8140,6 +8216,7 @@ public struct CreateDBInstanceReadReplicaInput: Swift.Equatable {
         storageThroughput: Swift.Int? = nil,
         storageType: Swift.String? = nil,
         tags: [RDSClientTypes.Tag]? = nil,
+        upgradeStorageConfig: Swift.Bool? = nil,
         useDefaultProcessorFeatures: Swift.Bool? = nil,
         vpcSecurityGroupIds: [Swift.String]? = nil
     )
@@ -8153,6 +8230,7 @@ public struct CreateDBInstanceReadReplicaInput: Swift.Equatable {
         self.dbInstanceIdentifier = dbInstanceIdentifier
         self.dbParameterGroupName = dbParameterGroupName
         self.dbSubnetGroupName = dbSubnetGroupName
+        self.dedicatedLogVolume = dedicatedLogVolume
         self.deletionProtection = deletionProtection
         self.domain = domain
         self.domainAuthSecretArn = domainAuthSecretArn
@@ -8184,6 +8262,7 @@ public struct CreateDBInstanceReadReplicaInput: Swift.Equatable {
         self.storageThroughput = storageThroughput
         self.storageType = storageType
         self.tags = tags
+        self.upgradeStorageConfig = upgradeStorageConfig
         self.useDefaultProcessorFeatures = useDefaultProcessorFeatures
         self.vpcSecurityGroupIds = vpcSecurityGroupIds
     }
@@ -8232,6 +8311,8 @@ struct CreateDBInstanceReadReplicaInputBody: Swift.Equatable {
     let enableCustomerOwnedIp: Swift.Bool?
     let allocatedStorage: Swift.Int?
     let sourceDBClusterIdentifier: Swift.String?
+    let dedicatedLogVolume: Swift.Bool?
+    let upgradeStorageConfig: Swift.Bool?
 }
 
 extension CreateDBInstanceReadReplicaInputBody: Swift.Decodable {
@@ -8245,6 +8326,7 @@ extension CreateDBInstanceReadReplicaInputBody: Swift.Decodable {
         case dbInstanceIdentifier = "DBInstanceIdentifier"
         case dbParameterGroupName = "DBParameterGroupName"
         case dbSubnetGroupName = "DBSubnetGroupName"
+        case dedicatedLogVolume = "DedicatedLogVolume"
         case deletionProtection = "DeletionProtection"
         case domain = "Domain"
         case domainAuthSecretArn = "DomainAuthSecretArn"
@@ -8276,6 +8358,7 @@ extension CreateDBInstanceReadReplicaInputBody: Swift.Decodable {
         case storageThroughput = "StorageThroughput"
         case storageType = "StorageType"
         case tags = "Tags"
+        case upgradeStorageConfig = "UpgradeStorageConfig"
         case useDefaultProcessorFeatures = "UseDefaultProcessorFeatures"
         case vpcSecurityGroupIds = "VpcSecurityGroupIds"
     }
@@ -8451,6 +8534,10 @@ extension CreateDBInstanceReadReplicaInputBody: Swift.Decodable {
         allocatedStorage = allocatedStorageDecoded
         let sourceDBClusterIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceDBClusterIdentifier)
         sourceDBClusterIdentifier = sourceDBClusterIdentifierDecoded
+        let dedicatedLogVolumeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dedicatedLogVolume)
+        dedicatedLogVolume = dedicatedLogVolumeDecoded
+        let upgradeStorageConfigDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .upgradeStorageConfig)
+        upgradeStorageConfig = upgradeStorageConfigDecoded
     }
 }
 
@@ -9182,11 +9269,11 @@ extension CreateDBProxyInputBody: Swift.Decodable {
         } else {
             vpcSecurityGroupIds = nil
         }
-        let requireTLSDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .requireTLS) ?? false
+        let requireTLSDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .requireTLS)
         requireTLS = requireTLSDecoded
         let idleClientTimeoutDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .idleClientTimeout)
         idleClientTimeout = idleClientTimeoutDecoded
-        let debugLoggingDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .debugLogging) ?? false
+        let debugLoggingDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .debugLogging)
         debugLogging = debugLoggingDecoded
         if containerValues.contains(.tags) {
             struct KeyVal0{struct Tag{}}
@@ -10230,6 +10317,359 @@ enum CreateGlobalClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension CreateIntegrationInput: Swift.Encodable {
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let additionalEncryptionContext = additionalEncryptionContext {
+            var additionalEncryptionContextContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("AdditionalEncryptionContext"))
+            for (index0, element0) in additionalEncryptionContext.sorted(by: { $0.key < $1.key }).enumerated() {
+                let stringKey0 = element0.key
+                let stringValue0 = element0.value
+                var entryContainer0 = additionalEncryptionContextContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("entry.\(index0.advanced(by: 1))"))
+                var keyContainer0 = entryContainer0.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("key"))
+                try keyContainer0.encode(stringKey0, forKey: ClientRuntime.Key(""))
+                var valueContainer0 = entryContainer0.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("value"))
+                try valueContainer0.encode(stringValue0, forKey: ClientRuntime.Key(""))
+            }
+        }
+        if let integrationName = integrationName {
+            try container.encode(integrationName, forKey: ClientRuntime.Key("IntegrationName"))
+        }
+        if let kmsKeyId = kmsKeyId {
+            try container.encode(kmsKeyId, forKey: ClientRuntime.Key("KMSKeyId"))
+        }
+        if let sourceArn = sourceArn {
+            try container.encode(sourceArn, forKey: ClientRuntime.Key("SourceArn"))
+        }
+        if let tags = tags {
+            if !tags.isEmpty {
+                var tagsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Tags"))
+                for (index0, tag0) in tags.enumerated() {
+                    try tagsContainer.encode(tag0, forKey: ClientRuntime.Key("Tag.\(index0.advanced(by: 1))"))
+                }
+            }
+            else {
+                var tagsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Tags"))
+                try tagsContainer.encode("", forKey: ClientRuntime.Key(""))
+            }
+        }
+        if let targetArn = targetArn {
+            try container.encode(targetArn, forKey: ClientRuntime.Key("TargetArn"))
+        }
+        try container.encode("CreateIntegration", forKey:ClientRuntime.Key("Action"))
+        try container.encode("2014-10-31", forKey:ClientRuntime.Key("Version"))
+    }
+}
+
+extension CreateIntegrationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct CreateIntegrationInput: Swift.Equatable {
+    /// An optional set of non-secret key–value pairs that contains additional contextual information about the data. For more information, see [Encryption context](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#encrypt_context) in the Amazon Web Services Key Management Service Developer Guide. You can only include this parameter if you specify the KMSKeyId parameter.
+    public var additionalEncryptionContext: [Swift.String:Swift.String]?
+    /// The name of the integration.
+    /// This member is required.
+    public var integrationName: Swift.String?
+    /// The Amazon Web Services Key Management System (Amazon Web Services KMS) key identifier for the key to use to encrypt the integration. If you don't specify an encryption key, Aurora uses a default Amazon Web Services owned key.
+    public var kmsKeyId: Swift.String?
+    /// The Amazon Resource Name (ARN) of the Aurora DB cluster to use as the source for replication.
+    /// This member is required.
+    public var sourceArn: Swift.String?
+    /// A list of tags. For more information, see [Tagging Amazon RDS Resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide.
+    public var tags: [RDSClientTypes.Tag]?
+    /// The ARN of the Redshift data warehouse to use as the target for replication.
+    /// This member is required.
+    public var targetArn: Swift.String?
+
+    public init(
+        additionalEncryptionContext: [Swift.String:Swift.String]? = nil,
+        integrationName: Swift.String? = nil,
+        kmsKeyId: Swift.String? = nil,
+        sourceArn: Swift.String? = nil,
+        tags: [RDSClientTypes.Tag]? = nil,
+        targetArn: Swift.String? = nil
+    )
+    {
+        self.additionalEncryptionContext = additionalEncryptionContext
+        self.integrationName = integrationName
+        self.kmsKeyId = kmsKeyId
+        self.sourceArn = sourceArn
+        self.tags = tags
+        self.targetArn = targetArn
+    }
+}
+
+struct CreateIntegrationInputBody: Swift.Equatable {
+    let sourceArn: Swift.String?
+    let targetArn: Swift.String?
+    let integrationName: Swift.String?
+    let kmsKeyId: Swift.String?
+    let additionalEncryptionContext: [Swift.String:Swift.String]?
+    let tags: [RDSClientTypes.Tag]?
+}
+
+extension CreateIntegrationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case additionalEncryptionContext = "AdditionalEncryptionContext"
+        case integrationName = "IntegrationName"
+        case kmsKeyId = "KMSKeyId"
+        case sourceArn = "SourceArn"
+        case tags = "Tags"
+        case targetArn = "TargetArn"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceArn)
+        sourceArn = sourceArnDecoded
+        let targetArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .targetArn)
+        targetArn = targetArnDecoded
+        let integrationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .integrationName)
+        integrationName = integrationNameDecoded
+        let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
+        kmsKeyId = kmsKeyIdDecoded
+        if containerValues.contains(.additionalEncryptionContext) {
+            struct KeyVal0{struct key{}; struct value{}}
+            let additionalEncryptionContextWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: ClientRuntime.MapEntry<Swift.String, Swift.String, KeyVal0.key, KeyVal0.value>.CodingKeys.self, forKey: .additionalEncryptionContext)
+            if let additionalEncryptionContextWrappedContainer = additionalEncryptionContextWrappedContainer {
+                let additionalEncryptionContextContainer = try additionalEncryptionContextWrappedContainer.decodeIfPresent([ClientRuntime.MapKeyValue<Swift.String, Swift.String, KeyVal0.key, KeyVal0.value>].self, forKey: .entry)
+                var additionalEncryptionContextBuffer: [Swift.String:Swift.String]? = nil
+                if let additionalEncryptionContextContainer = additionalEncryptionContextContainer {
+                    additionalEncryptionContextBuffer = [Swift.String:Swift.String]()
+                    for stringContainer0 in additionalEncryptionContextContainer {
+                        additionalEncryptionContextBuffer?[stringContainer0.key] = stringContainer0.value
+                    }
+                }
+                additionalEncryptionContext = additionalEncryptionContextBuffer
+            } else {
+                additionalEncryptionContext = [:]
+            }
+        } else {
+            additionalEncryptionContext = nil
+        }
+        if containerValues.contains(.tags) {
+            struct KeyVal0{struct Tag{}}
+            let tagsWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.Tag>.CodingKeys.self, forKey: .tags)
+            if let tagsWrappedContainer = tagsWrappedContainer {
+                let tagsContainer = try tagsWrappedContainer.decodeIfPresent([RDSClientTypes.Tag].self, forKey: .member)
+                var tagsBuffer:[RDSClientTypes.Tag]? = nil
+                if let tagsContainer = tagsContainer {
+                    tagsBuffer = [RDSClientTypes.Tag]()
+                    for structureContainer0 in tagsContainer {
+                        tagsBuffer?.append(structureContainer0)
+                    }
+                }
+                tags = tagsBuffer
+            } else {
+                tags = []
+            }
+        } else {
+            tags = nil
+        }
+    }
+}
+
+extension CreateIntegrationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateIntegrationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.additionalEncryptionContext = output.additionalEncryptionContext
+            self.createTime = output.createTime
+            self.errors = output.errors
+            self.integrationArn = output.integrationArn
+            self.integrationName = output.integrationName
+            self.kmsKeyId = output.kmsKeyId
+            self.sourceArn = output.sourceArn
+            self.status = output.status
+            self.tags = output.tags
+            self.targetArn = output.targetArn
+        } else {
+            self.additionalEncryptionContext = nil
+            self.createTime = nil
+            self.errors = nil
+            self.integrationArn = nil
+            self.integrationName = nil
+            self.kmsKeyId = nil
+            self.sourceArn = nil
+            self.status = nil
+            self.tags = nil
+            self.targetArn = nil
+        }
+    }
+}
+
+/// An Aurora zero-ETL integration with Amazon Redshift. For more information, see [Working with Amazon Aurora zero-ETL integrations with Amazon Redshift](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/zero-etl.html) in the Amazon Aurora User Guide.
+public struct CreateIntegrationOutput: Swift.Equatable {
+    /// The encryption context for the integration. For more information, see [Encryption context](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#encrypt_context) in the Amazon Web Services Key Management Service Developer Guide.
+    public var additionalEncryptionContext: [Swift.String:Swift.String]?
+    /// The time when the integration was created, in Universal Coordinated Time (UTC).
+    public var createTime: ClientRuntime.Date?
+    /// Any errors associated with the integration.
+    public var errors: [RDSClientTypes.IntegrationError]?
+    /// The ARN of the integration.
+    public var integrationArn: Swift.String?
+    /// The name of the integration.
+    public var integrationName: Swift.String?
+    /// The Amazon Web Services Key Management System (Amazon Web Services KMS) key identifier for the key used to to encrypt the integration.
+    public var kmsKeyId: Swift.String?
+    /// The Amazon Resource Name (ARN) of the Aurora DB cluster used as the source for replication.
+    public var sourceArn: Swift.String?
+    /// The current status of the integration.
+    public var status: RDSClientTypes.IntegrationStatus?
+    /// A list of tags. For more information, see [Tagging Amazon RDS Resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide.
+    public var tags: [RDSClientTypes.Tag]?
+    /// The ARN of the Redshift data warehouse used as the target for replication.
+    public var targetArn: Swift.String?
+
+    public init(
+        additionalEncryptionContext: [Swift.String:Swift.String]? = nil,
+        createTime: ClientRuntime.Date? = nil,
+        errors: [RDSClientTypes.IntegrationError]? = nil,
+        integrationArn: Swift.String? = nil,
+        integrationName: Swift.String? = nil,
+        kmsKeyId: Swift.String? = nil,
+        sourceArn: Swift.String? = nil,
+        status: RDSClientTypes.IntegrationStatus? = nil,
+        tags: [RDSClientTypes.Tag]? = nil,
+        targetArn: Swift.String? = nil
+    )
+    {
+        self.additionalEncryptionContext = additionalEncryptionContext
+        self.createTime = createTime
+        self.errors = errors
+        self.integrationArn = integrationArn
+        self.integrationName = integrationName
+        self.kmsKeyId = kmsKeyId
+        self.sourceArn = sourceArn
+        self.status = status
+        self.tags = tags
+        self.targetArn = targetArn
+    }
+}
+
+struct CreateIntegrationOutputBody: Swift.Equatable {
+    let sourceArn: Swift.String?
+    let targetArn: Swift.String?
+    let integrationName: Swift.String?
+    let integrationArn: Swift.String?
+    let kmsKeyId: Swift.String?
+    let additionalEncryptionContext: [Swift.String:Swift.String]?
+    let status: RDSClientTypes.IntegrationStatus?
+    let tags: [RDSClientTypes.Tag]?
+    let createTime: ClientRuntime.Date?
+    let errors: [RDSClientTypes.IntegrationError]?
+}
+
+extension CreateIntegrationOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case additionalEncryptionContext = "AdditionalEncryptionContext"
+        case createTime = "CreateTime"
+        case errors = "Errors"
+        case integrationArn = "IntegrationArn"
+        case integrationName = "IntegrationName"
+        case kmsKeyId = "KMSKeyId"
+        case sourceArn = "SourceArn"
+        case status = "Status"
+        case tags = "Tags"
+        case targetArn = "TargetArn"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CreateIntegrationResult"))
+        let sourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceArn)
+        sourceArn = sourceArnDecoded
+        let targetArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .targetArn)
+        targetArn = targetArnDecoded
+        let integrationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .integrationName)
+        integrationName = integrationNameDecoded
+        let integrationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .integrationArn)
+        integrationArn = integrationArnDecoded
+        let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
+        kmsKeyId = kmsKeyIdDecoded
+        if containerValues.contains(.additionalEncryptionContext) {
+            struct KeyVal0{struct key{}; struct value{}}
+            let additionalEncryptionContextWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: ClientRuntime.MapEntry<Swift.String, Swift.String, KeyVal0.key, KeyVal0.value>.CodingKeys.self, forKey: .additionalEncryptionContext)
+            if let additionalEncryptionContextWrappedContainer = additionalEncryptionContextWrappedContainer {
+                let additionalEncryptionContextContainer = try additionalEncryptionContextWrappedContainer.decodeIfPresent([ClientRuntime.MapKeyValue<Swift.String, Swift.String, KeyVal0.key, KeyVal0.value>].self, forKey: .entry)
+                var additionalEncryptionContextBuffer: [Swift.String:Swift.String]? = nil
+                if let additionalEncryptionContextContainer = additionalEncryptionContextContainer {
+                    additionalEncryptionContextBuffer = [Swift.String:Swift.String]()
+                    for stringContainer0 in additionalEncryptionContextContainer {
+                        additionalEncryptionContextBuffer?[stringContainer0.key] = stringContainer0.value
+                    }
+                }
+                additionalEncryptionContext = additionalEncryptionContextBuffer
+            } else {
+                additionalEncryptionContext = [:]
+            }
+        } else {
+            additionalEncryptionContext = nil
+        }
+        let statusDecoded = try containerValues.decodeIfPresent(RDSClientTypes.IntegrationStatus.self, forKey: .status)
+        status = statusDecoded
+        if containerValues.contains(.tags) {
+            struct KeyVal0{struct Tag{}}
+            let tagsWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.Tag>.CodingKeys.self, forKey: .tags)
+            if let tagsWrappedContainer = tagsWrappedContainer {
+                let tagsContainer = try tagsWrappedContainer.decodeIfPresent([RDSClientTypes.Tag].self, forKey: .member)
+                var tagsBuffer:[RDSClientTypes.Tag]? = nil
+                if let tagsContainer = tagsContainer {
+                    tagsBuffer = [RDSClientTypes.Tag]()
+                    for structureContainer0 in tagsContainer {
+                        tagsBuffer?.append(structureContainer0)
+                    }
+                }
+                tags = tagsBuffer
+            } else {
+                tags = []
+            }
+        } else {
+            tags = nil
+        }
+        let createTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .createTime)
+        createTime = createTimeDecoded
+        if containerValues.contains(.errors) {
+            struct KeyVal0{struct IntegrationError{}}
+            let errorsWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.IntegrationError>.CodingKeys.self, forKey: .errors)
+            if let errorsWrappedContainer = errorsWrappedContainer {
+                let errorsContainer = try errorsWrappedContainer.decodeIfPresent([RDSClientTypes.IntegrationError].self, forKey: .member)
+                var errorsBuffer:[RDSClientTypes.IntegrationError]? = nil
+                if let errorsContainer = errorsContainer {
+                    errorsBuffer = [RDSClientTypes.IntegrationError]()
+                    for structureContainer0 in errorsContainer {
+                        errorsBuffer?.append(structureContainer0)
+                    }
+                }
+                errors = errorsBuffer
+            } else {
+                errors = []
+            }
+        } else {
+            errors = nil
+        }
+    }
+}
+
+enum CreateIntegrationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DBClusterNotFoundFault": return try await DBClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "DBInstanceNotFound": return try await DBInstanceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "IntegrationAlreadyExistsFault": return try await IntegrationAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "IntegrationConflictOperationFault": return try await IntegrationConflictOperationFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "IntegrationQuotaExceededFault": return try await IntegrationQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "KMSKeyNotAccessibleFault": return try await KMSKeyNotAccessibleFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
 extension CreateOptionGroupInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
@@ -10795,6 +11235,7 @@ extension RDSClientTypes.DBCluster: Swift.Codable {
         case preferredBackupWindow = "PreferredBackupWindow"
         case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
         case publiclyAccessible = "PubliclyAccessible"
+        case rdsCustomClusterConfiguration = "RdsCustomClusterConfiguration"
         case readReplicaIdentifiers = "ReadReplicaIdentifiers"
         case readerEndpoint = "ReaderEndpoint"
         case replicationSourceIdentifier = "ReplicationSourceIdentifier"
@@ -10836,7 +11277,7 @@ extension RDSClientTypes.DBCluster: Swift.Codable {
                 try associatedRolesContainer.encode("", forKey: ClientRuntime.Key(""))
             }
         }
-        if autoMinorVersionUpgrade != false {
+        if let autoMinorVersionUpgrade = autoMinorVersionUpgrade {
             try container.encode(autoMinorVersionUpgrade, forKey: ClientRuntime.Key("AutoMinorVersionUpgrade"))
         }
         if let automaticRestartTime = automaticRestartTime {
@@ -11064,6 +11505,9 @@ extension RDSClientTypes.DBCluster: Swift.Codable {
         if let publiclyAccessible = publiclyAccessible {
             try container.encode(publiclyAccessible, forKey: ClientRuntime.Key("PubliclyAccessible"))
         }
+        if let rdsCustomClusterConfiguration = rdsCustomClusterConfiguration {
+            try container.encode(rdsCustomClusterConfiguration, forKey: ClientRuntime.Key("RdsCustomClusterConfiguration"))
+        }
         if let readReplicaIdentifiers = readReplicaIdentifiers {
             if !readReplicaIdentifiers.isEmpty {
                 var readReplicaIdentifiersContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("ReadReplicaIdentifiers"))
@@ -11091,7 +11535,7 @@ extension RDSClientTypes.DBCluster: Swift.Codable {
         if let status = status {
             try container.encode(status, forKey: ClientRuntime.Key("Status"))
         }
-        if storageEncrypted != false {
+        if let storageEncrypted = storageEncrypted {
             try container.encode(storageEncrypted, forKey: ClientRuntime.Key("StorageEncrypted"))
         }
         if let storageType = storageType {
@@ -11285,7 +11729,7 @@ extension RDSClientTypes.DBCluster: Swift.Codable {
         }
         let hostedZoneIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .hostedZoneId)
         hostedZoneId = hostedZoneIdDecoded
-        let storageEncryptedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .storageEncrypted) ?? false
+        let storageEncryptedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .storageEncrypted)
         storageEncrypted = storageEncryptedDecoded
         let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
         kmsKeyId = kmsKeyIdDecoded
@@ -11349,6 +11793,8 @@ extension RDSClientTypes.DBCluster: Swift.Codable {
         engineMode = engineModeDecoded
         let scalingConfigurationInfoDecoded = try containerValues.decodeIfPresent(RDSClientTypes.ScalingConfigurationInfo.self, forKey: .scalingConfigurationInfo)
         scalingConfigurationInfo = scalingConfigurationInfoDecoded
+        let rdsCustomClusterConfigurationDecoded = try containerValues.decodeIfPresent(RDSClientTypes.RdsCustomClusterConfiguration.self, forKey: .rdsCustomClusterConfiguration)
+        rdsCustomClusterConfiguration = rdsCustomClusterConfigurationDecoded
         let deletionProtectionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deletionProtection)
         deletionProtection = deletionProtectionDecoded
         let httpEndpointEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .httpEndpointEnabled)
@@ -11417,7 +11863,7 @@ extension RDSClientTypes.DBCluster: Swift.Codable {
         iops = iopsDecoded
         let publiclyAccessibleDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .publiclyAccessible)
         publiclyAccessible = publiclyAccessibleDecoded
-        let autoMinorVersionUpgradeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoMinorVersionUpgrade) ?? false
+        let autoMinorVersionUpgradeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoMinorVersionUpgrade)
         autoMinorVersionUpgrade = autoMinorVersionUpgradeDecoded
         let monitoringIntervalDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .monitoringInterval)
         monitoringInterval = monitoringIntervalDecoded
@@ -11462,7 +11908,7 @@ extension RDSClientTypes {
         /// A list of the Amazon Web Services Identity and Access Management (IAM) roles that are associated with the DB cluster. IAM roles that are associated with a DB cluster grant permission for the DB cluster to access other Amazon Web Services on your behalf.
         public var associatedRoles: [RDSClientTypes.DBClusterRole]?
         /// Indicates whether minor version patches are applied automatically. This setting is only for non-Aurora Multi-AZ DB clusters.
-        public var autoMinorVersionUpgrade: Swift.Bool
+        public var autoMinorVersionUpgrade: Swift.Bool?
         /// The time when a stopped DB cluster is restarted automatically.
         public var automaticRestartTime: ClientRuntime.Date?
         /// The list of Availability Zones (AZs) where instances in the DB cluster can be created.
@@ -11586,6 +12032,8 @@ extension RDSClientTypes {
         public var preferredMaintenanceWindow: Swift.String?
         /// Indicates whether the DB cluster is publicly accessible. When the DB cluster is publicly accessible, its Domain Name System (DNS) endpoint resolves to the private IP address from within the DB cluster's virtual private cloud (VPC). It resolves to the public IP address from outside of the DB cluster's VPC. Access to the DB cluster is ultimately controlled by the security group it uses. That public access isn't permitted if the security group assigned to the DB cluster doesn't permit it. When the DB cluster isn't publicly accessible, it is an internal DB cluster with a DNS name that resolves to a private IP address. For more information, see [CreateDBCluster]. This setting is only for non-Aurora Multi-AZ DB clusters.
         public var publiclyAccessible: Swift.Bool?
+        /// Reserved for future use.
+        public var rdsCustomClusterConfiguration: RDSClientTypes.RdsCustomClusterConfiguration?
         /// Contains one or more identifiers of the read replicas associated with this DB cluster.
         public var readReplicaIdentifiers: [Swift.String]?
         /// The reader endpoint for the DB cluster. The reader endpoint for a DB cluster load-balances connections across the Aurora Replicas that are available in a DB cluster. As clients request new connections to the reader endpoint, Aurora distributes the connection requests among the Aurora Replicas in the DB cluster. This functionality can help balance your read workload across multiple Aurora Replicas in your DB cluster. If a failover occurs, and the Aurora Replica that you are connected to is promoted to be the primary instance, your connection is dropped. To continue sending your read workload to other Aurora Replicas in the cluster, you can then reconnect to the reader endpoint.
@@ -11599,7 +12047,7 @@ extension RDSClientTypes {
         /// The current state of this DB cluster.
         public var status: Swift.String?
         /// Indicates whether the DB cluster is encrypted.
-        public var storageEncrypted: Swift.Bool
+        public var storageEncrypted: Swift.Bool?
         /// The storage type associated with the DB cluster.
         public var storageType: Swift.String?
         /// A list of tags. For more information, see [Tagging Amazon RDS Resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide.
@@ -11614,7 +12062,7 @@ extension RDSClientTypes {
             activityStreamStatus: RDSClientTypes.ActivityStreamStatus? = nil,
             allocatedStorage: Swift.Int? = nil,
             associatedRoles: [RDSClientTypes.DBClusterRole]? = nil,
-            autoMinorVersionUpgrade: Swift.Bool = false,
+            autoMinorVersionUpgrade: Swift.Bool? = nil,
             automaticRestartTime: ClientRuntime.Date? = nil,
             availabilityZones: [Swift.String]? = nil,
             awsBackupRecoveryPointArn: Swift.String? = nil,
@@ -11672,13 +12120,14 @@ extension RDSClientTypes {
             preferredBackupWindow: Swift.String? = nil,
             preferredMaintenanceWindow: Swift.String? = nil,
             publiclyAccessible: Swift.Bool? = nil,
+            rdsCustomClusterConfiguration: RDSClientTypes.RdsCustomClusterConfiguration? = nil,
             readReplicaIdentifiers: [Swift.String]? = nil,
             readerEndpoint: Swift.String? = nil,
             replicationSourceIdentifier: Swift.String? = nil,
             scalingConfigurationInfo: RDSClientTypes.ScalingConfigurationInfo? = nil,
             serverlessV2ScalingConfiguration: RDSClientTypes.ServerlessV2ScalingConfigurationInfo? = nil,
             status: Swift.String? = nil,
-            storageEncrypted: Swift.Bool = false,
+            storageEncrypted: Swift.Bool? = nil,
             storageType: Swift.String? = nil,
             tagList: [RDSClientTypes.Tag]? = nil,
             vpcSecurityGroups: [RDSClientTypes.VpcSecurityGroupMembership]? = nil
@@ -11748,6 +12197,7 @@ extension RDSClientTypes {
             self.preferredBackupWindow = preferredBackupWindow
             self.preferredMaintenanceWindow = preferredMaintenanceWindow
             self.publiclyAccessible = publiclyAccessible
+            self.rdsCustomClusterConfiguration = rdsCustomClusterConfiguration
             self.readReplicaIdentifiers = readReplicaIdentifiers
             self.readerEndpoint = readerEndpoint
             self.replicationSourceIdentifier = replicationSourceIdentifier
@@ -11847,7 +12297,7 @@ extension RDSClientTypes.DBClusterAutomatedBackup: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if allocatedStorage != 0 {
+        if let allocatedStorage = allocatedStorage {
             try container.encode(allocatedStorage, forKey: ClientRuntime.Key("AllocatedStorage"))
         }
         if let availabilityZones = availabilityZones {
@@ -11892,7 +12342,7 @@ extension RDSClientTypes.DBClusterAutomatedBackup: Swift.Codable {
         if let engineVersion = engineVersion {
             try container.encode(engineVersion, forKey: ClientRuntime.Key("EngineVersion"))
         }
-        if iamDatabaseAuthenticationEnabled != false {
+        if let iamDatabaseAuthenticationEnabled = iamDatabaseAuthenticationEnabled {
             try container.encode(iamDatabaseAuthenticationEnabled, forKey: ClientRuntime.Key("IAMDatabaseAuthenticationEnabled"))
         }
         if let iops = iops {
@@ -11907,7 +12357,7 @@ extension RDSClientTypes.DBClusterAutomatedBackup: Swift.Codable {
         if let masterUsername = masterUsername {
             try container.encode(masterUsername, forKey: ClientRuntime.Key("MasterUsername"))
         }
-        if port != 0 {
+        if let port = port {
             try container.encode(port, forKey: ClientRuntime.Key("Port"))
         }
         if let region = region {
@@ -11919,7 +12369,7 @@ extension RDSClientTypes.DBClusterAutomatedBackup: Swift.Codable {
         if let status = status {
             try container.encode(status, forKey: ClientRuntime.Key("Status"))
         }
-        if storageEncrypted != false {
+        if let storageEncrypted = storageEncrypted {
             try container.encode(storageEncrypted, forKey: ClientRuntime.Key("StorageEncrypted"))
         }
         if let storageType = storageType {
@@ -11952,13 +12402,13 @@ extension RDSClientTypes.DBClusterAutomatedBackup: Swift.Codable {
         licenseModel = licenseModelDecoded
         let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
         status = statusDecoded
-        let iamDatabaseAuthenticationEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .iamDatabaseAuthenticationEnabled) ?? false
+        let iamDatabaseAuthenticationEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .iamDatabaseAuthenticationEnabled)
         iamDatabaseAuthenticationEnabled = iamDatabaseAuthenticationEnabledDecoded
         let clusterCreateTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .clusterCreateTime)
         clusterCreateTime = clusterCreateTimeDecoded
-        let storageEncryptedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .storageEncrypted) ?? false
+        let storageEncryptedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .storageEncrypted)
         storageEncrypted = storageEncryptedDecoded
-        let allocatedStorageDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .allocatedStorage) ?? 0
+        let allocatedStorageDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .allocatedStorage)
         allocatedStorage = allocatedStorageDecoded
         let engineVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .engineVersion)
         engineVersion = engineVersionDecoded
@@ -11987,7 +12437,7 @@ extension RDSClientTypes.DBClusterAutomatedBackup: Swift.Codable {
         } else {
             availabilityZones = nil
         }
-        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port) ?? 0
+        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port)
         port = portDecoded
         let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
         kmsKeyId = kmsKeyIdDecoded
@@ -12004,7 +12454,7 @@ extension RDSClientTypes {
     /// An automated backup of a DB cluster. It consists of system backups, transaction logs, and the database cluster properties that existed at the time you deleted the source cluster.
     public struct DBClusterAutomatedBackup: Swift.Equatable {
         /// For all database engines except Amazon Aurora, AllocatedStorage specifies the allocated storage size in gibibytes (GiB). For Aurora, AllocatedStorage always returns 1, because Aurora DB cluster storage size isn't fixed, but instead automatically adjusts as needed.
-        public var allocatedStorage: Swift.Int
+        public var allocatedStorage: Swift.Int?
         /// The Availability Zones where instances in the DB cluster can be created. For information on Amazon Web Services Regions and Availability Zones, see [Regions and Availability Zones](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Concepts.RegionsAndAvailabilityZones.html).
         public var availabilityZones: [Swift.String]?
         /// The Amazon Resource Name (ARN) of the recovery point in Amazon Web Services Backup.
@@ -12028,7 +12478,7 @@ extension RDSClientTypes {
         /// The version of the database engine for the automated backup.
         public var engineVersion: Swift.String?
         /// Indicates whether mapping of Amazon Web Services Identity and Access Management (IAM) accounts to database accounts is enabled.
-        public var iamDatabaseAuthenticationEnabled: Swift.Bool
+        public var iamDatabaseAuthenticationEnabled: Swift.Bool?
         /// The IOPS (I/O operations per second) value for the automated backup. This setting is only for non-Aurora Multi-AZ DB clusters.
         public var iops: Swift.Int?
         /// The Amazon Web Services KMS key ID for an automated backup. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key.
@@ -12038,7 +12488,7 @@ extension RDSClientTypes {
         /// The master user name of the automated backup.
         public var masterUsername: Swift.String?
         /// The port number that the automated backup used for connections. Default: Inherits from the source DB cluster Valid Values: 1150-65535
-        public var port: Swift.Int
+        public var port: Swift.Int?
         /// The Amazon Web Services Region associated with the automated backup.
         public var region: Swift.String?
         /// Earliest and latest time an instance can be restored to:
@@ -12048,14 +12498,14 @@ extension RDSClientTypes {
         /// * retained - Automated backups for deleted clusters.
         public var status: Swift.String?
         /// Indicates whether the source DB cluster is encrypted.
-        public var storageEncrypted: Swift.Bool
+        public var storageEncrypted: Swift.Bool?
         /// The storage type associated with the DB cluster. This setting is only for non-Aurora Multi-AZ DB clusters.
         public var storageType: Swift.String?
         /// The VPC ID associated with the DB cluster.
         public var vpcId: Swift.String?
 
         public init(
-            allocatedStorage: Swift.Int = 0,
+            allocatedStorage: Swift.Int? = nil,
             availabilityZones: [Swift.String]? = nil,
             awsBackupRecoveryPointArn: Swift.String? = nil,
             backupRetentionPeriod: Swift.Int? = nil,
@@ -12067,16 +12517,16 @@ extension RDSClientTypes {
             engine: Swift.String? = nil,
             engineMode: Swift.String? = nil,
             engineVersion: Swift.String? = nil,
-            iamDatabaseAuthenticationEnabled: Swift.Bool = false,
+            iamDatabaseAuthenticationEnabled: Swift.Bool? = nil,
             iops: Swift.Int? = nil,
             kmsKeyId: Swift.String? = nil,
             licenseModel: Swift.String? = nil,
             masterUsername: Swift.String? = nil,
-            port: Swift.Int = 0,
+            port: Swift.Int? = nil,
             region: Swift.String? = nil,
             restoreWindow: RDSClientTypes.RestoreWindow? = nil,
             status: Swift.String? = nil,
-            storageEncrypted: Swift.Bool = false,
+            storageEncrypted: Swift.Bool? = nil,
             storageType: Swift.String? = nil,
             vpcId: Swift.String? = nil
         )
@@ -12731,7 +13181,7 @@ extension RDSClientTypes.DBClusterMember: Swift.Codable {
         if let dbInstanceIdentifier = dbInstanceIdentifier {
             try container.encode(dbInstanceIdentifier, forKey: ClientRuntime.Key("DBInstanceIdentifier"))
         }
-        if isClusterWriter != false {
+        if let isClusterWriter = isClusterWriter {
             try container.encode(isClusterWriter, forKey: ClientRuntime.Key("IsClusterWriter"))
         }
         if let promotionTier = promotionTier {
@@ -12743,7 +13193,7 @@ extension RDSClientTypes.DBClusterMember: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dbInstanceIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbInstanceIdentifier)
         dbInstanceIdentifier = dbInstanceIdentifierDecoded
-        let isClusterWriterDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isClusterWriter) ?? false
+        let isClusterWriterDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isClusterWriter)
         isClusterWriter = isClusterWriterDecoded
         let dbClusterParameterGroupStatusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbClusterParameterGroupStatus)
         dbClusterParameterGroupStatus = dbClusterParameterGroupStatusDecoded
@@ -12760,14 +13210,14 @@ extension RDSClientTypes {
         /// Specifies the instance identifier for this member of the DB cluster.
         public var dbInstanceIdentifier: Swift.String?
         /// Indicates whether the cluster member is the primary DB instance for the DB cluster.
-        public var isClusterWriter: Swift.Bool
+        public var isClusterWriter: Swift.Bool?
         /// A value that specifies the order in which an Aurora Replica is promoted to the primary instance after a failure of the existing primary instance. For more information, see [ Fault Tolerance for an Aurora DB Cluster](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Aurora.Managing.Backups.html#Aurora.Managing.FaultTolerance) in the Amazon Aurora User Guide.
         public var promotionTier: Swift.Int?
 
         public init(
             dbClusterParameterGroupStatus: Swift.String? = nil,
             dbInstanceIdentifier: Swift.String? = nil,
-            isClusterWriter: Swift.Bool = false,
+            isClusterWriter: Swift.Bool? = nil,
             promotionTier: Swift.Int? = nil
         )
         {
@@ -13306,7 +13756,7 @@ extension RDSClientTypes.DBClusterSnapshot: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if allocatedStorage != 0 {
+        if let allocatedStorage = allocatedStorage {
             try container.encode(allocatedStorage, forKey: ClientRuntime.Key("AllocatedStorage"))
         }
         if let availabilityZones = availabilityZones {
@@ -13348,7 +13798,7 @@ extension RDSClientTypes.DBClusterSnapshot: Swift.Codable {
         if let engineVersion = engineVersion {
             try container.encode(engineVersion, forKey: ClientRuntime.Key("EngineVersion"))
         }
-        if iamDatabaseAuthenticationEnabled != false {
+        if let iamDatabaseAuthenticationEnabled = iamDatabaseAuthenticationEnabled {
             try container.encode(iamDatabaseAuthenticationEnabled, forKey: ClientRuntime.Key("IAMDatabaseAuthenticationEnabled"))
         }
         if let kmsKeyId = kmsKeyId {
@@ -13360,10 +13810,10 @@ extension RDSClientTypes.DBClusterSnapshot: Swift.Codable {
         if let masterUsername = masterUsername {
             try container.encode(masterUsername, forKey: ClientRuntime.Key("MasterUsername"))
         }
-        if percentProgress != 0 {
+        if let percentProgress = percentProgress {
             try container.encode(percentProgress, forKey: ClientRuntime.Key("PercentProgress"))
         }
-        if port != 0 {
+        if let port = port {
             try container.encode(port, forKey: ClientRuntime.Key("Port"))
         }
         if let snapshotCreateTime = snapshotCreateTime {
@@ -13378,7 +13828,7 @@ extension RDSClientTypes.DBClusterSnapshot: Swift.Codable {
         if let status = status {
             try container.encode(status, forKey: ClientRuntime.Key("Status"))
         }
-        if storageEncrypted != false {
+        if let storageEncrypted = storageEncrypted {
             try container.encode(storageEncrypted, forKey: ClientRuntime.Key("StorageEncrypted"))
         }
         if let storageType = storageType {
@@ -13432,11 +13882,11 @@ extension RDSClientTypes.DBClusterSnapshot: Swift.Codable {
         engine = engineDecoded
         let engineModeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .engineMode)
         engineMode = engineModeDecoded
-        let allocatedStorageDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .allocatedStorage) ?? 0
+        let allocatedStorageDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .allocatedStorage)
         allocatedStorage = allocatedStorageDecoded
         let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
         status = statusDecoded
-        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port) ?? 0
+        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port)
         port = portDecoded
         let vpcIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vpcId)
         vpcId = vpcIdDecoded
@@ -13450,9 +13900,9 @@ extension RDSClientTypes.DBClusterSnapshot: Swift.Codable {
         licenseModel = licenseModelDecoded
         let snapshotTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .snapshotType)
         snapshotType = snapshotTypeDecoded
-        let percentProgressDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .percentProgress) ?? 0
+        let percentProgressDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .percentProgress)
         percentProgress = percentProgressDecoded
-        let storageEncryptedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .storageEncrypted) ?? false
+        let storageEncryptedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .storageEncrypted)
         storageEncrypted = storageEncryptedDecoded
         let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
         kmsKeyId = kmsKeyIdDecoded
@@ -13460,7 +13910,7 @@ extension RDSClientTypes.DBClusterSnapshot: Swift.Codable {
         dbClusterSnapshotArn = dbClusterSnapshotArnDecoded
         let sourceDBClusterSnapshotArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceDBClusterSnapshotArn)
         sourceDBClusterSnapshotArn = sourceDBClusterSnapshotArnDecoded
-        let iamDatabaseAuthenticationEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .iamDatabaseAuthenticationEnabled) ?? false
+        let iamDatabaseAuthenticationEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .iamDatabaseAuthenticationEnabled)
         iamDatabaseAuthenticationEnabled = iamDatabaseAuthenticationEnabledDecoded
         if containerValues.contains(.tagList) {
             struct KeyVal0{struct Tag{}}
@@ -13494,7 +13944,7 @@ extension RDSClientTypes {
     /// Contains the details for an Amazon RDS DB cluster snapshot This data type is used as a response element in the DescribeDBClusterSnapshots action.
     public struct DBClusterSnapshot: Swift.Equatable {
         /// The allocated storage size of the DB cluster snapshot in gibibytes (GiB).
-        public var allocatedStorage: Swift.Int
+        public var allocatedStorage: Swift.Int?
         /// The list of Availability Zones (AZs) where instances in the DB cluster snapshot can be restored.
         public var availabilityZones: [Swift.String]?
         /// The time when the DB cluster was created, in Universal Coordinated Time (UTC).
@@ -13516,7 +13966,7 @@ extension RDSClientTypes {
         /// The version of the database engine for this DB cluster snapshot.
         public var engineVersion: Swift.String?
         /// Indicates whether mapping of Amazon Web Services Identity and Access Management (IAM) accounts to database accounts is enabled.
-        public var iamDatabaseAuthenticationEnabled: Swift.Bool
+        public var iamDatabaseAuthenticationEnabled: Swift.Bool?
         /// If StorageEncrypted is true, the Amazon Web Services KMS key identifier for the encrypted DB cluster snapshot. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key.
         public var kmsKeyId: Swift.String?
         /// The license model information for this DB cluster snapshot.
@@ -13524,9 +13974,9 @@ extension RDSClientTypes {
         /// The master username for this DB cluster snapshot.
         public var masterUsername: Swift.String?
         /// The percentage of the estimated data that has been transferred.
-        public var percentProgress: Swift.Int
+        public var percentProgress: Swift.Int?
         /// The port that the DB cluster was listening on at the time of the snapshot.
-        public var port: Swift.Int
+        public var port: Swift.Int?
         /// The time when the snapshot was taken, in Universal Coordinated Time (UTC).
         public var snapshotCreateTime: ClientRuntime.Date?
         /// The type of the DB cluster snapshot.
@@ -13542,7 +13992,7 @@ extension RDSClientTypes {
         /// * creating
         public var status: Swift.String?
         /// Indicates whether the DB cluster snapshot is encrypted.
-        public var storageEncrypted: Swift.Bool
+        public var storageEncrypted: Swift.Bool?
         /// The storage type associated with the DB cluster snapshot. This setting is only for Aurora DB clusters.
         public var storageType: Swift.String?
         /// A list of tags. For more information, see [Tagging Amazon RDS Resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide.
@@ -13551,7 +14001,7 @@ extension RDSClientTypes {
         public var vpcId: Swift.String?
 
         public init(
-            allocatedStorage: Swift.Int = 0,
+            allocatedStorage: Swift.Int? = nil,
             availabilityZones: [Swift.String]? = nil,
             clusterCreateTime: ClientRuntime.Date? = nil,
             dbClusterIdentifier: Swift.String? = nil,
@@ -13562,17 +14012,17 @@ extension RDSClientTypes {
             engine: Swift.String? = nil,
             engineMode: Swift.String? = nil,
             engineVersion: Swift.String? = nil,
-            iamDatabaseAuthenticationEnabled: Swift.Bool = false,
+            iamDatabaseAuthenticationEnabled: Swift.Bool? = nil,
             kmsKeyId: Swift.String? = nil,
             licenseModel: Swift.String? = nil,
             masterUsername: Swift.String? = nil,
-            percentProgress: Swift.Int = 0,
-            port: Swift.Int = 0,
+            percentProgress: Swift.Int? = nil,
+            port: Swift.Int? = nil,
             snapshotCreateTime: ClientRuntime.Date? = nil,
             snapshotType: Swift.String? = nil,
             sourceDBClusterSnapshotArn: Swift.String? = nil,
             status: Swift.String? = nil,
-            storageEncrypted: Swift.Bool = false,
+            storageEncrypted: Swift.Bool? = nil,
             storageType: Swift.String? = nil,
             tagList: [RDSClientTypes.Tag]? = nil,
             vpcId: Swift.String? = nil
@@ -13886,6 +14336,7 @@ extension RDSClientTypes.DBEngineVersion: Swift.Codable {
         case supportsBabelfish = "SupportsBabelfish"
         case supportsCertificateRotationWithoutRestart = "SupportsCertificateRotationWithoutRestart"
         case supportsGlobalDatabases = "SupportsGlobalDatabases"
+        case supportsIntegrations = "SupportsIntegrations"
         case supportsLocalWriteForwarding = "SupportsLocalWriteForwarding"
         case supportsLogExportsToCloudwatchLogs = "SupportsLogExportsToCloudwatchLogs"
         case supportsParallelQuery = "SupportsParallelQuery"
@@ -14028,25 +14479,28 @@ extension RDSClientTypes.DBEngineVersion: Swift.Codable {
                 try supportedTimezonesContainer.encode("", forKey: ClientRuntime.Key(""))
             }
         }
-        if supportsBabelfish != false {
+        if let supportsBabelfish = supportsBabelfish {
             try container.encode(supportsBabelfish, forKey: ClientRuntime.Key("SupportsBabelfish"))
         }
         if let supportsCertificateRotationWithoutRestart = supportsCertificateRotationWithoutRestart {
             try container.encode(supportsCertificateRotationWithoutRestart, forKey: ClientRuntime.Key("SupportsCertificateRotationWithoutRestart"))
         }
-        if supportsGlobalDatabases != false {
+        if let supportsGlobalDatabases = supportsGlobalDatabases {
             try container.encode(supportsGlobalDatabases, forKey: ClientRuntime.Key("SupportsGlobalDatabases"))
+        }
+        if let supportsIntegrations = supportsIntegrations {
+            try container.encode(supportsIntegrations, forKey: ClientRuntime.Key("SupportsIntegrations"))
         }
         if let supportsLocalWriteForwarding = supportsLocalWriteForwarding {
             try container.encode(supportsLocalWriteForwarding, forKey: ClientRuntime.Key("SupportsLocalWriteForwarding"))
         }
-        if supportsLogExportsToCloudwatchLogs != false {
+        if let supportsLogExportsToCloudwatchLogs = supportsLogExportsToCloudwatchLogs {
             try container.encode(supportsLogExportsToCloudwatchLogs, forKey: ClientRuntime.Key("SupportsLogExportsToCloudwatchLogs"))
         }
-        if supportsParallelQuery != false {
+        if let supportsParallelQuery = supportsParallelQuery {
             try container.encode(supportsParallelQuery, forKey: ClientRuntime.Key("SupportsParallelQuery"))
         }
-        if supportsReadReplica != false {
+        if let supportsReadReplica = supportsReadReplica {
             try container.encode(supportsReadReplica, forKey: ClientRuntime.Key("SupportsReadReplica"))
         }
         if let tagList = tagList {
@@ -14188,9 +14642,9 @@ extension RDSClientTypes.DBEngineVersion: Swift.Codable {
         } else {
             exportableLogTypes = nil
         }
-        let supportsLogExportsToCloudwatchLogsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsLogExportsToCloudwatchLogs) ?? false
+        let supportsLogExportsToCloudwatchLogsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsLogExportsToCloudwatchLogs)
         supportsLogExportsToCloudwatchLogs = supportsLogExportsToCloudwatchLogsDecoded
-        let supportsReadReplicaDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsReadReplica) ?? false
+        let supportsReadReplicaDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsReadReplica)
         supportsReadReplica = supportsReadReplicaDecoded
         if containerValues.contains(.supportedEngineModes) {
             struct KeyVal0{struct member{}}
@@ -14232,9 +14686,9 @@ extension RDSClientTypes.DBEngineVersion: Swift.Codable {
         }
         let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
         status = statusDecoded
-        let supportsParallelQueryDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsParallelQuery) ?? false
+        let supportsParallelQueryDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsParallelQuery)
         supportsParallelQuery = supportsParallelQueryDecoded
-        let supportsGlobalDatabasesDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsGlobalDatabases) ?? false
+        let supportsGlobalDatabasesDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsGlobalDatabases)
         supportsGlobalDatabases = supportsGlobalDatabasesDecoded
         let majorEngineVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .majorEngineVersion)
         majorEngineVersion = majorEngineVersionDecoded
@@ -14267,7 +14721,7 @@ extension RDSClientTypes.DBEngineVersion: Swift.Codable {
         } else {
             tagList = nil
         }
-        let supportsBabelfishDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsBabelfish) ?? false
+        let supportsBabelfishDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsBabelfish)
         supportsBabelfish = supportsBabelfishDecoded
         let customDBEngineVersionManifestDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .customDBEngineVersionManifest)
         customDBEngineVersionManifest = customDBEngineVersionManifestDecoded
@@ -14294,6 +14748,8 @@ extension RDSClientTypes.DBEngineVersion: Swift.Codable {
         }
         let supportsLocalWriteForwardingDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsLocalWriteForwarding)
         supportsLocalWriteForwarding = supportsLocalWriteForwardingDecoded
+        let supportsIntegrationsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsIntegrations)
+        supportsIntegrations = supportsIntegrationsDecoded
     }
 }
 
@@ -14347,19 +14803,21 @@ extension RDSClientTypes {
         /// A list of the time zones supported by this engine for the Timezone parameter of the CreateDBInstance action.
         public var supportedTimezones: [RDSClientTypes.Timezone]?
         /// Indicates whether the engine version supports Babelfish for Aurora PostgreSQL.
-        public var supportsBabelfish: Swift.Bool
+        public var supportsBabelfish: Swift.Bool?
         /// Indicates whether the engine version supports rotating the server certificate without rebooting the DB instance.
         public var supportsCertificateRotationWithoutRestart: Swift.Bool?
         /// Indicates whether you can use Aurora global databases with a specific DB engine version.
-        public var supportsGlobalDatabases: Swift.Bool
+        public var supportsGlobalDatabases: Swift.Bool?
+        /// Indicates whether the DB engine version supports Aurora zero-ETL integrations with Amazon Redshift.
+        public var supportsIntegrations: Swift.Bool?
         /// Indicates whether the DB engine version supports forwarding write operations from reader DB instances to the writer DB instance in the DB cluster. By default, write operations aren't allowed on reader DB instances. Valid for: Aurora DB clusters only
         public var supportsLocalWriteForwarding: Swift.Bool?
         /// Indicates whether the engine version supports exporting the log types specified by ExportableLogTypes to CloudWatch Logs.
-        public var supportsLogExportsToCloudwatchLogs: Swift.Bool
+        public var supportsLogExportsToCloudwatchLogs: Swift.Bool?
         /// Indicates whether you can use Aurora parallel query with a specific DB engine version.
-        public var supportsParallelQuery: Swift.Bool
+        public var supportsParallelQuery: Swift.Bool?
         /// Indicates whether the database engine version supports read replicas.
-        public var supportsReadReplica: Swift.Bool
+        public var supportsReadReplica: Swift.Bool?
         /// A list of tags. For more information, see [Tagging Amazon RDS Resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide.
         public var tagList: [RDSClientTypes.Tag]?
         /// A list of engine versions that this database engine version can be upgraded to.
@@ -14389,13 +14847,14 @@ extension RDSClientTypes {
             supportedFeatureNames: [Swift.String]? = nil,
             supportedNcharCharacterSets: [RDSClientTypes.CharacterSet]? = nil,
             supportedTimezones: [RDSClientTypes.Timezone]? = nil,
-            supportsBabelfish: Swift.Bool = false,
+            supportsBabelfish: Swift.Bool? = nil,
             supportsCertificateRotationWithoutRestart: Swift.Bool? = nil,
-            supportsGlobalDatabases: Swift.Bool = false,
+            supportsGlobalDatabases: Swift.Bool? = nil,
+            supportsIntegrations: Swift.Bool? = nil,
             supportsLocalWriteForwarding: Swift.Bool? = nil,
-            supportsLogExportsToCloudwatchLogs: Swift.Bool = false,
-            supportsParallelQuery: Swift.Bool = false,
-            supportsReadReplica: Swift.Bool = false,
+            supportsLogExportsToCloudwatchLogs: Swift.Bool? = nil,
+            supportsParallelQuery: Swift.Bool? = nil,
+            supportsReadReplica: Swift.Bool? = nil,
             tagList: [RDSClientTypes.Tag]? = nil,
             validUpgradeTarget: [RDSClientTypes.UpgradeTarget]? = nil
         )
@@ -14426,6 +14885,7 @@ extension RDSClientTypes {
             self.supportsBabelfish = supportsBabelfish
             self.supportsCertificateRotationWithoutRestart = supportsCertificateRotationWithoutRestart
             self.supportsGlobalDatabases = supportsGlobalDatabases
+            self.supportsIntegrations = supportsIntegrations
             self.supportsLocalWriteForwarding = supportsLocalWriteForwarding
             self.supportsLogExportsToCloudwatchLogs = supportsLogExportsToCloudwatchLogs
             self.supportsParallelQuery = supportsParallelQuery
@@ -14473,6 +14933,7 @@ extension RDSClientTypes.DBInstance: Swift.Codable {
         case dbSystemId = "DBSystemId"
         case dbInstancePort = "DbInstancePort"
         case dbiResourceId = "DbiResourceId"
+        case dedicatedLogVolume = "DedicatedLogVolume"
         case deletionProtection = "DeletionProtection"
         case domainMemberships = "DomainMemberships"
         case enabledCloudwatchLogsExports = "EnabledCloudwatchLogsExports"
@@ -14483,6 +14944,7 @@ extension RDSClientTypes.DBInstance: Swift.Codable {
         case iamDatabaseAuthenticationEnabled = "IAMDatabaseAuthenticationEnabled"
         case instanceCreateTime = "InstanceCreateTime"
         case iops = "Iops"
+        case isStorageConfigUpgradeAvailable = "IsStorageConfigUpgradeAvailable"
         case kmsKeyId = "KmsKeyId"
         case latestRestorableTime = "LatestRestorableTime"
         case licenseModel = "LicenseModel"
@@ -14543,7 +15005,7 @@ extension RDSClientTypes.DBInstance: Swift.Codable {
         if let activityStreamStatus = activityStreamStatus {
             try container.encode(activityStreamStatus, forKey: ClientRuntime.Key("ActivityStreamStatus"))
         }
-        if allocatedStorage != 0 {
+        if let allocatedStorage = allocatedStorage {
             try container.encode(allocatedStorage, forKey: ClientRuntime.Key("AllocatedStorage"))
         }
         if let associatedRoles = associatedRoles {
@@ -14558,7 +15020,7 @@ extension RDSClientTypes.DBInstance: Swift.Codable {
                 try associatedRolesContainer.encode("", forKey: ClientRuntime.Key(""))
             }
         }
-        if autoMinorVersionUpgrade != false {
+        if let autoMinorVersionUpgrade = autoMinorVersionUpgrade {
             try container.encode(autoMinorVersionUpgrade, forKey: ClientRuntime.Key("AutoMinorVersionUpgrade"))
         }
         if let automaticRestartTime = automaticRestartTime {
@@ -14573,7 +15035,7 @@ extension RDSClientTypes.DBInstance: Swift.Codable {
         if let awsBackupRecoveryPointArn = awsBackupRecoveryPointArn {
             try container.encode(awsBackupRecoveryPointArn, forKey: ClientRuntime.Key("AwsBackupRecoveryPointArn"))
         }
-        if backupRetentionPeriod != 0 {
+        if let backupRetentionPeriod = backupRetentionPeriod {
             try container.encode(backupRetentionPeriod, forKey: ClientRuntime.Key("BackupRetentionPeriod"))
         }
         if let backupTarget = backupTarget {
@@ -14588,7 +15050,7 @@ extension RDSClientTypes.DBInstance: Swift.Codable {
         if let characterSetName = characterSetName {
             try container.encode(characterSetName, forKey: ClientRuntime.Key("CharacterSetName"))
         }
-        if copyTagsToSnapshot != false {
+        if let copyTagsToSnapshot = copyTagsToSnapshot {
             try container.encode(copyTagsToSnapshot, forKey: ClientRuntime.Key("CopyTagsToSnapshot"))
         }
         if let customIamInstanceProfile = customIamInstanceProfile {
@@ -14657,13 +15119,16 @@ extension RDSClientTypes.DBInstance: Swift.Codable {
         if let dbSystemId = dbSystemId {
             try container.encode(dbSystemId, forKey: ClientRuntime.Key("DBSystemId"))
         }
-        if dbInstancePort != 0 {
+        if let dbInstancePort = dbInstancePort {
             try container.encode(dbInstancePort, forKey: ClientRuntime.Key("DbInstancePort"))
         }
         if let dbiResourceId = dbiResourceId {
             try container.encode(dbiResourceId, forKey: ClientRuntime.Key("DbiResourceId"))
         }
-        if deletionProtection != false {
+        if let dedicatedLogVolume = dedicatedLogVolume {
+            try container.encode(dedicatedLogVolume, forKey: ClientRuntime.Key("DedicatedLogVolume"))
+        }
+        if let deletionProtection = deletionProtection {
             try container.encode(deletionProtection, forKey: ClientRuntime.Key("DeletionProtection"))
         }
         if let domainMemberships = domainMemberships {
@@ -14702,7 +15167,7 @@ extension RDSClientTypes.DBInstance: Swift.Codable {
         if let enhancedMonitoringResourceArn = enhancedMonitoringResourceArn {
             try container.encode(enhancedMonitoringResourceArn, forKey: ClientRuntime.Key("EnhancedMonitoringResourceArn"))
         }
-        if iamDatabaseAuthenticationEnabled != false {
+        if let iamDatabaseAuthenticationEnabled = iamDatabaseAuthenticationEnabled {
             try container.encode(iamDatabaseAuthenticationEnabled, forKey: ClientRuntime.Key("IAMDatabaseAuthenticationEnabled"))
         }
         if let instanceCreateTime = instanceCreateTime {
@@ -14710,6 +15175,9 @@ extension RDSClientTypes.DBInstance: Swift.Codable {
         }
         if let iops = iops {
             try container.encode(iops, forKey: ClientRuntime.Key("Iops"))
+        }
+        if let isStorageConfigUpgradeAvailable = isStorageConfigUpgradeAvailable {
+            try container.encode(isStorageConfigUpgradeAvailable, forKey: ClientRuntime.Key("IsStorageConfigUpgradeAvailable"))
         }
         if let kmsKeyId = kmsKeyId {
             try container.encode(kmsKeyId, forKey: ClientRuntime.Key("KmsKeyId"))
@@ -14738,7 +15206,7 @@ extension RDSClientTypes.DBInstance: Swift.Codable {
         if let monitoringRoleArn = monitoringRoleArn {
             try container.encode(monitoringRoleArn, forKey: ClientRuntime.Key("MonitoringRoleArn"))
         }
-        if multiAZ != false {
+        if let multiAZ = multiAZ {
             try container.encode(multiAZ, forKey: ClientRuntime.Key("MultiAZ"))
         }
         if let ncharCharacterSetName = ncharCharacterSetName {
@@ -14795,7 +15263,7 @@ extension RDSClientTypes.DBInstance: Swift.Codable {
         if let promotionTier = promotionTier {
             try container.encode(promotionTier, forKey: ClientRuntime.Key("PromotionTier"))
         }
-        if publiclyAccessible != false {
+        if let publiclyAccessible = publiclyAccessible {
             try container.encode(publiclyAccessible, forKey: ClientRuntime.Key("PubliclyAccessible"))
         }
         if let readReplicaDBClusterIdentifiers = readReplicaDBClusterIdentifiers {
@@ -14849,7 +15317,7 @@ extension RDSClientTypes.DBInstance: Swift.Codable {
                 try statusInfosContainer.encode("", forKey: ClientRuntime.Key(""))
             }
         }
-        if storageEncrypted != false {
+        if let storageEncrypted = storageEncrypted {
             try container.encode(storageEncrypted, forKey: ClientRuntime.Key("StorageEncrypted"))
         }
         if let storageThroughput = storageThroughput {
@@ -14908,13 +15376,13 @@ extension RDSClientTypes.DBInstance: Swift.Codable {
         dbName = dbNameDecoded
         let endpointDecoded = try containerValues.decodeIfPresent(RDSClientTypes.Endpoint.self, forKey: .endpoint)
         endpoint = endpointDecoded
-        let allocatedStorageDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .allocatedStorage) ?? 0
+        let allocatedStorageDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .allocatedStorage)
         allocatedStorage = allocatedStorageDecoded
         let instanceCreateTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .instanceCreateTime)
         instanceCreateTime = instanceCreateTimeDecoded
         let preferredBackupWindowDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .preferredBackupWindow)
         preferredBackupWindow = preferredBackupWindowDecoded
-        let backupRetentionPeriodDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .backupRetentionPeriod) ?? 0
+        let backupRetentionPeriodDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .backupRetentionPeriod)
         backupRetentionPeriod = backupRetentionPeriodDecoded
         if containerValues.contains(.dbSecurityGroups) {
             struct KeyVal0{struct DBSecurityGroup{}}
@@ -14983,11 +15451,11 @@ extension RDSClientTypes.DBInstance: Swift.Codable {
         pendingModifiedValues = pendingModifiedValuesDecoded
         let latestRestorableTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .latestRestorableTime)
         latestRestorableTime = latestRestorableTimeDecoded
-        let multiAZDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .multiAZ) ?? false
+        let multiAZDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .multiAZ)
         multiAZ = multiAZDecoded
         let engineVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .engineVersion)
         engineVersion = engineVersionDecoded
-        let autoMinorVersionUpgradeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoMinorVersionUpgrade) ?? false
+        let autoMinorVersionUpgradeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoMinorVersionUpgrade)
         autoMinorVersionUpgrade = autoMinorVersionUpgradeDecoded
         let readReplicaSourceDBInstanceIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .readReplicaSourceDBInstanceIdentifier)
         readReplicaSourceDBInstanceIdentifier = readReplicaSourceDBInstanceIdentifierDecoded
@@ -15060,7 +15528,7 @@ extension RDSClientTypes.DBInstance: Swift.Codable {
         ncharCharacterSetName = ncharCharacterSetNameDecoded
         let secondaryAvailabilityZoneDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .secondaryAvailabilityZone)
         secondaryAvailabilityZone = secondaryAvailabilityZoneDecoded
-        let publiclyAccessibleDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .publiclyAccessible) ?? false
+        let publiclyAccessibleDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .publiclyAccessible)
         publiclyAccessible = publiclyAccessibleDecoded
         if containerValues.contains(.statusInfos) {
             struct KeyVal0{struct DBInstanceStatusInfo{}}
@@ -15085,11 +15553,11 @@ extension RDSClientTypes.DBInstance: Swift.Codable {
         storageType = storageTypeDecoded
         let tdeCredentialArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tdeCredentialArn)
         tdeCredentialArn = tdeCredentialArnDecoded
-        let dbInstancePortDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .dbInstancePort) ?? 0
+        let dbInstancePortDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .dbInstancePort)
         dbInstancePort = dbInstancePortDecoded
         let dbClusterIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbClusterIdentifier)
         dbClusterIdentifier = dbClusterIdentifierDecoded
-        let storageEncryptedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .storageEncrypted) ?? false
+        let storageEncryptedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .storageEncrypted)
         storageEncrypted = storageEncryptedDecoded
         let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
         kmsKeyId = kmsKeyIdDecoded
@@ -15116,7 +15584,7 @@ extension RDSClientTypes.DBInstance: Swift.Codable {
         } else {
             domainMemberships = nil
         }
-        let copyTagsToSnapshotDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .copyTagsToSnapshot) ?? false
+        let copyTagsToSnapshotDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .copyTagsToSnapshot)
         copyTagsToSnapshot = copyTagsToSnapshotDecoded
         let monitoringIntervalDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .monitoringInterval)
         monitoringInterval = monitoringIntervalDecoded
@@ -15130,7 +15598,7 @@ extension RDSClientTypes.DBInstance: Swift.Codable {
         dbInstanceArn = dbInstanceArnDecoded
         let timezoneDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .timezone)
         timezone = timezoneDecoded
-        let iamDatabaseAuthenticationEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .iamDatabaseAuthenticationEnabled) ?? false
+        let iamDatabaseAuthenticationEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .iamDatabaseAuthenticationEnabled)
         iamDatabaseAuthenticationEnabled = iamDatabaseAuthenticationEnabledDecoded
         let performanceInsightsEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .performanceInsightsEnabled)
         performanceInsightsEnabled = performanceInsightsEnabledDecoded
@@ -15176,7 +15644,7 @@ extension RDSClientTypes.DBInstance: Swift.Codable {
         } else {
             processorFeatures = nil
         }
-        let deletionProtectionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deletionProtection) ?? false
+        let deletionProtectionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deletionProtection)
         deletionProtection = deletionProtectionDecoded
         if containerValues.contains(.associatedRoles) {
             struct KeyVal0{struct DBInstanceRole{}}
@@ -15277,6 +15745,10 @@ extension RDSClientTypes.DBInstance: Swift.Codable {
         readReplicaSourceDBClusterIdentifier = readReplicaSourceDBClusterIdentifierDecoded
         let percentProgressDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .percentProgress)
         percentProgress = percentProgressDecoded
+        let dedicatedLogVolumeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dedicatedLogVolume)
+        dedicatedLogVolume = dedicatedLogVolumeDecoded
+        let isStorageConfigUpgradeAvailableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isStorageConfigUpgradeAvailable)
+        isStorageConfigUpgradeAvailable = isStorageConfigUpgradeAvailableDecoded
     }
 }
 
@@ -15296,11 +15768,11 @@ extension RDSClientTypes {
         /// The status of the database activity stream.
         public var activityStreamStatus: RDSClientTypes.ActivityStreamStatus?
         /// The amount of storage in gibibytes (GiB) allocated for the DB instance.
-        public var allocatedStorage: Swift.Int
+        public var allocatedStorage: Swift.Int?
         /// The Amazon Web Services Identity and Access Management (IAM) roles associated with the DB instance.
         public var associatedRoles: [RDSClientTypes.DBInstanceRole]?
         /// Indicates whether minor version patches are applied automatically.
-        public var autoMinorVersionUpgrade: Swift.Bool
+        public var autoMinorVersionUpgrade: Swift.Bool?
         /// The time when a stopped DB instance is restarted automatically.
         public var automaticRestartTime: ClientRuntime.Date?
         /// The automation mode of the RDS Custom DB instance: full or all paused. If full, the DB instance automates monitoring and instance recovery. If all paused, the instance pauses automation for the duration set by --resume-full-automation-mode-minutes.
@@ -15310,7 +15782,7 @@ extension RDSClientTypes {
         /// The Amazon Resource Name (ARN) of the recovery point in Amazon Web Services Backup.
         public var awsBackupRecoveryPointArn: Swift.String?
         /// The number of days for which automatic DB snapshots are retained.
-        public var backupRetentionPeriod: Swift.Int
+        public var backupRetentionPeriod: Swift.Int?
         /// The location where automated backups and manual snapshots are stored: Amazon Web Services Outposts or the Amazon Web Services Region.
         public var backupTarget: Swift.String?
         /// The identifier of the CA certificate for this DB instance. For more information, see [Using SSL/TLS to encrypt a connection to a DB instance](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.SSL.html) in the Amazon RDS User Guide and [ Using SSL/TLS to encrypt a connection to a DB cluster](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/UsingWithRDS.SSL.html) in the Amazon Aurora User Guide.
@@ -15320,7 +15792,7 @@ extension RDSClientTypes {
         /// If present, specifies the name of the character set that this instance is associated with.
         public var characterSetName: Swift.String?
         /// Indicates whether tags are copied from the DB instance to snapshots of the DB instance. This setting doesn't apply to Amazon Aurora DB instances. Copying tags to snapshots is managed by the DB cluster. Setting this value for an Aurora DB instance has no effect on the DB cluster setting. For more information, see DBCluster.
-        public var copyTagsToSnapshot: Swift.Bool
+        public var copyTagsToSnapshot: Swift.Bool?
         /// The instance profile associated with the underlying Amazon EC2 instance of an RDS Custom DB instance. The instance profile must meet the following requirements:
         ///
         /// * The profile must exist in your account.
@@ -15345,7 +15817,7 @@ extension RDSClientTypes {
         /// The user-supplied database identifier. This identifier is the unique key that identifies a DB instance.
         public var dbInstanceIdentifier: Swift.String?
         /// The port that the DB instance listens on. If the DB instance is part of a DB cluster, this can be a different port than the DB cluster port.
-        public var dbInstancePort: Swift.Int
+        public var dbInstancePort: Swift.Int?
         /// The current state of this database. For information about DB instance statuses, see [Viewing DB instance status](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/accessing-monitoring.html#Overview.DBInstance.Status) in the Amazon RDS User Guide.
         public var dbInstanceStatus: Swift.String?
         /// Contains the initial database name that you provided (if required) when you created the DB instance. This name is returned for the life of your DB instance. For an RDS for Oracle CDB instance, the name identifies the PDB rather than the CDB.
@@ -15360,8 +15832,10 @@ extension RDSClientTypes {
         public var dbSystemId: Swift.String?
         /// The Amazon Web Services Region-unique, immutable identifier for the DB instance. This identifier is found in Amazon Web Services CloudTrail log entries whenever the Amazon Web Services KMS key for the DB instance is accessed.
         public var dbiResourceId: Swift.String?
+        /// Indicates whether the DB instance has a dedicated log volume (DLV) enabled.
+        public var dedicatedLogVolume: Swift.Bool?
         /// Indicates whether the DB instance has deletion protection enabled. The database can't be deleted when deletion protection is enabled. For more information, see [ Deleting a DB Instance](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_DeleteInstance.html).
-        public var deletionProtection: Swift.Bool
+        public var deletionProtection: Swift.Bool?
         /// The Active Directory Domain membership records associated with the DB instance.
         public var domainMemberships: [RDSClientTypes.DomainMembership]?
         /// A list of log types that this DB instance is configured to export to CloudWatch Logs. Log types vary by DB engine. For information about the log types for each DB engine, see [Monitoring Amazon RDS log files](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_LogAccess.html) in the Amazon RDS User Guide.
@@ -15375,11 +15849,13 @@ extension RDSClientTypes {
         /// The Amazon Resource Name (ARN) of the Amazon CloudWatch Logs log stream that receives the Enhanced Monitoring metrics data for the DB instance.
         public var enhancedMonitoringResourceArn: Swift.String?
         /// Indicates whether mapping of Amazon Web Services Identity and Access Management (IAM) accounts to database accounts is enabled for the DB instance. For a list of engine versions that support IAM database authentication, see [IAM database authentication](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.RDS_Fea_Regions_DB-eng.Feature.IamDatabaseAuthentication.html) in the Amazon RDS User Guide and [IAM database authentication in Aurora](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Concepts.Aurora_Fea_Regions_DB-eng.Feature.IAMdbauth.html) in the Amazon Aurora User Guide.
-        public var iamDatabaseAuthenticationEnabled: Swift.Bool
+        public var iamDatabaseAuthenticationEnabled: Swift.Bool?
         /// The date and time when the DB instance was created.
         public var instanceCreateTime: ClientRuntime.Date?
         /// The Provisioned IOPS (I/O operations per second) value for the DB instance.
         public var iops: Swift.Int?
+        /// Indicates whether an upgrade is recommended for the storage file system configuration on the DB instance. To migrate to the preferred configuration, you can either create a blue/green deployment, or create a read replica from the DB instance. For more information, see [Upgrading the storage file system for a DB instance](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_PIOPS.StorageTypes.html#USER_PIOPS.UpgradeFileSystem).
+        public var isStorageConfigUpgradeAvailable: Swift.Bool?
         /// If StorageEncrypted is enabled, the Amazon Web Services KMS key identifier for the encrypted DB instance. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key.
         public var kmsKeyId: Swift.String?
         /// The latest time to which a database in this DB instance can be restored with point-in-time restore.
@@ -15399,7 +15875,7 @@ extension RDSClientTypes {
         /// The ARN for the IAM role that permits RDS to send Enhanced Monitoring metrics to Amazon CloudWatch Logs.
         public var monitoringRoleArn: Swift.String?
         /// Indicates whether the DB instance is a Multi-AZ deployment. This setting doesn't apply to RDS Custom DB instances.
-        public var multiAZ: Swift.Bool
+        public var multiAZ: Swift.Bool?
         /// The name of the NCHAR character set for the Oracle DB instance. This character set specifies the Unicode encoding for data stored in table columns of type NCHAR, NCLOB, or NVARCHAR2.
         public var ncharCharacterSetName: Swift.String?
         /// The network type of the DB instance. The network type is determined by the DBSubnetGroup specified for the DB instance. A DBSubnetGroup can support only the IPv4 protocol or the IPv4 and the IPv6 protocols (DUAL). For more information, see [ Working with a DB instance in a VPC](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_VPC.WorkingWithRDSInstanceinaVPC.html) in the Amazon RDS User Guide and [ Working with a DB instance in a VPC](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_VPC.WorkingWithRDSInstanceinaVPC.html) in the Amazon Aurora User Guide. Valid Values: IPV4 | DUAL
@@ -15434,7 +15910,7 @@ extension RDSClientTypes {
         /// The order of priority in which an Aurora Replica is promoted to the primary instance after a failure of the existing primary instance. For more information, see [ Fault Tolerance for an Aurora DB Cluster](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Concepts.AuroraHighAvailability.html#Aurora.Managing.FaultTolerance) in the Amazon Aurora User Guide.
         public var promotionTier: Swift.Int?
         /// Indicates whether the DB instance is publicly accessible. When the DB cluster is publicly accessible, its Domain Name System (DNS) endpoint resolves to the private IP address from within the DB cluster's virtual private cloud (VPC). It resolves to the public IP address from outside of the DB cluster's VPC. Access to the DB cluster is ultimately controlled by the security group it uses. That public access isn't permitted if the security group assigned to the DB cluster doesn't permit it. When the DB instance isn't publicly accessible, it is an internal DB instance with a DNS name that resolves to a private IP address. For more information, see [CreateDBInstance].
-        public var publiclyAccessible: Swift.Bool
+        public var publiclyAccessible: Swift.Bool?
         /// The identifiers of Aurora DB clusters to which the RDS DB instance is replicated as a read replica. For example, when you create an Aurora read replica of an RDS for MySQL DB instance, the Aurora MySQL DB cluster for the Aurora read replica is shown. This output doesn't contain information about cross-Region Aurora read replicas. Currently, each RDS DB instance can have only one Aurora read replica.
         public var readReplicaDBClusterIdentifiers: [Swift.String]?
         /// The identifiers of the read replicas associated with this DB instance.
@@ -15452,7 +15928,7 @@ extension RDSClientTypes {
         /// The status of a read replica. If the DB instance isn't a read replica, the value is blank.
         public var statusInfos: [RDSClientTypes.DBInstanceStatusInfo]?
         /// Indicates whether the DB instance is encrypted.
-        public var storageEncrypted: Swift.Bool
+        public var storageEncrypted: Swift.Bool?
         /// The storage throughput for the DB instance. This setting applies only to the gp3 storage type.
         public var storageThroughput: Swift.Int?
         /// The storage type associated with the DB instance.
@@ -15473,19 +15949,19 @@ extension RDSClientTypes {
             activityStreamMode: RDSClientTypes.ActivityStreamMode? = nil,
             activityStreamPolicyStatus: RDSClientTypes.ActivityStreamPolicyStatus? = nil,
             activityStreamStatus: RDSClientTypes.ActivityStreamStatus? = nil,
-            allocatedStorage: Swift.Int = 0,
+            allocatedStorage: Swift.Int? = nil,
             associatedRoles: [RDSClientTypes.DBInstanceRole]? = nil,
-            autoMinorVersionUpgrade: Swift.Bool = false,
+            autoMinorVersionUpgrade: Swift.Bool? = nil,
             automaticRestartTime: ClientRuntime.Date? = nil,
             automationMode: RDSClientTypes.AutomationMode? = nil,
             availabilityZone: Swift.String? = nil,
             awsBackupRecoveryPointArn: Swift.String? = nil,
-            backupRetentionPeriod: Swift.Int = 0,
+            backupRetentionPeriod: Swift.Int? = nil,
             backupTarget: Swift.String? = nil,
             caCertificateIdentifier: Swift.String? = nil,
             certificateDetails: RDSClientTypes.CertificateDetails? = nil,
             characterSetName: Swift.String? = nil,
-            copyTagsToSnapshot: Swift.Bool = false,
+            copyTagsToSnapshot: Swift.Bool? = nil,
             customIamInstanceProfile: Swift.String? = nil,
             customerOwnedIpEnabled: Swift.Bool? = nil,
             dbClusterIdentifier: Swift.String? = nil,
@@ -15493,7 +15969,7 @@ extension RDSClientTypes {
             dbInstanceAutomatedBackupsReplications: [RDSClientTypes.DBInstanceAutomatedBackupsReplication]? = nil,
             dbInstanceClass: Swift.String? = nil,
             dbInstanceIdentifier: Swift.String? = nil,
-            dbInstancePort: Swift.Int = 0,
+            dbInstancePort: Swift.Int? = nil,
             dbInstanceStatus: Swift.String? = nil,
             dbName: Swift.String? = nil,
             dbParameterGroups: [RDSClientTypes.DBParameterGroupStatus]? = nil,
@@ -15501,16 +15977,18 @@ extension RDSClientTypes {
             dbSubnetGroup: RDSClientTypes.DBSubnetGroup? = nil,
             dbSystemId: Swift.String? = nil,
             dbiResourceId: Swift.String? = nil,
-            deletionProtection: Swift.Bool = false,
+            dedicatedLogVolume: Swift.Bool? = nil,
+            deletionProtection: Swift.Bool? = nil,
             domainMemberships: [RDSClientTypes.DomainMembership]? = nil,
             enabledCloudwatchLogsExports: [Swift.String]? = nil,
             endpoint: RDSClientTypes.Endpoint? = nil,
             engine: Swift.String? = nil,
             engineVersion: Swift.String? = nil,
             enhancedMonitoringResourceArn: Swift.String? = nil,
-            iamDatabaseAuthenticationEnabled: Swift.Bool = false,
+            iamDatabaseAuthenticationEnabled: Swift.Bool? = nil,
             instanceCreateTime: ClientRuntime.Date? = nil,
             iops: Swift.Int? = nil,
+            isStorageConfigUpgradeAvailable: Swift.Bool? = nil,
             kmsKeyId: Swift.String? = nil,
             latestRestorableTime: ClientRuntime.Date? = nil,
             licenseModel: Swift.String? = nil,
@@ -15520,7 +15998,7 @@ extension RDSClientTypes {
             maxAllocatedStorage: Swift.Int? = nil,
             monitoringInterval: Swift.Int? = nil,
             monitoringRoleArn: Swift.String? = nil,
-            multiAZ: Swift.Bool = false,
+            multiAZ: Swift.Bool? = nil,
             ncharCharacterSetName: Swift.String? = nil,
             networkType: Swift.String? = nil,
             optionGroupMemberships: [RDSClientTypes.OptionGroupMembership]? = nil,
@@ -15533,7 +16011,7 @@ extension RDSClientTypes {
             preferredMaintenanceWindow: Swift.String? = nil,
             processorFeatures: [RDSClientTypes.ProcessorFeature]? = nil,
             promotionTier: Swift.Int? = nil,
-            publiclyAccessible: Swift.Bool = false,
+            publiclyAccessible: Swift.Bool? = nil,
             readReplicaDBClusterIdentifiers: [Swift.String]? = nil,
             readReplicaDBInstanceIdentifiers: [Swift.String]? = nil,
             readReplicaSourceDBClusterIdentifier: Swift.String? = nil,
@@ -15542,7 +16020,7 @@ extension RDSClientTypes {
             resumeFullAutomationModeTime: ClientRuntime.Date? = nil,
             secondaryAvailabilityZone: Swift.String? = nil,
             statusInfos: [RDSClientTypes.DBInstanceStatusInfo]? = nil,
-            storageEncrypted: Swift.Bool = false,
+            storageEncrypted: Swift.Bool? = nil,
             storageThroughput: Swift.Int? = nil,
             storageType: Swift.String? = nil,
             tagList: [RDSClientTypes.Tag]? = nil,
@@ -15585,6 +16063,7 @@ extension RDSClientTypes {
             self.dbSubnetGroup = dbSubnetGroup
             self.dbSystemId = dbSystemId
             self.dbiResourceId = dbiResourceId
+            self.dedicatedLogVolume = dedicatedLogVolume
             self.deletionProtection = deletionProtection
             self.domainMemberships = domainMemberships
             self.enabledCloudwatchLogsExports = enabledCloudwatchLogsExports
@@ -15595,6 +16074,7 @@ extension RDSClientTypes {
             self.iamDatabaseAuthenticationEnabled = iamDatabaseAuthenticationEnabled
             self.instanceCreateTime = instanceCreateTime
             self.iops = iops
+            self.isStorageConfigUpgradeAvailable = isStorageConfigUpgradeAvailable
             self.kmsKeyId = kmsKeyId
             self.latestRestorableTime = latestRestorableTime
             self.licenseModel = licenseModel
@@ -15704,6 +16184,7 @@ extension RDSClientTypes.DBInstanceAutomatedBackup: Swift.Codable {
         case dbInstanceAutomatedBackupsReplications = "DBInstanceAutomatedBackupsReplications"
         case dbInstanceIdentifier = "DBInstanceIdentifier"
         case dbiResourceId = "DbiResourceId"
+        case dedicatedLogVolume = "DedicatedLogVolume"
         case encrypted = "Encrypted"
         case engine = "Engine"
         case engineVersion = "EngineVersion"
@@ -15727,7 +16208,7 @@ extension RDSClientTypes.DBInstanceAutomatedBackup: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if allocatedStorage != 0 {
+        if let allocatedStorage = allocatedStorage {
             try container.encode(allocatedStorage, forKey: ClientRuntime.Key("AllocatedStorage"))
         }
         if let availabilityZone = availabilityZone {
@@ -15766,7 +16247,10 @@ extension RDSClientTypes.DBInstanceAutomatedBackup: Swift.Codable {
         if let dbiResourceId = dbiResourceId {
             try container.encode(dbiResourceId, forKey: ClientRuntime.Key("DbiResourceId"))
         }
-        if encrypted != false {
+        if let dedicatedLogVolume = dedicatedLogVolume {
+            try container.encode(dedicatedLogVolume, forKey: ClientRuntime.Key("DedicatedLogVolume"))
+        }
+        if let encrypted = encrypted {
             try container.encode(encrypted, forKey: ClientRuntime.Key("Encrypted"))
         }
         if let engine = engine {
@@ -15775,7 +16259,7 @@ extension RDSClientTypes.DBInstanceAutomatedBackup: Swift.Codable {
         if let engineVersion = engineVersion {
             try container.encode(engineVersion, forKey: ClientRuntime.Key("EngineVersion"))
         }
-        if iamDatabaseAuthenticationEnabled != false {
+        if let iamDatabaseAuthenticationEnabled = iamDatabaseAuthenticationEnabled {
             try container.encode(iamDatabaseAuthenticationEnabled, forKey: ClientRuntime.Key("IAMDatabaseAuthenticationEnabled"))
         }
         if let instanceCreateTime = instanceCreateTime {
@@ -15796,7 +16280,7 @@ extension RDSClientTypes.DBInstanceAutomatedBackup: Swift.Codable {
         if let optionGroupName = optionGroupName {
             try container.encode(optionGroupName, forKey: ClientRuntime.Key("OptionGroupName"))
         }
-        if port != 0 {
+        if let port = port {
             try container.encode(port, forKey: ClientRuntime.Key("Port"))
         }
         if let region = region {
@@ -15837,11 +16321,11 @@ extension RDSClientTypes.DBInstanceAutomatedBackup: Swift.Codable {
         dbInstanceIdentifier = dbInstanceIdentifierDecoded
         let restoreWindowDecoded = try containerValues.decodeIfPresent(RDSClientTypes.RestoreWindow.self, forKey: .restoreWindow)
         restoreWindow = restoreWindowDecoded
-        let allocatedStorageDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .allocatedStorage) ?? 0
+        let allocatedStorageDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .allocatedStorage)
         allocatedStorage = allocatedStorageDecoded
         let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
         status = statusDecoded
-        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port) ?? 0
+        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port)
         port = portDecoded
         let availabilityZoneDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .availabilityZone)
         availabilityZone = availabilityZoneDecoded
@@ -15863,7 +16347,7 @@ extension RDSClientTypes.DBInstanceAutomatedBackup: Swift.Codable {
         optionGroupName = optionGroupNameDecoded
         let tdeCredentialArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tdeCredentialArn)
         tdeCredentialArn = tdeCredentialArnDecoded
-        let encryptedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .encrypted) ?? false
+        let encryptedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .encrypted)
         encrypted = encryptedDecoded
         let storageTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .storageType)
         storageType = storageTypeDecoded
@@ -15871,7 +16355,7 @@ extension RDSClientTypes.DBInstanceAutomatedBackup: Swift.Codable {
         kmsKeyId = kmsKeyIdDecoded
         let timezoneDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .timezone)
         timezone = timezoneDecoded
-        let iamDatabaseAuthenticationEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .iamDatabaseAuthenticationEnabled) ?? false
+        let iamDatabaseAuthenticationEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .iamDatabaseAuthenticationEnabled)
         iamDatabaseAuthenticationEnabled = iamDatabaseAuthenticationEnabledDecoded
         let backupRetentionPeriodDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .backupRetentionPeriod)
         backupRetentionPeriod = backupRetentionPeriodDecoded
@@ -15902,6 +16386,8 @@ extension RDSClientTypes.DBInstanceAutomatedBackup: Swift.Codable {
         storageThroughput = storageThroughputDecoded
         let awsBackupRecoveryPointArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .awsBackupRecoveryPointArn)
         awsBackupRecoveryPointArn = awsBackupRecoveryPointArnDecoded
+        let dedicatedLogVolumeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dedicatedLogVolume)
+        dedicatedLogVolume = dedicatedLogVolumeDecoded
     }
 }
 
@@ -15909,7 +16395,7 @@ extension RDSClientTypes {
     /// An automated backup of a DB instance. It consists of system backups, transaction logs, and the database instance properties that existed at the time you deleted the source instance.
     public struct DBInstanceAutomatedBackup: Swift.Equatable {
         /// The allocated storage size for the the automated backup in gibibytes (GiB).
-        public var allocatedStorage: Swift.Int
+        public var allocatedStorage: Swift.Int?
         /// The Availability Zone that the automated backup was created in. For information on Amazon Web Services Regions and Availability Zones, see [Regions and Availability Zones](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.RegionsAndAvailabilityZones.html).
         public var availabilityZone: Swift.String?
         /// The Amazon Resource Name (ARN) of the recovery point in Amazon Web Services Backup.
@@ -15928,14 +16414,16 @@ extension RDSClientTypes {
         public var dbInstanceIdentifier: Swift.String?
         /// The resource ID for the source DB instance, which can't be changed and which is unique to an Amazon Web Services Region.
         public var dbiResourceId: Swift.String?
+        /// Indicates whether the DB instance has a dedicated log volume (DLV) enabled.
+        public var dedicatedLogVolume: Swift.Bool?
         /// Indicates whether the automated backup is encrypted.
-        public var encrypted: Swift.Bool
+        public var encrypted: Swift.Bool?
         /// The name of the database engine for this automated backup.
         public var engine: Swift.String?
         /// The version of the database engine for the automated backup.
         public var engineVersion: Swift.String?
         /// True if mapping of Amazon Web Services Identity and Access Management (IAM) accounts to database accounts is enabled, and otherwise false.
-        public var iamDatabaseAuthenticationEnabled: Swift.Bool
+        public var iamDatabaseAuthenticationEnabled: Swift.Bool?
         /// The date and time when the DB instance was created.
         public var instanceCreateTime: ClientRuntime.Date?
         /// The IOPS (I/O operations per second) value for the automated backup.
@@ -15949,7 +16437,7 @@ extension RDSClientTypes {
         /// The option group the automated backup is associated with. If omitted, the default option group for the engine specified is used.
         public var optionGroupName: Swift.String?
         /// The port number that the automated backup used for connections. Default: Inherits from the source DB instance Valid Values: 1150-65535
-        public var port: Swift.Int
+        public var port: Swift.Int?
         /// The Amazon Web Services Region associated with the automated backup.
         public var region: Swift.String?
         /// The earliest and latest time a DB instance can be restored to.
@@ -15974,7 +16462,7 @@ extension RDSClientTypes {
         public var vpcId: Swift.String?
 
         public init(
-            allocatedStorage: Swift.Int = 0,
+            allocatedStorage: Swift.Int? = nil,
             availabilityZone: Swift.String? = nil,
             awsBackupRecoveryPointArn: Swift.String? = nil,
             backupRetentionPeriod: Swift.Int? = nil,
@@ -15984,17 +16472,18 @@ extension RDSClientTypes {
             dbInstanceAutomatedBackupsReplications: [RDSClientTypes.DBInstanceAutomatedBackupsReplication]? = nil,
             dbInstanceIdentifier: Swift.String? = nil,
             dbiResourceId: Swift.String? = nil,
-            encrypted: Swift.Bool = false,
+            dedicatedLogVolume: Swift.Bool? = nil,
+            encrypted: Swift.Bool? = nil,
             engine: Swift.String? = nil,
             engineVersion: Swift.String? = nil,
-            iamDatabaseAuthenticationEnabled: Swift.Bool = false,
+            iamDatabaseAuthenticationEnabled: Swift.Bool? = nil,
             instanceCreateTime: ClientRuntime.Date? = nil,
             iops: Swift.Int? = nil,
             kmsKeyId: Swift.String? = nil,
             licenseModel: Swift.String? = nil,
             masterUsername: Swift.String? = nil,
             optionGroupName: Swift.String? = nil,
-            port: Swift.Int = 0,
+            port: Swift.Int? = nil,
             region: Swift.String? = nil,
             restoreWindow: RDSClientTypes.RestoreWindow? = nil,
             status: Swift.String? = nil,
@@ -16015,6 +16504,7 @@ extension RDSClientTypes {
             self.dbInstanceAutomatedBackupsReplications = dbInstanceAutomatedBackupsReplications
             self.dbInstanceIdentifier = dbInstanceIdentifier
             self.dbiResourceId = dbiResourceId
+            self.dedicatedLogVolume = dedicatedLogVolume
             self.encrypted = encrypted
             self.engine = engine
             self.engineVersion = engineVersion
@@ -16472,7 +16962,7 @@ extension RDSClientTypes.DBInstanceStatusInfo: Swift.Codable {
         if let message = message {
             try container.encode(message, forKey: ClientRuntime.Key("Message"))
         }
-        if normal != false {
+        if let normal = normal {
             try container.encode(normal, forKey: ClientRuntime.Key("Normal"))
         }
         if let status = status {
@@ -16487,7 +16977,7 @@ extension RDSClientTypes.DBInstanceStatusInfo: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let statusTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .statusType)
         statusType = statusTypeDecoded
-        let normalDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .normal) ?? false
+        let normalDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .normal)
         normal = normalDecoded
         let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
         status = statusDecoded
@@ -16502,7 +16992,7 @@ extension RDSClientTypes {
         /// Details of the error if there is an error for the instance. If the instance isn't in an error state, this value is blank.
         public var message: Swift.String?
         /// A Boolean value that is true if the instance is operating normally, or false if the instance is in an error state.
-        public var normal: Swift.Bool
+        public var normal: Swift.Bool?
         /// The status of the DB instance. For a StatusType of read replica, the values can be replicating, replication stop point set, replication stop point reached, error, stopped, or terminated.
         public var status: Swift.String?
         /// This value is currently "read replication."
@@ -16510,7 +17000,7 @@ extension RDSClientTypes {
 
         public init(
             message: Swift.String? = nil,
-            normal: Swift.Bool = false,
+            normal: Swift.Bool? = nil,
             status: Swift.String? = nil,
             statusType: Swift.String? = nil
         )
@@ -16904,7 +17394,7 @@ extension RDSClientTypes.DBProxy: Swift.Codable {
         if let dbProxyName = dbProxyName {
             try container.encode(dbProxyName, forKey: ClientRuntime.Key("DBProxyName"))
         }
-        if debugLogging != false {
+        if let debugLogging = debugLogging {
             try container.encode(debugLogging, forKey: ClientRuntime.Key("DebugLogging"))
         }
         if let endpoint = endpoint {
@@ -16913,10 +17403,10 @@ extension RDSClientTypes.DBProxy: Swift.Codable {
         if let engineFamily = engineFamily {
             try container.encode(engineFamily, forKey: ClientRuntime.Key("EngineFamily"))
         }
-        if idleClientTimeout != 0 {
+        if let idleClientTimeout = idleClientTimeout {
             try container.encode(idleClientTimeout, forKey: ClientRuntime.Key("IdleClientTimeout"))
         }
-        if requireTLS != false {
+        if let requireTLS = requireTLS {
             try container.encode(requireTLS, forKey: ClientRuntime.Key("RequireTLS"))
         }
         if let roleArn = roleArn {
@@ -17030,11 +17520,11 @@ extension RDSClientTypes.DBProxy: Swift.Codable {
         roleArn = roleArnDecoded
         let endpointDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .endpoint)
         endpoint = endpointDecoded
-        let requireTLSDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .requireTLS) ?? false
+        let requireTLSDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .requireTLS)
         requireTLS = requireTLSDecoded
-        let idleClientTimeoutDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .idleClientTimeout) ?? 0
+        let idleClientTimeoutDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .idleClientTimeout)
         idleClientTimeout = idleClientTimeoutDecoded
-        let debugLoggingDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .debugLogging) ?? false
+        let debugLoggingDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .debugLogging)
         debugLogging = debugLoggingDecoded
         let createdDateDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .createdDate)
         createdDate = createdDateDecoded
@@ -17055,15 +17545,15 @@ extension RDSClientTypes {
         /// The identifier for the proxy. This name must be unique for all proxies owned by your Amazon Web Services account in the specified Amazon Web Services Region.
         public var dbProxyName: Swift.String?
         /// Indicates whether the proxy includes detailed information about SQL statements in its logs. This information helps you to debug issues involving SQL behavior or the performance and scalability of the proxy connections. The debug information includes the text of SQL statements that you submit through the proxy. Thus, only enable this setting when needed for debugging, and only when you have security measures in place to safeguard any sensitive information that appears in the logs.
-        public var debugLogging: Swift.Bool
+        public var debugLogging: Swift.Bool?
         /// The endpoint that you can use to connect to the DB proxy. You include the endpoint value in the connection string for a database client application.
         public var endpoint: Swift.String?
         /// The kinds of databases that the proxy can connect to. This value determines which database network protocol the proxy recognizes when it interprets network traffic to and from the database. MYSQL supports Aurora MySQL, RDS for MariaDB, and RDS for MySQL databases. POSTGRESQL supports Aurora PostgreSQL and RDS for PostgreSQL databases. SQLSERVER supports RDS for Microsoft SQL Server databases.
         public var engineFamily: Swift.String?
         /// The number of seconds a connection to the proxy can have no activity before the proxy drops the client connection. The proxy keeps the underlying database connection open and puts it back into the connection pool for reuse by later connection requests. Default: 1800 (30 minutes) Constraints: 1 to 28,800
-        public var idleClientTimeout: Swift.Int
+        public var idleClientTimeout: Swift.Int?
         /// Indicates whether Transport Layer Security (TLS) encryption is required for connections to the proxy.
-        public var requireTLS: Swift.Bool
+        public var requireTLS: Swift.Bool?
         /// The Amazon Resource Name (ARN) for the IAM role that the proxy uses to access Amazon Secrets Manager.
         public var roleArn: Swift.String?
         /// The current status of this proxy. A status of available means the proxy is ready to handle requests. Other values indicate that you must wait for the proxy to be ready, or take some action to resolve an issue.
@@ -17082,11 +17572,11 @@ extension RDSClientTypes {
             createdDate: ClientRuntime.Date? = nil,
             dbProxyArn: Swift.String? = nil,
             dbProxyName: Swift.String? = nil,
-            debugLogging: Swift.Bool = false,
+            debugLogging: Swift.Bool? = nil,
             endpoint: Swift.String? = nil,
             engineFamily: Swift.String? = nil,
-            idleClientTimeout: Swift.Int = 0,
-            requireTLS: Swift.Bool = false,
+            idleClientTimeout: Swift.Int? = nil,
+            requireTLS: Swift.Bool? = nil,
             roleArn: Swift.String? = nil,
             status: RDSClientTypes.DBProxyStatus? = nil,
             updatedDate: ClientRuntime.Date? = nil,
@@ -17201,7 +17691,7 @@ extension RDSClientTypes.DBProxyEndpoint: Swift.Codable {
         if let endpoint = endpoint {
             try container.encode(endpoint, forKey: ClientRuntime.Key("Endpoint"))
         }
-        if isDefault != false {
+        if let isDefault = isDefault {
             try container.encode(isDefault, forKey: ClientRuntime.Key("IsDefault"))
         }
         if let status = status {
@@ -17295,7 +17785,7 @@ extension RDSClientTypes.DBProxyEndpoint: Swift.Codable {
         createdDate = createdDateDecoded
         let targetRoleDecoded = try containerValues.decodeIfPresent(RDSClientTypes.DBProxyEndpointTargetRole.self, forKey: .targetRole)
         targetRole = targetRoleDecoded
-        let isDefaultDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isDefault) ?? false
+        let isDefaultDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isDefault)
         isDefault = isDefaultDecoded
     }
 }
@@ -17314,7 +17804,7 @@ extension RDSClientTypes {
         /// The endpoint that you can use to connect to the DB proxy. You include the endpoint value in the connection string for a database client application.
         public var endpoint: Swift.String?
         /// Indicates whether this endpoint is the default endpoint for the associated DB proxy. Default DB proxy endpoints always have read/write capability. Other endpoints that you associate with the DB proxy can be either read/write or read-only.
-        public var isDefault: Swift.Bool
+        public var isDefault: Swift.Bool?
         /// The current status of this DB proxy endpoint. A status of available means the endpoint is ready to handle requests. Other values indicate that you must wait for the endpoint to be ready, or take some action to resolve an issue.
         public var status: RDSClientTypes.DBProxyEndpointStatus?
         /// A value that indicates whether the DB proxy endpoint can be used for read/write or read-only operations.
@@ -17332,7 +17822,7 @@ extension RDSClientTypes {
             dbProxyEndpointName: Swift.String? = nil,
             dbProxyName: Swift.String? = nil,
             endpoint: Swift.String? = nil,
-            isDefault: Swift.Bool = false,
+            isDefault: Swift.Bool? = nil,
             status: RDSClientTypes.DBProxyEndpointStatus? = nil,
             targetRole: RDSClientTypes.DBProxyEndpointTargetRole? = nil,
             vpcId: Swift.String? = nil,
@@ -17772,7 +18262,7 @@ extension RDSClientTypes.DBProxyTarget: Swift.Codable {
         if let endpoint = endpoint {
             try container.encode(endpoint, forKey: ClientRuntime.Key("Endpoint"))
         }
-        if port != 0 {
+        if let port = port {
             try container.encode(port, forKey: ClientRuntime.Key("Port"))
         }
         if let rdsResourceId = rdsResourceId {
@@ -17805,7 +18295,7 @@ extension RDSClientTypes.DBProxyTarget: Swift.Codable {
         trackedClusterId = trackedClusterIdDecoded
         let rdsResourceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .rdsResourceId)
         rdsResourceId = rdsResourceIdDecoded
-        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port) ?? 0
+        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port)
         port = portDecoded
         let typeDecoded = try containerValues.decodeIfPresent(RDSClientTypes.TargetType.self, forKey: .type)
         type = typeDecoded
@@ -17822,7 +18312,7 @@ extension RDSClientTypes {
         /// The writer endpoint for the RDS DB instance or Aurora DB cluster.
         public var endpoint: Swift.String?
         /// The port that the RDS Proxy uses to connect to the target RDS DB instance or Aurora DB cluster.
-        public var port: Swift.Int
+        public var port: Swift.Int?
         /// The identifier representing the target. It can be the instance identifier for an RDS DB instance, or the cluster identifier for an Aurora DB cluster.
         public var rdsResourceId: Swift.String?
         /// A value that indicates whether the target of the proxy can be used for read/write or read-only operations.
@@ -17838,7 +18328,7 @@ extension RDSClientTypes {
 
         public init(
             endpoint: Swift.String? = nil,
-            port: Swift.Int = 0,
+            port: Swift.Int? = nil,
             rdsResourceId: Swift.String? = nil,
             role: RDSClientTypes.TargetRole? = nil,
             targetArn: Swift.String? = nil,
@@ -17937,7 +18427,7 @@ extension RDSClientTypes.DBProxyTargetGroup: Swift.Codable {
         if let dbProxyName = dbProxyName {
             try container.encode(dbProxyName, forKey: ClientRuntime.Key("DBProxyName"))
         }
-        if isDefault != false {
+        if let isDefault = isDefault {
             try container.encode(isDefault, forKey: ClientRuntime.Key("IsDefault"))
         }
         if let status = status {
@@ -17962,7 +18452,7 @@ extension RDSClientTypes.DBProxyTargetGroup: Swift.Codable {
         targetGroupName = targetGroupNameDecoded
         let targetGroupArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .targetGroupArn)
         targetGroupArn = targetGroupArnDecoded
-        let isDefaultDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isDefault) ?? false
+        let isDefaultDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isDefault)
         isDefault = isDefaultDecoded
         let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
         status = statusDecoded
@@ -17985,7 +18475,7 @@ extension RDSClientTypes {
         /// The identifier for the RDS proxy associated with this target group.
         public var dbProxyName: Swift.String?
         /// Indicates whether this target group is the first one used for connection requests by the associated proxy. Because each proxy is currently associated with a single target group, currently this setting is always true.
-        public var isDefault: Swift.Bool
+        public var isDefault: Swift.Bool?
         /// The current status of this target group. A status of available means the target group is correctly associated with a database. Other values indicate that you must wait for the target group to be ready, or take some action to resolve an issue.
         public var status: Swift.String?
         /// The Amazon Resource Name (ARN) representing the target group.
@@ -17999,7 +18489,7 @@ extension RDSClientTypes {
             connectionPoolConfig: RDSClientTypes.ConnectionPoolConfigurationInfo? = nil,
             createdDate: ClientRuntime.Date? = nil,
             dbProxyName: Swift.String? = nil,
-            isDefault: Swift.Bool = false,
+            isDefault: Swift.Bool? = nil,
             status: Swift.String? = nil,
             targetGroupArn: Swift.String? = nil,
             targetGroupName: Swift.String? = nil,
@@ -18552,6 +19042,7 @@ extension RDSClientTypes.DBSnapshot: Swift.Codable {
         case dbSnapshotIdentifier = "DBSnapshotIdentifier"
         case dbSystemId = "DBSystemId"
         case dbiResourceId = "DbiResourceId"
+        case dedicatedLogVolume = "DedicatedLogVolume"
         case encrypted = "Encrypted"
         case engine = "Engine"
         case engineVersion = "EngineVersion"
@@ -18583,7 +19074,7 @@ extension RDSClientTypes.DBSnapshot: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if allocatedStorage != 0 {
+        if let allocatedStorage = allocatedStorage {
             try container.encode(allocatedStorage, forKey: ClientRuntime.Key("AllocatedStorage"))
         }
         if let availabilityZone = availabilityZone {
@@ -18604,7 +19095,10 @@ extension RDSClientTypes.DBSnapshot: Swift.Codable {
         if let dbiResourceId = dbiResourceId {
             try container.encode(dbiResourceId, forKey: ClientRuntime.Key("DbiResourceId"))
         }
-        if encrypted != false {
+        if let dedicatedLogVolume = dedicatedLogVolume {
+            try container.encode(dedicatedLogVolume, forKey: ClientRuntime.Key("DedicatedLogVolume"))
+        }
+        if let encrypted = encrypted {
             try container.encode(encrypted, forKey: ClientRuntime.Key("Encrypted"))
         }
         if let engine = engine {
@@ -18613,7 +19107,7 @@ extension RDSClientTypes.DBSnapshot: Swift.Codable {
         if let engineVersion = engineVersion {
             try container.encode(engineVersion, forKey: ClientRuntime.Key("EngineVersion"))
         }
-        if iamDatabaseAuthenticationEnabled != false {
+        if let iamDatabaseAuthenticationEnabled = iamDatabaseAuthenticationEnabled {
             try container.encode(iamDatabaseAuthenticationEnabled, forKey: ClientRuntime.Key("IAMDatabaseAuthenticationEnabled"))
         }
         if let instanceCreateTime = instanceCreateTime {
@@ -18637,10 +19131,10 @@ extension RDSClientTypes.DBSnapshot: Swift.Codable {
         if let originalSnapshotCreateTime = originalSnapshotCreateTime {
             try container.encodeTimestamp(originalSnapshotCreateTime, format: .dateTime, forKey: ClientRuntime.Key("OriginalSnapshotCreateTime"))
         }
-        if percentProgress != 0 {
+        if let percentProgress = percentProgress {
             try container.encode(percentProgress, forKey: ClientRuntime.Key("PercentProgress"))
         }
-        if port != 0 {
+        if let port = port {
             try container.encode(port, forKey: ClientRuntime.Key("Port"))
         }
         if let processorFeatures = processorFeatures {
@@ -18715,11 +19209,11 @@ extension RDSClientTypes.DBSnapshot: Swift.Codable {
         snapshotCreateTime = snapshotCreateTimeDecoded
         let engineDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .engine)
         engine = engineDecoded
-        let allocatedStorageDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .allocatedStorage) ?? 0
+        let allocatedStorageDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .allocatedStorage)
         allocatedStorage = allocatedStorageDecoded
         let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
         status = statusDecoded
-        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port) ?? 0
+        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port)
         port = portDecoded
         let availabilityZoneDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .availabilityZone)
         availabilityZone = availabilityZoneDecoded
@@ -18739,7 +19233,7 @@ extension RDSClientTypes.DBSnapshot: Swift.Codable {
         iops = iopsDecoded
         let optionGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .optionGroupName)
         optionGroupName = optionGroupNameDecoded
-        let percentProgressDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .percentProgress) ?? 0
+        let percentProgressDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .percentProgress)
         percentProgress = percentProgressDecoded
         let sourceRegionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceRegion)
         sourceRegion = sourceRegionDecoded
@@ -18749,7 +19243,7 @@ extension RDSClientTypes.DBSnapshot: Swift.Codable {
         storageType = storageTypeDecoded
         let tdeCredentialArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tdeCredentialArn)
         tdeCredentialArn = tdeCredentialArnDecoded
-        let encryptedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .encrypted) ?? false
+        let encryptedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .encrypted)
         encrypted = encryptedDecoded
         let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
         kmsKeyId = kmsKeyIdDecoded
@@ -18757,7 +19251,7 @@ extension RDSClientTypes.DBSnapshot: Swift.Codable {
         dbSnapshotArn = dbSnapshotArnDecoded
         let timezoneDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .timezone)
         timezone = timezoneDecoded
-        let iamDatabaseAuthenticationEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .iamDatabaseAuthenticationEnabled) ?? false
+        let iamDatabaseAuthenticationEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .iamDatabaseAuthenticationEnabled)
         iamDatabaseAuthenticationEnabled = iamDatabaseAuthenticationEnabledDecoded
         if containerValues.contains(.processorFeatures) {
             struct KeyVal0{struct ProcessorFeature{}}
@@ -18809,6 +19303,8 @@ extension RDSClientTypes.DBSnapshot: Swift.Codable {
         storageThroughput = storageThroughputDecoded
         let dbSystemIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbSystemId)
         dbSystemId = dbSystemIdDecoded
+        let dedicatedLogVolumeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dedicatedLogVolume)
+        dedicatedLogVolume = dedicatedLogVolumeDecoded
     }
 }
 
@@ -18816,7 +19312,7 @@ extension RDSClientTypes {
     /// Contains the details of an Amazon RDS DB snapshot. This data type is used as a response element in the DescribeDBSnapshots action.
     public struct DBSnapshot: Swift.Equatable {
         /// Specifies the allocated storage size in gibibytes (GiB).
-        public var allocatedStorage: Swift.Int
+        public var allocatedStorage: Swift.Int?
         /// Specifies the name of the Availability Zone the DB instance was located in at the time of the DB snapshot.
         public var availabilityZone: Swift.String?
         /// Specifies the DB instance identifier of the DB instance this DB snapshot was created from.
@@ -18829,14 +19325,16 @@ extension RDSClientTypes {
         public var dbSystemId: Swift.String?
         /// The identifier for the source DB instance, which can't be changed and which is unique to an Amazon Web Services Region.
         public var dbiResourceId: Swift.String?
+        /// Indicates whether the DB instance has a dedicated log volume (DLV) enabled.
+        public var dedicatedLogVolume: Swift.Bool?
         /// Indicates whether the DB snapshot is encrypted.
-        public var encrypted: Swift.Bool
+        public var encrypted: Swift.Bool?
         /// Specifies the name of the database engine.
         public var engine: Swift.String?
         /// Specifies the version of the database engine.
         public var engineVersion: Swift.String?
         /// Indicates whether mapping of Amazon Web Services Identity and Access Management (IAM) accounts to database accounts is enabled.
-        public var iamDatabaseAuthenticationEnabled: Swift.Bool
+        public var iamDatabaseAuthenticationEnabled: Swift.Bool?
         /// Specifies the time in Coordinated Universal Time (UTC) when the DB instance, from which the snapshot was taken, was created.
         public var instanceCreateTime: ClientRuntime.Date?
         /// Specifies the Provisioned IOPS (I/O operations per second) value of the DB instance at the time of the snapshot.
@@ -18852,9 +19350,9 @@ extension RDSClientTypes {
         /// Specifies the time of the CreateDBSnapshot operation in Coordinated Universal Time (UTC). Doesn't change when the snapshot is copied.
         public var originalSnapshotCreateTime: ClientRuntime.Date?
         /// The percentage of the estimated data that has been transferred.
-        public var percentProgress: Swift.Int
+        public var percentProgress: Swift.Int?
         /// Specifies the port that the database engine was listening on at the time of the snapshot.
-        public var port: Swift.Int
+        public var port: Swift.Int?
         /// The number of CPU cores and the number of threads per core for the DB instance class of the DB instance when the DB snapshot was created.
         public var processorFeatures: [RDSClientTypes.ProcessorFeature]?
         /// Specifies when the snapshot was taken in Coordinated Universal Time (UTC). Changes for the copy when the snapshot is copied.
@@ -18885,17 +19383,18 @@ extension RDSClientTypes {
         public var vpcId: Swift.String?
 
         public init(
-            allocatedStorage: Swift.Int = 0,
+            allocatedStorage: Swift.Int? = nil,
             availabilityZone: Swift.String? = nil,
             dbInstanceIdentifier: Swift.String? = nil,
             dbSnapshotArn: Swift.String? = nil,
             dbSnapshotIdentifier: Swift.String? = nil,
             dbSystemId: Swift.String? = nil,
             dbiResourceId: Swift.String? = nil,
-            encrypted: Swift.Bool = false,
+            dedicatedLogVolume: Swift.Bool? = nil,
+            encrypted: Swift.Bool? = nil,
             engine: Swift.String? = nil,
             engineVersion: Swift.String? = nil,
-            iamDatabaseAuthenticationEnabled: Swift.Bool = false,
+            iamDatabaseAuthenticationEnabled: Swift.Bool? = nil,
             instanceCreateTime: ClientRuntime.Date? = nil,
             iops: Swift.Int? = nil,
             kmsKeyId: Swift.String? = nil,
@@ -18903,8 +19402,8 @@ extension RDSClientTypes {
             masterUsername: Swift.String? = nil,
             optionGroupName: Swift.String? = nil,
             originalSnapshotCreateTime: ClientRuntime.Date? = nil,
-            percentProgress: Swift.Int = 0,
-            port: Swift.Int = 0,
+            percentProgress: Swift.Int? = nil,
+            port: Swift.Int? = nil,
             processorFeatures: [RDSClientTypes.ProcessorFeature]? = nil,
             snapshotCreateTime: ClientRuntime.Date? = nil,
             snapshotDatabaseTime: ClientRuntime.Date? = nil,
@@ -18928,6 +19427,7 @@ extension RDSClientTypes {
             self.dbSnapshotIdentifier = dbSnapshotIdentifier
             self.dbSystemId = dbSystemId
             self.dbiResourceId = dbiResourceId
+            self.dedicatedLogVolume = dedicatedLogVolume
             self.encrypted = encrypted
             self.engine = engine
             self.engineVersion = engineVersion
@@ -19942,6 +20442,7 @@ extension DeleteCustomDBEngineVersionOutput: ClientRuntime.HttpResponseBinding {
             self.supportsBabelfish = output.supportsBabelfish
             self.supportsCertificateRotationWithoutRestart = output.supportsCertificateRotationWithoutRestart
             self.supportsGlobalDatabases = output.supportsGlobalDatabases
+            self.supportsIntegrations = output.supportsIntegrations
             self.supportsLocalWriteForwarding = output.supportsLocalWriteForwarding
             self.supportsLogExportsToCloudwatchLogs = output.supportsLogExportsToCloudwatchLogs
             self.supportsParallelQuery = output.supportsParallelQuery
@@ -19972,13 +20473,14 @@ extension DeleteCustomDBEngineVersionOutput: ClientRuntime.HttpResponseBinding {
             self.supportedFeatureNames = nil
             self.supportedNcharCharacterSets = nil
             self.supportedTimezones = nil
-            self.supportsBabelfish = false
+            self.supportsBabelfish = nil
             self.supportsCertificateRotationWithoutRestart = nil
-            self.supportsGlobalDatabases = false
+            self.supportsGlobalDatabases = nil
+            self.supportsIntegrations = nil
             self.supportsLocalWriteForwarding = nil
-            self.supportsLogExportsToCloudwatchLogs = false
-            self.supportsParallelQuery = false
-            self.supportsReadReplica = false
+            self.supportsLogExportsToCloudwatchLogs = nil
+            self.supportsParallelQuery = nil
+            self.supportsReadReplica = nil
             self.tagList = nil
             self.validUpgradeTarget = nil
         }
@@ -20034,19 +20536,21 @@ public struct DeleteCustomDBEngineVersionOutput: Swift.Equatable {
     /// A list of the time zones supported by this engine for the Timezone parameter of the CreateDBInstance action.
     public var supportedTimezones: [RDSClientTypes.Timezone]?
     /// Indicates whether the engine version supports Babelfish for Aurora PostgreSQL.
-    public var supportsBabelfish: Swift.Bool
+    public var supportsBabelfish: Swift.Bool?
     /// Indicates whether the engine version supports rotating the server certificate without rebooting the DB instance.
     public var supportsCertificateRotationWithoutRestart: Swift.Bool?
     /// Indicates whether you can use Aurora global databases with a specific DB engine version.
-    public var supportsGlobalDatabases: Swift.Bool
+    public var supportsGlobalDatabases: Swift.Bool?
+    /// Indicates whether the DB engine version supports Aurora zero-ETL integrations with Amazon Redshift.
+    public var supportsIntegrations: Swift.Bool?
     /// Indicates whether the DB engine version supports forwarding write operations from reader DB instances to the writer DB instance in the DB cluster. By default, write operations aren't allowed on reader DB instances. Valid for: Aurora DB clusters only
     public var supportsLocalWriteForwarding: Swift.Bool?
     /// Indicates whether the engine version supports exporting the log types specified by ExportableLogTypes to CloudWatch Logs.
-    public var supportsLogExportsToCloudwatchLogs: Swift.Bool
+    public var supportsLogExportsToCloudwatchLogs: Swift.Bool?
     /// Indicates whether you can use Aurora parallel query with a specific DB engine version.
-    public var supportsParallelQuery: Swift.Bool
+    public var supportsParallelQuery: Swift.Bool?
     /// Indicates whether the database engine version supports read replicas.
-    public var supportsReadReplica: Swift.Bool
+    public var supportsReadReplica: Swift.Bool?
     /// A list of tags. For more information, see [Tagging Amazon RDS Resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide.
     public var tagList: [RDSClientTypes.Tag]?
     /// A list of engine versions that this database engine version can be upgraded to.
@@ -20076,13 +20580,14 @@ public struct DeleteCustomDBEngineVersionOutput: Swift.Equatable {
         supportedFeatureNames: [Swift.String]? = nil,
         supportedNcharCharacterSets: [RDSClientTypes.CharacterSet]? = nil,
         supportedTimezones: [RDSClientTypes.Timezone]? = nil,
-        supportsBabelfish: Swift.Bool = false,
+        supportsBabelfish: Swift.Bool? = nil,
         supportsCertificateRotationWithoutRestart: Swift.Bool? = nil,
-        supportsGlobalDatabases: Swift.Bool = false,
+        supportsGlobalDatabases: Swift.Bool? = nil,
+        supportsIntegrations: Swift.Bool? = nil,
         supportsLocalWriteForwarding: Swift.Bool? = nil,
-        supportsLogExportsToCloudwatchLogs: Swift.Bool = false,
-        supportsParallelQuery: Swift.Bool = false,
-        supportsReadReplica: Swift.Bool = false,
+        supportsLogExportsToCloudwatchLogs: Swift.Bool? = nil,
+        supportsParallelQuery: Swift.Bool? = nil,
+        supportsReadReplica: Swift.Bool? = nil,
         tagList: [RDSClientTypes.Tag]? = nil,
         validUpgradeTarget: [RDSClientTypes.UpgradeTarget]? = nil
     )
@@ -20113,6 +20618,7 @@ public struct DeleteCustomDBEngineVersionOutput: Swift.Equatable {
         self.supportsBabelfish = supportsBabelfish
         self.supportsCertificateRotationWithoutRestart = supportsCertificateRotationWithoutRestart
         self.supportsGlobalDatabases = supportsGlobalDatabases
+        self.supportsIntegrations = supportsIntegrations
         self.supportsLocalWriteForwarding = supportsLocalWriteForwarding
         self.supportsLogExportsToCloudwatchLogs = supportsLogExportsToCloudwatchLogs
         self.supportsParallelQuery = supportsParallelQuery
@@ -20136,13 +20642,13 @@ struct DeleteCustomDBEngineVersionOutputBody: Swift.Equatable {
     let validUpgradeTarget: [RDSClientTypes.UpgradeTarget]?
     let supportedTimezones: [RDSClientTypes.Timezone]?
     let exportableLogTypes: [Swift.String]?
-    let supportsLogExportsToCloudwatchLogs: Swift.Bool
-    let supportsReadReplica: Swift.Bool
+    let supportsLogExportsToCloudwatchLogs: Swift.Bool?
+    let supportsReadReplica: Swift.Bool?
     let supportedEngineModes: [Swift.String]?
     let supportedFeatureNames: [Swift.String]?
     let status: Swift.String?
-    let supportsParallelQuery: Swift.Bool
-    let supportsGlobalDatabases: Swift.Bool
+    let supportsParallelQuery: Swift.Bool?
+    let supportsGlobalDatabases: Swift.Bool?
     let majorEngineVersion: Swift.String?
     let databaseInstallationFilesS3BucketName: Swift.String?
     let databaseInstallationFilesS3Prefix: Swift.String?
@@ -20150,11 +20656,12 @@ struct DeleteCustomDBEngineVersionOutputBody: Swift.Equatable {
     let kmsKeyId: Swift.String?
     let createTime: ClientRuntime.Date?
     let tagList: [RDSClientTypes.Tag]?
-    let supportsBabelfish: Swift.Bool
+    let supportsBabelfish: Swift.Bool?
     let customDBEngineVersionManifest: Swift.String?
     let supportsCertificateRotationWithoutRestart: Swift.Bool?
     let supportedCACertificateIdentifiers: [Swift.String]?
     let supportsLocalWriteForwarding: Swift.Bool?
+    let supportsIntegrations: Swift.Bool?
 }
 
 extension DeleteCustomDBEngineVersionOutputBody: Swift.Decodable {
@@ -20185,6 +20692,7 @@ extension DeleteCustomDBEngineVersionOutputBody: Swift.Decodable {
         case supportsBabelfish = "SupportsBabelfish"
         case supportsCertificateRotationWithoutRestart = "SupportsCertificateRotationWithoutRestart"
         case supportsGlobalDatabases = "SupportsGlobalDatabases"
+        case supportsIntegrations = "SupportsIntegrations"
         case supportsLocalWriteForwarding = "SupportsLocalWriteForwarding"
         case supportsLogExportsToCloudwatchLogs = "SupportsLogExportsToCloudwatchLogs"
         case supportsParallelQuery = "SupportsParallelQuery"
@@ -20307,9 +20815,9 @@ extension DeleteCustomDBEngineVersionOutputBody: Swift.Decodable {
         } else {
             exportableLogTypes = nil
         }
-        let supportsLogExportsToCloudwatchLogsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsLogExportsToCloudwatchLogs) ?? false
+        let supportsLogExportsToCloudwatchLogsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsLogExportsToCloudwatchLogs)
         supportsLogExportsToCloudwatchLogs = supportsLogExportsToCloudwatchLogsDecoded
-        let supportsReadReplicaDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsReadReplica) ?? false
+        let supportsReadReplicaDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsReadReplica)
         supportsReadReplica = supportsReadReplicaDecoded
         if containerValues.contains(.supportedEngineModes) {
             struct KeyVal0{struct member{}}
@@ -20351,9 +20859,9 @@ extension DeleteCustomDBEngineVersionOutputBody: Swift.Decodable {
         }
         let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
         status = statusDecoded
-        let supportsParallelQueryDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsParallelQuery) ?? false
+        let supportsParallelQueryDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsParallelQuery)
         supportsParallelQuery = supportsParallelQueryDecoded
-        let supportsGlobalDatabasesDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsGlobalDatabases) ?? false
+        let supportsGlobalDatabasesDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsGlobalDatabases)
         supportsGlobalDatabases = supportsGlobalDatabasesDecoded
         let majorEngineVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .majorEngineVersion)
         majorEngineVersion = majorEngineVersionDecoded
@@ -20386,7 +20894,7 @@ extension DeleteCustomDBEngineVersionOutputBody: Swift.Decodable {
         } else {
             tagList = nil
         }
-        let supportsBabelfishDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsBabelfish) ?? false
+        let supportsBabelfishDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsBabelfish)
         supportsBabelfish = supportsBabelfishDecoded
         let customDBEngineVersionManifestDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .customDBEngineVersionManifest)
         customDBEngineVersionManifest = customDBEngineVersionManifestDecoded
@@ -20413,6 +20921,8 @@ extension DeleteCustomDBEngineVersionOutputBody: Swift.Decodable {
         }
         let supportsLocalWriteForwardingDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsLocalWriteForwarding)
         supportsLocalWriteForwarding = supportsLocalWriteForwardingDecoded
+        let supportsIntegrationsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsIntegrations)
+        supportsIntegrations = supportsIntegrationsDecoded
     }
 }
 
@@ -20839,7 +21349,7 @@ extension DeleteDBClusterInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dbClusterIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbClusterIdentifier)
         dbClusterIdentifier = dbClusterIdentifierDecoded
-        let skipFinalSnapshotDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .skipFinalSnapshot) ?? false
+        let skipFinalSnapshotDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .skipFinalSnapshot)
         skipFinalSnapshot = skipFinalSnapshotDecoded
         let finalDBSnapshotIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .finalDBSnapshotIdentifier)
         finalDBSnapshotIdentifier = finalDBSnapshotIdentifierDecoded
@@ -21267,7 +21777,7 @@ extension DeleteDBInstanceInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dbInstanceIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbInstanceIdentifier)
         dbInstanceIdentifier = dbInstanceIdentifierDecoded
-        let skipFinalSnapshotDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .skipFinalSnapshot) ?? false
+        let skipFinalSnapshotDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .skipFinalSnapshot)
         skipFinalSnapshot = skipFinalSnapshotDecoded
         let finalDBSnapshotIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .finalDBSnapshotIdentifier)
         finalDBSnapshotIdentifier = finalDBSnapshotIdentifierDecoded
@@ -22038,6 +22548,247 @@ enum DeleteGlobalClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
         switch restXMLError.errorCode {
             case "GlobalClusterNotFoundFault": return try await GlobalClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "InvalidGlobalClusterStateFault": return try await InvalidGlobalClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
+extension DeleteIntegrationInput: Swift.Encodable {
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let integrationIdentifier = integrationIdentifier {
+            try container.encode(integrationIdentifier, forKey: ClientRuntime.Key("IntegrationIdentifier"))
+        }
+        try container.encode("DeleteIntegration", forKey:ClientRuntime.Key("Action"))
+        try container.encode("2014-10-31", forKey:ClientRuntime.Key("Version"))
+    }
+}
+
+extension DeleteIntegrationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DeleteIntegrationInput: Swift.Equatable {
+    /// The unique identifier of the integration.
+    /// This member is required.
+    public var integrationIdentifier: Swift.String?
+
+    public init(
+        integrationIdentifier: Swift.String? = nil
+    )
+    {
+        self.integrationIdentifier = integrationIdentifier
+    }
+}
+
+struct DeleteIntegrationInputBody: Swift.Equatable {
+    let integrationIdentifier: Swift.String?
+}
+
+extension DeleteIntegrationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case integrationIdentifier = "IntegrationIdentifier"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let integrationIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .integrationIdentifier)
+        integrationIdentifier = integrationIdentifierDecoded
+    }
+}
+
+extension DeleteIntegrationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DeleteIntegrationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.additionalEncryptionContext = output.additionalEncryptionContext
+            self.createTime = output.createTime
+            self.errors = output.errors
+            self.integrationArn = output.integrationArn
+            self.integrationName = output.integrationName
+            self.kmsKeyId = output.kmsKeyId
+            self.sourceArn = output.sourceArn
+            self.status = output.status
+            self.tags = output.tags
+            self.targetArn = output.targetArn
+        } else {
+            self.additionalEncryptionContext = nil
+            self.createTime = nil
+            self.errors = nil
+            self.integrationArn = nil
+            self.integrationName = nil
+            self.kmsKeyId = nil
+            self.sourceArn = nil
+            self.status = nil
+            self.tags = nil
+            self.targetArn = nil
+        }
+    }
+}
+
+/// An Aurora zero-ETL integration with Amazon Redshift. For more information, see [Working with Amazon Aurora zero-ETL integrations with Amazon Redshift](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/zero-etl.html) in the Amazon Aurora User Guide.
+public struct DeleteIntegrationOutput: Swift.Equatable {
+    /// The encryption context for the integration. For more information, see [Encryption context](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#encrypt_context) in the Amazon Web Services Key Management Service Developer Guide.
+    public var additionalEncryptionContext: [Swift.String:Swift.String]?
+    /// The time when the integration was created, in Universal Coordinated Time (UTC).
+    public var createTime: ClientRuntime.Date?
+    /// Any errors associated with the integration.
+    public var errors: [RDSClientTypes.IntegrationError]?
+    /// The ARN of the integration.
+    public var integrationArn: Swift.String?
+    /// The name of the integration.
+    public var integrationName: Swift.String?
+    /// The Amazon Web Services Key Management System (Amazon Web Services KMS) key identifier for the key used to to encrypt the integration.
+    public var kmsKeyId: Swift.String?
+    /// The Amazon Resource Name (ARN) of the Aurora DB cluster used as the source for replication.
+    public var sourceArn: Swift.String?
+    /// The current status of the integration.
+    public var status: RDSClientTypes.IntegrationStatus?
+    /// A list of tags. For more information, see [Tagging Amazon RDS Resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide.
+    public var tags: [RDSClientTypes.Tag]?
+    /// The ARN of the Redshift data warehouse used as the target for replication.
+    public var targetArn: Swift.String?
+
+    public init(
+        additionalEncryptionContext: [Swift.String:Swift.String]? = nil,
+        createTime: ClientRuntime.Date? = nil,
+        errors: [RDSClientTypes.IntegrationError]? = nil,
+        integrationArn: Swift.String? = nil,
+        integrationName: Swift.String? = nil,
+        kmsKeyId: Swift.String? = nil,
+        sourceArn: Swift.String? = nil,
+        status: RDSClientTypes.IntegrationStatus? = nil,
+        tags: [RDSClientTypes.Tag]? = nil,
+        targetArn: Swift.String? = nil
+    )
+    {
+        self.additionalEncryptionContext = additionalEncryptionContext
+        self.createTime = createTime
+        self.errors = errors
+        self.integrationArn = integrationArn
+        self.integrationName = integrationName
+        self.kmsKeyId = kmsKeyId
+        self.sourceArn = sourceArn
+        self.status = status
+        self.tags = tags
+        self.targetArn = targetArn
+    }
+}
+
+struct DeleteIntegrationOutputBody: Swift.Equatable {
+    let sourceArn: Swift.String?
+    let targetArn: Swift.String?
+    let integrationName: Swift.String?
+    let integrationArn: Swift.String?
+    let kmsKeyId: Swift.String?
+    let additionalEncryptionContext: [Swift.String:Swift.String]?
+    let status: RDSClientTypes.IntegrationStatus?
+    let tags: [RDSClientTypes.Tag]?
+    let createTime: ClientRuntime.Date?
+    let errors: [RDSClientTypes.IntegrationError]?
+}
+
+extension DeleteIntegrationOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case additionalEncryptionContext = "AdditionalEncryptionContext"
+        case createTime = "CreateTime"
+        case errors = "Errors"
+        case integrationArn = "IntegrationArn"
+        case integrationName = "IntegrationName"
+        case kmsKeyId = "KMSKeyId"
+        case sourceArn = "SourceArn"
+        case status = "Status"
+        case tags = "Tags"
+        case targetArn = "TargetArn"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DeleteIntegrationResult"))
+        let sourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceArn)
+        sourceArn = sourceArnDecoded
+        let targetArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .targetArn)
+        targetArn = targetArnDecoded
+        let integrationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .integrationName)
+        integrationName = integrationNameDecoded
+        let integrationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .integrationArn)
+        integrationArn = integrationArnDecoded
+        let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
+        kmsKeyId = kmsKeyIdDecoded
+        if containerValues.contains(.additionalEncryptionContext) {
+            struct KeyVal0{struct key{}; struct value{}}
+            let additionalEncryptionContextWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: ClientRuntime.MapEntry<Swift.String, Swift.String, KeyVal0.key, KeyVal0.value>.CodingKeys.self, forKey: .additionalEncryptionContext)
+            if let additionalEncryptionContextWrappedContainer = additionalEncryptionContextWrappedContainer {
+                let additionalEncryptionContextContainer = try additionalEncryptionContextWrappedContainer.decodeIfPresent([ClientRuntime.MapKeyValue<Swift.String, Swift.String, KeyVal0.key, KeyVal0.value>].self, forKey: .entry)
+                var additionalEncryptionContextBuffer: [Swift.String:Swift.String]? = nil
+                if let additionalEncryptionContextContainer = additionalEncryptionContextContainer {
+                    additionalEncryptionContextBuffer = [Swift.String:Swift.String]()
+                    for stringContainer0 in additionalEncryptionContextContainer {
+                        additionalEncryptionContextBuffer?[stringContainer0.key] = stringContainer0.value
+                    }
+                }
+                additionalEncryptionContext = additionalEncryptionContextBuffer
+            } else {
+                additionalEncryptionContext = [:]
+            }
+        } else {
+            additionalEncryptionContext = nil
+        }
+        let statusDecoded = try containerValues.decodeIfPresent(RDSClientTypes.IntegrationStatus.self, forKey: .status)
+        status = statusDecoded
+        if containerValues.contains(.tags) {
+            struct KeyVal0{struct Tag{}}
+            let tagsWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.Tag>.CodingKeys.self, forKey: .tags)
+            if let tagsWrappedContainer = tagsWrappedContainer {
+                let tagsContainer = try tagsWrappedContainer.decodeIfPresent([RDSClientTypes.Tag].self, forKey: .member)
+                var tagsBuffer:[RDSClientTypes.Tag]? = nil
+                if let tagsContainer = tagsContainer {
+                    tagsBuffer = [RDSClientTypes.Tag]()
+                    for structureContainer0 in tagsContainer {
+                        tagsBuffer?.append(structureContainer0)
+                    }
+                }
+                tags = tagsBuffer
+            } else {
+                tags = []
+            }
+        } else {
+            tags = nil
+        }
+        let createTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .createTime)
+        createTime = createTimeDecoded
+        if containerValues.contains(.errors) {
+            struct KeyVal0{struct IntegrationError{}}
+            let errorsWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.IntegrationError>.CodingKeys.self, forKey: .errors)
+            if let errorsWrappedContainer = errorsWrappedContainer {
+                let errorsContainer = try errorsWrappedContainer.decodeIfPresent([RDSClientTypes.IntegrationError].self, forKey: .member)
+                var errorsBuffer:[RDSClientTypes.IntegrationError]? = nil
+                if let errorsContainer = errorsContainer {
+                    errorsBuffer = [RDSClientTypes.IntegrationError]()
+                    for structureContainer0 in errorsContainer {
+                        errorsBuffer?.append(structureContainer0)
+                    }
+                }
+                errors = errorsBuffer
+            } else {
+                errors = []
+            }
+        } else {
+            errors = nil
+        }
+    }
+}
+
+enum DeleteIntegrationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "IntegrationConflictOperationFault": return try await IntegrationConflictOperationFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "IntegrationNotFoundFault": return try await IntegrationNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidIntegrationStateFault": return try await InvalidIntegrationStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
@@ -24035,9 +24786,9 @@ extension DescribeDBClusterSnapshotsInputBody: Swift.Decodable {
         maxRecords = maxRecordsDecoded
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
-        let includeSharedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .includeShared) ?? false
+        let includeSharedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .includeShared)
         includeShared = includeSharedDecoded
-        let includePublicDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .includePublic) ?? false
+        let includePublicDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .includePublic)
         includePublic = includePublicDecoded
         let dbClusterResourceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbClusterResourceId)
         dbClusterResourceId = dbClusterResourceIdDecoded
@@ -24246,7 +24997,7 @@ extension DescribeDBClustersInputBody: Swift.Decodable {
         maxRecords = maxRecordsDecoded
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
-        let includeSharedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .includeShared) ?? false
+        let includeSharedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .includeShared)
         includeShared = includeSharedDecoded
     }
 }
@@ -24546,7 +25297,7 @@ extension DescribeDBEngineVersionsInputBody: Swift.Decodable {
         maxRecords = maxRecordsDecoded
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
-        let defaultOnlyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .defaultOnly) ?? false
+        let defaultOnlyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .defaultOnly)
         defaultOnly = defaultOnlyDecoded
         let listSupportedCharacterSetsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .listSupportedCharacterSets)
         listSupportedCharacterSets = listSupportedCharacterSetsDecoded
@@ -25064,13 +25815,13 @@ extension RDSClientTypes.DescribeDBLogFilesDetails: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if lastWritten != 0 {
+        if let lastWritten = lastWritten {
             try container.encode(lastWritten, forKey: ClientRuntime.Key("LastWritten"))
         }
         if let logFileName = logFileName {
             try container.encode(logFileName, forKey: ClientRuntime.Key("LogFileName"))
         }
-        if size != 0 {
+        if let size = size {
             try container.encode(size, forKey: ClientRuntime.Key("Size"))
         }
     }
@@ -25079,9 +25830,9 @@ extension RDSClientTypes.DescribeDBLogFilesDetails: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let logFileNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .logFileName)
         logFileName = logFileNameDecoded
-        let lastWrittenDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .lastWritten) ?? 0
+        let lastWrittenDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .lastWritten)
         lastWritten = lastWrittenDecoded
-        let sizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .size) ?? 0
+        let sizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .size)
         size = sizeDecoded
     }
 }
@@ -25090,16 +25841,16 @@ extension RDSClientTypes {
     /// This data type is used as a response element to DescribeDBLogFiles.
     public struct DescribeDBLogFilesDetails: Swift.Equatable {
         /// A POSIX timestamp when the last log entry was written.
-        public var lastWritten: Swift.Int
+        public var lastWritten: Swift.Int?
         /// The name of the log file for the specified DB instance.
         public var logFileName: Swift.String?
         /// The size, in bytes, of the log file for the specified DB instance.
-        public var size: Swift.Int
+        public var size: Swift.Int?
 
         public init(
-            lastWritten: Swift.Int = 0,
+            lastWritten: Swift.Int? = nil,
             logFileName: Swift.String? = nil,
-            size: Swift.Int = 0
+            size: Swift.Int? = nil
         )
         {
             self.lastWritten = lastWritten
@@ -25221,9 +25972,9 @@ extension DescribeDBLogFilesInputBody: Swift.Decodable {
         dbInstanceIdentifier = dbInstanceIdentifierDecoded
         let filenameContainsDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .filenameContains)
         filenameContains = filenameContainsDecoded
-        let fileLastWrittenDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .fileLastWritten) ?? 0
+        let fileLastWrittenDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .fileLastWritten)
         fileLastWritten = fileLastWrittenDecoded
-        let fileSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .fileSize) ?? 0
+        let fileSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .fileSize)
         fileSize = fileSizeDecoded
         if containerValues.contains(.filters) {
             struct KeyVal0{struct Filter{}}
@@ -26944,9 +27695,9 @@ extension DescribeDBSnapshotsInputBody: Swift.Decodable {
         maxRecords = maxRecordsDecoded
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
-        let includeSharedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .includeShared) ?? false
+        let includeSharedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .includeShared)
         includeShared = includeSharedDecoded
-        let includePublicDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .includePublic) ?? false
+        let includePublicDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .includePublic)
         includePublic = includePublicDecoded
         let dbiResourceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbiResourceId)
         dbiResourceId = dbiResourceIdDecoded
@@ -28640,6 +29391,188 @@ enum DescribeGlobalClustersOutputError: ClientRuntime.HttpResponseErrorBinding {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "GlobalClusterNotFoundFault": return try await GlobalClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
+extension DescribeIntegrationsInput: Swift.Encodable {
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let filters = filters {
+            if !filters.isEmpty {
+                var filtersContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Filters"))
+                for (index0, filter0) in filters.enumerated() {
+                    try filtersContainer.encode(filter0, forKey: ClientRuntime.Key("Filter.\(index0.advanced(by: 1))"))
+                }
+            }
+            else {
+                var filtersContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Filters"))
+                try filtersContainer.encode("", forKey: ClientRuntime.Key(""))
+            }
+        }
+        if let integrationIdentifier = integrationIdentifier {
+            try container.encode(integrationIdentifier, forKey: ClientRuntime.Key("IntegrationIdentifier"))
+        }
+        if let marker = marker {
+            try container.encode(marker, forKey: ClientRuntime.Key("Marker"))
+        }
+        if let maxRecords = maxRecords {
+            try container.encode(maxRecords, forKey: ClientRuntime.Key("MaxRecords"))
+        }
+        try container.encode("DescribeIntegrations", forKey:ClientRuntime.Key("Action"))
+        try container.encode("2014-10-31", forKey:ClientRuntime.Key("Version"))
+    }
+}
+
+extension DescribeIntegrationsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeIntegrationsInput: Swift.Equatable {
+    /// A filter that specifies one or more resources to return.
+    public var filters: [RDSClientTypes.Filter]?
+    /// The unique identifier of the integration.
+    public var integrationIdentifier: Swift.String?
+    /// An optional pagination token provided by a previous DescribeIntegrations request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
+    public var marker: Swift.String?
+    /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that you can retrieve the remaining results. Default: 100 Constraints: Minimum 20, maximum 100.
+    public var maxRecords: Swift.Int?
+
+    public init(
+        filters: [RDSClientTypes.Filter]? = nil,
+        integrationIdentifier: Swift.String? = nil,
+        marker: Swift.String? = nil,
+        maxRecords: Swift.Int? = nil
+    )
+    {
+        self.filters = filters
+        self.integrationIdentifier = integrationIdentifier
+        self.marker = marker
+        self.maxRecords = maxRecords
+    }
+}
+
+struct DescribeIntegrationsInputBody: Swift.Equatable {
+    let integrationIdentifier: Swift.String?
+    let filters: [RDSClientTypes.Filter]?
+    let maxRecords: Swift.Int?
+    let marker: Swift.String?
+}
+
+extension DescribeIntegrationsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filters = "Filters"
+        case integrationIdentifier = "IntegrationIdentifier"
+        case marker = "Marker"
+        case maxRecords = "MaxRecords"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let integrationIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .integrationIdentifier)
+        integrationIdentifier = integrationIdentifierDecoded
+        if containerValues.contains(.filters) {
+            struct KeyVal0{struct Filter{}}
+            let filtersWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.Filter>.CodingKeys.self, forKey: .filters)
+            if let filtersWrappedContainer = filtersWrappedContainer {
+                let filtersContainer = try filtersWrappedContainer.decodeIfPresent([RDSClientTypes.Filter].self, forKey: .member)
+                var filtersBuffer:[RDSClientTypes.Filter]? = nil
+                if let filtersContainer = filtersContainer {
+                    filtersBuffer = [RDSClientTypes.Filter]()
+                    for structureContainer0 in filtersContainer {
+                        filtersBuffer?.append(structureContainer0)
+                    }
+                }
+                filters = filtersBuffer
+            } else {
+                filters = []
+            }
+        } else {
+            filters = nil
+        }
+        let maxRecordsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxRecords)
+        maxRecords = maxRecordsDecoded
+        let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
+        marker = markerDecoded
+    }
+}
+
+extension DescribeIntegrationsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeIntegrationsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.integrations = output.integrations
+            self.marker = output.marker
+        } else {
+            self.integrations = nil
+            self.marker = nil
+        }
+    }
+}
+
+public struct DescribeIntegrationsOutput: Swift.Equatable {
+    /// A list of integrations.
+    public var integrations: [RDSClientTypes.Integration]?
+    /// A pagination token that can be used in a later DescribeIntegrations request.
+    public var marker: Swift.String?
+
+    public init(
+        integrations: [RDSClientTypes.Integration]? = nil,
+        marker: Swift.String? = nil
+    )
+    {
+        self.integrations = integrations
+        self.marker = marker
+    }
+}
+
+struct DescribeIntegrationsOutputBody: Swift.Equatable {
+    let marker: Swift.String?
+    let integrations: [RDSClientTypes.Integration]?
+}
+
+extension DescribeIntegrationsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case integrations = "Integrations"
+        case marker = "Marker"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeIntegrationsResult"))
+        let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
+        marker = markerDecoded
+        if containerValues.contains(.integrations) {
+            struct KeyVal0{struct Integration{}}
+            let integrationsWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.Integration>.CodingKeys.self, forKey: .integrations)
+            if let integrationsWrappedContainer = integrationsWrappedContainer {
+                let integrationsContainer = try integrationsWrappedContainer.decodeIfPresent([RDSClientTypes.Integration].self, forKey: .member)
+                var integrationsBuffer:[RDSClientTypes.Integration]? = nil
+                if let integrationsContainer = integrationsContainer {
+                    integrationsBuffer = [RDSClientTypes.Integration]()
+                    for structureContainer0 in integrationsContainer {
+                        integrationsBuffer?.append(structureContainer0)
+                    }
+                }
+                integrations = integrationsBuffer
+            } else {
+                integrations = []
+            }
+        } else {
+            integrations = nil
+        }
+    }
+}
+
+enum DescribeIntegrationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "IntegrationNotFoundFault": return try await IntegrationNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
@@ -30512,19 +31445,19 @@ extension RDSClientTypes.DoubleRange: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if from != 0.0 {
-            try container.encode(Swift.String(from), forKey: ClientRuntime.Key("From"))
+        if let from = from {
+            try container.encode(from, forKey: ClientRuntime.Key("From"))
         }
-        if to != 0.0 {
-            try container.encode(Swift.String(to), forKey: ClientRuntime.Key("To"))
+        if let to = to {
+            try container.encode(to, forKey: ClientRuntime.Key("To"))
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let fromDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .from) ?? 0
+        let fromDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .from)
         from = fromDecoded
-        let toDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .to) ?? 0
+        let toDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .to)
         to = toDecoded
     }
 }
@@ -30533,13 +31466,13 @@ extension RDSClientTypes {
     /// A range of double values.
     public struct DoubleRange: Swift.Equatable {
         /// The minimum value in the range.
-        public var from: Swift.Double
+        public var from: Swift.Double?
         /// The maximum value in the range.
-        public var to: Swift.Double
+        public var to: Swift.Double?
 
         public init(
-            from: Swift.Double = 0.0,
-            to: Swift.Double = 0.0
+            from: Swift.Double? = nil,
+            to: Swift.Double? = nil
         )
         {
             self.from = from
@@ -30635,7 +31568,7 @@ extension DownloadDBLogFilePortionInputBody: Swift.Decodable {
         logFileName = logFileNameDecoded
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
-        let numberOfLinesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .numberOfLines) ?? 0
+        let numberOfLinesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .numberOfLines)
         numberOfLines = numberOfLinesDecoded
     }
 }
@@ -30649,7 +31582,7 @@ extension DownloadDBLogFilePortionOutput: ClientRuntime.HttpResponseBinding {
             self.logFileData = output.logFileData
             self.marker = output.marker
         } else {
-            self.additionalDataPending = false
+            self.additionalDataPending = nil
             self.logFileData = nil
             self.marker = nil
         }
@@ -30659,14 +31592,14 @@ extension DownloadDBLogFilePortionOutput: ClientRuntime.HttpResponseBinding {
 /// This data type is used as a response element to DownloadDBLogFilePortion.
 public struct DownloadDBLogFilePortionOutput: Swift.Equatable {
     /// A Boolean value that, if true, indicates there is more data to be downloaded.
-    public var additionalDataPending: Swift.Bool
+    public var additionalDataPending: Swift.Bool?
     /// Entries from the specified log file.
     public var logFileData: Swift.String?
     /// A pagination token that can be used in a later DownloadDBLogFilePortion request.
     public var marker: Swift.String?
 
     public init(
-        additionalDataPending: Swift.Bool = false,
+        additionalDataPending: Swift.Bool? = nil,
         logFileData: Swift.String? = nil,
         marker: Swift.String? = nil
     )
@@ -30680,7 +31613,7 @@ public struct DownloadDBLogFilePortionOutput: Swift.Equatable {
 struct DownloadDBLogFilePortionOutputBody: Swift.Equatable {
     let logFileData: Swift.String?
     let marker: Swift.String?
-    let additionalDataPending: Swift.Bool
+    let additionalDataPending: Swift.Bool?
 }
 
 extension DownloadDBLogFilePortionOutputBody: Swift.Decodable {
@@ -30697,7 +31630,7 @@ extension DownloadDBLogFilePortionOutputBody: Swift.Decodable {
         logFileData = logFileDataDecoded
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
-        let additionalDataPendingDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .additionalDataPending) ?? false
+        let additionalDataPendingDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .additionalDataPending)
         additionalDataPending = additionalDataPendingDecoded
     }
 }
@@ -30853,7 +31786,7 @@ extension RDSClientTypes.Endpoint: Swift.Codable {
         if let hostedZoneId = hostedZoneId {
             try container.encode(hostedZoneId, forKey: ClientRuntime.Key("HostedZoneId"))
         }
-        if port != 0 {
+        if let port = port {
             try container.encode(port, forKey: ClientRuntime.Key("Port"))
         }
     }
@@ -30862,7 +31795,7 @@ extension RDSClientTypes.Endpoint: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let addressDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .address)
         address = addressDecoded
-        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port) ?? 0
+        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port)
         port = portDecoded
         let hostedZoneIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .hostedZoneId)
         hostedZoneId = hostedZoneIdDecoded
@@ -30886,12 +31819,12 @@ extension RDSClientTypes {
         /// Specifies the ID that Amazon Route 53 assigns when you create a hosted zone.
         public var hostedZoneId: Swift.String?
         /// Specifies the port that the database engine is listening on.
-        public var port: Swift.Int
+        public var port: Swift.Int?
 
         public init(
             address: Swift.String? = nil,
             hostedZoneId: Swift.String? = nil,
-            port: Swift.Int = 0
+            port: Swift.Int? = nil
         )
         {
             self.address = address
@@ -31222,7 +32155,7 @@ extension RDSClientTypes.EventSubscription: Swift.Codable {
         if let customerAwsId = customerAwsId {
             try container.encode(customerAwsId, forKey: ClientRuntime.Key("CustomerAwsId"))
         }
-        if enabled != false {
+        if let enabled = enabled {
             try container.encode(enabled, forKey: ClientRuntime.Key("Enabled"))
         }
         if let eventCategoriesList = eventCategoriesList {
@@ -31318,7 +32251,7 @@ extension RDSClientTypes.EventSubscription: Swift.Codable {
         } else {
             eventCategoriesList = nil
         }
-        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled) ?? false
+        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled)
         enabled = enabledDecoded
         let eventSubscriptionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .eventSubscriptionArn)
         eventSubscriptionArn = eventSubscriptionArnDecoded
@@ -31333,7 +32266,7 @@ extension RDSClientTypes {
         /// The Amazon Web Services customer account associated with the RDS event notification subscription.
         public var customerAwsId: Swift.String?
         /// A Boolean value indicating if the subscription is enabled. True indicates the subscription is enabled.
-        public var enabled: Swift.Bool
+        public var enabled: Swift.Bool?
         /// A list of event categories for the RDS event notification subscription.
         public var eventCategoriesList: [Swift.String]?
         /// The Amazon Resource Name (ARN) for the event subscription.
@@ -31352,7 +32285,7 @@ extension RDSClientTypes {
         public init(
             custSubscriptionId: Swift.String? = nil,
             customerAwsId: Swift.String? = nil,
-            enabled: Swift.Bool = false,
+            enabled: Swift.Bool? = nil,
             eventCategoriesList: [Swift.String]? = nil,
             eventSubscriptionArn: Swift.String? = nil,
             snsTopicArn: Swift.String? = nil,
@@ -31509,7 +32442,7 @@ extension RDSClientTypes.ExportTask: Swift.Codable {
         if let kmsKeyId = kmsKeyId {
             try container.encode(kmsKeyId, forKey: ClientRuntime.Key("KmsKeyId"))
         }
-        if percentProgress != 0 {
+        if let percentProgress = percentProgress {
             try container.encode(percentProgress, forKey: ClientRuntime.Key("PercentProgress"))
         }
         if let s3Bucket = s3Bucket {
@@ -31536,7 +32469,7 @@ extension RDSClientTypes.ExportTask: Swift.Codable {
         if let taskStartTime = taskStartTime {
             try container.encodeTimestamp(taskStartTime, format: .dateTime, forKey: ClientRuntime.Key("TaskStartTime"))
         }
-        if totalExtractedDataInGB != 0 {
+        if let totalExtractedDataInGB = totalExtractedDataInGB {
             try container.encode(totalExtractedDataInGB, forKey: ClientRuntime.Key("TotalExtractedDataInGB"))
         }
         if let warningMessage = warningMessage {
@@ -31585,9 +32518,9 @@ extension RDSClientTypes.ExportTask: Swift.Codable {
         kmsKeyId = kmsKeyIdDecoded
         let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
         status = statusDecoded
-        let percentProgressDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .percentProgress) ?? 0
+        let percentProgressDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .percentProgress)
         percentProgress = percentProgressDecoded
-        let totalExtractedDataInGBDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalExtractedDataInGB) ?? 0
+        let totalExtractedDataInGBDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalExtractedDataInGB)
         totalExtractedDataInGB = totalExtractedDataInGBDecoded
         let failureCauseDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .failureCause)
         failureCause = failureCauseDecoded
@@ -31620,7 +32553,7 @@ extension RDSClientTypes {
         /// The key identifier of the Amazon Web Services KMS key that is used to encrypt the data when it's exported to Amazon S3. The KMS key identifier is its key ARN, key ID, alias ARN, or alias name. The IAM role used for the export must have encryption and decryption permissions to use this KMS key.
         public var kmsKeyId: Swift.String?
         /// The progress of the snapshot or cluster export task as a percentage.
-        public var percentProgress: Swift.Int
+        public var percentProgress: Swift.Int?
         /// The Amazon S3 bucket where the snapshot or cluster is exported to.
         public var s3Bucket: Swift.String?
         /// The Amazon S3 bucket prefix that is the file name and path of the exported data.
@@ -31650,7 +32583,7 @@ extension RDSClientTypes {
         /// The time when the snapshot or cluster export task started.
         public var taskStartTime: ClientRuntime.Date?
         /// The total amount of data exported, in gigabytes.
-        public var totalExtractedDataInGB: Swift.Int
+        public var totalExtractedDataInGB: Swift.Int?
         /// A warning about the snapshot or cluster export task.
         public var warningMessage: Swift.String?
 
@@ -31660,7 +32593,7 @@ extension RDSClientTypes {
             failureCause: Swift.String? = nil,
             iamRoleArn: Swift.String? = nil,
             kmsKeyId: Swift.String? = nil,
-            percentProgress: Swift.Int = 0,
+            percentProgress: Swift.Int? = nil,
             s3Bucket: Swift.String? = nil,
             s3Prefix: Swift.String? = nil,
             snapshotTime: ClientRuntime.Date? = nil,
@@ -31669,7 +32602,7 @@ extension RDSClientTypes {
             status: Swift.String? = nil,
             taskEndTime: ClientRuntime.Date? = nil,
             taskStartTime: ClientRuntime.Date? = nil,
-            totalExtractedDataInGB: Swift.Int = 0,
+            totalExtractedDataInGB: Swift.Int? = nil,
             warningMessage: Swift.String? = nil
         )
         {
@@ -32068,7 +33001,7 @@ extension RDSClientTypes.FailoverState: Swift.Codable {
         if let fromDbClusterArn = fromDbClusterArn {
             try container.encode(fromDbClusterArn, forKey: ClientRuntime.Key("FromDbClusterArn"))
         }
-        if isDataLossAllowed != false {
+        if let isDataLossAllowed = isDataLossAllowed {
             try container.encode(isDataLossAllowed, forKey: ClientRuntime.Key("IsDataLossAllowed"))
         }
         if let status = status {
@@ -32087,7 +33020,7 @@ extension RDSClientTypes.FailoverState: Swift.Codable {
         fromDbClusterArn = fromDbClusterArnDecoded
         let toDbClusterArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .toDbClusterArn)
         toDbClusterArn = toDbClusterArnDecoded
-        let isDataLossAllowedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isDataLossAllowed) ?? false
+        let isDataLossAllowedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isDataLossAllowed)
         isDataLossAllowed = isDataLossAllowedDecoded
     }
 }
@@ -32098,7 +33031,7 @@ extension RDSClientTypes {
         /// The Amazon Resource Name (ARN) of the Aurora DB cluster that is currently being demoted, and which is associated with this state.
         public var fromDbClusterArn: Swift.String?
         /// Indicates whether the operation is a global switchover or a global failover. If data loss is allowed, then the operation is a global failover. Otherwise, it's a switchover.
-        public var isDataLossAllowed: Swift.Bool
+        public var isDataLossAllowed: Swift.Bool?
         /// The current status of the global cluster. Possible values are as follows:
         ///
         /// * pending  The service received a request to switch over or fail over the global cluster. The global cluster's primary DB cluster and the specified secondary DB cluster are being verified before the operation starts.
@@ -32112,7 +33045,7 @@ extension RDSClientTypes {
 
         public init(
             fromDbClusterArn: Swift.String? = nil,
-            isDataLossAllowed: Swift.Bool = false,
+            isDataLossAllowed: Swift.Bool? = nil,
             status: RDSClientTypes.FailoverStatus? = nil,
             toDbClusterArn: Swift.String? = nil
         )
@@ -32476,7 +33409,7 @@ extension RDSClientTypes.GlobalClusterMember: Swift.Codable {
         if let globalWriteForwardingStatus = globalWriteForwardingStatus {
             try container.encode(globalWriteForwardingStatus, forKey: ClientRuntime.Key("GlobalWriteForwardingStatus"))
         }
-        if isWriter != false {
+        if let isWriter = isWriter {
             try container.encode(isWriter, forKey: ClientRuntime.Key("IsWriter"))
         }
         if let readers = readers {
@@ -32519,7 +33452,7 @@ extension RDSClientTypes.GlobalClusterMember: Swift.Codable {
         } else {
             readers = nil
         }
-        let isWriterDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isWriter) ?? false
+        let isWriterDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isWriter)
         isWriter = isWriterDecoded
         let globalWriteForwardingStatusDecoded = try containerValues.decodeIfPresent(RDSClientTypes.WriteForwardingStatus.self, forKey: .globalWriteForwardingStatus)
         globalWriteForwardingStatus = globalWriteForwardingStatusDecoded
@@ -32536,7 +33469,7 @@ extension RDSClientTypes {
         /// The status of write forwarding for a secondary cluster in the global cluster.
         public var globalWriteForwardingStatus: RDSClientTypes.WriteForwardingStatus?
         /// Indicates whether the Aurora DB cluster is the primary cluster (that is, has read-write capability) for the global cluster with which it is associated.
-        public var isWriter: Swift.Bool
+        public var isWriter: Swift.Bool?
         /// The Amazon Resource Name (ARN) for each read-only secondary cluster associated with the global cluster.
         public var readers: [Swift.String]?
         /// The status of synchronization of each Aurora DB cluster in the global cluster.
@@ -32545,7 +33478,7 @@ extension RDSClientTypes {
         public init(
             dbClusterArn: Swift.String? = nil,
             globalWriteForwardingStatus: RDSClientTypes.WriteForwardingStatus? = nil,
-            isWriter: Swift.Bool = false,
+            isWriter: Swift.Bool? = nil,
             readers: [Swift.String]? = nil,
             synchronizationStatus: RDSClientTypes.GlobalClusterMemberSynchronizationStatus? = nil
         )
@@ -33155,6 +34088,518 @@ extension InsufficientStorageClusterCapacityFaultBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
+    }
+}
+
+extension RDSClientTypes.Integration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case additionalEncryptionContext = "AdditionalEncryptionContext"
+        case createTime = "CreateTime"
+        case errors = "Errors"
+        case integrationArn = "IntegrationArn"
+        case integrationName = "IntegrationName"
+        case kmsKeyId = "KMSKeyId"
+        case sourceArn = "SourceArn"
+        case status = "Status"
+        case tags = "Tags"
+        case targetArn = "TargetArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let additionalEncryptionContext = additionalEncryptionContext {
+            var additionalEncryptionContextContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("AdditionalEncryptionContext"))
+            for (index0, element0) in additionalEncryptionContext.sorted(by: { $0.key < $1.key }).enumerated() {
+                let stringKey0 = element0.key
+                let stringValue0 = element0.value
+                var entryContainer0 = additionalEncryptionContextContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("entry.\(index0.advanced(by: 1))"))
+                var keyContainer0 = entryContainer0.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("key"))
+                try keyContainer0.encode(stringKey0, forKey: ClientRuntime.Key(""))
+                var valueContainer0 = entryContainer0.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("value"))
+                try valueContainer0.encode(stringValue0, forKey: ClientRuntime.Key(""))
+            }
+        }
+        if let createTime = createTime {
+            try container.encodeTimestamp(createTime, format: .dateTime, forKey: ClientRuntime.Key("CreateTime"))
+        }
+        if let errors = errors {
+            if !errors.isEmpty {
+                var errorsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Errors"))
+                for (index0, integrationerror0) in errors.enumerated() {
+                    try errorsContainer.encode(integrationerror0, forKey: ClientRuntime.Key("IntegrationError.\(index0.advanced(by: 1))"))
+                }
+            }
+            else {
+                var errorsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Errors"))
+                try errorsContainer.encode("", forKey: ClientRuntime.Key(""))
+            }
+        }
+        if let integrationArn = integrationArn {
+            try container.encode(integrationArn, forKey: ClientRuntime.Key("IntegrationArn"))
+        }
+        if let integrationName = integrationName {
+            try container.encode(integrationName, forKey: ClientRuntime.Key("IntegrationName"))
+        }
+        if let kmsKeyId = kmsKeyId {
+            try container.encode(kmsKeyId, forKey: ClientRuntime.Key("KMSKeyId"))
+        }
+        if let sourceArn = sourceArn {
+            try container.encode(sourceArn, forKey: ClientRuntime.Key("SourceArn"))
+        }
+        if let status = status {
+            try container.encode(status, forKey: ClientRuntime.Key("Status"))
+        }
+        if let tags = tags {
+            if !tags.isEmpty {
+                var tagsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Tags"))
+                for (index0, tag0) in tags.enumerated() {
+                    try tagsContainer.encode(tag0, forKey: ClientRuntime.Key("Tag.\(index0.advanced(by: 1))"))
+                }
+            }
+            else {
+                var tagsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Tags"))
+                try tagsContainer.encode("", forKey: ClientRuntime.Key(""))
+            }
+        }
+        if let targetArn = targetArn {
+            try container.encode(targetArn, forKey: ClientRuntime.Key("TargetArn"))
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceArn)
+        sourceArn = sourceArnDecoded
+        let targetArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .targetArn)
+        targetArn = targetArnDecoded
+        let integrationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .integrationName)
+        integrationName = integrationNameDecoded
+        let integrationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .integrationArn)
+        integrationArn = integrationArnDecoded
+        let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
+        kmsKeyId = kmsKeyIdDecoded
+        if containerValues.contains(.additionalEncryptionContext) {
+            struct KeyVal0{struct key{}; struct value{}}
+            let additionalEncryptionContextWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: ClientRuntime.MapEntry<Swift.String, Swift.String, KeyVal0.key, KeyVal0.value>.CodingKeys.self, forKey: .additionalEncryptionContext)
+            if let additionalEncryptionContextWrappedContainer = additionalEncryptionContextWrappedContainer {
+                let additionalEncryptionContextContainer = try additionalEncryptionContextWrappedContainer.decodeIfPresent([ClientRuntime.MapKeyValue<Swift.String, Swift.String, KeyVal0.key, KeyVal0.value>].self, forKey: .entry)
+                var additionalEncryptionContextBuffer: [Swift.String:Swift.String]? = nil
+                if let additionalEncryptionContextContainer = additionalEncryptionContextContainer {
+                    additionalEncryptionContextBuffer = [Swift.String:Swift.String]()
+                    for stringContainer0 in additionalEncryptionContextContainer {
+                        additionalEncryptionContextBuffer?[stringContainer0.key] = stringContainer0.value
+                    }
+                }
+                additionalEncryptionContext = additionalEncryptionContextBuffer
+            } else {
+                additionalEncryptionContext = [:]
+            }
+        } else {
+            additionalEncryptionContext = nil
+        }
+        let statusDecoded = try containerValues.decodeIfPresent(RDSClientTypes.IntegrationStatus.self, forKey: .status)
+        status = statusDecoded
+        if containerValues.contains(.tags) {
+            struct KeyVal0{struct Tag{}}
+            let tagsWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.Tag>.CodingKeys.self, forKey: .tags)
+            if let tagsWrappedContainer = tagsWrappedContainer {
+                let tagsContainer = try tagsWrappedContainer.decodeIfPresent([RDSClientTypes.Tag].self, forKey: .member)
+                var tagsBuffer:[RDSClientTypes.Tag]? = nil
+                if let tagsContainer = tagsContainer {
+                    tagsBuffer = [RDSClientTypes.Tag]()
+                    for structureContainer0 in tagsContainer {
+                        tagsBuffer?.append(structureContainer0)
+                    }
+                }
+                tags = tagsBuffer
+            } else {
+                tags = []
+            }
+        } else {
+            tags = nil
+        }
+        let createTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .createTime)
+        createTime = createTimeDecoded
+        if containerValues.contains(.errors) {
+            struct KeyVal0{struct IntegrationError{}}
+            let errorsWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.IntegrationError>.CodingKeys.self, forKey: .errors)
+            if let errorsWrappedContainer = errorsWrappedContainer {
+                let errorsContainer = try errorsWrappedContainer.decodeIfPresent([RDSClientTypes.IntegrationError].self, forKey: .member)
+                var errorsBuffer:[RDSClientTypes.IntegrationError]? = nil
+                if let errorsContainer = errorsContainer {
+                    errorsBuffer = [RDSClientTypes.IntegrationError]()
+                    for structureContainer0 in errorsContainer {
+                        errorsBuffer?.append(structureContainer0)
+                    }
+                }
+                errors = errorsBuffer
+            } else {
+                errors = []
+            }
+        } else {
+            errors = nil
+        }
+    }
+}
+
+extension RDSClientTypes {
+    /// An Aurora zero-ETL integration with Amazon Redshift. For more information, see [Working with Amazon Aurora zero-ETL integrations with Amazon Redshift](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/zero-etl.html) in the Amazon Aurora User Guide.
+    public struct Integration: Swift.Equatable {
+        /// The encryption context for the integration. For more information, see [Encryption context](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#encrypt_context) in the Amazon Web Services Key Management Service Developer Guide.
+        public var additionalEncryptionContext: [Swift.String:Swift.String]?
+        /// The time when the integration was created, in Universal Coordinated Time (UTC).
+        public var createTime: ClientRuntime.Date?
+        /// Any errors associated with the integration.
+        public var errors: [RDSClientTypes.IntegrationError]?
+        /// The ARN of the integration.
+        public var integrationArn: Swift.String?
+        /// The name of the integration.
+        public var integrationName: Swift.String?
+        /// The Amazon Web Services Key Management System (Amazon Web Services KMS) key identifier for the key used to to encrypt the integration.
+        public var kmsKeyId: Swift.String?
+        /// The Amazon Resource Name (ARN) of the Aurora DB cluster used as the source for replication.
+        public var sourceArn: Swift.String?
+        /// The current status of the integration.
+        public var status: RDSClientTypes.IntegrationStatus?
+        /// A list of tags. For more information, see [Tagging Amazon RDS Resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide.
+        public var tags: [RDSClientTypes.Tag]?
+        /// The ARN of the Redshift data warehouse used as the target for replication.
+        public var targetArn: Swift.String?
+
+        public init(
+            additionalEncryptionContext: [Swift.String:Swift.String]? = nil,
+            createTime: ClientRuntime.Date? = nil,
+            errors: [RDSClientTypes.IntegrationError]? = nil,
+            integrationArn: Swift.String? = nil,
+            integrationName: Swift.String? = nil,
+            kmsKeyId: Swift.String? = nil,
+            sourceArn: Swift.String? = nil,
+            status: RDSClientTypes.IntegrationStatus? = nil,
+            tags: [RDSClientTypes.Tag]? = nil,
+            targetArn: Swift.String? = nil
+        )
+        {
+            self.additionalEncryptionContext = additionalEncryptionContext
+            self.createTime = createTime
+            self.errors = errors
+            self.integrationArn = integrationArn
+            self.integrationName = integrationName
+            self.kmsKeyId = kmsKeyId
+            self.sourceArn = sourceArn
+            self.status = status
+            self.tags = tags
+            self.targetArn = targetArn
+        }
+    }
+
+}
+
+extension IntegrationAlreadyExistsFault {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: AWSClientRuntime.ErrorResponseContainer<IntegrationAlreadyExistsFaultBody> = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.error.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// The integration you are trying to create already exists.
+public struct IntegrationAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "IntegrationAlreadyExistsFault" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct IntegrationAlreadyExistsFaultBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension IntegrationAlreadyExistsFaultBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension IntegrationConflictOperationFault {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: AWSClientRuntime.ErrorResponseContainer<IntegrationConflictOperationFaultBody> = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.error.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// A conflicting conditional operation is currently in progress against this resource. Typically occurs when there are multiple requests being made to the same resource at the same time, and these requests conflict with each other.
+public struct IntegrationConflictOperationFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "IntegrationConflictOperationFault" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct IntegrationConflictOperationFaultBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension IntegrationConflictOperationFaultBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension RDSClientTypes.IntegrationError: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case errorCode = "ErrorCode"
+        case errorMessage = "ErrorMessage"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let errorCode = errorCode {
+            try container.encode(errorCode, forKey: ClientRuntime.Key("ErrorCode"))
+        }
+        if let errorMessage = errorMessage {
+            try container.encode(errorMessage, forKey: ClientRuntime.Key("ErrorMessage"))
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let errorCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorCode)
+        errorCode = errorCodeDecoded
+        let errorMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorMessage)
+        errorMessage = errorMessageDecoded
+    }
+}
+
+extension RDSClientTypes {
+    /// An error associated with a zero-ETL integration with Amazon Redshift.
+    public struct IntegrationError: Swift.Equatable {
+        /// The error code associated with the integration.
+        /// This member is required.
+        public var errorCode: Swift.String?
+        /// A message explaining the error.
+        public var errorMessage: Swift.String?
+
+        public init(
+            errorCode: Swift.String? = nil,
+            errorMessage: Swift.String? = nil
+        )
+        {
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+        }
+    }
+
+}
+
+extension IntegrationNotFoundFault {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: AWSClientRuntime.ErrorResponseContainer<IntegrationNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.error.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// The specified integration could not be found.
+public struct IntegrationNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "IntegrationNotFoundFault" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct IntegrationNotFoundFaultBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension IntegrationNotFoundFaultBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension IntegrationQuotaExceededFault {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: AWSClientRuntime.ErrorResponseContainer<IntegrationQuotaExceededFaultBody> = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.error.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// You can't crate any more zero-ETL integrations because the quota has been reached.
+public struct IntegrationQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "IntegrationQuotaExceededFault" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct IntegrationQuotaExceededFaultBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension IntegrationQuotaExceededFaultBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension RDSClientTypes {
+    public enum IntegrationStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case active
+        case creating
+        case deleting
+        case failed
+        case modifying
+        case needsAttention
+        case syncing
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IntegrationStatus] {
+            return [
+                .active,
+                .creating,
+                .deleting,
+                .failed,
+                .modifying,
+                .needsAttention,
+                .syncing,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "active"
+            case .creating: return "creating"
+            case .deleting: return "deleting"
+            case .failed: return "failed"
+            case .modifying: return "modifying"
+            case .needsAttention: return "needs_attention"
+            case .syncing: return "syncing"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = IntegrationStatus(rawValue: rawValue) ?? IntegrationStatus.sdkUnknown(rawValue)
+        }
     }
 }
 
@@ -34346,6 +35791,60 @@ extension InvalidGlobalClusterStateFaultBody: Swift.Decodable {
     }
 }
 
+extension InvalidIntegrationStateFault {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: AWSClientRuntime.ErrorResponseContainer<InvalidIntegrationStateFaultBody> = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.error.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// The integration is in an invalid state and can't perform the requested operation.
+public struct InvalidIntegrationStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidIntegrationStateFault" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct InvalidIntegrationStateFaultBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension InvalidIntegrationStateFaultBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
 extension InvalidOptionGroupStateFault {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
@@ -34823,6 +36322,7 @@ enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "DBProxyNotFoundFault": return try await DBProxyNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "DBProxyTargetGroupNotFoundFault": return try await DBProxyTargetGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "DBSnapshotNotFound": return try await DBSnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "IntegrationNotFoundFault": return try await IntegrationNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
@@ -35532,6 +37032,7 @@ extension ModifyCustomDBEngineVersionOutput: ClientRuntime.HttpResponseBinding {
             self.supportsBabelfish = output.supportsBabelfish
             self.supportsCertificateRotationWithoutRestart = output.supportsCertificateRotationWithoutRestart
             self.supportsGlobalDatabases = output.supportsGlobalDatabases
+            self.supportsIntegrations = output.supportsIntegrations
             self.supportsLocalWriteForwarding = output.supportsLocalWriteForwarding
             self.supportsLogExportsToCloudwatchLogs = output.supportsLogExportsToCloudwatchLogs
             self.supportsParallelQuery = output.supportsParallelQuery
@@ -35562,13 +37063,14 @@ extension ModifyCustomDBEngineVersionOutput: ClientRuntime.HttpResponseBinding {
             self.supportedFeatureNames = nil
             self.supportedNcharCharacterSets = nil
             self.supportedTimezones = nil
-            self.supportsBabelfish = false
+            self.supportsBabelfish = nil
             self.supportsCertificateRotationWithoutRestart = nil
-            self.supportsGlobalDatabases = false
+            self.supportsGlobalDatabases = nil
+            self.supportsIntegrations = nil
             self.supportsLocalWriteForwarding = nil
-            self.supportsLogExportsToCloudwatchLogs = false
-            self.supportsParallelQuery = false
-            self.supportsReadReplica = false
+            self.supportsLogExportsToCloudwatchLogs = nil
+            self.supportsParallelQuery = nil
+            self.supportsReadReplica = nil
             self.tagList = nil
             self.validUpgradeTarget = nil
         }
@@ -35624,19 +37126,21 @@ public struct ModifyCustomDBEngineVersionOutput: Swift.Equatable {
     /// A list of the time zones supported by this engine for the Timezone parameter of the CreateDBInstance action.
     public var supportedTimezones: [RDSClientTypes.Timezone]?
     /// Indicates whether the engine version supports Babelfish for Aurora PostgreSQL.
-    public var supportsBabelfish: Swift.Bool
+    public var supportsBabelfish: Swift.Bool?
     /// Indicates whether the engine version supports rotating the server certificate without rebooting the DB instance.
     public var supportsCertificateRotationWithoutRestart: Swift.Bool?
     /// Indicates whether you can use Aurora global databases with a specific DB engine version.
-    public var supportsGlobalDatabases: Swift.Bool
+    public var supportsGlobalDatabases: Swift.Bool?
+    /// Indicates whether the DB engine version supports Aurora zero-ETL integrations with Amazon Redshift.
+    public var supportsIntegrations: Swift.Bool?
     /// Indicates whether the DB engine version supports forwarding write operations from reader DB instances to the writer DB instance in the DB cluster. By default, write operations aren't allowed on reader DB instances. Valid for: Aurora DB clusters only
     public var supportsLocalWriteForwarding: Swift.Bool?
     /// Indicates whether the engine version supports exporting the log types specified by ExportableLogTypes to CloudWatch Logs.
-    public var supportsLogExportsToCloudwatchLogs: Swift.Bool
+    public var supportsLogExportsToCloudwatchLogs: Swift.Bool?
     /// Indicates whether you can use Aurora parallel query with a specific DB engine version.
-    public var supportsParallelQuery: Swift.Bool
+    public var supportsParallelQuery: Swift.Bool?
     /// Indicates whether the database engine version supports read replicas.
-    public var supportsReadReplica: Swift.Bool
+    public var supportsReadReplica: Swift.Bool?
     /// A list of tags. For more information, see [Tagging Amazon RDS Resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide.
     public var tagList: [RDSClientTypes.Tag]?
     /// A list of engine versions that this database engine version can be upgraded to.
@@ -35666,13 +37170,14 @@ public struct ModifyCustomDBEngineVersionOutput: Swift.Equatable {
         supportedFeatureNames: [Swift.String]? = nil,
         supportedNcharCharacterSets: [RDSClientTypes.CharacterSet]? = nil,
         supportedTimezones: [RDSClientTypes.Timezone]? = nil,
-        supportsBabelfish: Swift.Bool = false,
+        supportsBabelfish: Swift.Bool? = nil,
         supportsCertificateRotationWithoutRestart: Swift.Bool? = nil,
-        supportsGlobalDatabases: Swift.Bool = false,
+        supportsGlobalDatabases: Swift.Bool? = nil,
+        supportsIntegrations: Swift.Bool? = nil,
         supportsLocalWriteForwarding: Swift.Bool? = nil,
-        supportsLogExportsToCloudwatchLogs: Swift.Bool = false,
-        supportsParallelQuery: Swift.Bool = false,
-        supportsReadReplica: Swift.Bool = false,
+        supportsLogExportsToCloudwatchLogs: Swift.Bool? = nil,
+        supportsParallelQuery: Swift.Bool? = nil,
+        supportsReadReplica: Swift.Bool? = nil,
         tagList: [RDSClientTypes.Tag]? = nil,
         validUpgradeTarget: [RDSClientTypes.UpgradeTarget]? = nil
     )
@@ -35703,6 +37208,7 @@ public struct ModifyCustomDBEngineVersionOutput: Swift.Equatable {
         self.supportsBabelfish = supportsBabelfish
         self.supportsCertificateRotationWithoutRestart = supportsCertificateRotationWithoutRestart
         self.supportsGlobalDatabases = supportsGlobalDatabases
+        self.supportsIntegrations = supportsIntegrations
         self.supportsLocalWriteForwarding = supportsLocalWriteForwarding
         self.supportsLogExportsToCloudwatchLogs = supportsLogExportsToCloudwatchLogs
         self.supportsParallelQuery = supportsParallelQuery
@@ -35726,13 +37232,13 @@ struct ModifyCustomDBEngineVersionOutputBody: Swift.Equatable {
     let validUpgradeTarget: [RDSClientTypes.UpgradeTarget]?
     let supportedTimezones: [RDSClientTypes.Timezone]?
     let exportableLogTypes: [Swift.String]?
-    let supportsLogExportsToCloudwatchLogs: Swift.Bool
-    let supportsReadReplica: Swift.Bool
+    let supportsLogExportsToCloudwatchLogs: Swift.Bool?
+    let supportsReadReplica: Swift.Bool?
     let supportedEngineModes: [Swift.String]?
     let supportedFeatureNames: [Swift.String]?
     let status: Swift.String?
-    let supportsParallelQuery: Swift.Bool
-    let supportsGlobalDatabases: Swift.Bool
+    let supportsParallelQuery: Swift.Bool?
+    let supportsGlobalDatabases: Swift.Bool?
     let majorEngineVersion: Swift.String?
     let databaseInstallationFilesS3BucketName: Swift.String?
     let databaseInstallationFilesS3Prefix: Swift.String?
@@ -35740,11 +37246,12 @@ struct ModifyCustomDBEngineVersionOutputBody: Swift.Equatable {
     let kmsKeyId: Swift.String?
     let createTime: ClientRuntime.Date?
     let tagList: [RDSClientTypes.Tag]?
-    let supportsBabelfish: Swift.Bool
+    let supportsBabelfish: Swift.Bool?
     let customDBEngineVersionManifest: Swift.String?
     let supportsCertificateRotationWithoutRestart: Swift.Bool?
     let supportedCACertificateIdentifiers: [Swift.String]?
     let supportsLocalWriteForwarding: Swift.Bool?
+    let supportsIntegrations: Swift.Bool?
 }
 
 extension ModifyCustomDBEngineVersionOutputBody: Swift.Decodable {
@@ -35775,6 +37282,7 @@ extension ModifyCustomDBEngineVersionOutputBody: Swift.Decodable {
         case supportsBabelfish = "SupportsBabelfish"
         case supportsCertificateRotationWithoutRestart = "SupportsCertificateRotationWithoutRestart"
         case supportsGlobalDatabases = "SupportsGlobalDatabases"
+        case supportsIntegrations = "SupportsIntegrations"
         case supportsLocalWriteForwarding = "SupportsLocalWriteForwarding"
         case supportsLogExportsToCloudwatchLogs = "SupportsLogExportsToCloudwatchLogs"
         case supportsParallelQuery = "SupportsParallelQuery"
@@ -35897,9 +37405,9 @@ extension ModifyCustomDBEngineVersionOutputBody: Swift.Decodable {
         } else {
             exportableLogTypes = nil
         }
-        let supportsLogExportsToCloudwatchLogsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsLogExportsToCloudwatchLogs) ?? false
+        let supportsLogExportsToCloudwatchLogsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsLogExportsToCloudwatchLogs)
         supportsLogExportsToCloudwatchLogs = supportsLogExportsToCloudwatchLogsDecoded
-        let supportsReadReplicaDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsReadReplica) ?? false
+        let supportsReadReplicaDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsReadReplica)
         supportsReadReplica = supportsReadReplicaDecoded
         if containerValues.contains(.supportedEngineModes) {
             struct KeyVal0{struct member{}}
@@ -35941,9 +37449,9 @@ extension ModifyCustomDBEngineVersionOutputBody: Swift.Decodable {
         }
         let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
         status = statusDecoded
-        let supportsParallelQueryDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsParallelQuery) ?? false
+        let supportsParallelQueryDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsParallelQuery)
         supportsParallelQuery = supportsParallelQueryDecoded
-        let supportsGlobalDatabasesDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsGlobalDatabases) ?? false
+        let supportsGlobalDatabasesDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsGlobalDatabases)
         supportsGlobalDatabases = supportsGlobalDatabasesDecoded
         let majorEngineVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .majorEngineVersion)
         majorEngineVersion = majorEngineVersionDecoded
@@ -35976,7 +37484,7 @@ extension ModifyCustomDBEngineVersionOutputBody: Swift.Decodable {
         } else {
             tagList = nil
         }
-        let supportsBabelfishDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsBabelfish) ?? false
+        let supportsBabelfishDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsBabelfish)
         supportsBabelfish = supportsBabelfishDecoded
         let customDBEngineVersionManifestDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .customDBEngineVersionManifest)
         customDBEngineVersionManifest = customDBEngineVersionManifestDecoded
@@ -36003,6 +37511,8 @@ extension ModifyCustomDBEngineVersionOutputBody: Swift.Decodable {
         }
         let supportsLocalWriteForwardingDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsLocalWriteForwarding)
         supportsLocalWriteForwarding = supportsLocalWriteForwardingDecoded
+        let supportsIntegrationsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsIntegrations)
+        supportsIntegrations = supportsIntegrationsDecoded
     }
 }
 
@@ -36859,7 +38369,7 @@ extension ModifyDBClusterInputBody: Swift.Decodable {
         dbClusterIdentifier = dbClusterIdentifierDecoded
         let newDBClusterIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .newDBClusterIdentifier)
         newDBClusterIdentifier = newDBClusterIdentifierDecoded
-        let applyImmediatelyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .applyImmediately) ?? false
+        let applyImmediatelyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .applyImmediately)
         applyImmediately = applyImmediatelyDecoded
         let backupRetentionPeriodDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .backupRetentionPeriod)
         backupRetentionPeriod = backupRetentionPeriodDecoded
@@ -36902,7 +38412,7 @@ extension ModifyDBClusterInputBody: Swift.Decodable {
         cloudwatchLogsExportConfiguration = cloudwatchLogsExportConfigurationDecoded
         let engineVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .engineVersion)
         engineVersion = engineVersionDecoded
-        let allowMajorVersionUpgradeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowMajorVersionUpgrade) ?? false
+        let allowMajorVersionUpgradeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowMajorVersionUpgrade)
         allowMajorVersionUpgrade = allowMajorVersionUpgradeDecoded
         let dbInstanceParameterGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbInstanceParameterGroupName)
         dbInstanceParameterGroupName = dbInstanceParameterGroupNameDecoded
@@ -36952,7 +38462,7 @@ extension ModifyDBClusterInputBody: Swift.Decodable {
         masterUserSecretKmsKeyId = masterUserSecretKmsKeyIdDecoded
         let engineModeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .engineMode)
         engineMode = engineModeDecoded
-        let allowEngineModeChangeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowEngineModeChange) ?? false
+        let allowEngineModeChangeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowEngineModeChange)
         allowEngineModeChange = allowEngineModeChangeDecoded
         let enableLocalWriteForwardingDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enableLocalWriteForwarding)
         enableLocalWriteForwarding = enableLocalWriteForwardingDecoded
@@ -37421,6 +38931,9 @@ extension ModifyDBInstanceInput: Swift.Encodable {
         if let dbSubnetGroupName = dbSubnetGroupName {
             try container.encode(dbSubnetGroupName, forKey: ClientRuntime.Key("DBSubnetGroupName"))
         }
+        if let dedicatedLogVolume = dedicatedLogVolume {
+            try container.encode(dedicatedLogVolume, forKey: ClientRuntime.Key("DedicatedLogVolume"))
+        }
         if let deletionProtection = deletionProtection {
             try container.encode(deletionProtection, forKey: ClientRuntime.Key("DeletionProtection"))
         }
@@ -37673,6 +39186,8 @@ public struct ModifyDBInstanceInput: Swift.Equatable {
     ///
     /// Example: mydbsubnetgroup
     public var dbSubnetGroupName: Swift.String?
+    /// Indicates whether the DB instance has a dedicated log volume (DLV) enabled.
+    public var dedicatedLogVolume: Swift.Bool?
     /// Specifies whether the DB instance has deletion protection enabled. The database can't be deleted when deletion protection is enabled. By default, deletion protection isn't enabled. For more information, see [ Deleting a DB Instance](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_DeleteInstance.html).
     public var deletionProtection: Swift.Bool?
     /// Specifies whether to remove the DB instance from the Active Directory domain.
@@ -37907,6 +39422,7 @@ public struct ModifyDBInstanceInput: Swift.Equatable {
         dbPortNumber: Swift.Int? = nil,
         dbSecurityGroups: [Swift.String]? = nil,
         dbSubnetGroupName: Swift.String? = nil,
+        dedicatedLogVolume: Swift.Bool? = nil,
         deletionProtection: Swift.Bool? = nil,
         disableDomain: Swift.Bool? = nil,
         domain: Swift.String? = nil,
@@ -37967,6 +39483,7 @@ public struct ModifyDBInstanceInput: Swift.Equatable {
         self.dbPortNumber = dbPortNumber
         self.dbSecurityGroups = dbSecurityGroups
         self.dbSubnetGroupName = dbSubnetGroupName
+        self.dedicatedLogVolume = dedicatedLogVolume
         self.deletionProtection = deletionProtection
         self.disableDomain = disableDomain
         self.domain = domain
@@ -38070,6 +39587,7 @@ struct ModifyDBInstanceInputBody: Swift.Equatable {
     let rotateMasterUserPassword: Swift.Bool?
     let masterUserSecretKmsKeyId: Swift.String?
     let engine: Swift.String?
+    let dedicatedLogVolume: Swift.Bool?
 }
 
 extension ModifyDBInstanceInputBody: Swift.Decodable {
@@ -38091,6 +39609,7 @@ extension ModifyDBInstanceInputBody: Swift.Decodable {
         case dbPortNumber = "DBPortNumber"
         case dbSecurityGroups = "DBSecurityGroups"
         case dbSubnetGroupName = "DBSubnetGroupName"
+        case dedicatedLogVolume = "DedicatedLogVolume"
         case deletionProtection = "DeletionProtection"
         case disableDomain = "DisableDomain"
         case domain = "Domain"
@@ -38182,7 +39701,7 @@ extension ModifyDBInstanceInputBody: Swift.Decodable {
         } else {
             vpcSecurityGroupIds = nil
         }
-        let applyImmediatelyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .applyImmediately) ?? false
+        let applyImmediatelyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .applyImmediately)
         applyImmediately = applyImmediatelyDecoded
         let masterUserPasswordDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .masterUserPassword)
         masterUserPassword = masterUserPasswordDecoded
@@ -38198,7 +39717,7 @@ extension ModifyDBInstanceInputBody: Swift.Decodable {
         multiAZ = multiAZDecoded
         let engineVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .engineVersion)
         engineVersion = engineVersionDecoded
-        let allowMajorVersionUpgradeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowMajorVersionUpgrade) ?? false
+        let allowMajorVersionUpgradeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowMajorVersionUpgrade)
         allowMajorVersionUpgrade = allowMajorVersionUpgradeDecoded
         let autoMinorVersionUpgradeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoMinorVersionUpgrade)
         autoMinorVersionUpgrade = autoMinorVersionUpgradeDecoded
@@ -38320,6 +39839,8 @@ extension ModifyDBInstanceInputBody: Swift.Decodable {
         masterUserSecretKmsKeyId = masterUserSecretKmsKeyIdDecoded
         let engineDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .engine)
         engine = engineDecoded
+        let dedicatedLogVolumeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dedicatedLogVolume)
+        dedicatedLogVolume = dedicatedLogVolumeDecoded
     }
 }
 
@@ -39970,7 +41491,7 @@ extension ModifyOptionGroupInputBody: Swift.Decodable {
         } else {
             optionsToRemove = nil
         }
-        let applyImmediatelyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .applyImmediately) ?? false
+        let applyImmediatelyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .applyImmediately)
         applyImmediately = applyImmediatelyDecoded
     }
 }
@@ -40129,10 +41650,10 @@ extension RDSClientTypes.Option: Swift.Codable {
         if let optionVersion = optionVersion {
             try container.encode(optionVersion, forKey: ClientRuntime.Key("OptionVersion"))
         }
-        if permanent != false {
+        if let permanent = permanent {
             try container.encode(permanent, forKey: ClientRuntime.Key("Permanent"))
         }
-        if persistent != false {
+        if let persistent = persistent {
             try container.encode(persistent, forKey: ClientRuntime.Key("Persistent"))
         }
         if let port = port {
@@ -40158,9 +41679,9 @@ extension RDSClientTypes.Option: Swift.Codable {
         optionName = optionNameDecoded
         let optionDescriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .optionDescription)
         optionDescription = optionDescriptionDecoded
-        let persistentDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .persistent) ?? false
+        let persistentDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .persistent)
         persistent = persistentDecoded
-        let permanentDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .permanent) ?? false
+        let permanentDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .permanent)
         permanent = permanentDecoded
         let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port)
         port = portDecoded
@@ -40240,9 +41761,9 @@ extension RDSClientTypes {
         /// The version of the option.
         public var optionVersion: Swift.String?
         /// Indicates whether this option is permanent.
-        public var permanent: Swift.Bool
+        public var permanent: Swift.Bool?
         /// Indicates whether this option is persistent.
-        public var persistent: Swift.Bool
+        public var persistent: Swift.Bool?
         /// If required, the port configured for this option to use.
         public var port: Swift.Int?
         /// If the option requires access to a port, then this VPC security group allows access to the port.
@@ -40254,8 +41775,8 @@ extension RDSClientTypes {
             optionName: Swift.String? = nil,
             optionSettings: [RDSClientTypes.OptionSetting]? = nil,
             optionVersion: Swift.String? = nil,
-            permanent: Swift.Bool = false,
-            persistent: Swift.Bool = false,
+            permanent: Swift.Bool? = nil,
+            persistent: Swift.Bool? = nil,
             port: Swift.Int? = nil,
             vpcSecurityGroupMemberships: [RDSClientTypes.VpcSecurityGroupMembership]? = nil
         )
@@ -40455,7 +41976,7 @@ extension RDSClientTypes.OptionGroup: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if allowsVpcAndNonVpcInstanceMemberships != false {
+        if let allowsVpcAndNonVpcInstanceMemberships = allowsVpcAndNonVpcInstanceMemberships {
             try container.encode(allowsVpcAndNonVpcInstanceMemberships, forKey: ClientRuntime.Key("AllowsVpcAndNonVpcInstanceMemberships"))
         }
         if let copyTimestamp = copyTimestamp {
@@ -40528,7 +42049,7 @@ extension RDSClientTypes.OptionGroup: Swift.Codable {
         } else {
             options = nil
         }
-        let allowsVpcAndNonVpcInstanceMembershipsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowsVpcAndNonVpcInstanceMemberships) ?? false
+        let allowsVpcAndNonVpcInstanceMembershipsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowsVpcAndNonVpcInstanceMemberships)
         allowsVpcAndNonVpcInstanceMemberships = allowsVpcAndNonVpcInstanceMembershipsDecoded
         let vpcIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vpcId)
         vpcId = vpcIdDecoded
@@ -40547,7 +42068,7 @@ extension RDSClientTypes {
     ///
     public struct OptionGroup: Swift.Equatable {
         /// Indicates whether this option group can be applied to both VPC and non-VPC instances. The value true indicates the option group can be applied to both VPC and non-VPC instances.
-        public var allowsVpcAndNonVpcInstanceMemberships: Swift.Bool
+        public var allowsVpcAndNonVpcInstanceMemberships: Swift.Bool?
         /// Indicates when the option group was copied.
         public var copyTimestamp: ClientRuntime.Date?
         /// Indicates the name of the engine that this option group can be applied to.
@@ -40570,7 +42091,7 @@ extension RDSClientTypes {
         public var vpcId: Swift.String?
 
         public init(
-            allowsVpcAndNonVpcInstanceMemberships: Swift.Bool = false,
+            allowsVpcAndNonVpcInstanceMemberships: Swift.Bool? = nil,
             copyTimestamp: ClientRuntime.Date? = nil,
             engineName: Swift.String? = nil,
             majorEngineVersion: Swift.String? = nil,
@@ -40844,22 +42365,22 @@ extension RDSClientTypes.OptionGroupOption: Swift.Codable {
                 try optionsDependedOnContainer.encode("", forKey: ClientRuntime.Key(""))
             }
         }
-        if permanent != false {
+        if let permanent = permanent {
             try container.encode(permanent, forKey: ClientRuntime.Key("Permanent"))
         }
-        if persistent != false {
+        if let persistent = persistent {
             try container.encode(persistent, forKey: ClientRuntime.Key("Persistent"))
         }
-        if portRequired != false {
+        if let portRequired = portRequired {
             try container.encode(portRequired, forKey: ClientRuntime.Key("PortRequired"))
         }
-        if requiresAutoMinorEngineVersionUpgrade != false {
+        if let requiresAutoMinorEngineVersionUpgrade = requiresAutoMinorEngineVersionUpgrade {
             try container.encode(requiresAutoMinorEngineVersionUpgrade, forKey: ClientRuntime.Key("RequiresAutoMinorEngineVersionUpgrade"))
         }
         if let supportsOptionVersionDowngrade = supportsOptionVersionDowngrade {
             try container.encode(supportsOptionVersionDowngrade, forKey: ClientRuntime.Key("SupportsOptionVersionDowngrade"))
         }
-        if vpcOnly != false {
+        if let vpcOnly = vpcOnly {
             try container.encode(vpcOnly, forKey: ClientRuntime.Key("VpcOnly"))
         }
     }
@@ -40876,7 +42397,7 @@ extension RDSClientTypes.OptionGroupOption: Swift.Codable {
         majorEngineVersion = majorEngineVersionDecoded
         let minimumRequiredMinorEngineVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .minimumRequiredMinorEngineVersion)
         minimumRequiredMinorEngineVersion = minimumRequiredMinorEngineVersionDecoded
-        let portRequiredDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .portRequired) ?? false
+        let portRequiredDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .portRequired)
         portRequired = portRequiredDecoded
         let defaultPortDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .defaultPort)
         defaultPort = defaultPortDecoded
@@ -40918,13 +42439,13 @@ extension RDSClientTypes.OptionGroupOption: Swift.Codable {
         } else {
             optionsConflictsWith = nil
         }
-        let persistentDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .persistent) ?? false
+        let persistentDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .persistent)
         persistent = persistentDecoded
-        let permanentDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .permanent) ?? false
+        let permanentDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .permanent)
         permanent = permanentDecoded
-        let requiresAutoMinorEngineVersionUpgradeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .requiresAutoMinorEngineVersionUpgrade) ?? false
+        let requiresAutoMinorEngineVersionUpgradeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .requiresAutoMinorEngineVersionUpgrade)
         requiresAutoMinorEngineVersionUpgrade = requiresAutoMinorEngineVersionUpgradeDecoded
-        let vpcOnlyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .vpcOnly) ?? false
+        let vpcOnlyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .vpcOnly)
         vpcOnly = vpcOnlyDecoded
         let supportsOptionVersionDowngradeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsOptionVersionDowngrade)
         supportsOptionVersionDowngrade = supportsOptionVersionDowngradeDecoded
@@ -40997,17 +42518,17 @@ extension RDSClientTypes {
         /// The options that are prerequisites for this option.
         public var optionsDependedOn: [Swift.String]?
         /// Permanent options can never be removed from an option group. An option group containing a permanent option can't be removed from a DB instance.
-        public var permanent: Swift.Bool
+        public var permanent: Swift.Bool?
         /// Persistent options can't be removed from an option group while DB instances are associated with the option group. If you disassociate all DB instances from the option group, your can remove the persistent option from the option group.
-        public var persistent: Swift.Bool
+        public var persistent: Swift.Bool?
         /// Indicates whether the option requires a port.
-        public var portRequired: Swift.Bool
+        public var portRequired: Swift.Bool?
         /// If true, you must enable the Auto Minor Version Upgrade setting for your DB instance before you can use this option. You can enable Auto Minor Version Upgrade when you first create your DB instance, or by modifying your DB instance later.
-        public var requiresAutoMinorEngineVersionUpgrade: Swift.Bool
+        public var requiresAutoMinorEngineVersionUpgrade: Swift.Bool?
         /// If true, you can change the option to an earlier version of the option. This only applies to options that have different versions available.
         public var supportsOptionVersionDowngrade: Swift.Bool?
         /// If true, you can only use this option with a DB instance that is in a VPC.
-        public var vpcOnly: Swift.Bool
+        public var vpcOnly: Swift.Bool?
 
         public init(
             copyableCrossAccount: Swift.Bool? = nil,
@@ -41021,12 +42542,12 @@ extension RDSClientTypes {
             optionGroupOptionVersions: [RDSClientTypes.OptionVersion]? = nil,
             optionsConflictsWith: [Swift.String]? = nil,
             optionsDependedOn: [Swift.String]? = nil,
-            permanent: Swift.Bool = false,
-            persistent: Swift.Bool = false,
-            portRequired: Swift.Bool = false,
-            requiresAutoMinorEngineVersionUpgrade: Swift.Bool = false,
+            permanent: Swift.Bool? = nil,
+            persistent: Swift.Bool? = nil,
+            portRequired: Swift.Bool? = nil,
+            requiresAutoMinorEngineVersionUpgrade: Swift.Bool? = nil,
             supportsOptionVersionDowngrade: Swift.Bool? = nil,
-            vpcOnly: Swift.Bool = false
+            vpcOnly: Swift.Bool? = nil
         )
         {
             self.copyableCrossAccount = copyableCrossAccount
@@ -41074,10 +42595,10 @@ extension RDSClientTypes.OptionGroupOptionSetting: Swift.Codable {
         if let defaultValue = defaultValue {
             try container.encode(defaultValue, forKey: ClientRuntime.Key("DefaultValue"))
         }
-        if isModifiable != false {
+        if let isModifiable = isModifiable {
             try container.encode(isModifiable, forKey: ClientRuntime.Key("IsModifiable"))
         }
-        if isRequired != false {
+        if let isRequired = isRequired {
             try container.encode(isRequired, forKey: ClientRuntime.Key("IsRequired"))
         }
         if let minimumEngineVersionPerAllowedValue = minimumEngineVersionPerAllowedValue {
@@ -41112,9 +42633,9 @@ extension RDSClientTypes.OptionGroupOptionSetting: Swift.Codable {
         applyType = applyTypeDecoded
         let allowedValuesDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .allowedValues)
         allowedValues = allowedValuesDecoded
-        let isModifiableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isModifiable) ?? false
+        let isModifiableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isModifiable)
         isModifiable = isModifiableDecoded
-        let isRequiredDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isRequired) ?? false
+        let isRequiredDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isRequired)
         isRequired = isRequiredDecoded
         if containerValues.contains(.minimumEngineVersionPerAllowedValue) {
             struct KeyVal0{struct MinimumEngineVersionPerAllowedValue{}}
@@ -41148,9 +42669,9 @@ extension RDSClientTypes {
         /// The default value for the option group option.
         public var defaultValue: Swift.String?
         /// Indicates whether this option group option can be changed from the default value.
-        public var isModifiable: Swift.Bool
+        public var isModifiable: Swift.Bool?
         /// Indicates whether a value must be specified for this option setting of the option group option.
-        public var isRequired: Swift.Bool
+        public var isRequired: Swift.Bool?
         /// The minimum DB engine version required for the corresponding allowed value for this option setting.
         public var minimumEngineVersionPerAllowedValue: [RDSClientTypes.MinimumEngineVersionPerAllowedValue]?
         /// The description of the option group option.
@@ -41162,8 +42683,8 @@ extension RDSClientTypes {
             allowedValues: Swift.String? = nil,
             applyType: Swift.String? = nil,
             defaultValue: Swift.String? = nil,
-            isModifiable: Swift.Bool = false,
-            isRequired: Swift.Bool = false,
+            isModifiable: Swift.Bool? = nil,
+            isRequired: Swift.Bool? = nil,
             minimumEngineVersionPerAllowedValue: [RDSClientTypes.MinimumEngineVersionPerAllowedValue]? = nil,
             settingDescription: Swift.String? = nil,
             settingName: Swift.String? = nil
@@ -41266,10 +42787,10 @@ extension RDSClientTypes.OptionSetting: Swift.Codable {
         if let description = description {
             try container.encode(description, forKey: ClientRuntime.Key("Description"))
         }
-        if isCollection != false {
+        if let isCollection = isCollection {
             try container.encode(isCollection, forKey: ClientRuntime.Key("IsCollection"))
         }
-        if isModifiable != false {
+        if let isModifiable = isModifiable {
             try container.encode(isModifiable, forKey: ClientRuntime.Key("IsModifiable"))
         }
         if let name = name {
@@ -41296,9 +42817,9 @@ extension RDSClientTypes.OptionSetting: Swift.Codable {
         dataType = dataTypeDecoded
         let allowedValuesDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .allowedValues)
         allowedValues = allowedValuesDecoded
-        let isModifiableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isModifiable) ?? false
+        let isModifiableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isModifiable)
         isModifiable = isModifiableDecoded
-        let isCollectionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isCollection) ?? false
+        let isCollectionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isCollection)
         isCollection = isCollectionDecoded
     }
 }
@@ -41317,9 +42838,9 @@ extension RDSClientTypes {
         /// The description of the option setting.
         public var description: Swift.String?
         /// Indicates whether the option setting is part of a collection.
-        public var isCollection: Swift.Bool
+        public var isCollection: Swift.Bool?
         /// Indicates whether the option setting can be modified from the default.
-        public var isModifiable: Swift.Bool
+        public var isModifiable: Swift.Bool?
         /// The name of the option that has settings that you can set.
         public var name: Swift.String?
         /// The current value of the option setting.
@@ -41331,8 +42852,8 @@ extension RDSClientTypes {
             dataType: Swift.String? = nil,
             defaultValue: Swift.String? = nil,
             description: Swift.String? = nil,
-            isCollection: Swift.Bool = false,
-            isModifiable: Swift.Bool = false,
+            isCollection: Swift.Bool? = nil,
+            isModifiable: Swift.Bool? = nil,
             name: Swift.String? = nil,
             value: Swift.String? = nil
         )
@@ -41359,7 +42880,7 @@ extension RDSClientTypes.OptionVersion: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if isDefault != false {
+        if let isDefault = isDefault {
             try container.encode(isDefault, forKey: ClientRuntime.Key("IsDefault"))
         }
         if let version = version {
@@ -41371,7 +42892,7 @@ extension RDSClientTypes.OptionVersion: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let versionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .version)
         version = versionDecoded
-        let isDefaultDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isDefault) ?? false
+        let isDefaultDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isDefault)
         isDefault = isDefaultDecoded
     }
 }
@@ -41380,12 +42901,12 @@ extension RDSClientTypes {
     /// The version for an option. Option group option versions are returned by the DescribeOptionGroupOptions action.
     public struct OptionVersion: Swift.Equatable {
         /// Indicates whether the version is the default version of the option.
-        public var isDefault: Swift.Bool
+        public var isDefault: Swift.Bool?
         /// The version of the option.
         public var version: Swift.String?
 
         public init(
-            isDefault: Swift.Bool = false,
+            isDefault: Swift.Bool? = nil,
             version: Swift.String? = nil
         )
         {
@@ -41423,6 +42944,7 @@ extension RDSClientTypes.OrderableDBInstanceOption: Swift.Codable {
         case supportedEngineModes = "SupportedEngineModes"
         case supportedNetworkTypes = "SupportedNetworkTypes"
         case supportsClusters = "SupportsClusters"
+        case supportsDedicatedLogVolume = "SupportsDedicatedLogVolume"
         case supportsEnhancedMonitoring = "SupportsEnhancedMonitoring"
         case supportsGlobalDatabases = "SupportsGlobalDatabases"
         case supportsIAMDatabaseAuthentication = "SupportsIAMDatabaseAuthentication"
@@ -41506,13 +43028,13 @@ extension RDSClientTypes.OrderableDBInstanceOption: Swift.Codable {
         if let minStorageThroughputPerIops = minStorageThroughputPerIops {
             try container.encode(minStorageThroughputPerIops, forKey: ClientRuntime.Key("MinStorageThroughputPerIops"))
         }
-        if multiAZCapable != false {
+        if let multiAZCapable = multiAZCapable {
             try container.encode(multiAZCapable, forKey: ClientRuntime.Key("MultiAZCapable"))
         }
-        if outpostCapable != false {
+        if let outpostCapable = outpostCapable {
             try container.encode(outpostCapable, forKey: ClientRuntime.Key("OutpostCapable"))
         }
-        if readReplicaCapable != false {
+        if let readReplicaCapable = readReplicaCapable {
             try container.encode(readReplicaCapable, forKey: ClientRuntime.Key("ReadReplicaCapable"))
         }
         if let storageType = storageType {
@@ -41554,37 +43076,40 @@ extension RDSClientTypes.OrderableDBInstanceOption: Swift.Codable {
                 try supportedNetworkTypesContainer.encode("", forKey: ClientRuntime.Key(""))
             }
         }
-        if supportsClusters != false {
+        if let supportsClusters = supportsClusters {
             try container.encode(supportsClusters, forKey: ClientRuntime.Key("SupportsClusters"))
         }
-        if supportsEnhancedMonitoring != false {
+        if let supportsDedicatedLogVolume = supportsDedicatedLogVolume {
+            try container.encode(supportsDedicatedLogVolume, forKey: ClientRuntime.Key("SupportsDedicatedLogVolume"))
+        }
+        if let supportsEnhancedMonitoring = supportsEnhancedMonitoring {
             try container.encode(supportsEnhancedMonitoring, forKey: ClientRuntime.Key("SupportsEnhancedMonitoring"))
         }
-        if supportsGlobalDatabases != false {
+        if let supportsGlobalDatabases = supportsGlobalDatabases {
             try container.encode(supportsGlobalDatabases, forKey: ClientRuntime.Key("SupportsGlobalDatabases"))
         }
-        if supportsIAMDatabaseAuthentication != false {
+        if let supportsIAMDatabaseAuthentication = supportsIAMDatabaseAuthentication {
             try container.encode(supportsIAMDatabaseAuthentication, forKey: ClientRuntime.Key("SupportsIAMDatabaseAuthentication"))
         }
-        if supportsIops != false {
+        if let supportsIops = supportsIops {
             try container.encode(supportsIops, forKey: ClientRuntime.Key("SupportsIops"))
         }
         if let supportsKerberosAuthentication = supportsKerberosAuthentication {
             try container.encode(supportsKerberosAuthentication, forKey: ClientRuntime.Key("SupportsKerberosAuthentication"))
         }
-        if supportsPerformanceInsights != false {
+        if let supportsPerformanceInsights = supportsPerformanceInsights {
             try container.encode(supportsPerformanceInsights, forKey: ClientRuntime.Key("SupportsPerformanceInsights"))
         }
         if let supportsStorageAutoscaling = supportsStorageAutoscaling {
             try container.encode(supportsStorageAutoscaling, forKey: ClientRuntime.Key("SupportsStorageAutoscaling"))
         }
-        if supportsStorageEncryption != false {
+        if let supportsStorageEncryption = supportsStorageEncryption {
             try container.encode(supportsStorageEncryption, forKey: ClientRuntime.Key("SupportsStorageEncryption"))
         }
-        if supportsStorageThroughput != false {
+        if let supportsStorageThroughput = supportsStorageThroughput {
             try container.encode(supportsStorageThroughput, forKey: ClientRuntime.Key("SupportsStorageThroughput"))
         }
-        if vpc != false {
+        if let vpc = vpc {
             try container.encode(vpc, forKey: ClientRuntime.Key("Vpc"))
         }
     }
@@ -41620,23 +43145,23 @@ extension RDSClientTypes.OrderableDBInstanceOption: Swift.Codable {
         } else {
             availabilityZones = nil
         }
-        let multiAZCapableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .multiAZCapable) ?? false
+        let multiAZCapableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .multiAZCapable)
         multiAZCapable = multiAZCapableDecoded
-        let readReplicaCapableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .readReplicaCapable) ?? false
+        let readReplicaCapableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .readReplicaCapable)
         readReplicaCapable = readReplicaCapableDecoded
-        let vpcDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .vpc) ?? false
+        let vpcDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .vpc)
         vpc = vpcDecoded
-        let supportsStorageEncryptionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsStorageEncryption) ?? false
+        let supportsStorageEncryptionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsStorageEncryption)
         supportsStorageEncryption = supportsStorageEncryptionDecoded
         let storageTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .storageType)
         storageType = storageTypeDecoded
-        let supportsIopsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsIops) ?? false
+        let supportsIopsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsIops)
         supportsIops = supportsIopsDecoded
-        let supportsEnhancedMonitoringDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsEnhancedMonitoring) ?? false
+        let supportsEnhancedMonitoringDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsEnhancedMonitoring)
         supportsEnhancedMonitoring = supportsEnhancedMonitoringDecoded
-        let supportsIAMDatabaseAuthenticationDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsIAMDatabaseAuthentication) ?? false
+        let supportsIAMDatabaseAuthenticationDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsIAMDatabaseAuthentication)
         supportsIAMDatabaseAuthentication = supportsIAMDatabaseAuthenticationDecoded
-        let supportsPerformanceInsightsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsPerformanceInsights) ?? false
+        let supportsPerformanceInsightsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsPerformanceInsights)
         supportsPerformanceInsights = supportsPerformanceInsightsDecoded
         let minStorageSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .minStorageSize)
         minStorageSize = minStorageSizeDecoded
@@ -41692,7 +43217,7 @@ extension RDSClientTypes.OrderableDBInstanceOption: Swift.Codable {
         supportsStorageAutoscaling = supportsStorageAutoscalingDecoded
         let supportsKerberosAuthenticationDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsKerberosAuthentication)
         supportsKerberosAuthentication = supportsKerberosAuthenticationDecoded
-        let outpostCapableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .outpostCapable) ?? false
+        let outpostCapableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .outpostCapable)
         outpostCapable = outpostCapableDecoded
         if containerValues.contains(.supportedActivityStreamModes) {
             struct KeyVal0{struct member{}}
@@ -41713,9 +43238,9 @@ extension RDSClientTypes.OrderableDBInstanceOption: Swift.Codable {
         } else {
             supportedActivityStreamModes = nil
         }
-        let supportsGlobalDatabasesDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsGlobalDatabases) ?? false
+        let supportsGlobalDatabasesDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsGlobalDatabases)
         supportsGlobalDatabases = supportsGlobalDatabasesDecoded
-        let supportsClustersDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsClusters) ?? false
+        let supportsClustersDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsClusters)
         supportsClusters = supportsClustersDecoded
         if containerValues.contains(.supportedNetworkTypes) {
             struct KeyVal0{struct member{}}
@@ -41736,7 +43261,7 @@ extension RDSClientTypes.OrderableDBInstanceOption: Swift.Codable {
         } else {
             supportedNetworkTypes = nil
         }
-        let supportsStorageThroughputDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsStorageThroughput) ?? false
+        let supportsStorageThroughputDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsStorageThroughput)
         supportsStorageThroughput = supportsStorageThroughputDecoded
         let minStorageThroughputPerDbInstanceDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .minStorageThroughputPerDbInstance)
         minStorageThroughputPerDbInstance = minStorageThroughputPerDbInstanceDecoded
@@ -41746,6 +43271,8 @@ extension RDSClientTypes.OrderableDBInstanceOption: Swift.Codable {
         minStorageThroughputPerIops = minStorageThroughputPerIopsDecoded
         let maxStorageThroughputPerIopsDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .maxStorageThroughputPerIops)
         maxStorageThroughputPerIops = maxStorageThroughputPerIopsDecoded
+        let supportsDedicatedLogVolumeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsDedicatedLogVolume)
+        supportsDedicatedLogVolume = supportsDedicatedLogVolumeDecoded
     }
 }
 
@@ -41787,11 +43314,11 @@ extension RDSClientTypes {
         /// Minimum storage throughput to provisioned IOPS ratio for a DB instance.
         public var minStorageThroughputPerIops: Swift.Double?
         /// Indicates whether a DB instance is Multi-AZ capable.
-        public var multiAZCapable: Swift.Bool
+        public var multiAZCapable: Swift.Bool?
         /// Indicates whether a DB instance supports RDS on Outposts. For more information about RDS on Outposts, see [Amazon RDS on Amazon Web Services Outposts](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-on-outposts.html) in the Amazon RDS User Guide.
-        public var outpostCapable: Swift.Bool
+        public var outpostCapable: Swift.Bool?
         /// Indicates whether a DB instance can have a read replica.
-        public var readReplicaCapable: Swift.Bool
+        public var readReplicaCapable: Swift.Bool?
         /// The storage type for a DB instance.
         public var storageType: Swift.String?
         /// The list of supported modes for Database Activity Streams. Aurora PostgreSQL returns the value [sync, async]. Aurora MySQL and RDS for Oracle return [async] only. If Database Activity Streams isn't supported, the return value is an empty list.
@@ -41801,27 +43328,29 @@ extension RDSClientTypes {
         /// The network types supported by the DB instance (IPV4 or DUAL). A DB instance can support only the IPv4 protocol or the IPv4 and the IPv6 protocols (DUAL). For more information, see [ Working with a DB instance in a VPC](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_VPC.WorkingWithRDSInstanceinaVPC.html) in the Amazon RDS User Guide.
         public var supportedNetworkTypes: [Swift.String]?
         /// Indicates whether DB instances can be configured as a Multi-AZ DB cluster. For more information on Multi-AZ DB clusters, see [ Multi-AZ deployments with two readable standby DB instances](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/multi-az-db-clusters-concepts.html) in the Amazon RDS User Guide.
-        public var supportsClusters: Swift.Bool
+        public var supportsClusters: Swift.Bool?
+        /// Indicates whether a DB instance supports using a dedicated log volume (DLV).
+        public var supportsDedicatedLogVolume: Swift.Bool?
         /// Indicates whether a DB instance supports Enhanced Monitoring at intervals from 1 to 60 seconds.
-        public var supportsEnhancedMonitoring: Swift.Bool
+        public var supportsEnhancedMonitoring: Swift.Bool?
         /// Indicates whether you can use Aurora global databases with a specific combination of other DB engine attributes.
-        public var supportsGlobalDatabases: Swift.Bool
+        public var supportsGlobalDatabases: Swift.Bool?
         /// Indicates whether a DB instance supports IAM database authentication.
-        public var supportsIAMDatabaseAuthentication: Swift.Bool
+        public var supportsIAMDatabaseAuthentication: Swift.Bool?
         /// Indicates whether a DB instance supports provisioned IOPS.
-        public var supportsIops: Swift.Bool
+        public var supportsIops: Swift.Bool?
         /// Indicates whether a DB instance supports Kerberos Authentication.
         public var supportsKerberosAuthentication: Swift.Bool?
         /// Indicates whether a DB instance supports Performance Insights.
-        public var supportsPerformanceInsights: Swift.Bool
+        public var supportsPerformanceInsights: Swift.Bool?
         /// Indicates whether Amazon RDS can automatically scale storage for DB instances that use the specified DB instance class.
         public var supportsStorageAutoscaling: Swift.Bool?
         /// Indicates whether a DB instance supports encrypted storage.
-        public var supportsStorageEncryption: Swift.Bool
+        public var supportsStorageEncryption: Swift.Bool?
         /// Indicates whether a DB instance supports storage throughput.
-        public var supportsStorageThroughput: Swift.Bool
+        public var supportsStorageThroughput: Swift.Bool?
         /// Indicates whether a DB instance is in a VPC.
-        public var vpc: Swift.Bool
+        public var vpc: Swift.Bool?
 
         public init(
             availabilityZoneGroup: Swift.String? = nil,
@@ -41841,24 +43370,25 @@ extension RDSClientTypes {
             minStorageSize: Swift.Int? = nil,
             minStorageThroughputPerDbInstance: Swift.Int? = nil,
             minStorageThroughputPerIops: Swift.Double? = nil,
-            multiAZCapable: Swift.Bool = false,
-            outpostCapable: Swift.Bool = false,
-            readReplicaCapable: Swift.Bool = false,
+            multiAZCapable: Swift.Bool? = nil,
+            outpostCapable: Swift.Bool? = nil,
+            readReplicaCapable: Swift.Bool? = nil,
             storageType: Swift.String? = nil,
             supportedActivityStreamModes: [Swift.String]? = nil,
             supportedEngineModes: [Swift.String]? = nil,
             supportedNetworkTypes: [Swift.String]? = nil,
-            supportsClusters: Swift.Bool = false,
-            supportsEnhancedMonitoring: Swift.Bool = false,
-            supportsGlobalDatabases: Swift.Bool = false,
-            supportsIAMDatabaseAuthentication: Swift.Bool = false,
-            supportsIops: Swift.Bool = false,
+            supportsClusters: Swift.Bool? = nil,
+            supportsDedicatedLogVolume: Swift.Bool? = nil,
+            supportsEnhancedMonitoring: Swift.Bool? = nil,
+            supportsGlobalDatabases: Swift.Bool? = nil,
+            supportsIAMDatabaseAuthentication: Swift.Bool? = nil,
+            supportsIops: Swift.Bool? = nil,
             supportsKerberosAuthentication: Swift.Bool? = nil,
-            supportsPerformanceInsights: Swift.Bool = false,
+            supportsPerformanceInsights: Swift.Bool? = nil,
             supportsStorageAutoscaling: Swift.Bool? = nil,
-            supportsStorageEncryption: Swift.Bool = false,
-            supportsStorageThroughput: Swift.Bool = false,
-            vpc: Swift.Bool = false
+            supportsStorageEncryption: Swift.Bool? = nil,
+            supportsStorageThroughput: Swift.Bool? = nil,
+            vpc: Swift.Bool? = nil
         )
         {
             self.availabilityZoneGroup = availabilityZoneGroup
@@ -41886,6 +43416,7 @@ extension RDSClientTypes {
             self.supportedEngineModes = supportedEngineModes
             self.supportedNetworkTypes = supportedNetworkTypes
             self.supportsClusters = supportsClusters
+            self.supportsDedicatedLogVolume = supportsDedicatedLogVolume
             self.supportsEnhancedMonitoring = supportsEnhancedMonitoring
             self.supportsGlobalDatabases = supportsGlobalDatabases
             self.supportsIAMDatabaseAuthentication = supportsIAMDatabaseAuthentication
@@ -41968,7 +43499,7 @@ extension RDSClientTypes.Parameter: Swift.Codable {
         if let description = description {
             try container.encode(description, forKey: ClientRuntime.Key("Description"))
         }
-        if isModifiable != false {
+        if let isModifiable = isModifiable {
             try container.encode(isModifiable, forKey: ClientRuntime.Key("IsModifiable"))
         }
         if let minimumEngineVersion = minimumEngineVersion {
@@ -42013,7 +43544,7 @@ extension RDSClientTypes.Parameter: Swift.Codable {
         dataType = dataTypeDecoded
         let allowedValuesDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .allowedValues)
         allowedValues = allowedValuesDecoded
-        let isModifiableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isModifiable) ?? false
+        let isModifiableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isModifiable)
         isModifiable = isModifiableDecoded
         let minimumEngineVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .minimumEngineVersion)
         minimumEngineVersion = minimumEngineVersionDecoded
@@ -42055,7 +43586,7 @@ extension RDSClientTypes {
         /// Provides a description of the parameter.
         public var description: Swift.String?
         /// Indicates whether (true) or not (false) the parameter can be modified. Some parameters have security or operational implications that prevent them from being changed.
-        public var isModifiable: Swift.Bool
+        public var isModifiable: Swift.Bool?
         /// The earliest engine version to which the parameter can apply.
         public var minimumEngineVersion: Swift.String?
         /// The name of the parameter.
@@ -42073,7 +43604,7 @@ extension RDSClientTypes {
             applyType: Swift.String? = nil,
             dataType: Swift.String? = nil,
             description: Swift.String? = nil,
-            isModifiable: Swift.Bool = false,
+            isModifiable: Swift.Bool? = nil,
             minimumEngineVersion: Swift.String? = nil,
             parameterName: Swift.String? = nil,
             parameterValue: Swift.String? = nil,
@@ -42288,6 +43819,7 @@ extension RDSClientTypes.PendingModifiedValues: Swift.Codable {
         case dbInstanceClass = "DBInstanceClass"
         case dbInstanceIdentifier = "DBInstanceIdentifier"
         case dbSubnetGroupName = "DBSubnetGroupName"
+        case dedicatedLogVolume = "DedicatedLogVolume"
         case engine = "Engine"
         case engineVersion = "EngineVersion"
         case iamDatabaseAuthenticationEnabled = "IAMDatabaseAuthenticationEnabled"
@@ -42325,6 +43857,9 @@ extension RDSClientTypes.PendingModifiedValues: Swift.Codable {
         }
         if let dbSubnetGroupName = dbSubnetGroupName {
             try container.encode(dbSubnetGroupName, forKey: ClientRuntime.Key("DBSubnetGroupName"))
+        }
+        if let dedicatedLogVolume = dedicatedLogVolume {
+            try container.encode(dedicatedLogVolume, forKey: ClientRuntime.Key("DedicatedLogVolume"))
         }
         if let engine = engine {
             try container.encode(engine, forKey: ClientRuntime.Key("Engine"))
@@ -42435,6 +43970,8 @@ extension RDSClientTypes.PendingModifiedValues: Swift.Codable {
         storageThroughput = storageThroughputDecoded
         let engineDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .engine)
         engine = engineDecoded
+        let dedicatedLogVolumeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dedicatedLogVolume)
+        dedicatedLogVolume = dedicatedLogVolumeDecoded
     }
 }
 
@@ -42455,6 +43992,8 @@ extension RDSClientTypes {
         public var dbInstanceIdentifier: Swift.String?
         /// The DB subnet group for the DB instance.
         public var dbSubnetGroupName: Swift.String?
+        /// Indicates whether the DB instance has a dedicated log volume (DLV) enabled.>
+        public var dedicatedLogVolume: Swift.Bool?
         /// The database engine of the DB instance.
         public var engine: Swift.String?
         /// The database engine version.
@@ -42490,6 +44029,7 @@ extension RDSClientTypes {
             dbInstanceClass: Swift.String? = nil,
             dbInstanceIdentifier: Swift.String? = nil,
             dbSubnetGroupName: Swift.String? = nil,
+            dedicatedLogVolume: Swift.Bool? = nil,
             engine: Swift.String? = nil,
             engineVersion: Swift.String? = nil,
             iamDatabaseAuthenticationEnabled: Swift.Bool? = nil,
@@ -42512,6 +44052,7 @@ extension RDSClientTypes {
             self.dbInstanceClass = dbInstanceClass
             self.dbInstanceIdentifier = dbInstanceIdentifier
             self.dbSubnetGroupName = dbSubnetGroupName
+            self.dedicatedLogVolume = dedicatedLogVolume
             self.engine = engine
             self.engineVersion = engineVersion
             self.iamDatabaseAuthenticationEnabled = iamDatabaseAuthenticationEnabled
@@ -43124,22 +44665,22 @@ extension RDSClientTypes.Range: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if from != 0 {
+        if let from = from {
             try container.encode(from, forKey: ClientRuntime.Key("From"))
         }
         if let step = step {
             try container.encode(step, forKey: ClientRuntime.Key("Step"))
         }
-        if to != 0 {
+        if let to = to {
             try container.encode(to, forKey: ClientRuntime.Key("To"))
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let fromDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .from) ?? 0
+        let fromDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .from)
         from = fromDecoded
-        let toDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .to) ?? 0
+        let toDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .to)
         to = toDecoded
         let stepDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .step)
         step = stepDecoded
@@ -43150,21 +44691,66 @@ extension RDSClientTypes {
     /// A range of integer values.
     public struct Range: Swift.Equatable {
         /// The minimum value in the range.
-        public var from: Swift.Int
+        public var from: Swift.Int?
         /// The step value for the range. For example, if you have a range of 5,000 to 10,000, with a step value of 1,000, the valid values start at 5,000 and step up by 1,000. Even though 7,500 is within the range, it isn't a valid value for the range. The valid values are 5,000, 6,000, 7,000, 8,000...
         public var step: Swift.Int?
         /// The maximum value in the range.
-        public var to: Swift.Int
+        public var to: Swift.Int?
 
         public init(
-            from: Swift.Int = 0,
+            from: Swift.Int? = nil,
             step: Swift.Int? = nil,
-            to: Swift.Int = 0
+            to: Swift.Int? = nil
         )
         {
             self.from = from
             self.step = step
             self.to = to
+        }
+    }
+
+}
+
+extension RDSClientTypes.RdsCustomClusterConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case interconnectSubnetId = "InterconnectSubnetId"
+        case transitGatewayMulticastDomainId = "TransitGatewayMulticastDomainId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let interconnectSubnetId = interconnectSubnetId {
+            try container.encode(interconnectSubnetId, forKey: ClientRuntime.Key("InterconnectSubnetId"))
+        }
+        if let transitGatewayMulticastDomainId = transitGatewayMulticastDomainId {
+            try container.encode(transitGatewayMulticastDomainId, forKey: ClientRuntime.Key("TransitGatewayMulticastDomainId"))
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let interconnectSubnetIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .interconnectSubnetId)
+        interconnectSubnetId = interconnectSubnetIdDecoded
+        let transitGatewayMulticastDomainIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .transitGatewayMulticastDomainId)
+        transitGatewayMulticastDomainId = transitGatewayMulticastDomainIdDecoded
+    }
+}
+
+extension RDSClientTypes {
+    /// Reserved for future use.
+    public struct RdsCustomClusterConfiguration: Swift.Equatable {
+        /// Reserved for future use.
+        public var interconnectSubnetId: Swift.String?
+        /// Reserved for future use.
+        public var transitGatewayMulticastDomainId: Swift.String?
+
+        public init(
+            interconnectSubnetId: Swift.String? = nil,
+            transitGatewayMulticastDomainId: Swift.String? = nil
+        )
+        {
+            self.interconnectSubnetId = interconnectSubnetId
+            self.transitGatewayMulticastDomainId = transitGatewayMulticastDomainId
         }
     }
 
@@ -43391,8 +44977,8 @@ extension RDSClientTypes.RecurringCharge: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if recurringChargeAmount != 0.0 {
-            try container.encode(Swift.String(recurringChargeAmount), forKey: ClientRuntime.Key("RecurringChargeAmount"))
+        if let recurringChargeAmount = recurringChargeAmount {
+            try container.encode(recurringChargeAmount, forKey: ClientRuntime.Key("RecurringChargeAmount"))
         }
         if let recurringChargeFrequency = recurringChargeFrequency {
             try container.encode(recurringChargeFrequency, forKey: ClientRuntime.Key("RecurringChargeFrequency"))
@@ -43401,7 +44987,7 @@ extension RDSClientTypes.RecurringCharge: Swift.Codable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let recurringChargeAmountDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .recurringChargeAmount) ?? 0
+        let recurringChargeAmountDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .recurringChargeAmount)
         recurringChargeAmount = recurringChargeAmountDecoded
         let recurringChargeFrequencyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .recurringChargeFrequency)
         recurringChargeFrequency = recurringChargeFrequencyDecoded
@@ -43412,12 +44998,12 @@ extension RDSClientTypes {
     /// This data type is used as a response element in the DescribeReservedDBInstances and DescribeReservedDBInstancesOfferings actions.
     public struct RecurringCharge: Swift.Equatable {
         /// The amount of the recurring charge.
-        public var recurringChargeAmount: Swift.Double
+        public var recurringChargeAmount: Swift.Double?
         /// The frequency of the recurring charge.
         public var recurringChargeFrequency: Swift.String?
 
         public init(
-            recurringChargeAmount: Swift.Double = 0.0,
+            recurringChargeAmount: Swift.Double? = nil,
             recurringChargeFrequency: Swift.String? = nil
         )
         {
@@ -44143,6 +45729,7 @@ enum RemoveTagsFromResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "DBProxyNotFoundFault": return try await DBProxyNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "DBProxyTargetGroupNotFoundFault": return try await DBProxyTargetGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "DBSnapshotNotFound": return try await DBSnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "IntegrationNotFoundFault": return try await IntegrationNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
@@ -44208,19 +45795,19 @@ extension RDSClientTypes.ReservedDBInstance: Swift.Codable {
         if let dbInstanceClass = dbInstanceClass {
             try container.encode(dbInstanceClass, forKey: ClientRuntime.Key("DBInstanceClass"))
         }
-        if dbInstanceCount != 0 {
+        if let dbInstanceCount = dbInstanceCount {
             try container.encode(dbInstanceCount, forKey: ClientRuntime.Key("DBInstanceCount"))
         }
-        if duration != 0 {
+        if let duration = duration {
             try container.encode(duration, forKey: ClientRuntime.Key("Duration"))
         }
-        if fixedPrice != 0.0 {
-            try container.encode(Swift.String(fixedPrice), forKey: ClientRuntime.Key("FixedPrice"))
+        if let fixedPrice = fixedPrice {
+            try container.encode(fixedPrice, forKey: ClientRuntime.Key("FixedPrice"))
         }
         if let leaseId = leaseId {
             try container.encode(leaseId, forKey: ClientRuntime.Key("LeaseId"))
         }
-        if multiAZ != false {
+        if let multiAZ = multiAZ {
             try container.encode(multiAZ, forKey: ClientRuntime.Key("MultiAZ"))
         }
         if let offeringType = offeringType {
@@ -44256,8 +45843,8 @@ extension RDSClientTypes.ReservedDBInstance: Swift.Codable {
         if let state = state {
             try container.encode(state, forKey: ClientRuntime.Key("State"))
         }
-        if usagePrice != 0.0 {
-            try container.encode(Swift.String(usagePrice), forKey: ClientRuntime.Key("UsagePrice"))
+        if let usagePrice = usagePrice {
+            try container.encode(usagePrice, forKey: ClientRuntime.Key("UsagePrice"))
         }
     }
 
@@ -44271,21 +45858,21 @@ extension RDSClientTypes.ReservedDBInstance: Swift.Codable {
         dbInstanceClass = dbInstanceClassDecoded
         let startTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .startTime)
         startTime = startTimeDecoded
-        let durationDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .duration) ?? 0
+        let durationDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .duration)
         duration = durationDecoded
-        let fixedPriceDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .fixedPrice) ?? 0
+        let fixedPriceDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .fixedPrice)
         fixedPrice = fixedPriceDecoded
-        let usagePriceDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .usagePrice) ?? 0
+        let usagePriceDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .usagePrice)
         usagePrice = usagePriceDecoded
         let currencyCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .currencyCode)
         currencyCode = currencyCodeDecoded
-        let dbInstanceCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .dbInstanceCount) ?? 0
+        let dbInstanceCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .dbInstanceCount)
         dbInstanceCount = dbInstanceCountDecoded
         let productDescriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .productDescription)
         productDescription = productDescriptionDecoded
         let offeringTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .offeringType)
         offeringType = offeringTypeDecoded
-        let multiAZDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .multiAZ) ?? false
+        let multiAZDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .multiAZ)
         multiAZ = multiAZDecoded
         let stateDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .state)
         state = stateDecoded
@@ -44323,15 +45910,15 @@ extension RDSClientTypes {
         /// The DB instance class for the reserved DB instance.
         public var dbInstanceClass: Swift.String?
         /// The number of reserved DB instances.
-        public var dbInstanceCount: Swift.Int
+        public var dbInstanceCount: Swift.Int?
         /// The duration of the reservation in seconds.
-        public var duration: Swift.Int
+        public var duration: Swift.Int?
         /// The fixed price charged for this reserved DB instance.
-        public var fixedPrice: Swift.Double
+        public var fixedPrice: Swift.Double?
         /// The unique identifier for the lease associated with the reserved DB instance. Amazon Web Services Support might request the lease ID for an issue related to a reserved DB instance.
         public var leaseId: Swift.String?
         /// Indicates whether the reservation applies to Multi-AZ deployments.
-        public var multiAZ: Swift.Bool
+        public var multiAZ: Swift.Bool?
         /// The offering type of this reserved DB instance.
         public var offeringType: Swift.String?
         /// The description of the reserved DB instance.
@@ -44349,16 +45936,16 @@ extension RDSClientTypes {
         /// The state of the reserved DB instance.
         public var state: Swift.String?
         /// The hourly price charged for this reserved DB instance.
-        public var usagePrice: Swift.Double
+        public var usagePrice: Swift.Double?
 
         public init(
             currencyCode: Swift.String? = nil,
             dbInstanceClass: Swift.String? = nil,
-            dbInstanceCount: Swift.Int = 0,
-            duration: Swift.Int = 0,
-            fixedPrice: Swift.Double = 0.0,
+            dbInstanceCount: Swift.Int? = nil,
+            duration: Swift.Int? = nil,
+            fixedPrice: Swift.Double? = nil,
             leaseId: Swift.String? = nil,
-            multiAZ: Swift.Bool = false,
+            multiAZ: Swift.Bool? = nil,
             offeringType: Swift.String? = nil,
             productDescription: Swift.String? = nil,
             recurringCharges: [RDSClientTypes.RecurringCharge]? = nil,
@@ -44367,7 +45954,7 @@ extension RDSClientTypes {
             reservedDBInstancesOfferingId: Swift.String? = nil,
             startTime: ClientRuntime.Date? = nil,
             state: Swift.String? = nil,
-            usagePrice: Swift.Double = 0.0
+            usagePrice: Swift.Double? = nil
         )
         {
             self.currencyCode = currencyCode
@@ -44575,13 +46162,13 @@ extension RDSClientTypes.ReservedDBInstancesOffering: Swift.Codable {
         if let dbInstanceClass = dbInstanceClass {
             try container.encode(dbInstanceClass, forKey: ClientRuntime.Key("DBInstanceClass"))
         }
-        if duration != 0 {
+        if let duration = duration {
             try container.encode(duration, forKey: ClientRuntime.Key("Duration"))
         }
-        if fixedPrice != 0.0 {
-            try container.encode(Swift.String(fixedPrice), forKey: ClientRuntime.Key("FixedPrice"))
+        if let fixedPrice = fixedPrice {
+            try container.encode(fixedPrice, forKey: ClientRuntime.Key("FixedPrice"))
         }
-        if multiAZ != false {
+        if let multiAZ = multiAZ {
             try container.encode(multiAZ, forKey: ClientRuntime.Key("MultiAZ"))
         }
         if let offeringType = offeringType {
@@ -44605,8 +46192,8 @@ extension RDSClientTypes.ReservedDBInstancesOffering: Swift.Codable {
         if let reservedDBInstancesOfferingId = reservedDBInstancesOfferingId {
             try container.encode(reservedDBInstancesOfferingId, forKey: ClientRuntime.Key("ReservedDBInstancesOfferingId"))
         }
-        if usagePrice != 0.0 {
-            try container.encode(Swift.String(usagePrice), forKey: ClientRuntime.Key("UsagePrice"))
+        if let usagePrice = usagePrice {
+            try container.encode(usagePrice, forKey: ClientRuntime.Key("UsagePrice"))
         }
     }
 
@@ -44616,11 +46203,11 @@ extension RDSClientTypes.ReservedDBInstancesOffering: Swift.Codable {
         reservedDBInstancesOfferingId = reservedDBInstancesOfferingIdDecoded
         let dbInstanceClassDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbInstanceClass)
         dbInstanceClass = dbInstanceClassDecoded
-        let durationDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .duration) ?? 0
+        let durationDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .duration)
         duration = durationDecoded
-        let fixedPriceDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .fixedPrice) ?? 0
+        let fixedPriceDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .fixedPrice)
         fixedPrice = fixedPriceDecoded
-        let usagePriceDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .usagePrice) ?? 0
+        let usagePriceDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .usagePrice)
         usagePrice = usagePriceDecoded
         let currencyCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .currencyCode)
         currencyCode = currencyCodeDecoded
@@ -44628,7 +46215,7 @@ extension RDSClientTypes.ReservedDBInstancesOffering: Swift.Codable {
         productDescription = productDescriptionDecoded
         let offeringTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .offeringType)
         offeringType = offeringTypeDecoded
-        let multiAZDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .multiAZ) ?? false
+        let multiAZDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .multiAZ)
         multiAZ = multiAZDecoded
         if containerValues.contains(.recurringCharges) {
             struct KeyVal0{struct RecurringCharge{}}
@@ -44660,11 +46247,11 @@ extension RDSClientTypes {
         /// The DB instance class for the reserved DB instance.
         public var dbInstanceClass: Swift.String?
         /// The duration of the offering in seconds.
-        public var duration: Swift.Int
+        public var duration: Swift.Int?
         /// The fixed price charged for this offering.
-        public var fixedPrice: Swift.Double
+        public var fixedPrice: Swift.Double?
         /// Indicates whether the offering applies to Multi-AZ deployments.
-        public var multiAZ: Swift.Bool
+        public var multiAZ: Swift.Bool?
         /// The offering type.
         public var offeringType: Swift.String?
         /// The database engine used by the offering.
@@ -44674,19 +46261,19 @@ extension RDSClientTypes {
         /// The offering identifier.
         public var reservedDBInstancesOfferingId: Swift.String?
         /// The hourly price charged for this offering.
-        public var usagePrice: Swift.Double
+        public var usagePrice: Swift.Double?
 
         public init(
             currencyCode: Swift.String? = nil,
             dbInstanceClass: Swift.String? = nil,
-            duration: Swift.Int = 0,
-            fixedPrice: Swift.Double = 0.0,
-            multiAZ: Swift.Bool = false,
+            duration: Swift.Int? = nil,
+            fixedPrice: Swift.Double? = nil,
+            multiAZ: Swift.Bool? = nil,
             offeringType: Swift.String? = nil,
             productDescription: Swift.String? = nil,
             recurringCharges: [RDSClientTypes.RecurringCharge]? = nil,
             reservedDBInstancesOfferingId: Swift.String? = nil,
-            usagePrice: Swift.Double = 0.0
+            usagePrice: Swift.Double? = nil
         )
         {
             self.currencyCode = currencyCode
@@ -44829,7 +46416,7 @@ extension ResetDBClusterParameterGroupInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dbClusterParameterGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbClusterParameterGroupName)
         dbClusterParameterGroupName = dbClusterParameterGroupNameDecoded
-        let resetAllParametersDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .resetAllParameters) ?? false
+        let resetAllParametersDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .resetAllParameters)
         resetAllParameters = resetAllParametersDecoded
         if containerValues.contains(.parameters) {
             struct KeyVal0{struct Parameter{}}
@@ -44988,7 +46575,7 @@ extension ResetDBParameterGroupInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dbParameterGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbParameterGroupName)
         dbParameterGroupName = dbParameterGroupNameDecoded
-        let resetAllParametersDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .resetAllParameters) ?? false
+        let resetAllParametersDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .resetAllParameters)
         resetAllParameters = resetAllParametersDecoded
         if containerValues.contains(.parameters) {
             struct KeyVal0{struct Parameter{}}
@@ -45925,6 +47512,9 @@ extension RestoreDBClusterFromSnapshotInput: Swift.Encodable {
         if let publiclyAccessible = publiclyAccessible {
             try container.encode(publiclyAccessible, forKey: ClientRuntime.Key("PubliclyAccessible"))
         }
+        if let rdsCustomClusterConfiguration = rdsCustomClusterConfiguration {
+            try container.encode(rdsCustomClusterConfiguration, forKey: ClientRuntime.Key("RdsCustomClusterConfiguration"))
+        }
         if let scalingConfiguration = scalingConfiguration {
             try container.encode(scalingConfiguration, forKey: ClientRuntime.Key("ScalingConfiguration"))
         }
@@ -46073,6 +47663,8 @@ public struct RestoreDBClusterFromSnapshotInput: Swift.Equatable {
     ///
     /// Valid for: Aurora DB clusters and Multi-AZ DB clusters
     public var publiclyAccessible: Swift.Bool?
+    /// Reserved for future use.
+    public var rdsCustomClusterConfiguration: RDSClientTypes.RdsCustomClusterConfiguration?
     /// For DB clusters in serverless DB engine mode, the scaling properties of the DB cluster. Valid for: Aurora DB clusters only
     public var scalingConfiguration: RDSClientTypes.ScalingConfiguration?
     /// Contains the scaling configuration of an Aurora Serverless v2 DB cluster. For more information, see [Using Amazon Aurora Serverless v2](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-serverless-v2.html) in the Amazon Aurora User Guide.
@@ -46115,6 +47707,7 @@ public struct RestoreDBClusterFromSnapshotInput: Swift.Equatable {
         optionGroupName: Swift.String? = nil,
         port: Swift.Int? = nil,
         publiclyAccessible: Swift.Bool? = nil,
+        rdsCustomClusterConfiguration: RDSClientTypes.RdsCustomClusterConfiguration? = nil,
         scalingConfiguration: RDSClientTypes.ScalingConfiguration? = nil,
         serverlessV2ScalingConfiguration: RDSClientTypes.ServerlessV2ScalingConfiguration? = nil,
         snapshotIdentifier: Swift.String? = nil,
@@ -46145,6 +47738,7 @@ public struct RestoreDBClusterFromSnapshotInput: Swift.Equatable {
         self.optionGroupName = optionGroupName
         self.port = port
         self.publiclyAccessible = publiclyAccessible
+        self.rdsCustomClusterConfiguration = rdsCustomClusterConfiguration
         self.scalingConfiguration = scalingConfiguration
         self.serverlessV2ScalingConfiguration = serverlessV2ScalingConfiguration
         self.snapshotIdentifier = snapshotIdentifier
@@ -46183,6 +47777,7 @@ struct RestoreDBClusterFromSnapshotInputBody: Swift.Equatable {
     let publiclyAccessible: Swift.Bool?
     let serverlessV2ScalingConfiguration: RDSClientTypes.ServerlessV2ScalingConfiguration?
     let networkType: Swift.String?
+    let rdsCustomClusterConfiguration: RDSClientTypes.RdsCustomClusterConfiguration?
 }
 
 extension RestoreDBClusterFromSnapshotInputBody: Swift.Decodable {
@@ -46209,6 +47804,7 @@ extension RestoreDBClusterFromSnapshotInputBody: Swift.Decodable {
         case optionGroupName = "OptionGroupName"
         case port = "Port"
         case publiclyAccessible = "PubliclyAccessible"
+        case rdsCustomClusterConfiguration = "RdsCustomClusterConfiguration"
         case scalingConfiguration = "ScalingConfiguration"
         case serverlessV2ScalingConfiguration = "ServerlessV2ScalingConfiguration"
         case snapshotIdentifier = "SnapshotIdentifier"
@@ -46343,6 +47939,8 @@ extension RestoreDBClusterFromSnapshotInputBody: Swift.Decodable {
         serverlessV2ScalingConfiguration = serverlessV2ScalingConfigurationDecoded
         let networkTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .networkType)
         networkType = networkTypeDecoded
+        let rdsCustomClusterConfigurationDecoded = try containerValues.decodeIfPresent(RDSClientTypes.RdsCustomClusterConfiguration.self, forKey: .rdsCustomClusterConfiguration)
+        rdsCustomClusterConfiguration = rdsCustomClusterConfigurationDecoded
     }
 }
 
@@ -46480,6 +48078,9 @@ extension RestoreDBClusterToPointInTimeInput: Swift.Encodable {
         }
         if let publiclyAccessible = publiclyAccessible {
             try container.encode(publiclyAccessible, forKey: ClientRuntime.Key("PubliclyAccessible"))
+        }
+        if let rdsCustomClusterConfiguration = rdsCustomClusterConfiguration {
+            try container.encode(rdsCustomClusterConfiguration, forKey: ClientRuntime.Key("RdsCustomClusterConfiguration"))
         }
         if let restoreToTime = restoreToTime {
             try container.encodeTimestamp(restoreToTime, format: .dateTime, forKey: ClientRuntime.Key("RestoreToTime"))
@@ -46632,6 +48233,8 @@ public struct RestoreDBClusterToPointInTimeInput: Swift.Equatable {
     ///
     /// Valid for: Multi-AZ DB clusters only
     public var publiclyAccessible: Swift.Bool?
+    /// Reserved for future use.
+    public var rdsCustomClusterConfiguration: RDSClientTypes.RdsCustomClusterConfiguration?
     /// The date and time to restore the DB cluster to. Valid Values: Value must be a time in Universal Coordinated Time (UTC) format Constraints:
     ///
     /// * Must be before the latest restorable time for the DB instance
@@ -46695,6 +48298,7 @@ public struct RestoreDBClusterToPointInTimeInput: Swift.Equatable {
         optionGroupName: Swift.String? = nil,
         port: Swift.Int? = nil,
         publiclyAccessible: Swift.Bool? = nil,
+        rdsCustomClusterConfiguration: RDSClientTypes.RdsCustomClusterConfiguration? = nil,
         restoreToTime: ClientRuntime.Date? = nil,
         restoreType: Swift.String? = nil,
         scalingConfiguration: RDSClientTypes.ScalingConfiguration? = nil,
@@ -46725,6 +48329,7 @@ public struct RestoreDBClusterToPointInTimeInput: Swift.Equatable {
         self.optionGroupName = optionGroupName
         self.port = port
         self.publiclyAccessible = publiclyAccessible
+        self.rdsCustomClusterConfiguration = rdsCustomClusterConfiguration
         self.restoreToTime = restoreToTime
         self.restoreType = restoreType
         self.scalingConfiguration = scalingConfiguration
@@ -46767,6 +48372,7 @@ struct RestoreDBClusterToPointInTimeInputBody: Swift.Equatable {
     let serverlessV2ScalingConfiguration: RDSClientTypes.ServerlessV2ScalingConfiguration?
     let networkType: Swift.String?
     let sourceDbClusterResourceId: Swift.String?
+    let rdsCustomClusterConfiguration: RDSClientTypes.RdsCustomClusterConfiguration?
 }
 
 extension RestoreDBClusterToPointInTimeInputBody: Swift.Decodable {
@@ -46789,6 +48395,7 @@ extension RestoreDBClusterToPointInTimeInputBody: Swift.Decodable {
         case optionGroupName = "OptionGroupName"
         case port = "Port"
         case publiclyAccessible = "PubliclyAccessible"
+        case rdsCustomClusterConfiguration = "RdsCustomClusterConfiguration"
         case restoreToTime = "RestoreToTime"
         case restoreType = "RestoreType"
         case scalingConfiguration = "ScalingConfiguration"
@@ -46811,7 +48418,7 @@ extension RestoreDBClusterToPointInTimeInputBody: Swift.Decodable {
         sourceDBClusterIdentifier = sourceDBClusterIdentifierDecoded
         let restoreToTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .restoreToTime)
         restoreToTime = restoreToTimeDecoded
-        let useLatestRestorableTimeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .useLatestRestorableTime) ?? false
+        let useLatestRestorableTimeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .useLatestRestorableTime)
         useLatestRestorableTime = useLatestRestorableTimeDecoded
         let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port)
         port = portDecoded
@@ -46910,6 +48517,8 @@ extension RestoreDBClusterToPointInTimeInputBody: Swift.Decodable {
         networkType = networkTypeDecoded
         let sourceDbClusterResourceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceDbClusterResourceId)
         sourceDbClusterResourceId = sourceDbClusterResourceIdDecoded
+        let rdsCustomClusterConfigurationDecoded = try containerValues.decodeIfPresent(RDSClientTypes.RdsCustomClusterConfiguration.self, forKey: .rdsCustomClusterConfiguration)
+        rdsCustomClusterConfiguration = rdsCustomClusterConfigurationDecoded
     }
 }
 
@@ -47023,6 +48632,9 @@ extension RestoreDBInstanceFromDBSnapshotInput: Swift.Encodable {
         }
         if let dbSubnetGroupName = dbSubnetGroupName {
             try container.encode(dbSubnetGroupName, forKey: ClientRuntime.Key("DBSubnetGroupName"))
+        }
+        if let dedicatedLogVolume = dedicatedLogVolume {
+            try container.encode(dedicatedLogVolume, forKey: ClientRuntime.Key("DedicatedLogVolume"))
         }
         if let deletionProtection = deletionProtection {
             try container.encode(deletionProtection, forKey: ClientRuntime.Key("DeletionProtection"))
@@ -47233,6 +48845,8 @@ public struct RestoreDBInstanceFromDBSnapshotInput: Swift.Equatable {
     public var dbSnapshotIdentifier: Swift.String?
     /// The DB subnet group name to use for the new instance. Constraints: If supplied, must match the name of an existing DBSubnetGroup. Example: mydbsubnetgroup
     public var dbSubnetGroupName: Swift.String?
+    /// Specifies whether to enable a dedicated log volume (DLV) for the DB instance.
+    public var dedicatedLogVolume: Swift.Bool?
     /// Specifies whether to enable deletion protection for the DB instance. The database can't be deleted when deletion protection is enabled. By default, deletion protection isn't enabled. For more information, see [ Deleting a DB Instance](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_DeleteInstance.html).
     public var deletionProtection: Swift.Bool?
     /// Specify the Active Directory directory ID to restore the DB instance in. The domain/ must be created prior to this operation. Currently, you can create only MySQL, Microsoft SQL Server, Oracle, and PostgreSQL DB instances in an Active Directory Domain. For more information, see [ Kerberos Authentication](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/kerberos-authentication.html) in the Amazon RDS User Guide. This setting doesn't apply to RDS Custom.
@@ -47351,6 +48965,7 @@ public struct RestoreDBInstanceFromDBSnapshotInput: Swift.Equatable {
         dbParameterGroupName: Swift.String? = nil,
         dbSnapshotIdentifier: Swift.String? = nil,
         dbSubnetGroupName: Swift.String? = nil,
+        dedicatedLogVolume: Swift.Bool? = nil,
         deletionProtection: Swift.Bool? = nil,
         domain: Swift.String? = nil,
         domainAuthSecretArn: Swift.String? = nil,
@@ -47392,6 +49007,7 @@ public struct RestoreDBInstanceFromDBSnapshotInput: Swift.Equatable {
         self.dbParameterGroupName = dbParameterGroupName
         self.dbSnapshotIdentifier = dbSnapshotIdentifier
         self.dbSubnetGroupName = dbSubnetGroupName
+        self.dedicatedLogVolume = dedicatedLogVolume
         self.deletionProtection = deletionProtection
         self.domain = domain
         self.domainAuthSecretArn = domainAuthSecretArn
@@ -47461,6 +49077,7 @@ struct RestoreDBInstanceFromDBSnapshotInputBody: Swift.Equatable {
     let storageThroughput: Swift.Int?
     let dbClusterSnapshotIdentifier: Swift.String?
     let allocatedStorage: Swift.Int?
+    let dedicatedLogVolume: Swift.Bool?
 }
 
 extension RestoreDBInstanceFromDBSnapshotInputBody: Swift.Decodable {
@@ -47478,6 +49095,7 @@ extension RestoreDBInstanceFromDBSnapshotInputBody: Swift.Decodable {
         case dbParameterGroupName = "DBParameterGroupName"
         case dbSnapshotIdentifier = "DBSnapshotIdentifier"
         case dbSubnetGroupName = "DBSubnetGroupName"
+        case dedicatedLogVolume = "DedicatedLogVolume"
         case deletionProtection = "DeletionProtection"
         case domain = "Domain"
         case domainAuthSecretArn = "DomainAuthSecretArn"
@@ -47671,6 +49289,8 @@ extension RestoreDBInstanceFromDBSnapshotInputBody: Swift.Decodable {
         dbClusterSnapshotIdentifier = dbClusterSnapshotIdentifierDecoded
         let allocatedStorageDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .allocatedStorage)
         allocatedStorage = allocatedStorageDecoded
+        let dedicatedLogVolumeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dedicatedLogVolume)
+        dedicatedLogVolume = dedicatedLogVolumeDecoded
     }
 }
 
@@ -47790,6 +49410,9 @@ extension RestoreDBInstanceFromS3Input: Swift.Encodable {
         }
         if let dbSubnetGroupName = dbSubnetGroupName {
             try container.encode(dbSubnetGroupName, forKey: ClientRuntime.Key("DBSubnetGroupName"))
+        }
+        if let dedicatedLogVolume = dedicatedLogVolume {
+            try container.encode(dedicatedLogVolume, forKey: ClientRuntime.Key("DedicatedLogVolume"))
         }
         if let deletionProtection = deletionProtection {
             try container.encode(deletionProtection, forKey: ClientRuntime.Key("DeletionProtection"))
@@ -47983,6 +49606,8 @@ public struct RestoreDBInstanceFromS3Input: Swift.Equatable {
     public var dbSecurityGroups: [Swift.String]?
     /// A DB subnet group to associate with this DB instance. Constraints: If supplied, must match the name of an existing DBSubnetGroup. Example: mydbsubnetgroup
     public var dbSubnetGroupName: Swift.String?
+    /// Specifies whether to enable a dedicated log volume (DLV) for the DB instance.
+    public var dedicatedLogVolume: Swift.Bool?
     /// Specifies whether to enable deletion protection for the DB instance. The database can't be deleted when deletion protection is enabled. By default, deletion protection isn't enabled. For more information, see [ Deleting a DB Instance](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_DeleteInstance.html).
     public var deletionProtection: Swift.Bool?
     /// The list of logs that the restored DB instance is to export to CloudWatch Logs. The values in the list depend on the DB engine being used. For more information, see [Publishing Database Logs to Amazon CloudWatch Logs](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_LogAccess.html#USER_LogAccess.Procedural.UploadtoCloudWatch) in the Amazon RDS User Guide.
@@ -48128,6 +49753,7 @@ public struct RestoreDBInstanceFromS3Input: Swift.Equatable {
         dbParameterGroupName: Swift.String? = nil,
         dbSecurityGroups: [Swift.String]? = nil,
         dbSubnetGroupName: Swift.String? = nil,
+        dedicatedLogVolume: Swift.Bool? = nil,
         deletionProtection: Swift.Bool? = nil,
         enableCloudwatchLogsExports: [Swift.String]? = nil,
         enableIAMDatabaseAuthentication: Swift.Bool? = nil,
@@ -48178,6 +49804,7 @@ public struct RestoreDBInstanceFromS3Input: Swift.Equatable {
         self.dbParameterGroupName = dbParameterGroupName
         self.dbSecurityGroups = dbSecurityGroups
         self.dbSubnetGroupName = dbSubnetGroupName
+        self.dedicatedLogVolume = dedicatedLogVolume
         self.deletionProtection = deletionProtection
         self.enableCloudwatchLogsExports = enableCloudwatchLogsExports
         self.enableIAMDatabaseAuthentication = enableIAMDatabaseAuthentication
@@ -48267,6 +49894,7 @@ struct RestoreDBInstanceFromS3InputBody: Swift.Equatable {
     let storageThroughput: Swift.Int?
     let manageMasterUserPassword: Swift.Bool?
     let masterUserSecretKmsKeyId: Swift.String?
+    let dedicatedLogVolume: Swift.Bool?
 }
 
 extension RestoreDBInstanceFromS3InputBody: Swift.Decodable {
@@ -48282,6 +49910,7 @@ extension RestoreDBInstanceFromS3InputBody: Swift.Decodable {
         case dbParameterGroupName = "DBParameterGroupName"
         case dbSecurityGroups = "DBSecurityGroups"
         case dbSubnetGroupName = "DBSubnetGroupName"
+        case dedicatedLogVolume = "DedicatedLogVolume"
         case deletionProtection = "DeletionProtection"
         case enableCloudwatchLogsExports = "EnableCloudwatchLogsExports"
         case enableIAMDatabaseAuthentication = "EnableIAMDatabaseAuthentication"
@@ -48504,6 +50133,8 @@ extension RestoreDBInstanceFromS3InputBody: Swift.Decodable {
         manageMasterUserPassword = manageMasterUserPasswordDecoded
         let masterUserSecretKmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .masterUserSecretKmsKeyId)
         masterUserSecretKmsKeyId = masterUserSecretKmsKeyIdDecoded
+        let dedicatedLogVolumeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dedicatedLogVolume)
+        dedicatedLogVolume = dedicatedLogVolumeDecoded
     }
 }
 
@@ -48607,6 +50238,9 @@ extension RestoreDBInstanceToPointInTimeInput: Swift.Encodable {
         }
         if let dbSubnetGroupName = dbSubnetGroupName {
             try container.encode(dbSubnetGroupName, forKey: ClientRuntime.Key("DBSubnetGroupName"))
+        }
+        if let dedicatedLogVolume = dedicatedLogVolume {
+            try container.encode(dedicatedLogVolume, forKey: ClientRuntime.Key("DedicatedLogVolume"))
         }
         if let deletionProtection = deletionProtection {
             try container.encode(deletionProtection, forKey: ClientRuntime.Key("DeletionProtection"))
@@ -48812,6 +50446,8 @@ public struct RestoreDBInstanceToPointInTimeInput: Swift.Equatable {
     ///
     /// Example: mydbsubnetgroup
     public var dbSubnetGroupName: Swift.String?
+    /// Specifies whether to enable a dedicated log volume (DLV) for the DB instance.
+    public var dedicatedLogVolume: Swift.Bool?
     /// Specifies whether the DB instance has deletion protection enabled. The database can't be deleted when deletion protection is enabled. By default, deletion protection isn't enabled. For more information, see [ Deleting a DB Instance](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_DeleteInstance.html).
     public var deletionProtection: Swift.Bool?
     /// The Active Directory directory ID to restore the DB instance in. Create the domain before running this command. Currently, you can create only the MySQL, Microsoft SQL Server, Oracle, and PostgreSQL DB instances in an Active Directory Domain. This setting doesn't apply to RDS Custom. For more information, see [ Kerberos Authentication](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/kerberos-authentication.html) in the Amazon RDS User Guide.
@@ -48971,6 +50607,7 @@ public struct RestoreDBInstanceToPointInTimeInput: Swift.Equatable {
         dbName: Swift.String? = nil,
         dbParameterGroupName: Swift.String? = nil,
         dbSubnetGroupName: Swift.String? = nil,
+        dedicatedLogVolume: Swift.Bool? = nil,
         deletionProtection: Swift.Bool? = nil,
         domain: Swift.String? = nil,
         domainAuthSecretArn: Swift.String? = nil,
@@ -49016,6 +50653,7 @@ public struct RestoreDBInstanceToPointInTimeInput: Swift.Equatable {
         self.dbName = dbName
         self.dbParameterGroupName = dbParameterGroupName
         self.dbSubnetGroupName = dbSubnetGroupName
+        self.dedicatedLogVolume = dedicatedLogVolume
         self.deletionProtection = deletionProtection
         self.domain = domain
         self.domainAuthSecretArn = domainAuthSecretArn
@@ -49096,6 +50734,7 @@ struct RestoreDBInstanceToPointInTimeInputBody: Swift.Equatable {
     let networkType: Swift.String?
     let storageThroughput: Swift.Int?
     let allocatedStorage: Swift.Int?
+    let dedicatedLogVolume: Swift.Bool?
 }
 
 extension RestoreDBInstanceToPointInTimeInputBody: Swift.Decodable {
@@ -49110,6 +50749,7 @@ extension RestoreDBInstanceToPointInTimeInputBody: Swift.Decodable {
         case dbName = "DBName"
         case dbParameterGroupName = "DBParameterGroupName"
         case dbSubnetGroupName = "DBSubnetGroupName"
+        case dedicatedLogVolume = "DedicatedLogVolume"
         case deletionProtection = "DeletionProtection"
         case domain = "Domain"
         case domainAuthSecretArn = "DomainAuthSecretArn"
@@ -49153,7 +50793,7 @@ extension RestoreDBInstanceToPointInTimeInputBody: Swift.Decodable {
         targetDBInstanceIdentifier = targetDBInstanceIdentifierDecoded
         let restoreTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .restoreTime)
         restoreTime = restoreTimeDecoded
-        let useLatestRestorableTimeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .useLatestRestorableTime) ?? false
+        let useLatestRestorableTimeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .useLatestRestorableTime)
         useLatestRestorableTime = useLatestRestorableTimeDecoded
         let dbInstanceClassDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbInstanceClass)
         dbInstanceClass = dbInstanceClassDecoded
@@ -49318,6 +50958,8 @@ extension RestoreDBInstanceToPointInTimeInputBody: Swift.Decodable {
         storageThroughput = storageThroughputDecoded
         let allocatedStorageDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .allocatedStorage)
         allocatedStorage = allocatedStorageDecoded
+        let dedicatedLogVolumeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dedicatedLogVolume)
+        dedicatedLogVolume = dedicatedLogVolumeDecoded
     }
 }
 
@@ -50294,7 +51936,7 @@ extension RDSClientTypes.SourceRegion: Swift.Codable {
         if let status = status {
             try container.encode(status, forKey: ClientRuntime.Key("Status"))
         }
-        if supportsDBInstanceAutomatedBackupsReplication != false {
+        if let supportsDBInstanceAutomatedBackupsReplication = supportsDBInstanceAutomatedBackupsReplication {
             try container.encode(supportsDBInstanceAutomatedBackupsReplication, forKey: ClientRuntime.Key("SupportsDBInstanceAutomatedBackupsReplication"))
         }
     }
@@ -50307,7 +51949,7 @@ extension RDSClientTypes.SourceRegion: Swift.Codable {
         endpoint = endpointDecoded
         let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
         status = statusDecoded
-        let supportsDBInstanceAutomatedBackupsReplicationDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsDBInstanceAutomatedBackupsReplication) ?? false
+        let supportsDBInstanceAutomatedBackupsReplicationDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsDBInstanceAutomatedBackupsReplication)
         supportsDBInstanceAutomatedBackupsReplication = supportsDBInstanceAutomatedBackupsReplicationDecoded
     }
 }
@@ -50322,13 +51964,13 @@ extension RDSClientTypes {
         /// The status of the source Amazon Web Services Region.
         public var status: Swift.String?
         /// Indicates whether the source Amazon Web Services Region supports replicating automated backups to the current Amazon Web Services Region.
-        public var supportsDBInstanceAutomatedBackupsReplication: Swift.Bool
+        public var supportsDBInstanceAutomatedBackupsReplication: Swift.Bool?
 
         public init(
             endpoint: Swift.String? = nil,
             regionName: Swift.String? = nil,
             status: Swift.String? = nil,
-            supportsDBInstanceAutomatedBackupsReplication: Swift.Bool = false
+            supportsDBInstanceAutomatedBackupsReplication: Swift.Bool? = nil
         )
         {
             self.endpoint = endpoint
@@ -50497,7 +52139,7 @@ extension StartActivityStreamOutput: ClientRuntime.HttpResponseBinding {
             self.mode = output.mode
             self.status = output.status
         } else {
-            self.applyImmediately = false
+            self.applyImmediately = nil
             self.engineNativeAuditFieldsIncluded = nil
             self.kinesisStreamName = nil
             self.kmsKeyId = nil
@@ -50509,7 +52151,7 @@ extension StartActivityStreamOutput: ClientRuntime.HttpResponseBinding {
 
 public struct StartActivityStreamOutput: Swift.Equatable {
     /// Indicates whether or not the database activity stream will start as soon as possible, regardless of the maintenance window for the database.
-    public var applyImmediately: Swift.Bool
+    public var applyImmediately: Swift.Bool?
     /// Indicates whether engine-native audit fields are included in the database activity stream.
     public var engineNativeAuditFieldsIncluded: Swift.Bool?
     /// The name of the Amazon Kinesis data stream to be used for the database activity stream.
@@ -50522,7 +52164,7 @@ public struct StartActivityStreamOutput: Swift.Equatable {
     public var status: RDSClientTypes.ActivityStreamStatus?
 
     public init(
-        applyImmediately: Swift.Bool = false,
+        applyImmediately: Swift.Bool? = nil,
         engineNativeAuditFieldsIncluded: Swift.Bool? = nil,
         kinesisStreamName: Swift.String? = nil,
         kmsKeyId: Swift.String? = nil,
@@ -50544,7 +52186,7 @@ struct StartActivityStreamOutputBody: Swift.Equatable {
     let kinesisStreamName: Swift.String?
     let status: RDSClientTypes.ActivityStreamStatus?
     let mode: RDSClientTypes.ActivityStreamMode?
-    let applyImmediately: Swift.Bool
+    let applyImmediately: Swift.Bool?
     let engineNativeAuditFieldsIncluded: Swift.Bool?
 }
 
@@ -50569,7 +52211,7 @@ extension StartActivityStreamOutputBody: Swift.Decodable {
         status = statusDecoded
         let modeDecoded = try containerValues.decodeIfPresent(RDSClientTypes.ActivityStreamMode.self, forKey: .mode)
         mode = modeDecoded
-        let applyImmediatelyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .applyImmediately) ?? false
+        let applyImmediatelyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .applyImmediately)
         applyImmediately = applyImmediatelyDecoded
         let engineNativeAuditFieldsIncludedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .engineNativeAuditFieldsIncluded)
         engineNativeAuditFieldsIncluded = engineNativeAuditFieldsIncludedDecoded
@@ -51143,7 +52785,7 @@ extension StartExportTaskOutput: ClientRuntime.HttpResponseBinding {
             self.failureCause = nil
             self.iamRoleArn = nil
             self.kmsKeyId = nil
-            self.percentProgress = 0
+            self.percentProgress = nil
             self.s3Bucket = nil
             self.s3Prefix = nil
             self.snapshotTime = nil
@@ -51152,7 +52794,7 @@ extension StartExportTaskOutput: ClientRuntime.HttpResponseBinding {
             self.status = nil
             self.taskEndTime = nil
             self.taskStartTime = nil
-            self.totalExtractedDataInGB = 0
+            self.totalExtractedDataInGB = nil
             self.warningMessage = nil
         }
     }
@@ -51179,7 +52821,7 @@ public struct StartExportTaskOutput: Swift.Equatable {
     /// The key identifier of the Amazon Web Services KMS key that is used to encrypt the data when it's exported to Amazon S3. The KMS key identifier is its key ARN, key ID, alias ARN, or alias name. The IAM role used for the export must have encryption and decryption permissions to use this KMS key.
     public var kmsKeyId: Swift.String?
     /// The progress of the snapshot or cluster export task as a percentage.
-    public var percentProgress: Swift.Int
+    public var percentProgress: Swift.Int?
     /// The Amazon S3 bucket where the snapshot or cluster is exported to.
     public var s3Bucket: Swift.String?
     /// The Amazon S3 bucket prefix that is the file name and path of the exported data.
@@ -51209,7 +52851,7 @@ public struct StartExportTaskOutput: Swift.Equatable {
     /// The time when the snapshot or cluster export task started.
     public var taskStartTime: ClientRuntime.Date?
     /// The total amount of data exported, in gigabytes.
-    public var totalExtractedDataInGB: Swift.Int
+    public var totalExtractedDataInGB: Swift.Int?
     /// A warning about the snapshot or cluster export task.
     public var warningMessage: Swift.String?
 
@@ -51219,7 +52861,7 @@ public struct StartExportTaskOutput: Swift.Equatable {
         failureCause: Swift.String? = nil,
         iamRoleArn: Swift.String? = nil,
         kmsKeyId: Swift.String? = nil,
-        percentProgress: Swift.Int = 0,
+        percentProgress: Swift.Int? = nil,
         s3Bucket: Swift.String? = nil,
         s3Prefix: Swift.String? = nil,
         snapshotTime: ClientRuntime.Date? = nil,
@@ -51228,7 +52870,7 @@ public struct StartExportTaskOutput: Swift.Equatable {
         status: Swift.String? = nil,
         taskEndTime: ClientRuntime.Date? = nil,
         taskStartTime: ClientRuntime.Date? = nil,
-        totalExtractedDataInGB: Swift.Int = 0,
+        totalExtractedDataInGB: Swift.Int? = nil,
         warningMessage: Swift.String? = nil
     )
     {
@@ -51263,8 +52905,8 @@ struct StartExportTaskOutputBody: Swift.Equatable {
     let iamRoleArn: Swift.String?
     let kmsKeyId: Swift.String?
     let status: Swift.String?
-    let percentProgress: Swift.Int
-    let totalExtractedDataInGB: Swift.Int
+    let percentProgress: Swift.Int?
+    let totalExtractedDataInGB: Swift.Int?
     let failureCause: Swift.String?
     let warningMessage: Swift.String?
     let sourceType: RDSClientTypes.ExportSourceType?
@@ -51332,9 +52974,9 @@ extension StartExportTaskOutputBody: Swift.Decodable {
         kmsKeyId = kmsKeyIdDecoded
         let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
         status = statusDecoded
-        let percentProgressDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .percentProgress) ?? 0
+        let percentProgressDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .percentProgress)
         percentProgress = percentProgressDecoded
-        let totalExtractedDataInGBDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalExtractedDataInGB) ?? 0
+        let totalExtractedDataInGBDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalExtractedDataInGB)
         totalExtractedDataInGB = totalExtractedDataInGBDecoded
         let failureCauseDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .failureCause)
         failureCause = failureCauseDecoded
@@ -52933,13 +54575,14 @@ extension RDSClientTypes.UpgradeTarget: Swift.Codable {
         case supportedEngineModes = "SupportedEngineModes"
         case supportsBabelfish = "SupportsBabelfish"
         case supportsGlobalDatabases = "SupportsGlobalDatabases"
+        case supportsIntegrations = "SupportsIntegrations"
         case supportsLocalWriteForwarding = "SupportsLocalWriteForwarding"
         case supportsParallelQuery = "SupportsParallelQuery"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if autoUpgrade != false {
+        if let autoUpgrade = autoUpgrade {
             try container.encode(autoUpgrade, forKey: ClientRuntime.Key("AutoUpgrade"))
         }
         if let description = description {
@@ -52951,7 +54594,7 @@ extension RDSClientTypes.UpgradeTarget: Swift.Codable {
         if let engineVersion = engineVersion {
             try container.encode(engineVersion, forKey: ClientRuntime.Key("EngineVersion"))
         }
-        if isMajorVersionUpgrade != false {
+        if let isMajorVersionUpgrade = isMajorVersionUpgrade {
             try container.encode(isMajorVersionUpgrade, forKey: ClientRuntime.Key("IsMajorVersionUpgrade"))
         }
         if let supportedEngineModes = supportedEngineModes {
@@ -52972,6 +54615,9 @@ extension RDSClientTypes.UpgradeTarget: Swift.Codable {
         if let supportsGlobalDatabases = supportsGlobalDatabases {
             try container.encode(supportsGlobalDatabases, forKey: ClientRuntime.Key("SupportsGlobalDatabases"))
         }
+        if let supportsIntegrations = supportsIntegrations {
+            try container.encode(supportsIntegrations, forKey: ClientRuntime.Key("SupportsIntegrations"))
+        }
         if let supportsLocalWriteForwarding = supportsLocalWriteForwarding {
             try container.encode(supportsLocalWriteForwarding, forKey: ClientRuntime.Key("SupportsLocalWriteForwarding"))
         }
@@ -52988,9 +54634,9 @@ extension RDSClientTypes.UpgradeTarget: Swift.Codable {
         engineVersion = engineVersionDecoded
         let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
         description = descriptionDecoded
-        let autoUpgradeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoUpgrade) ?? false
+        let autoUpgradeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoUpgrade)
         autoUpgrade = autoUpgradeDecoded
-        let isMajorVersionUpgradeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isMajorVersionUpgrade) ?? false
+        let isMajorVersionUpgradeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isMajorVersionUpgrade)
         isMajorVersionUpgrade = isMajorVersionUpgradeDecoded
         if containerValues.contains(.supportedEngineModes) {
             struct KeyVal0{struct member{}}
@@ -53019,6 +54665,8 @@ extension RDSClientTypes.UpgradeTarget: Swift.Codable {
         supportsBabelfish = supportsBabelfishDecoded
         let supportsLocalWriteForwardingDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsLocalWriteForwarding)
         supportsLocalWriteForwarding = supportsLocalWriteForwardingDecoded
+        let supportsIntegrationsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsIntegrations)
+        supportsIntegrations = supportsIntegrationsDecoded
     }
 }
 
@@ -53026,7 +54674,7 @@ extension RDSClientTypes {
     /// The version of the database engine that a DB instance can be upgraded to.
     public struct UpgradeTarget: Swift.Equatable {
         /// Indicates whether the target version is applied to any source DB instances that have AutoMinorVersionUpgrade set to true.
-        public var autoUpgrade: Swift.Bool
+        public var autoUpgrade: Swift.Bool?
         /// The version of the database engine that a DB instance can be upgraded to.
         public var description: Swift.String?
         /// The name of the upgrade target database engine.
@@ -53034,27 +54682,30 @@ extension RDSClientTypes {
         /// The version number of the upgrade target database engine.
         public var engineVersion: Swift.String?
         /// Indicates whether upgrading to the target version requires upgrading the major version of the database engine.
-        public var isMajorVersionUpgrade: Swift.Bool
+        public var isMajorVersionUpgrade: Swift.Bool?
         /// A list of the supported DB engine modes for the target engine version.
         public var supportedEngineModes: [Swift.String]?
         /// Indicates whether you can use Babelfish for Aurora PostgreSQL with the target engine version.
         public var supportsBabelfish: Swift.Bool?
         /// Indicates whether you can use Aurora global databases with the target engine version.
         public var supportsGlobalDatabases: Swift.Bool?
+        /// Indicates whether the DB engine version supports Aurora zero-ETL integrations with Amazon Redshift.
+        public var supportsIntegrations: Swift.Bool?
         /// Indicates whether the target engine version supports forwarding write operations from reader DB instances to the writer DB instance in the DB cluster. By default, write operations aren't allowed on reader DB instances. Valid for: Aurora DB clusters only
         public var supportsLocalWriteForwarding: Swift.Bool?
         /// Indicates whether you can use Aurora parallel query with the target engine version.
         public var supportsParallelQuery: Swift.Bool?
 
         public init(
-            autoUpgrade: Swift.Bool = false,
+            autoUpgrade: Swift.Bool? = nil,
             description: Swift.String? = nil,
             engine: Swift.String? = nil,
             engineVersion: Swift.String? = nil,
-            isMajorVersionUpgrade: Swift.Bool = false,
+            isMajorVersionUpgrade: Swift.Bool? = nil,
             supportedEngineModes: [Swift.String]? = nil,
             supportsBabelfish: Swift.Bool? = nil,
             supportsGlobalDatabases: Swift.Bool? = nil,
+            supportsIntegrations: Swift.Bool? = nil,
             supportsLocalWriteForwarding: Swift.Bool? = nil,
             supportsParallelQuery: Swift.Bool? = nil
         )
@@ -53067,6 +54718,7 @@ extension RDSClientTypes {
             self.supportedEngineModes = supportedEngineModes
             self.supportsBabelfish = supportsBabelfish
             self.supportsGlobalDatabases = supportsGlobalDatabases
+            self.supportsIntegrations = supportsIntegrations
             self.supportsLocalWriteForwarding = supportsLocalWriteForwarding
             self.supportsParallelQuery = supportsParallelQuery
         }
@@ -53247,6 +54899,7 @@ extension RDSClientTypes {
 extension RDSClientTypes.ValidDBInstanceModificationsMessage: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case storage = "Storage"
+        case supportsDedicatedLogVolume = "SupportsDedicatedLogVolume"
         case validProcessorFeatures = "ValidProcessorFeatures"
     }
 
@@ -53263,6 +54916,9 @@ extension RDSClientTypes.ValidDBInstanceModificationsMessage: Swift.Codable {
                 var storageContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Storage"))
                 try storageContainer.encode("", forKey: ClientRuntime.Key(""))
             }
+        }
+        if let supportsDedicatedLogVolume = supportsDedicatedLogVolume {
+            try container.encode(supportsDedicatedLogVolume, forKey: ClientRuntime.Key("SupportsDedicatedLogVolume"))
         }
         if let validProcessorFeatures = validProcessorFeatures {
             if !validProcessorFeatures.isEmpty {
@@ -53318,6 +54974,8 @@ extension RDSClientTypes.ValidDBInstanceModificationsMessage: Swift.Codable {
         } else {
             validProcessorFeatures = nil
         }
+        let supportsDedicatedLogVolumeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsDedicatedLogVolume)
+        supportsDedicatedLogVolume = supportsDedicatedLogVolumeDecoded
     }
 }
 
@@ -53326,15 +54984,19 @@ extension RDSClientTypes {
     public struct ValidDBInstanceModificationsMessage: Swift.Equatable {
         /// Valid storage options for your DB instance.
         public var storage: [RDSClientTypes.ValidStorageOptions]?
+        /// Indicates whether a DB instance supports using a dedicated log volume (DLV).
+        public var supportsDedicatedLogVolume: Swift.Bool?
         /// Valid processor features for your DB instance.
         public var validProcessorFeatures: [RDSClientTypes.AvailableProcessorFeature]?
 
         public init(
             storage: [RDSClientTypes.ValidStorageOptions]? = nil,
+            supportsDedicatedLogVolume: Swift.Bool? = nil,
             validProcessorFeatures: [RDSClientTypes.AvailableProcessorFeature]? = nil
         )
         {
             self.storage = storage
+            self.supportsDedicatedLogVolume = supportsDedicatedLogVolume
             self.validProcessorFeatures = validProcessorFeatures
         }
     }
@@ -53417,7 +55079,7 @@ extension RDSClientTypes.ValidStorageOptions: Swift.Codable {
         if let storageType = storageType {
             try container.encode(storageType, forKey: ClientRuntime.Key("StorageType"))
         }
-        if supportsStorageAutoscaling != false {
+        if let supportsStorageAutoscaling = supportsStorageAutoscaling {
             try container.encode(supportsStorageAutoscaling, forKey: ClientRuntime.Key("SupportsStorageAutoscaling"))
         }
     }
@@ -53483,7 +55145,7 @@ extension RDSClientTypes.ValidStorageOptions: Swift.Codable {
         } else {
             iopsToStorageRatio = nil
         }
-        let supportsStorageAutoscalingDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsStorageAutoscaling) ?? false
+        let supportsStorageAutoscalingDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsStorageAutoscaling)
         supportsStorageAutoscaling = supportsStorageAutoscalingDecoded
         if containerValues.contains(.provisionedStorageThroughput) {
             struct KeyVal0{struct Range{}}
@@ -53542,7 +55204,7 @@ extension RDSClientTypes {
         /// The valid storage types for your DB instance. For example: gp2, gp3, io1.
         public var storageType: Swift.String?
         /// Indicates whether or not Amazon RDS can automatically scale storage for DB instances that use the new instance class.
-        public var supportsStorageAutoscaling: Swift.Bool
+        public var supportsStorageAutoscaling: Swift.Bool?
 
         public init(
             iopsToStorageRatio: [RDSClientTypes.DoubleRange]? = nil,
@@ -53551,7 +55213,7 @@ extension RDSClientTypes {
             storageSize: [RDSClientTypes.Range]? = nil,
             storageThroughputToIopsRatio: [RDSClientTypes.DoubleRange]? = nil,
             storageType: Swift.String? = nil,
-            supportsStorageAutoscaling: Swift.Bool = false
+            supportsStorageAutoscaling: Swift.Bool? = nil
         )
         {
             self.iopsToStorageRatio = iopsToStorageRatio

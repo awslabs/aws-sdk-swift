@@ -4,7 +4,7 @@ import ClientRuntime
 
 /// Amazon Web Services Systems Manager is the operations hub for your Amazon Web Services applications and resources and a secure end-to-end management solution for hybrid cloud environments that enables safe and secure operations at scale. This reference is intended to be used with the [Amazon Web Services Systems Manager User Guide](https://docs.aws.amazon.com/systems-manager/latest/userguide/). To get started, see [Setting up Amazon Web Services Systems Manager](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-setting-up.html). Related resources
 ///
-/// * For information about each of the capabilities that comprise Systems Manager, see [Systems Manager capabilities](https://docs.aws.amazon.com/systems-manager/latest/userguide/what-is-systems-manager.html#systems-manager-capabilities) in the Amazon Web Services Systems Manager User Guide.
+/// * For information about each of the capabilities that comprise Systems Manager, see [Systems Manager capabilities](https://docs.aws.amazon.com/systems-manager-automation-runbooks/latest/userguide/systems-manager-capabilities.html) in the Amazon Web Services Systems Manager User Guide.
 ///
 /// * For details about predefined runbooks for Automation, a capability of Amazon Web Services Systems Manager, see the [Systems Manager Automation runbook reference](https://docs.aws.amazon.com/systems-manager-automation-runbooks/latest/userguide/automation-runbook-reference.html) .
 ///
@@ -52,6 +52,7 @@ public protocol SSMClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An error occurred on the server side.
+    /// - `OpsItemConflictException` : The specified OpsItem is in the process of being deleted.
     /// - `OpsItemInvalidParameterException` : A specified parameter argument isn't valid. Verify the available arguments and try again.
     /// - `OpsItemLimitExceededException` : The request caused OpsItems to exceed one or more quotas.
     /// - `OpsItemNotFoundException` : The specified OpsItem ID doesn't exist. Verify the ID and try again.
@@ -327,6 +328,26 @@ public protocol SSMClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An error occurred on the server side.
     func deleteMaintenanceWindow(input: DeleteMaintenanceWindowInput) async throws -> DeleteMaintenanceWindowOutput
+    /// Delete an OpsItem. You must have permission in Identity and Access Management (IAM) to delete an OpsItem. Note the following important information about this operation.
+    ///
+    /// * Deleting an OpsItem is irreversible. You can't restore a deleted OpsItem.
+    ///
+    /// * This operation uses an eventual consistency model, which means the system can take a few minutes to complete this operation. If you delete an OpsItem and immediately call, for example, [GetOpsItem], the deleted OpsItem might still appear in the response.
+    ///
+    /// * This operation is idempotent. The system doesn't throw an exception if you repeatedly call this operation for the same OpsItem. If the first call is successful, all additional calls return the same successful response as the first call.
+    ///
+    /// * This operation doesn't support cross-account calls. A delegated administrator or management account can't delete OpsItems in other accounts, even if OpsCenter has been set up for cross-account administration. For more information about cross-account administration, see [Setting up OpsCenter to centrally manage OpsItems across accounts](https://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter-setting-up-cross-account.html) in the Systems Manager User Guide.
+    ///
+    /// - Parameter DeleteOpsItemInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteOpsItemOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerError` : An error occurred on the server side.
+    /// - `OpsItemInvalidParameterException` : A specified parameter argument isn't valid. Verify the available arguments and try again.
+    func deleteOpsItem(input: DeleteOpsItemInput) async throws -> DeleteOpsItemOutput
     /// Delete OpsMetadata related to an application.
     ///
     /// - Parameter DeleteOpsMetadataInput : [no documentation found]
@@ -915,6 +936,7 @@ public protocol SSMClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An error occurred on the server side.
+    /// - `OpsItemConflictException` : The specified OpsItem is in the process of being deleted.
     /// - `OpsItemInvalidParameterException` : A specified parameter argument isn't valid. Verify the available arguments and try again.
     /// - `OpsItemNotFoundException` : The specified OpsItem ID doesn't exist. Verify the ID and try again.
     /// - `OpsItemRelatedItemAssociationNotFoundException` : The association wasn't found using the parameters you specified in the call. Verify the information and try again.
@@ -2082,6 +2104,7 @@ public protocol SSMClientProtocol {
     /// - `InternalServerError` : An error occurred on the server side.
     /// - `OpsItemAccessDeniedException` : You don't have permission to view OpsItems in the specified account. Verify that your account is configured either as a Systems Manager delegated administrator or that you are logged into the Organizations management account.
     /// - `OpsItemAlreadyExistsException` : The OpsItem already exists.
+    /// - `OpsItemConflictException` : The specified OpsItem is in the process of being deleted.
     /// - `OpsItemInvalidParameterException` : A specified parameter argument isn't valid. Verify the available arguments and try again.
     /// - `OpsItemLimitExceededException` : The request caused OpsItems to exceed one or more quotas.
     /// - `OpsItemNotFoundException` : The specified OpsItem ID doesn't exist. Verify the ID and try again.

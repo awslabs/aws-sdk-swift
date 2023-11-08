@@ -90,6 +90,7 @@ struct PackageManifestBuilder {
             buildIntegrationTestsTargets(),
             "",
             buildProtocolTests(),
+            "\n"
         ]
         return contents.joined(separator: .newline)
     }

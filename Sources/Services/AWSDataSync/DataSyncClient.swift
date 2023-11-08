@@ -95,14 +95,7 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<AddStorageSystemInput, AddStorageSystemOutput, AddStorageSystemOutputError>(id: "addStorageSystem")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<AddStorageSystemOutput> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.clientToken == nil {
-                copiedInput.clientToken = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<AddStorageSystemInput, AddStorageSystemOutput, AddStorageSystemOutputError>(keyPath: \.clientToken))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AddStorageSystemInput, AddStorageSystemOutput, AddStorageSystemOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AddStorageSystemInput, AddStorageSystemOutput>(hostPrefix: "discovery-"))
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
@@ -358,7 +351,7 @@ extension DataSyncClient: DataSyncClientProtocol {
         return result
     }
 
-    /// Creates an endpoint for an Amazon FSx for NetApp ONTAP file system that DataSync can access for a transfer. For more information, see [Creating a location for FSx for ONTAP](https://docs.aws.amazon.com/datasync/latest/userguide/create-ontap-location.html).
+    /// Creates an endpoint for an Amazon FSx for NetApp ONTAP file system that DataSync can use for a data transfer. Before you begin, make sure that you understand how DataSync [accesses an FSx for ONTAP file system](https://docs.aws.amazon.com/datasync/latest/userguide/create-ontap-location.html#create-ontap-location-access).
     ///
     /// - Parameter CreateLocationFsxOntapInput : [no documentation found]
     ///
@@ -450,7 +443,7 @@ extension DataSyncClient: DataSyncClientProtocol {
         return result
     }
 
-    /// Creates an endpoint for an Amazon FSx for Windows File Server file system.
+    /// Creates an endpoint for an Amazon FSx for Windows File Server file system that DataSync can use for a data transfer. Before you begin, make sure that you understand how DataSync [accesses an FSx for Windows File Server](https://docs.aws.amazon.com/datasync/latest/userguide/create-fsx-location.html#create-fsx-location-access).
     ///
     /// - Parameter CreateLocationFsxWindowsInput : [no documentation found]
     ///
@@ -779,7 +772,7 @@ extension DataSyncClient: DataSyncClientProtocol {
         return result
     }
 
-    /// Deletes an agent. To specify which agent to delete, use the Amazon Resource Name (ARN) of the agent in your request. The operation disassociates the agent from your Amazon Web Services account. However, it doesn't delete the agent virtual machine (VM) from your on-premises environment.
+    /// Removes an DataSync agent resource from your Amazon Web Services account. Keep in mind that this operation (which can't be undone) doesn't remove the agent's virtual machine (VM) or Amazon EC2 instance from your storage environment. For next steps, you can delete the VM or instance from your storage environment or reuse it to [activate a new agent](https://docs.aws.amazon.com/datasync/latest/userguide/activate-agent.html).
     ///
     /// - Parameter DeleteAgentInput : DeleteAgentRequest
     ///
@@ -917,7 +910,7 @@ extension DataSyncClient: DataSyncClientProtocol {
         return result
     }
 
-    /// Returns metadata about an DataSync agent, such as its name, endpoint type, and status.
+    /// Returns information about an DataSync agent, such as its name, service endpoint type, and status.
     ///
     /// - Parameter DescribeAgentInput : DescribeAgent
     ///
@@ -2187,14 +2180,7 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<StartDiscoveryJobInput, StartDiscoveryJobOutput, StartDiscoveryJobOutputError>(id: "startDiscoveryJob")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<StartDiscoveryJobOutput> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.clientToken == nil {
-                copiedInput.clientToken = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<StartDiscoveryJobInput, StartDiscoveryJobOutput, StartDiscoveryJobOutputError>(keyPath: \.clientToken))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartDiscoveryJobInput, StartDiscoveryJobOutput, StartDiscoveryJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartDiscoveryJobInput, StartDiscoveryJobOutput>(hostPrefix: "discovery-"))
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
@@ -2397,7 +2383,7 @@ extension DataSyncClient: DataSyncClientProtocol {
         return result
     }
 
-    /// Updates the name of an agent.
+    /// Updates the name of an DataSync agent.
     ///
     /// - Parameter UpdateAgentInput : UpdateAgentRequest
     ///
@@ -2673,7 +2659,7 @@ extension DataSyncClient: DataSyncClientProtocol {
         return result
     }
 
-    /// Updates some of the parameters of a previously created location for Server Message Block (SMB) file system access. For information about creating an SMB location, see [Creating a location for SMB](https://docs.aws.amazon.com/datasync/latest/userguide/create-smb-location.html).
+    /// Updates some of the parameters of a Server Message Block (SMB) file server location that you can use for DataSync transfers.
     ///
     /// - Parameter UpdateLocationSmbInput : [no documentation found]
     ///

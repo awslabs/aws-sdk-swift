@@ -562,7 +562,7 @@ public struct CreateAccessInput: Swift.Equatable {
     /// A unique identifier that is required to identify specific groups within your directory. The users of the group that you associate have access to your Amazon S3 or Amazon EFS resources over the enabled protocols using Transfer Family. If you know the group name, you can view the SID values by running the following command using Windows PowerShell. Get-ADGroup -Filter {samAccountName -like "YourGroupName*"} -Properties * | Select SamAccountName,ObjectSid In that command, replace YourGroupName with the name of your Active Directory group. The regular expression used to validate this parameter is a string of characters consisting of uppercase and lowercase alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@:/-
     /// This member is required.
     public var externalId: Swift.String?
-    /// The landing directory (folder) for a user when they log in to the server using the client. A HomeDirectory example is /bucket_name/home/mydirectory. The HomeDirectory parameter is only used if HomeDirectoryType is set to LOGICAL.
+    /// The landing directory (folder) for a user when they log in to the server using the client. A HomeDirectory example is /bucket_name/home/mydirectory. The HomeDirectory parameter is only used if HomeDirectoryType is set to PATH.
     public var homeDirectory: Swift.String?
     /// Logical directory mappings that specify what Amazon S3 or Amazon EFS paths and keys should be visible to your user and how you want to make them visible. You must specify the Entry and Target pair, where Entry shows how the path is made visible and Target is the actual Amazon S3 or Amazon EFS path. If you only specify a target, it is displayed as is. You also must ensure that your Identity and Access Management (IAM) role provides access to paths in Target. This value can be set only when HomeDirectoryType is set to LOGICAL. The following is an Entry and Target pair example. [ { "Entry": "/directory1", "Target": "/bucket_name/home/mydirectory" } ] In most cases, you can use this value instead of the session policy to lock down your user to the designated home directory ("chroot"). To do this, you can set Entry to / and set Target to the HomeDirectory parameter value. The following is an Entry and Target pair example for chroot. [ { "Entry": "/", "Target": "/bucket_name/home/mydirectory" } ]
     public var homeDirectoryMappings: [TransferClientTypes.HomeDirectoryMapEntry]?
@@ -1703,7 +1703,7 @@ extension CreateUserInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateUserInput: Swift.Equatable {
-    /// The landing directory (folder) for a user when they log in to the server using the client. A HomeDirectory example is /bucket_name/home/mydirectory. The HomeDirectory parameter is only used if HomeDirectoryType is set to LOGICAL.
+    /// The landing directory (folder) for a user when they log in to the server using the client. A HomeDirectory example is /bucket_name/home/mydirectory. The HomeDirectory parameter is only used if HomeDirectoryType is set to PATH.
     public var homeDirectory: Swift.String?
     /// Logical directory mappings that specify what Amazon S3 or Amazon EFS paths and keys should be visible to your user and how you want to make them visible. You must specify the Entry and Target pair, where Entry shows how the path is made visible and Target is the actual Amazon S3 or Amazon EFS path. If you only specify a target, it is displayed as is. You also must ensure that your Identity and Access Management (IAM) role provides access to paths in Target. This value can be set only when HomeDirectoryType is set to LOGICAL. The following is an Entry and Target pair example. [ { "Entry": "/directory1", "Target": "/bucket_name/home/mydirectory" } ] In most cases, you can use this value instead of the session policy to lock your user down to the designated home directory ("chroot"). To do this, you can set Entry to / and set Target to the value the user should see for their home directory when they log in. The following is an Entry and Target pair example for chroot. [ { "Entry": "/", "Target": "/bucket_name/home/mydirectory" } ]
     public var homeDirectoryMappings: [TransferClientTypes.HomeDirectoryMapEntry]?
@@ -1719,7 +1719,7 @@ public struct CreateUserInput: Swift.Equatable {
     /// A system-assigned unique identifier for a server instance. This is the specific server that you added your user to.
     /// This member is required.
     public var serverId: Swift.String?
-    /// The public portion of the Secure Shell (SSH) key used to authenticate the user to the server. The three standard SSH public key format elements are , , and an optional , with spaces between each element. Transfer Family accepts RSA, ECDSA, and ED25519 keys.
+    /// The public portion of the Secure Shell (SSH) key used to authenticate the user to the server. The three standard SSH public key format elements are <key type>, <body base64>, and an optional <comment>, with spaces between each element. Transfer Family accepts RSA, ECDSA, and ED25519 keys.
     ///
     /// * For RSA keys, the key type is ssh-rsa.
     ///
@@ -4430,7 +4430,7 @@ extension TransferClientTypes {
     public struct DescribedAccess: Swift.Equatable {
         /// A unique identifier that is required to identify specific groups within your directory. The users of the group that you associate have access to your Amazon S3 or Amazon EFS resources over the enabled protocols using Transfer Family. If you know the group name, you can view the SID values by running the following command using Windows PowerShell. Get-ADGroup -Filter {samAccountName -like "YourGroupName*"} -Properties * | Select SamAccountName,ObjectSid In that command, replace YourGroupName with the name of your Active Directory group. The regular expression used to validate this parameter is a string of characters consisting of uppercase and lowercase alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@:/-
         public var externalId: Swift.String?
-        /// The landing directory (folder) for a user when they log in to the server using the client. A HomeDirectory example is /bucket_name/home/mydirectory. The HomeDirectory parameter is only used if HomeDirectoryType is set to LOGICAL.
+        /// The landing directory (folder) for a user when they log in to the server using the client. A HomeDirectory example is /bucket_name/home/mydirectory. The HomeDirectory parameter is only used if HomeDirectoryType is set to PATH.
         public var homeDirectory: Swift.String?
         /// Logical directory mappings that specify what Amazon S3 or Amazon EFS paths and keys should be visible to your user and how you want to make them visible. You must specify the Entry and Target pair, where Entry shows how the path is made visible and Target is the actual Amazon S3 or Amazon EFS path. If you only specify a target, it is displayed as is. You also must ensure that your Identity and Access Management (IAM) role provides access to paths in Target. This value can be set only when HomeDirectoryType is set to LOGICAL. In most cases, you can use this value instead of the session policy to lock down the associated access to the designated home directory ("chroot"). To do this, you can set Entry to '/' and set Target to the HomeDirectory parameter value.
         public var homeDirectoryMappings: [TransferClientTypes.HomeDirectoryMapEntry]?
@@ -5777,7 +5777,7 @@ extension TransferClientTypes {
         /// Specifies the unique Amazon Resource Name (ARN) for the user that was requested to be described.
         /// This member is required.
         public var arn: Swift.String?
-        /// The landing directory (folder) for a user when they log in to the server using the client. A HomeDirectory example is /bucket_name/home/mydirectory. The HomeDirectory parameter is only used if HomeDirectoryType is set to LOGICAL.
+        /// The landing directory (folder) for a user when they log in to the server using the client. A HomeDirectory example is /bucket_name/home/mydirectory. The HomeDirectory parameter is only used if HomeDirectoryType is set to PATH.
         public var homeDirectory: Swift.String?
         /// Logical directory mappings that specify what Amazon S3 or Amazon EFS paths and keys should be visible to your user and how you want to make them visible. You must specify the Entry and Target pair, where Entry shows how the path is made visible and Target is the actual Amazon S3 or Amazon EFS path. If you only specify a target, it is displayed as is. You also must ensure that your Identity and Access Management (IAM) role provides access to paths in Target. This value can be set only when HomeDirectoryType is set to LOGICAL. In most cases, you can use this value instead of the session policy to lock your user down to the designated home directory ("chroot"). To do this, you can set Entry to '/' and set Target to the HomeDirectory parameter value.
         public var homeDirectoryMappings: [TransferClientTypes.HomeDirectoryMapEntry]?
@@ -9302,7 +9302,7 @@ extension TransferClientTypes {
     public struct ListedAccess: Swift.Equatable {
         /// A unique identifier that is required to identify specific groups within your directory. The users of the group that you associate have access to your Amazon S3 or Amazon EFS resources over the enabled protocols using Transfer Family. If you know the group name, you can view the SID values by running the following command using Windows PowerShell. Get-ADGroup -Filter {samAccountName -like "YourGroupName*"} -Properties * | Select SamAccountName,ObjectSid In that command, replace YourGroupName with the name of your Active Directory group. The regular expression used to validate this parameter is a string of characters consisting of uppercase and lowercase alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@:/-
         public var externalId: Swift.String?
-        /// The landing directory (folder) for a user when they log in to the server using the client. A HomeDirectory example is /bucket_name/home/mydirectory. The HomeDirectory parameter is only used if HomeDirectoryType is set to LOGICAL.
+        /// The landing directory (folder) for a user when they log in to the server using the client. A HomeDirectory example is /bucket_name/home/mydirectory. The HomeDirectory parameter is only used if HomeDirectoryType is set to PATH.
         public var homeDirectory: Swift.String?
         /// The type of landing directory (folder) that you want your users' home directory to be when they log in to the server. If you set it to PATH, the user will see the absolute Amazon S3 bucket or Amazon EFS path as is in their file transfer protocol clients. If you set it to LOGICAL, you need to provide mappings in the HomeDirectoryMappings for how you want to make Amazon S3 or Amazon EFS paths visible to your users. If HomeDirectoryType is LOGICAL, you must provide mappings, using the HomeDirectoryMappings parameter. If, on the other hand, HomeDirectoryType is PATH, you provide an absolute path using the HomeDirectory parameter. You cannot have both HomeDirectory and HomeDirectoryMappings in your template.
         public var homeDirectoryType: TransferClientTypes.HomeDirectoryType?
@@ -9967,7 +9967,7 @@ extension TransferClientTypes {
         /// Provides the unique Amazon Resource Name (ARN) for the user that you want to learn about.
         /// This member is required.
         public var arn: Swift.String?
-        /// The landing directory (folder) for a user when they log in to the server using the client. A HomeDirectory example is /bucket_name/home/mydirectory. The HomeDirectory parameter is only used if HomeDirectoryType is set to LOGICAL.
+        /// The landing directory (folder) for a user when they log in to the server using the client. A HomeDirectory example is /bucket_name/home/mydirectory. The HomeDirectory parameter is only used if HomeDirectoryType is set to PATH.
         public var homeDirectory: Swift.String?
         /// The type of landing directory (folder) that you want your users' home directory to be when they log in to the server. If you set it to PATH, the user will see the absolute Amazon S3 bucket or Amazon EFS path as is in their file transfer protocol clients. If you set it to LOGICAL, you need to provide mappings in the HomeDirectoryMappings for how you want to make Amazon S3 or Amazon EFS paths visible to your users. If HomeDirectoryType is LOGICAL, you must provide mappings, using the HomeDirectoryMappings parameter. If, on the other hand, HomeDirectoryType is PATH, you provide an absolute path using the HomeDirectory parameter. You cannot have both HomeDirectory and HomeDirectoryMappings in your template.
         public var homeDirectoryType: TransferClientTypes.HomeDirectoryType?
@@ -11051,13 +11051,13 @@ extension TransferClientTypes.SftpConnectorConfig: Swift.Codable {
 extension TransferClientTypes {
     /// Contains the details for an SFTP connector object. The connector object is used for transferring files to and from a partner's SFTP server.
     public struct SftpConnectorConfig: Swift.Equatable {
-        /// The public portion of the host key, or keys, that are used to identify the external server to which you are connecting. You can use the ssh-keyscan command against the SFTP server to retrieve the necessary key. The three standard SSH public key format elements are , , and an optional , with spaces between each element. Specify only the  and : do not enter the  portion of the key. For the trusted host key, Transfer Family accepts RSA and ECDSA keys.
+        /// The public portion of the host key, or keys, that are used to identify the external server to which you are connecting. You can use the ssh-keyscan command against the SFTP server to retrieve the necessary key. The three standard SSH public key format elements are <key type>, <body base64>, and an optional <comment>, with spaces between each element. Specify only the <key type> and <body base64>: do not enter the <comment> portion of the key. For the trusted host key, Transfer Family accepts RSA and ECDSA keys.
         ///
-        /// * For RSA keys, the  string is ssh-rsa.
+        /// * For RSA keys, the <key type> string is ssh-rsa.
         ///
-        /// * For ECDSA keys, the  string is either ecdsa-sha2-nistp256, ecdsa-sha2-nistp384, or ecdsa-sha2-nistp521, depending on the size of the key you generated.
+        /// * For ECDSA keys, the <key type> string is either ecdsa-sha2-nistp256, ecdsa-sha2-nistp384, or ecdsa-sha2-nistp521, depending on the size of the key you generated.
         public var trustedHostKeys: [Swift.String]?
-        /// The identifier for the secret (in Amazon Web Services Secrets Manager) that contains the SFTP user's private key, password, or both. The identifier can be either the Amazon Resource Name (ARN) or the name of the secret.
+        /// The identifier for the secret (in Amazon Web Services Secrets Manager) that contains the SFTP user's private key, password, or both. The identifier must be the Amazon Resource Name (ARN) of the secret.
         public var userSecretId: Swift.String?
 
         public init(
@@ -12302,7 +12302,7 @@ public struct UpdateAccessInput: Swift.Equatable {
     /// A unique identifier that is required to identify specific groups within your directory. The users of the group that you associate have access to your Amazon S3 or Amazon EFS resources over the enabled protocols using Transfer Family. If you know the group name, you can view the SID values by running the following command using Windows PowerShell. Get-ADGroup -Filter {samAccountName -like "YourGroupName*"} -Properties * | Select SamAccountName,ObjectSid In that command, replace YourGroupName with the name of your Active Directory group. The regular expression used to validate this parameter is a string of characters consisting of uppercase and lowercase alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@:/-
     /// This member is required.
     public var externalId: Swift.String?
-    /// The landing directory (folder) for a user when they log in to the server using the client. A HomeDirectory example is /bucket_name/home/mydirectory. The HomeDirectory parameter is only used if HomeDirectoryType is set to LOGICAL.
+    /// The landing directory (folder) for a user when they log in to the server using the client. A HomeDirectory example is /bucket_name/home/mydirectory. The HomeDirectory parameter is only used if HomeDirectoryType is set to PATH.
     public var homeDirectory: Swift.String?
     /// Logical directory mappings that specify what Amazon S3 or Amazon EFS paths and keys should be visible to your user and how you want to make them visible. You must specify the Entry and Target pair, where Entry shows how the path is made visible and Target is the actual Amazon S3 or Amazon EFS path. If you only specify a target, it is displayed as is. You also must ensure that your Identity and Access Management (IAM) role provides access to paths in Target. This value can be set only when HomeDirectoryType is set to LOGICAL. The following is an Entry and Target pair example. [ { "Entry": "/directory1", "Target": "/bucket_name/home/mydirectory" } ] In most cases, you can use this value instead of the session policy to lock down your user to the designated home directory ("chroot"). To do this, you can set Entry to / and set Target to the HomeDirectory parameter value. The following is an Entry and Target pair example for chroot. [ { "Entry": "/", "Target": "/bucket_name/home/mydirectory" } ]
     public var homeDirectoryMappings: [TransferClientTypes.HomeDirectoryMapEntry]?
@@ -13610,7 +13610,7 @@ extension UpdateUserInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateUserInput: Swift.Equatable {
-    /// The landing directory (folder) for a user when they log in to the server using the client. A HomeDirectory example is /bucket_name/home/mydirectory. The HomeDirectory parameter is only used if HomeDirectoryType is set to LOGICAL.
+    /// The landing directory (folder) for a user when they log in to the server using the client. A HomeDirectory example is /bucket_name/home/mydirectory. The HomeDirectory parameter is only used if HomeDirectoryType is set to PATH.
     public var homeDirectory: Swift.String?
     /// Logical directory mappings that specify what Amazon S3 or Amazon EFS paths and keys should be visible to your user and how you want to make them visible. You must specify the Entry and Target pair, where Entry shows how the path is made visible and Target is the actual Amazon S3 or Amazon EFS path. If you only specify a target, it is displayed as is. You also must ensure that your Identity and Access Management (IAM) role provides access to paths in Target. This value can be set only when HomeDirectoryType is set to LOGICAL. The following is an Entry and Target pair example. [ { "Entry": "/directory1", "Target": "/bucket_name/home/mydirectory" } ] In most cases, you can use this value instead of the session policy to lock down your user to the designated home directory ("chroot"). To do this, you can set Entry to '/' and set Target to the HomeDirectory parameter value. The following is an Entry and Target pair example for chroot. [ { "Entry": "/", "Target": "/bucket_name/home/mydirectory" } ]
     public var homeDirectoryMappings: [TransferClientTypes.HomeDirectoryMapEntry]?

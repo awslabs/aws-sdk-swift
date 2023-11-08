@@ -66,6 +66,71 @@ extension AccessDeniedExceptionBody: Swift.Decodable {
     }
 }
 
+extension RedshiftServerlessClientTypes.Association: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case customDomainCertificateArn
+        case customDomainCertificateExpiryTime
+        case customDomainName
+        case workgroupName
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let customDomainCertificateArn = self.customDomainCertificateArn {
+            try encodeContainer.encode(customDomainCertificateArn, forKey: .customDomainCertificateArn)
+        }
+        if let customDomainCertificateExpiryTime = self.customDomainCertificateExpiryTime {
+            try encodeContainer.encodeTimestamp(customDomainCertificateExpiryTime, format: .dateTime, forKey: .customDomainCertificateExpiryTime)
+        }
+        if let customDomainName = self.customDomainName {
+            try encodeContainer.encode(customDomainName, forKey: .customDomainName)
+        }
+        if let workgroupName = self.workgroupName {
+            try encodeContainer.encode(workgroupName, forKey: .workgroupName)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let customDomainCertificateArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .customDomainCertificateArn)
+        customDomainCertificateArn = customDomainCertificateArnDecoded
+        let customDomainCertificateExpiryTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .customDomainCertificateExpiryTime)
+        customDomainCertificateExpiryTime = customDomainCertificateExpiryTimeDecoded
+        let customDomainNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .customDomainName)
+        customDomainName = customDomainNameDecoded
+        let workgroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workgroupName)
+        workgroupName = workgroupNameDecoded
+    }
+}
+
+extension RedshiftServerlessClientTypes {
+    /// An object that represents the custom domain name association.
+    public struct Association: Swift.Equatable {
+        /// The custom domain name’s certificate Amazon resource name (ARN).
+        public var customDomainCertificateArn: Swift.String?
+        /// The expiration time for the certificate.
+        public var customDomainCertificateExpiryTime: ClientRuntime.Date?
+        /// The custom domain name associated with the workgroup.
+        public var customDomainName: Swift.String?
+        /// The name of the workgroup associated with the database.
+        public var workgroupName: Swift.String?
+
+        public init(
+            customDomainCertificateArn: Swift.String? = nil,
+            customDomainCertificateExpiryTime: ClientRuntime.Date? = nil,
+            customDomainName: Swift.String? = nil,
+            workgroupName: Swift.String? = nil
+        )
+        {
+            self.customDomainCertificateArn = customDomainCertificateArn
+            self.customDomainCertificateExpiryTime = customDomainCertificateExpiryTime
+            self.customDomainName = customDomainName
+            self.workgroupName = workgroupName
+        }
+    }
+
+}
+
 extension RedshiftServerlessClientTypes.ConfigParameter: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case parameterKey
@@ -320,6 +385,166 @@ enum ConvertRecoveryPointToSnapshotOutputError: ClientRuntime.HttpResponseErrorB
     }
 }
 
+extension CreateCustomDomainAssociationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case customDomainCertificateArn
+        case customDomainName
+        case workgroupName
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let customDomainCertificateArn = self.customDomainCertificateArn {
+            try encodeContainer.encode(customDomainCertificateArn, forKey: .customDomainCertificateArn)
+        }
+        if let customDomainName = self.customDomainName {
+            try encodeContainer.encode(customDomainName, forKey: .customDomainName)
+        }
+        if let workgroupName = self.workgroupName {
+            try encodeContainer.encode(workgroupName, forKey: .workgroupName)
+        }
+    }
+}
+
+extension CreateCustomDomainAssociationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct CreateCustomDomainAssociationInput: Swift.Equatable {
+    /// The custom domain name’s certificate Amazon resource name (ARN).
+    /// This member is required.
+    public var customDomainCertificateArn: Swift.String?
+    /// The custom domain name to associate with the workgroup.
+    /// This member is required.
+    public var customDomainName: Swift.String?
+    /// The name of the workgroup associated with the database.
+    /// This member is required.
+    public var workgroupName: Swift.String?
+
+    public init(
+        customDomainCertificateArn: Swift.String? = nil,
+        customDomainName: Swift.String? = nil,
+        workgroupName: Swift.String? = nil
+    )
+    {
+        self.customDomainCertificateArn = customDomainCertificateArn
+        self.customDomainName = customDomainName
+        self.workgroupName = workgroupName
+    }
+}
+
+struct CreateCustomDomainAssociationInputBody: Swift.Equatable {
+    let workgroupName: Swift.String?
+    let customDomainName: Swift.String?
+    let customDomainCertificateArn: Swift.String?
+}
+
+extension CreateCustomDomainAssociationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case customDomainCertificateArn
+        case customDomainName
+        case workgroupName
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let workgroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workgroupName)
+        workgroupName = workgroupNameDecoded
+        let customDomainNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .customDomainName)
+        customDomainName = customDomainNameDecoded
+        let customDomainCertificateArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .customDomainCertificateArn)
+        customDomainCertificateArn = customDomainCertificateArnDecoded
+    }
+}
+
+extension CreateCustomDomainAssociationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateCustomDomainAssociationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.customDomainCertificateArn = output.customDomainCertificateArn
+            self.customDomainCertificateExpiryTime = output.customDomainCertificateExpiryTime
+            self.customDomainName = output.customDomainName
+            self.workgroupName = output.workgroupName
+        } else {
+            self.customDomainCertificateArn = nil
+            self.customDomainCertificateExpiryTime = nil
+            self.customDomainName = nil
+            self.workgroupName = nil
+        }
+    }
+}
+
+public struct CreateCustomDomainAssociationOutput: Swift.Equatable {
+    /// The custom domain name’s certificate Amazon resource name (ARN).
+    public var customDomainCertificateArn: Swift.String?
+    /// The expiration time for the certificate.
+    public var customDomainCertificateExpiryTime: ClientRuntime.Date?
+    /// The custom domain name to associate with the workgroup.
+    public var customDomainName: Swift.String?
+    /// The name of the workgroup associated with the database.
+    public var workgroupName: Swift.String?
+
+    public init(
+        customDomainCertificateArn: Swift.String? = nil,
+        customDomainCertificateExpiryTime: ClientRuntime.Date? = nil,
+        customDomainName: Swift.String? = nil,
+        workgroupName: Swift.String? = nil
+    )
+    {
+        self.customDomainCertificateArn = customDomainCertificateArn
+        self.customDomainCertificateExpiryTime = customDomainCertificateExpiryTime
+        self.customDomainName = customDomainName
+        self.workgroupName = workgroupName
+    }
+}
+
+struct CreateCustomDomainAssociationOutputBody: Swift.Equatable {
+    let customDomainName: Swift.String?
+    let workgroupName: Swift.String?
+    let customDomainCertificateArn: Swift.String?
+    let customDomainCertificateExpiryTime: ClientRuntime.Date?
+}
+
+extension CreateCustomDomainAssociationOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case customDomainCertificateArn
+        case customDomainCertificateExpiryTime
+        case customDomainName
+        case workgroupName
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let customDomainNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .customDomainName)
+        customDomainName = customDomainNameDecoded
+        let workgroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workgroupName)
+        workgroupName = workgroupNameDecoded
+        let customDomainCertificateArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .customDomainCertificateArn)
+        customDomainCertificateArn = customDomainCertificateArnDecoded
+        let customDomainCertificateExpiryTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .customDomainCertificateExpiryTime)
+        customDomainCertificateExpiryTime = customDomainCertificateExpiryTimeDecoded
+    }
+}
+
+enum CreateCustomDomainAssociationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension CreateEndpointAccessInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case endpointName
@@ -488,11 +713,12 @@ enum CreateEndpointAccessOutputError: ClientRuntime.HttpResponseErrorBinding {
 
 extension CreateNamespaceInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateNamespaceInput(dbName: \(Swift.String(describing: dbName)), defaultIamRoleArn: \(Swift.String(describing: defaultIamRoleArn)), iamRoles: \(Swift.String(describing: iamRoles)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), logExports: \(Swift.String(describing: logExports)), namespaceName: \(Swift.String(describing: namespaceName)), tags: \(Swift.String(describing: tags)), adminUserPassword: \"CONTENT_REDACTED\", adminUsername: \"CONTENT_REDACTED\")"}
+        "CreateNamespaceInput(adminPasswordSecretKmsKeyId: \(Swift.String(describing: adminPasswordSecretKmsKeyId)), dbName: \(Swift.String(describing: dbName)), defaultIamRoleArn: \(Swift.String(describing: defaultIamRoleArn)), iamRoles: \(Swift.String(describing: iamRoles)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), logExports: \(Swift.String(describing: logExports)), manageAdminPassword: \(Swift.String(describing: manageAdminPassword)), namespaceName: \(Swift.String(describing: namespaceName)), tags: \(Swift.String(describing: tags)), adminUserPassword: \"CONTENT_REDACTED\", adminUsername: \"CONTENT_REDACTED\")"}
 }
 
 extension CreateNamespaceInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case adminPasswordSecretKmsKeyId
         case adminUserPassword
         case adminUsername
         case dbName
@@ -500,12 +726,16 @@ extension CreateNamespaceInput: Swift.Encodable {
         case iamRoles
         case kmsKeyId
         case logExports
+        case manageAdminPassword
         case namespaceName
         case tags
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let adminPasswordSecretKmsKeyId = self.adminPasswordSecretKmsKeyId {
+            try encodeContainer.encode(adminPasswordSecretKmsKeyId, forKey: .adminPasswordSecretKmsKeyId)
+        }
         if let adminUserPassword = self.adminUserPassword {
             try encodeContainer.encode(adminUserPassword, forKey: .adminUserPassword)
         }
@@ -533,6 +763,9 @@ extension CreateNamespaceInput: Swift.Encodable {
                 try logExportsContainer.encode(logexport0.rawValue)
             }
         }
+        if let manageAdminPassword = self.manageAdminPassword {
+            try encodeContainer.encode(manageAdminPassword, forKey: .manageAdminPassword)
+        }
         if let namespaceName = self.namespaceName {
             try encodeContainer.encode(namespaceName, forKey: .namespaceName)
         }
@@ -552,7 +785,9 @@ extension CreateNamespaceInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateNamespaceInput: Swift.Equatable {
-    /// The password of the administrator for the first database created in the namespace.
+    /// The ID of the Key Management Service (KMS) key used to encrypt and store the namespace's admin credentials secret. You can only use this parameter if manageAdminPassword is true.
+    public var adminPasswordSecretKmsKeyId: Swift.String?
+    /// The password of the administrator for the first database created in the namespace. You can't use adminUserPassword if manageAdminPassword is true.
     public var adminUserPassword: Swift.String?
     /// The username of the administrator for the first database created in the namespace.
     public var adminUsername: Swift.String?
@@ -566,6 +801,8 @@ public struct CreateNamespaceInput: Swift.Equatable {
     public var kmsKeyId: Swift.String?
     /// The types of logs the namespace can export. Available export types are userlog, connectionlog, and useractivitylog.
     public var logExports: [RedshiftServerlessClientTypes.LogExport]?
+    /// If true, Amazon Redshift uses Secrets Manager to manage the namespace's admin credentials. You can't use adminUserPassword if manageAdminPassword is true. If manageAdminPassword is false or not set, Amazon Redshift uses adminUserPassword for the admin user account's password.
+    public var manageAdminPassword: Swift.Bool?
     /// The name of the namespace.
     /// This member is required.
     public var namespaceName: Swift.String?
@@ -573,6 +810,7 @@ public struct CreateNamespaceInput: Swift.Equatable {
     public var tags: [RedshiftServerlessClientTypes.Tag]?
 
     public init(
+        adminPasswordSecretKmsKeyId: Swift.String? = nil,
         adminUserPassword: Swift.String? = nil,
         adminUsername: Swift.String? = nil,
         dbName: Swift.String? = nil,
@@ -580,10 +818,12 @@ public struct CreateNamespaceInput: Swift.Equatable {
         iamRoles: [Swift.String]? = nil,
         kmsKeyId: Swift.String? = nil,
         logExports: [RedshiftServerlessClientTypes.LogExport]? = nil,
+        manageAdminPassword: Swift.Bool? = nil,
         namespaceName: Swift.String? = nil,
         tags: [RedshiftServerlessClientTypes.Tag]? = nil
     )
     {
+        self.adminPasswordSecretKmsKeyId = adminPasswordSecretKmsKeyId
         self.adminUserPassword = adminUserPassword
         self.adminUsername = adminUsername
         self.dbName = dbName
@@ -591,6 +831,7 @@ public struct CreateNamespaceInput: Swift.Equatable {
         self.iamRoles = iamRoles
         self.kmsKeyId = kmsKeyId
         self.logExports = logExports
+        self.manageAdminPassword = manageAdminPassword
         self.namespaceName = namespaceName
         self.tags = tags
     }
@@ -606,10 +847,13 @@ struct CreateNamespaceInputBody: Swift.Equatable {
     let iamRoles: [Swift.String]?
     let logExports: [RedshiftServerlessClientTypes.LogExport]?
     let tags: [RedshiftServerlessClientTypes.Tag]?
+    let manageAdminPassword: Swift.Bool?
+    let adminPasswordSecretKmsKeyId: Swift.String?
 }
 
 extension CreateNamespaceInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case adminPasswordSecretKmsKeyId
         case adminUserPassword
         case adminUsername
         case dbName
@@ -617,6 +861,7 @@ extension CreateNamespaceInputBody: Swift.Decodable {
         case iamRoles
         case kmsKeyId
         case logExports
+        case manageAdminPassword
         case namespaceName
         case tags
     }
@@ -668,6 +913,10 @@ extension CreateNamespaceInputBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let manageAdminPasswordDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .manageAdminPassword)
+        manageAdminPassword = manageAdminPasswordDecoded
+        let adminPasswordSecretKmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .adminPasswordSecretKmsKeyId)
+        adminPasswordSecretKmsKeyId = adminPasswordSecretKmsKeyIdDecoded
     }
 }
 
@@ -1286,6 +1535,93 @@ enum CreateWorkgroupOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "TooManyTagsException": return try await TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DeleteCustomDomainAssociationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case customDomainName
+        case workgroupName
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let customDomainName = self.customDomainName {
+            try encodeContainer.encode(customDomainName, forKey: .customDomainName)
+        }
+        if let workgroupName = self.workgroupName {
+            try encodeContainer.encode(workgroupName, forKey: .workgroupName)
+        }
+    }
+}
+
+extension DeleteCustomDomainAssociationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DeleteCustomDomainAssociationInput: Swift.Equatable {
+    /// The custom domain name associated with the workgroup.
+    /// This member is required.
+    public var customDomainName: Swift.String?
+    /// The name of the workgroup associated with the database.
+    /// This member is required.
+    public var workgroupName: Swift.String?
+
+    public init(
+        customDomainName: Swift.String? = nil,
+        workgroupName: Swift.String? = nil
+    )
+    {
+        self.customDomainName = customDomainName
+        self.workgroupName = workgroupName
+    }
+}
+
+struct DeleteCustomDomainAssociationInputBody: Swift.Equatable {
+    let workgroupName: Swift.String?
+    let customDomainName: Swift.String?
+}
+
+extension DeleteCustomDomainAssociationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case customDomainName
+        case workgroupName
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let workgroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workgroupName)
+        workgroupName = workgroupNameDecoded
+        let customDomainNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .customDomainName)
+        customDomainName = customDomainNameDecoded
+    }
+}
+
+extension DeleteCustomDomainAssociationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteCustomDomainAssociationOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteCustomDomainAssociationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
@@ -2117,6 +2453,7 @@ extension RedshiftServerlessClientTypes {
 
 extension GetCredentialsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case customDomainName
         case dbName
         case durationSeconds
         case workgroupName
@@ -2124,6 +2461,9 @@ extension GetCredentialsInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let customDomainName = self.customDomainName {
+            try encodeContainer.encode(customDomainName, forKey: .customDomainName)
+        }
         if let dbName = self.dbName {
             try encodeContainer.encode(dbName, forKey: .dbName)
         }
@@ -2143,6 +2483,8 @@ extension GetCredentialsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetCredentialsInput: Swift.Equatable {
+    /// The custom domain name associated with the workgroup. The custom domain name or the workgroup name must be included in the request.
+    public var customDomainName: Swift.String?
     /// The name of the database to get temporary authorization to log on to. Constraints:
     ///
     /// * Must be 1 to 64 alphanumeric characters or hyphens.
@@ -2158,15 +2500,16 @@ public struct GetCredentialsInput: Swift.Equatable {
     /// The number of seconds until the returned temporary password expires. The minimum is 900 seconds, and the maximum is 3600 seconds.
     public var durationSeconds: Swift.Int?
     /// The name of the workgroup associated with the database.
-    /// This member is required.
     public var workgroupName: Swift.String?
 
     public init(
+        customDomainName: Swift.String? = nil,
         dbName: Swift.String? = nil,
         durationSeconds: Swift.Int? = nil,
         workgroupName: Swift.String? = nil
     )
     {
+        self.customDomainName = customDomainName
         self.dbName = dbName
         self.durationSeconds = durationSeconds
         self.workgroupName = workgroupName
@@ -2174,13 +2517,15 @@ public struct GetCredentialsInput: Swift.Equatable {
 }
 
 struct GetCredentialsInputBody: Swift.Equatable {
-    let workgroupName: Swift.String?
     let dbName: Swift.String?
     let durationSeconds: Swift.Int?
+    let workgroupName: Swift.String?
+    let customDomainName: Swift.String?
 }
 
 extension GetCredentialsInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case customDomainName
         case dbName
         case durationSeconds
         case workgroupName
@@ -2188,12 +2533,14 @@ extension GetCredentialsInputBody: Swift.Decodable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let workgroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workgroupName)
-        workgroupName = workgroupNameDecoded
         let dbNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbName)
         dbName = dbNameDecoded
         let durationSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .durationSeconds)
         durationSeconds = durationSecondsDecoded
+        let workgroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workgroupName)
+        workgroupName = workgroupNameDecoded
+        let customDomainNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .customDomainName)
+        customDomainName = customDomainNameDecoded
     }
 }
 
@@ -2279,6 +2626,153 @@ enum GetCredentialsOutputError: ClientRuntime.HttpResponseErrorBinding {
         switch restJSONError.errorType {
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension GetCustomDomainAssociationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case customDomainName
+        case workgroupName
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let customDomainName = self.customDomainName {
+            try encodeContainer.encode(customDomainName, forKey: .customDomainName)
+        }
+        if let workgroupName = self.workgroupName {
+            try encodeContainer.encode(workgroupName, forKey: .workgroupName)
+        }
+    }
+}
+
+extension GetCustomDomainAssociationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct GetCustomDomainAssociationInput: Swift.Equatable {
+    /// The custom domain name associated with the workgroup.
+    /// This member is required.
+    public var customDomainName: Swift.String?
+    /// The name of the workgroup associated with the database.
+    /// This member is required.
+    public var workgroupName: Swift.String?
+
+    public init(
+        customDomainName: Swift.String? = nil,
+        workgroupName: Swift.String? = nil
+    )
+    {
+        self.customDomainName = customDomainName
+        self.workgroupName = workgroupName
+    }
+}
+
+struct GetCustomDomainAssociationInputBody: Swift.Equatable {
+    let customDomainName: Swift.String?
+    let workgroupName: Swift.String?
+}
+
+extension GetCustomDomainAssociationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case customDomainName
+        case workgroupName
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let customDomainNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .customDomainName)
+        customDomainName = customDomainNameDecoded
+        let workgroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workgroupName)
+        workgroupName = workgroupNameDecoded
+    }
+}
+
+extension GetCustomDomainAssociationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetCustomDomainAssociationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.customDomainCertificateArn = output.customDomainCertificateArn
+            self.customDomainCertificateExpiryTime = output.customDomainCertificateExpiryTime
+            self.customDomainName = output.customDomainName
+            self.workgroupName = output.workgroupName
+        } else {
+            self.customDomainCertificateArn = nil
+            self.customDomainCertificateExpiryTime = nil
+            self.customDomainName = nil
+            self.workgroupName = nil
+        }
+    }
+}
+
+public struct GetCustomDomainAssociationOutput: Swift.Equatable {
+    /// The custom domain name’s certificate Amazon resource name (ARN).
+    public var customDomainCertificateArn: Swift.String?
+    /// The expiration time for the certificate.
+    public var customDomainCertificateExpiryTime: ClientRuntime.Date?
+    /// The custom domain name associated with the workgroup.
+    public var customDomainName: Swift.String?
+    /// The name of the workgroup associated with the database.
+    public var workgroupName: Swift.String?
+
+    public init(
+        customDomainCertificateArn: Swift.String? = nil,
+        customDomainCertificateExpiryTime: ClientRuntime.Date? = nil,
+        customDomainName: Swift.String? = nil,
+        workgroupName: Swift.String? = nil
+    )
+    {
+        self.customDomainCertificateArn = customDomainCertificateArn
+        self.customDomainCertificateExpiryTime = customDomainCertificateExpiryTime
+        self.customDomainName = customDomainName
+        self.workgroupName = workgroupName
+    }
+}
+
+struct GetCustomDomainAssociationOutputBody: Swift.Equatable {
+    let customDomainName: Swift.String?
+    let workgroupName: Swift.String?
+    let customDomainCertificateArn: Swift.String?
+    let customDomainCertificateExpiryTime: ClientRuntime.Date?
+}
+
+extension GetCustomDomainAssociationOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case customDomainCertificateArn
+        case customDomainCertificateExpiryTime
+        case customDomainName
+        case workgroupName
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let customDomainNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .customDomainName)
+        customDomainName = customDomainNameDecoded
+        let workgroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workgroupName)
+        workgroupName = workgroupNameDecoded
+        let customDomainCertificateArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .customDomainCertificateArn)
+        customDomainCertificateArn = customDomainCertificateArnDecoded
+        let customDomainCertificateExpiryTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .customDomainCertificateExpiryTime)
+        customDomainCertificateExpiryTime = customDomainCertificateExpiryTimeDecoded
+    }
+}
+
+enum GetCustomDomainAssociationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
@@ -3285,6 +3779,147 @@ extension InvalidPaginationExceptionBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
+    }
+}
+
+extension ListCustomDomainAssociationsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case customDomainCertificateArn
+        case customDomainName
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let customDomainCertificateArn = self.customDomainCertificateArn {
+            try encodeContainer.encode(customDomainCertificateArn, forKey: .customDomainCertificateArn)
+        }
+        if let customDomainName = self.customDomainName {
+            try encodeContainer.encode(customDomainName, forKey: .customDomainName)
+        }
+    }
+}
+
+extension ListCustomDomainAssociationsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListCustomDomainAssociationsInput: Swift.Equatable {
+    /// The custom domain name’s certificate Amazon resource name (ARN).
+    public var customDomainCertificateArn: Swift.String?
+    /// The custom domain name associated with the workgroup.
+    public var customDomainName: Swift.String?
+    /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to display the next page of results.
+    public var maxResults: Swift.Int?
+    /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
+    public var nextToken: Swift.String?
+
+    public init(
+        customDomainCertificateArn: Swift.String? = nil,
+        customDomainName: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.customDomainCertificateArn = customDomainCertificateArn
+        self.customDomainName = customDomainName
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListCustomDomainAssociationsInputBody: Swift.Equatable {
+    let customDomainName: Swift.String?
+    let customDomainCertificateArn: Swift.String?
+}
+
+extension ListCustomDomainAssociationsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case customDomainCertificateArn
+        case customDomainName
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let customDomainNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .customDomainName)
+        customDomainName = customDomainNameDecoded
+        let customDomainCertificateArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .customDomainCertificateArn)
+        customDomainCertificateArn = customDomainCertificateArnDecoded
+    }
+}
+
+extension ListCustomDomainAssociationsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListCustomDomainAssociationsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.associations = output.associations
+            self.nextToken = output.nextToken
+        } else {
+            self.associations = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListCustomDomainAssociationsOutput: Swift.Equatable {
+    /// A list of Association objects.
+    public var associations: [RedshiftServerlessClientTypes.Association]?
+    /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
+    public var nextToken: Swift.String?
+
+    public init(
+        associations: [RedshiftServerlessClientTypes.Association]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.associations = associations
+        self.nextToken = nextToken
+    }
+}
+
+struct ListCustomDomainAssociationsOutputBody: Swift.Equatable {
+    let nextToken: Swift.String?
+    let associations: [RedshiftServerlessClientTypes.Association]?
+}
+
+extension ListCustomDomainAssociationsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case associations
+        case nextToken
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let associationsContainer = try containerValues.decodeIfPresent([RedshiftServerlessClientTypes.Association?].self, forKey: .associations)
+        var associationsDecoded0:[RedshiftServerlessClientTypes.Association]? = nil
+        if let associationsContainer = associationsContainer {
+            associationsDecoded0 = [RedshiftServerlessClientTypes.Association]()
+            for structure0 in associationsContainer {
+                if let structure0 = structure0 {
+                    associationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        associations = associationsDecoded0
+    }
+}
+
+enum ListCustomDomainAssociationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidPaginationException": return try await InvalidPaginationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -4416,6 +5051,8 @@ extension RedshiftServerlessClientTypes {
 
 extension RedshiftServerlessClientTypes.Namespace: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case adminPasswordSecretArn
+        case adminPasswordSecretKmsKeyId
         case adminUsername
         case creationDate
         case dbName
@@ -4431,6 +5068,12 @@ extension RedshiftServerlessClientTypes.Namespace: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let adminPasswordSecretArn = self.adminPasswordSecretArn {
+            try encodeContainer.encode(adminPasswordSecretArn, forKey: .adminPasswordSecretArn)
+        }
+        if let adminPasswordSecretKmsKeyId = self.adminPasswordSecretKmsKeyId {
+            try encodeContainer.encode(adminPasswordSecretKmsKeyId, forKey: .adminPasswordSecretKmsKeyId)
+        }
         if let adminUsername = self.adminUsername {
             try encodeContainer.encode(adminUsername, forKey: .adminUsername)
         }
@@ -4514,17 +5157,25 @@ extension RedshiftServerlessClientTypes.Namespace: Swift.Codable {
         status = statusDecoded
         let creationDateDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .creationDate)
         creationDate = creationDateDecoded
+        let adminPasswordSecretArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .adminPasswordSecretArn)
+        adminPasswordSecretArn = adminPasswordSecretArnDecoded
+        let adminPasswordSecretKmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .adminPasswordSecretKmsKeyId)
+        adminPasswordSecretKmsKeyId = adminPasswordSecretKmsKeyIdDecoded
     }
 }
 
 extension RedshiftServerlessClientTypes.Namespace: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "Namespace(creationDate: \(Swift.String(describing: creationDate)), dbName: \(Swift.String(describing: dbName)), defaultIamRoleArn: \(Swift.String(describing: defaultIamRoleArn)), iamRoles: \(Swift.String(describing: iamRoles)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), logExports: \(Swift.String(describing: logExports)), namespaceArn: \(Swift.String(describing: namespaceArn)), namespaceId: \(Swift.String(describing: namespaceId)), namespaceName: \(Swift.String(describing: namespaceName)), status: \(Swift.String(describing: status)), adminUsername: \"CONTENT_REDACTED\")"}
+        "Namespace(adminPasswordSecretArn: \(Swift.String(describing: adminPasswordSecretArn)), adminPasswordSecretKmsKeyId: \(Swift.String(describing: adminPasswordSecretKmsKeyId)), creationDate: \(Swift.String(describing: creationDate)), dbName: \(Swift.String(describing: dbName)), defaultIamRoleArn: \(Swift.String(describing: defaultIamRoleArn)), iamRoles: \(Swift.String(describing: iamRoles)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), logExports: \(Swift.String(describing: logExports)), namespaceArn: \(Swift.String(describing: namespaceArn)), namespaceId: \(Swift.String(describing: namespaceId)), namespaceName: \(Swift.String(describing: namespaceName)), status: \(Swift.String(describing: status)), adminUsername: \"CONTENT_REDACTED\")"}
 }
 
 extension RedshiftServerlessClientTypes {
     /// A collection of database objects and users.
     public struct Namespace: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) for the namespace's admin user credentials secret.
+        public var adminPasswordSecretArn: Swift.String?
+        /// The ID of the Key Management Service (KMS) key used to encrypt and store the namespace's admin credentials secret.
+        public var adminPasswordSecretKmsKeyId: Swift.String?
         /// The username of the administrator for the first database created in the namespace.
         public var adminUsername: Swift.String?
         /// The date of when the namespace was created.
@@ -4549,6 +5200,8 @@ extension RedshiftServerlessClientTypes {
         public var status: RedshiftServerlessClientTypes.NamespaceStatus?
 
         public init(
+            adminPasswordSecretArn: Swift.String? = nil,
+            adminPasswordSecretKmsKeyId: Swift.String? = nil,
             adminUsername: Swift.String? = nil,
             creationDate: ClientRuntime.Date? = nil,
             dbName: Swift.String? = nil,
@@ -4562,6 +5215,8 @@ extension RedshiftServerlessClientTypes {
             status: RedshiftServerlessClientTypes.NamespaceStatus? = nil
         )
         {
+            self.adminPasswordSecretArn = adminPasswordSecretArn
+            self.adminPasswordSecretKmsKeyId = adminPasswordSecretKmsKeyId
             self.adminUsername = adminUsername
             self.creationDate = creationDate
             self.dbName = dbName
@@ -5130,6 +5785,8 @@ enum RestoreFromRecoveryPointOutputError: ClientRuntime.HttpResponseErrorBinding
 
 extension RestoreFromSnapshotInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case adminPasswordSecretKmsKeyId
+        case manageAdminPassword
         case namespaceName
         case ownerAccount
         case snapshotArn
@@ -5139,6 +5796,12 @@ extension RestoreFromSnapshotInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let adminPasswordSecretKmsKeyId = self.adminPasswordSecretKmsKeyId {
+            try encodeContainer.encode(adminPasswordSecretKmsKeyId, forKey: .adminPasswordSecretKmsKeyId)
+        }
+        if let manageAdminPassword = self.manageAdminPassword {
+            try encodeContainer.encode(manageAdminPassword, forKey: .manageAdminPassword)
+        }
         if let namespaceName = self.namespaceName {
             try encodeContainer.encode(namespaceName, forKey: .namespaceName)
         }
@@ -5164,6 +5827,10 @@ extension RestoreFromSnapshotInput: ClientRuntime.URLPathProvider {
 }
 
 public struct RestoreFromSnapshotInput: Swift.Equatable {
+    /// The ID of the Key Management Service (KMS) key used to encrypt and store the namespace's admin credentials secret.
+    public var adminPasswordSecretKmsKeyId: Swift.String?
+    /// If true, Amazon Redshift uses Secrets Manager to manage the restored snapshot's admin credentials. If MmanageAdminPassword is false or not set, Amazon Redshift uses the admin credentials that the namespace or cluster had at the time the snapshot was taken.
+    public var manageAdminPassword: Swift.Bool?
     /// The name of the namespace to restore the snapshot to.
     /// This member is required.
     public var namespaceName: Swift.String?
@@ -5178,6 +5845,8 @@ public struct RestoreFromSnapshotInput: Swift.Equatable {
     public var workgroupName: Swift.String?
 
     public init(
+        adminPasswordSecretKmsKeyId: Swift.String? = nil,
+        manageAdminPassword: Swift.Bool? = nil,
         namespaceName: Swift.String? = nil,
         ownerAccount: Swift.String? = nil,
         snapshotArn: Swift.String? = nil,
@@ -5185,6 +5854,8 @@ public struct RestoreFromSnapshotInput: Swift.Equatable {
         workgroupName: Swift.String? = nil
     )
     {
+        self.adminPasswordSecretKmsKeyId = adminPasswordSecretKmsKeyId
+        self.manageAdminPassword = manageAdminPassword
         self.namespaceName = namespaceName
         self.ownerAccount = ownerAccount
         self.snapshotArn = snapshotArn
@@ -5199,10 +5870,14 @@ struct RestoreFromSnapshotInputBody: Swift.Equatable {
     let snapshotName: Swift.String?
     let snapshotArn: Swift.String?
     let ownerAccount: Swift.String?
+    let manageAdminPassword: Swift.Bool?
+    let adminPasswordSecretKmsKeyId: Swift.String?
 }
 
 extension RestoreFromSnapshotInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case adminPasswordSecretKmsKeyId
+        case manageAdminPassword
         case namespaceName
         case ownerAccount
         case snapshotArn
@@ -5222,6 +5897,10 @@ extension RestoreFromSnapshotInputBody: Swift.Decodable {
         snapshotArn = snapshotArnDecoded
         let ownerAccountDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ownerAccount)
         ownerAccount = ownerAccountDecoded
+        let manageAdminPasswordDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .manageAdminPassword)
+        manageAdminPassword = manageAdminPasswordDecoded
+        let adminPasswordSecretKmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .adminPasswordSecretKmsKeyId)
+        adminPasswordSecretKmsKeyId = adminPasswordSecretKmsKeyIdDecoded
     }
 }
 
@@ -5576,6 +6255,8 @@ extension RedshiftServerlessClientTypes.Snapshot: Swift.Codable {
         case accountsWithProvisionedRestoreAccess
         case accountsWithRestoreAccess
         case actualIncrementalBackupSizeInMegaBytes
+        case adminPasswordSecretArn
+        case adminPasswordSecretKmsKeyId
         case adminUsername
         case backupProgressInMegaBytes
         case currentBackupRateInMegaBytesPerSecond
@@ -5611,6 +6292,12 @@ extension RedshiftServerlessClientTypes.Snapshot: Swift.Codable {
         }
         if let actualIncrementalBackupSizeInMegaBytes = self.actualIncrementalBackupSizeInMegaBytes {
             try encodeContainer.encode(actualIncrementalBackupSizeInMegaBytes, forKey: .actualIncrementalBackupSizeInMegaBytes)
+        }
+        if let adminPasswordSecretArn = self.adminPasswordSecretArn {
+            try encodeContainer.encode(adminPasswordSecretArn, forKey: .adminPasswordSecretArn)
+        }
+        if let adminPasswordSecretKmsKeyId = self.adminPasswordSecretKmsKeyId {
+            try encodeContainer.encode(adminPasswordSecretKmsKeyId, forKey: .adminPasswordSecretKmsKeyId)
         }
         if let adminUsername = self.adminUsername {
             try encodeContainer.encode(adminUsername, forKey: .adminUsername)
@@ -5725,6 +6412,10 @@ extension RedshiftServerlessClientTypes.Snapshot: Swift.Codable {
             }
         }
         accountsWithProvisionedRestoreAccess = accountsWithProvisionedRestoreAccessDecoded0
+        let adminPasswordSecretArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .adminPasswordSecretArn)
+        adminPasswordSecretArn = adminPasswordSecretArnDecoded
+        let adminPasswordSecretKmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .adminPasswordSecretKmsKeyId)
+        adminPasswordSecretKmsKeyId = adminPasswordSecretKmsKeyIdDecoded
     }
 }
 
@@ -5737,6 +6428,10 @@ extension RedshiftServerlessClientTypes {
         public var accountsWithRestoreAccess: [Swift.String]?
         /// The size of the incremental backup in megabytes.
         public var actualIncrementalBackupSizeInMegaBytes: Swift.Double?
+        /// The Amazon Resource Name (ARN) for the namespace's admin user credentials secret.
+        public var adminPasswordSecretArn: Swift.String?
+        /// The ID of the Key Management Service (KMS) key used to encrypt and store the namespace's admin credentials secret.
+        public var adminPasswordSecretKmsKeyId: Swift.String?
         /// The username of the database within a snapshot.
         public var adminUsername: Swift.String?
         /// The size in megabytes of the data that has been backed up to a snapshot.
@@ -5776,6 +6471,8 @@ extension RedshiftServerlessClientTypes {
             accountsWithProvisionedRestoreAccess: [Swift.String]? = nil,
             accountsWithRestoreAccess: [Swift.String]? = nil,
             actualIncrementalBackupSizeInMegaBytes: Swift.Double? = nil,
+            adminPasswordSecretArn: Swift.String? = nil,
+            adminPasswordSecretKmsKeyId: Swift.String? = nil,
             adminUsername: Swift.String? = nil,
             backupProgressInMegaBytes: Swift.Double? = nil,
             currentBackupRateInMegaBytesPerSecond: Swift.Double? = nil,
@@ -5798,6 +6495,8 @@ extension RedshiftServerlessClientTypes {
             self.accountsWithProvisionedRestoreAccess = accountsWithProvisionedRestoreAccess
             self.accountsWithRestoreAccess = accountsWithRestoreAccess
             self.actualIncrementalBackupSizeInMegaBytes = actualIncrementalBackupSizeInMegaBytes
+            self.adminPasswordSecretArn = adminPasswordSecretArn
+            self.adminPasswordSecretKmsKeyId = adminPasswordSecretKmsKeyId
             self.adminUsername = adminUsername
             self.backupProgressInMegaBytes = backupProgressInMegaBytes
             self.currentBackupRateInMegaBytesPerSecond = currentBackupRateInMegaBytesPerSecond
@@ -6410,6 +7109,166 @@ enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension UpdateCustomDomainAssociationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case customDomainCertificateArn
+        case customDomainName
+        case workgroupName
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let customDomainCertificateArn = self.customDomainCertificateArn {
+            try encodeContainer.encode(customDomainCertificateArn, forKey: .customDomainCertificateArn)
+        }
+        if let customDomainName = self.customDomainName {
+            try encodeContainer.encode(customDomainName, forKey: .customDomainName)
+        }
+        if let workgroupName = self.workgroupName {
+            try encodeContainer.encode(workgroupName, forKey: .workgroupName)
+        }
+    }
+}
+
+extension UpdateCustomDomainAssociationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct UpdateCustomDomainAssociationInput: Swift.Equatable {
+    /// The custom domain name’s certificate Amazon resource name (ARN). This is optional.
+    /// This member is required.
+    public var customDomainCertificateArn: Swift.String?
+    /// The custom domain name associated with the workgroup.
+    /// This member is required.
+    public var customDomainName: Swift.String?
+    /// The name of the workgroup associated with the database.
+    /// This member is required.
+    public var workgroupName: Swift.String?
+
+    public init(
+        customDomainCertificateArn: Swift.String? = nil,
+        customDomainName: Swift.String? = nil,
+        workgroupName: Swift.String? = nil
+    )
+    {
+        self.customDomainCertificateArn = customDomainCertificateArn
+        self.customDomainName = customDomainName
+        self.workgroupName = workgroupName
+    }
+}
+
+struct UpdateCustomDomainAssociationInputBody: Swift.Equatable {
+    let workgroupName: Swift.String?
+    let customDomainName: Swift.String?
+    let customDomainCertificateArn: Swift.String?
+}
+
+extension UpdateCustomDomainAssociationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case customDomainCertificateArn
+        case customDomainName
+        case workgroupName
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let workgroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workgroupName)
+        workgroupName = workgroupNameDecoded
+        let customDomainNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .customDomainName)
+        customDomainName = customDomainNameDecoded
+        let customDomainCertificateArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .customDomainCertificateArn)
+        customDomainCertificateArn = customDomainCertificateArnDecoded
+    }
+}
+
+extension UpdateCustomDomainAssociationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateCustomDomainAssociationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.customDomainCertificateArn = output.customDomainCertificateArn
+            self.customDomainCertificateExpiryTime = output.customDomainCertificateExpiryTime
+            self.customDomainName = output.customDomainName
+            self.workgroupName = output.workgroupName
+        } else {
+            self.customDomainCertificateArn = nil
+            self.customDomainCertificateExpiryTime = nil
+            self.customDomainName = nil
+            self.workgroupName = nil
+        }
+    }
+}
+
+public struct UpdateCustomDomainAssociationOutput: Swift.Equatable {
+    /// The custom domain name’s certificate Amazon resource name (ARN).
+    public var customDomainCertificateArn: Swift.String?
+    /// The expiration time for the certificate.
+    public var customDomainCertificateExpiryTime: ClientRuntime.Date?
+    /// The custom domain name associated with the workgroup.
+    public var customDomainName: Swift.String?
+    /// The name of the workgroup associated with the database.
+    public var workgroupName: Swift.String?
+
+    public init(
+        customDomainCertificateArn: Swift.String? = nil,
+        customDomainCertificateExpiryTime: ClientRuntime.Date? = nil,
+        customDomainName: Swift.String? = nil,
+        workgroupName: Swift.String? = nil
+    )
+    {
+        self.customDomainCertificateArn = customDomainCertificateArn
+        self.customDomainCertificateExpiryTime = customDomainCertificateExpiryTime
+        self.customDomainName = customDomainName
+        self.workgroupName = workgroupName
+    }
+}
+
+struct UpdateCustomDomainAssociationOutputBody: Swift.Equatable {
+    let customDomainName: Swift.String?
+    let workgroupName: Swift.String?
+    let customDomainCertificateArn: Swift.String?
+    let customDomainCertificateExpiryTime: ClientRuntime.Date?
+}
+
+extension UpdateCustomDomainAssociationOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case customDomainCertificateArn
+        case customDomainCertificateExpiryTime
+        case customDomainName
+        case workgroupName
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let customDomainNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .customDomainName)
+        customDomainName = customDomainNameDecoded
+        let workgroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workgroupName)
+        workgroupName = workgroupNameDecoded
+        let customDomainCertificateArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .customDomainCertificateArn)
+        customDomainCertificateArn = customDomainCertificateArnDecoded
+        let customDomainCertificateExpiryTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .customDomainCertificateExpiryTime)
+        customDomainCertificateExpiryTime = customDomainCertificateExpiryTimeDecoded
+    }
+}
+
+enum UpdateCustomDomainAssociationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension UpdateEndpointAccessInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case endpointName
@@ -6539,22 +7398,27 @@ enum UpdateEndpointAccessOutputError: ClientRuntime.HttpResponseErrorBinding {
 
 extension UpdateNamespaceInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateNamespaceInput(defaultIamRoleArn: \(Swift.String(describing: defaultIamRoleArn)), iamRoles: \(Swift.String(describing: iamRoles)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), logExports: \(Swift.String(describing: logExports)), namespaceName: \(Swift.String(describing: namespaceName)), adminUserPassword: \"CONTENT_REDACTED\", adminUsername: \"CONTENT_REDACTED\")"}
+        "UpdateNamespaceInput(adminPasswordSecretKmsKeyId: \(Swift.String(describing: adminPasswordSecretKmsKeyId)), defaultIamRoleArn: \(Swift.String(describing: defaultIamRoleArn)), iamRoles: \(Swift.String(describing: iamRoles)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), logExports: \(Swift.String(describing: logExports)), manageAdminPassword: \(Swift.String(describing: manageAdminPassword)), namespaceName: \(Swift.String(describing: namespaceName)), adminUserPassword: \"CONTENT_REDACTED\", adminUsername: \"CONTENT_REDACTED\")"}
 }
 
 extension UpdateNamespaceInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case adminPasswordSecretKmsKeyId
         case adminUserPassword
         case adminUsername
         case defaultIamRoleArn
         case iamRoles
         case kmsKeyId
         case logExports
+        case manageAdminPassword
         case namespaceName
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let adminPasswordSecretKmsKeyId = self.adminPasswordSecretKmsKeyId {
+            try encodeContainer.encode(adminPasswordSecretKmsKeyId, forKey: .adminPasswordSecretKmsKeyId)
+        }
         if let adminUserPassword = self.adminUserPassword {
             try encodeContainer.encode(adminUserPassword, forKey: .adminUserPassword)
         }
@@ -6579,6 +7443,9 @@ extension UpdateNamespaceInput: Swift.Encodable {
                 try logExportsContainer.encode(logexport0.rawValue)
             }
         }
+        if let manageAdminPassword = self.manageAdminPassword {
+            try encodeContainer.encode(manageAdminPassword, forKey: .manageAdminPassword)
+        }
         if let namespaceName = self.namespaceName {
             try encodeContainer.encode(namespaceName, forKey: .namespaceName)
         }
@@ -6592,7 +7459,9 @@ extension UpdateNamespaceInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateNamespaceInput: Swift.Equatable {
-    /// The password of the administrator for the first database created in the namespace. This parameter must be updated together with adminUsername.
+    /// The ID of the Key Management Service (KMS) key used to encrypt and store the namespace's admin credentials secret. You can only use this parameter if manageAdminPassword is true.
+    public var adminPasswordSecretKmsKeyId: Swift.String?
+    /// The password of the administrator for the first database created in the namespace. This parameter must be updated together with adminUsername. You can't use adminUserPassword if manageAdminPassword is true.
     public var adminUserPassword: Swift.String?
     /// The username of the administrator for the first database created in the namespace. This parameter must be updated together with adminUserPassword.
     public var adminUsername: Swift.String?
@@ -6604,26 +7473,32 @@ public struct UpdateNamespaceInput: Swift.Equatable {
     public var kmsKeyId: Swift.String?
     /// The types of logs the namespace can export. The export types are userlog, connectionlog, and useractivitylog.
     public var logExports: [RedshiftServerlessClientTypes.LogExport]?
+    /// If true, Amazon Redshift uses Secrets Manager to manage the namespace's admin credentials. You can't use adminUserPassword if manageAdminPassword is true. If manageAdminPassword is false or not set, Amazon Redshift uses adminUserPassword for the admin user account's password.
+    public var manageAdminPassword: Swift.Bool?
     /// The name of the namespace to update. You can't update the name of a namespace once it is created.
     /// This member is required.
     public var namespaceName: Swift.String?
 
     public init(
+        adminPasswordSecretKmsKeyId: Swift.String? = nil,
         adminUserPassword: Swift.String? = nil,
         adminUsername: Swift.String? = nil,
         defaultIamRoleArn: Swift.String? = nil,
         iamRoles: [Swift.String]? = nil,
         kmsKeyId: Swift.String? = nil,
         logExports: [RedshiftServerlessClientTypes.LogExport]? = nil,
+        manageAdminPassword: Swift.Bool? = nil,
         namespaceName: Swift.String? = nil
     )
     {
+        self.adminPasswordSecretKmsKeyId = adminPasswordSecretKmsKeyId
         self.adminUserPassword = adminUserPassword
         self.adminUsername = adminUsername
         self.defaultIamRoleArn = defaultIamRoleArn
         self.iamRoles = iamRoles
         self.kmsKeyId = kmsKeyId
         self.logExports = logExports
+        self.manageAdminPassword = manageAdminPassword
         self.namespaceName = namespaceName
     }
 }
@@ -6636,16 +7511,20 @@ struct UpdateNamespaceInputBody: Swift.Equatable {
     let defaultIamRoleArn: Swift.String?
     let iamRoles: [Swift.String]?
     let logExports: [RedshiftServerlessClientTypes.LogExport]?
+    let manageAdminPassword: Swift.Bool?
+    let adminPasswordSecretKmsKeyId: Swift.String?
 }
 
 extension UpdateNamespaceInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case adminPasswordSecretKmsKeyId
         case adminUserPassword
         case adminUsername
         case defaultIamRoleArn
         case iamRoles
         case kmsKeyId
         case logExports
+        case manageAdminPassword
         case namespaceName
     }
 
@@ -6683,6 +7562,10 @@ extension UpdateNamespaceInputBody: Swift.Decodable {
             }
         }
         logExports = logExportsDecoded0
+        let manageAdminPasswordDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .manageAdminPassword)
+        manageAdminPassword = manageAdminPasswordDecoded
+        let adminPasswordSecretKmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .adminPasswordSecretKmsKeyId)
+        adminPasswordSecretKmsKeyId = adminPasswordSecretKmsKeyIdDecoded
     }
 }
 
@@ -7575,9 +8458,13 @@ extension RedshiftServerlessClientTypes.Workgroup: Swift.Codable {
         case baseCapacity
         case configParameters
         case creationDate
+        case customDomainCertificateArn
+        case customDomainCertificateExpiryTime
+        case customDomainName
         case endpoint
         case enhancedVpcRouting
         case namespaceName
+        case patchVersion
         case port
         case publiclyAccessible
         case securityGroupIds
@@ -7586,6 +8473,7 @@ extension RedshiftServerlessClientTypes.Workgroup: Swift.Codable {
         case workgroupArn
         case workgroupId
         case workgroupName
+        case workgroupVersion
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -7602,6 +8490,15 @@ extension RedshiftServerlessClientTypes.Workgroup: Swift.Codable {
         if let creationDate = self.creationDate {
             try encodeContainer.encodeTimestamp(creationDate, format: .dateTime, forKey: .creationDate)
         }
+        if let customDomainCertificateArn = self.customDomainCertificateArn {
+            try encodeContainer.encode(customDomainCertificateArn, forKey: .customDomainCertificateArn)
+        }
+        if let customDomainCertificateExpiryTime = self.customDomainCertificateExpiryTime {
+            try encodeContainer.encodeTimestamp(customDomainCertificateExpiryTime, format: .dateTime, forKey: .customDomainCertificateExpiryTime)
+        }
+        if let customDomainName = self.customDomainName {
+            try encodeContainer.encode(customDomainName, forKey: .customDomainName)
+        }
         if let endpoint = self.endpoint {
             try encodeContainer.encode(endpoint, forKey: .endpoint)
         }
@@ -7610,6 +8507,9 @@ extension RedshiftServerlessClientTypes.Workgroup: Swift.Codable {
         }
         if let namespaceName = self.namespaceName {
             try encodeContainer.encode(namespaceName, forKey: .namespaceName)
+        }
+        if let patchVersion = self.patchVersion {
+            try encodeContainer.encode(patchVersion, forKey: .patchVersion)
         }
         if let port = self.port {
             try encodeContainer.encode(port, forKey: .port)
@@ -7640,6 +8540,9 @@ extension RedshiftServerlessClientTypes.Workgroup: Swift.Codable {
         }
         if let workgroupName = self.workgroupName {
             try encodeContainer.encode(workgroupName, forKey: .workgroupName)
+        }
+        if let workgroupVersion = self.workgroupVersion {
+            try encodeContainer.encode(workgroupVersion, forKey: .workgroupVersion)
         }
     }
 
@@ -7700,6 +8603,16 @@ extension RedshiftServerlessClientTypes.Workgroup: Swift.Codable {
         creationDate = creationDateDecoded
         let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port)
         port = portDecoded
+        let customDomainNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .customDomainName)
+        customDomainName = customDomainNameDecoded
+        let customDomainCertificateArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .customDomainCertificateArn)
+        customDomainCertificateArn = customDomainCertificateArnDecoded
+        let customDomainCertificateExpiryTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .customDomainCertificateExpiryTime)
+        customDomainCertificateExpiryTime = customDomainCertificateExpiryTimeDecoded
+        let workgroupVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workgroupVersion)
+        workgroupVersion = workgroupVersionDecoded
+        let patchVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .patchVersion)
+        patchVersion = patchVersionDecoded
     }
 }
 
@@ -7712,12 +8625,20 @@ extension RedshiftServerlessClientTypes {
         public var configParameters: [RedshiftServerlessClientTypes.ConfigParameter]?
         /// The creation date of the workgroup.
         public var creationDate: ClientRuntime.Date?
+        /// The custom domain name’s certificate Amazon resource name (ARN).
+        public var customDomainCertificateArn: Swift.String?
+        /// The expiration time for the certificate.
+        public var customDomainCertificateExpiryTime: ClientRuntime.Date?
+        /// The custom domain name associated with the workgroup.
+        public var customDomainName: Swift.String?
         /// The endpoint that is created from the workgroup.
         public var endpoint: RedshiftServerlessClientTypes.Endpoint?
         /// The value that specifies whether to enable enhanced virtual private cloud (VPC) routing, which forces Amazon Redshift Serverless to route traffic through your VPC.
         public var enhancedVpcRouting: Swift.Bool?
         /// The namespace the workgroup is associated with.
         public var namespaceName: Swift.String?
+        /// The patch version of your Amazon Redshift Serverless workgroup. For more information about patch versions, see [Cluster versions for Amazon Redshift](https://docs.aws.amazon.com/redshift/latest/mgmt/cluster-versions.html).
+        public var patchVersion: Swift.String?
         /// The custom port to use when connecting to a workgroup. Valid port ranges are 5431-5455 and 8191-8215. The default is 5439.
         public var port: Swift.Int?
         /// A value that specifies whether the workgroup can be accessible from a public network
@@ -7734,14 +8655,20 @@ extension RedshiftServerlessClientTypes {
         public var workgroupId: Swift.String?
         /// The name of the workgroup.
         public var workgroupName: Swift.String?
+        /// The Amazon Redshift Serverless version of your workgroup. For more information about Amazon Redshift Serverless versions, see[Cluster versions for Amazon Redshift](https://docs.aws.amazon.com/redshift/latest/mgmt/cluster-versions.html).
+        public var workgroupVersion: Swift.String?
 
         public init(
             baseCapacity: Swift.Int? = nil,
             configParameters: [RedshiftServerlessClientTypes.ConfigParameter]? = nil,
             creationDate: ClientRuntime.Date? = nil,
+            customDomainCertificateArn: Swift.String? = nil,
+            customDomainCertificateExpiryTime: ClientRuntime.Date? = nil,
+            customDomainName: Swift.String? = nil,
             endpoint: RedshiftServerlessClientTypes.Endpoint? = nil,
             enhancedVpcRouting: Swift.Bool? = nil,
             namespaceName: Swift.String? = nil,
+            patchVersion: Swift.String? = nil,
             port: Swift.Int? = nil,
             publiclyAccessible: Swift.Bool? = nil,
             securityGroupIds: [Swift.String]? = nil,
@@ -7749,15 +8676,20 @@ extension RedshiftServerlessClientTypes {
             subnetIds: [Swift.String]? = nil,
             workgroupArn: Swift.String? = nil,
             workgroupId: Swift.String? = nil,
-            workgroupName: Swift.String? = nil
+            workgroupName: Swift.String? = nil,
+            workgroupVersion: Swift.String? = nil
         )
         {
             self.baseCapacity = baseCapacity
             self.configParameters = configParameters
             self.creationDate = creationDate
+            self.customDomainCertificateArn = customDomainCertificateArn
+            self.customDomainCertificateExpiryTime = customDomainCertificateExpiryTime
+            self.customDomainName = customDomainName
             self.endpoint = endpoint
             self.enhancedVpcRouting = enhancedVpcRouting
             self.namespaceName = namespaceName
+            self.patchVersion = patchVersion
             self.port = port
             self.publiclyAccessible = publiclyAccessible
             self.securityGroupIds = securityGroupIds
@@ -7766,6 +8698,7 @@ extension RedshiftServerlessClientTypes {
             self.workgroupArn = workgroupArn
             self.workgroupId = workgroupId
             self.workgroupName = workgroupName
+            self.workgroupVersion = workgroupVersion
         }
     }
 

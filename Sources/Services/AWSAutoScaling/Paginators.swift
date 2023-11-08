@@ -66,6 +66,29 @@ extension PaginatorSequence where Input == DescribeAutoScalingInstancesInput, Ou
     }
 }
 extension AutoScalingClient {
+    /// Paginate over `[DescribeInstanceRefreshesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeInstanceRefreshesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeInstanceRefreshesOutput`
+    public func describeInstanceRefreshesPaginated(input: DescribeInstanceRefreshesInput) -> ClientRuntime.PaginatorSequence<DescribeInstanceRefreshesInput, DescribeInstanceRefreshesOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeInstanceRefreshesInput, DescribeInstanceRefreshesOutput>(input: input, inputKey: \DescribeInstanceRefreshesInput.nextToken, outputKey: \DescribeInstanceRefreshesOutput.nextToken, paginationFunction: self.describeInstanceRefreshes(input:))
+    }
+}
+
+extension DescribeInstanceRefreshesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeInstanceRefreshesInput {
+        return DescribeInstanceRefreshesInput(
+            autoScalingGroupName: self.autoScalingGroupName,
+            instanceRefreshIds: self.instanceRefreshIds,
+            maxRecords: self.maxRecords,
+            nextToken: token
+        )}
+}
+extension AutoScalingClient {
     /// Paginate over `[DescribeLaunchConfigurationsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -95,6 +118,50 @@ extension PaginatorSequence where Input == DescribeLaunchConfigurationsInput, Ou
     public func launchConfigurations() async throws -> [AutoScalingClientTypes.LaunchConfiguration] {
         return try await self.asyncCompactMap { item in item.launchConfigurations }
     }
+}
+extension AutoScalingClient {
+    /// Paginate over `[DescribeLoadBalancersOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeLoadBalancersInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeLoadBalancersOutput`
+    public func describeLoadBalancersPaginated(input: DescribeLoadBalancersInput) -> ClientRuntime.PaginatorSequence<DescribeLoadBalancersInput, DescribeLoadBalancersOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeLoadBalancersInput, DescribeLoadBalancersOutput>(input: input, inputKey: \DescribeLoadBalancersInput.nextToken, outputKey: \DescribeLoadBalancersOutput.nextToken, paginationFunction: self.describeLoadBalancers(input:))
+    }
+}
+
+extension DescribeLoadBalancersInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeLoadBalancersInput {
+        return DescribeLoadBalancersInput(
+            autoScalingGroupName: self.autoScalingGroupName,
+            maxRecords: self.maxRecords,
+            nextToken: token
+        )}
+}
+extension AutoScalingClient {
+    /// Paginate over `[DescribeLoadBalancerTargetGroupsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeLoadBalancerTargetGroupsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeLoadBalancerTargetGroupsOutput`
+    public func describeLoadBalancerTargetGroupsPaginated(input: DescribeLoadBalancerTargetGroupsInput) -> ClientRuntime.PaginatorSequence<DescribeLoadBalancerTargetGroupsInput, DescribeLoadBalancerTargetGroupsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeLoadBalancerTargetGroupsInput, DescribeLoadBalancerTargetGroupsOutput>(input: input, inputKey: \DescribeLoadBalancerTargetGroupsInput.nextToken, outputKey: \DescribeLoadBalancerTargetGroupsOutput.nextToken, paginationFunction: self.describeLoadBalancerTargetGroups(input:))
+    }
+}
+
+extension DescribeLoadBalancerTargetGroupsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeLoadBalancerTargetGroupsInput {
+        return DescribeLoadBalancerTargetGroupsInput(
+            autoScalingGroupName: self.autoScalingGroupName,
+            maxRecords: self.maxRecords,
+            nextToken: token
+        )}
 }
 extension AutoScalingClient {
     /// Paginate over `[DescribeNotificationConfigurationsOutput]` results.

@@ -669,7 +669,7 @@ extension EMRClientTypes.Application: Swift.Codable {
 }
 
 extension EMRClientTypes {
-    /// With Amazon EMR release version 4.0 and later, the only accepted parameter is the application name. To pass arguments to applications, you use configuration classifications specified using configuration JSON objects. For more information, see [Configuring Applications](https://docs.aws.amazon.com/emr/latest/ReleaseGuide/emr-configure-apps.html). With earlier Amazon EMR releases, the application is any Amazon or third-party software that you can add to the cluster. This structure contains a list of strings that indicates the software to use with the cluster and accepts a user argument list. Amazon EMR accepts and forwards the argument list to the corresponding installation script as bootstrap action argument.
+    /// With Amazon EMR release version 4.0 and higher, the only accepted parameter is the application name. To pass arguments to applications, you use configuration classifications specified using configuration JSON objects. For more information, see [Configuring Applications](https://docs.aws.amazon.com/emr/latest/ReleaseGuide/emr-configure-apps.html). With earlier Amazon EMR releases, the application is any Amazon or third-party software that you can add to the cluster. This structure contains a list of strings that indicates the software to use with the cluster and accepts a user argument list. Amazon EMR accepts and forwards the argument list to the corresponding installation script as bootstrap action argument.
     public struct Application: Swift.Equatable {
         /// This option is for advanced users only. This is meta information about third-party applications that third-party vendors use for testing purposes.
         public var additionalInfo: [Swift.String:Swift.String]?
@@ -1030,14 +1030,14 @@ extension EMRClientTypes.AutoTerminationPolicy: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if idleTimeout != 0 {
+        if let idleTimeout = self.idleTimeout {
             try encodeContainer.encode(idleTimeout, forKey: .idleTimeout)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let idleTimeoutDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .idleTimeout) ?? 0
+        let idleTimeoutDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .idleTimeout)
         idleTimeout = idleTimeoutDecoded
     }
 }
@@ -1046,10 +1046,10 @@ extension EMRClientTypes {
     /// An auto-termination policy for an Amazon EMR cluster. An auto-termination policy defines the amount of idle time in seconds after which a cluster automatically terminates. For alternative cluster termination options, see [Control cluster termination](https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-plan-termination.html).
     public struct AutoTerminationPolicy: Swift.Equatable {
         /// Specifies the amount of idle time in seconds after which the cluster automatically terminates. You can specify a minimum of 60 seconds and a maximum of 604800 seconds (seven days).
-        public var idleTimeout: Swift.Int
+        public var idleTimeout: Swift.Int?
 
         public init(
-            idleTimeout: Swift.Int = 0
+            idleTimeout: Swift.Int? = nil
         )
         {
             self.idleTimeout = idleTimeout
@@ -1069,7 +1069,7 @@ extension EMRClientTypes.BlockPublicAccessConfiguration: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if blockPublicSecurityGroupRules != false {
+        if let blockPublicSecurityGroupRules = self.blockPublicSecurityGroupRules {
             try encodeContainer.encode(blockPublicSecurityGroupRules, forKey: .blockPublicSecurityGroupRules)
         }
         if let classification = self.classification {
@@ -1097,7 +1097,7 @@ extension EMRClientTypes.BlockPublicAccessConfiguration: Swift.Codable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let blockPublicSecurityGroupRulesDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .blockPublicSecurityGroupRules) ?? false
+        let blockPublicSecurityGroupRulesDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .blockPublicSecurityGroupRules)
         blockPublicSecurityGroupRules = blockPublicSecurityGroupRulesDecoded
         let permittedPublicSecurityGroupRuleRangesContainer = try containerValues.decodeIfPresent([EMRClientTypes.PortRange?].self, forKey: .permittedPublicSecurityGroupRuleRanges)
         var permittedPublicSecurityGroupRuleRangesDecoded0:[EMRClientTypes.PortRange]? = nil
@@ -1142,7 +1142,7 @@ extension EMRClientTypes {
     public struct BlockPublicAccessConfiguration: Swift.Equatable {
         /// Indicates whether Amazon EMR block public access is enabled (true) or disabled (false). By default, the value is false for accounts that have created Amazon EMR clusters before July 2019. For accounts created after this, the default is true.
         /// This member is required.
-        public var blockPublicSecurityGroupRules: Swift.Bool
+        public var blockPublicSecurityGroupRules: Swift.Bool?
         /// The classification within a configuration.
         public var classification: Swift.String?
         /// A list of additional configurations to apply within a configuration object.
@@ -1153,7 +1153,7 @@ extension EMRClientTypes {
         public var properties: [Swift.String:Swift.String]?
 
         public init(
-            blockPublicSecurityGroupRules: Swift.Bool = false,
+            blockPublicSecurityGroupRules: Swift.Bool? = nil,
             classification: Swift.String? = nil,
             configurations: [EMRClientTypes.Configuration]? = nil,
             permittedPublicSecurityGroupRuleRanges: [EMRClientTypes.PortRange]? = nil,
@@ -1331,7 +1331,7 @@ extension EMRClientTypes.CancelStepsInfo: Swift.Codable {
 }
 
 extension EMRClientTypes {
-    /// Specification of the status of a CancelSteps request. Available only in Amazon EMR version 4.8.0 and later, excluding version 5.0.0.
+    /// Specification of the status of a CancelSteps request. Available only in Amazon EMR version 4.8.0 and higher, excluding version 5.0.0.
     public struct CancelStepsInfo: Swift.Equatable {
         /// The reason for the failure if the CancelSteps request fails.
         public var reason: Swift.String?
@@ -1673,7 +1673,9 @@ extension EMRClientTypes.Cluster: Swift.Codable {
         case clusterArn = "ClusterArn"
         case configurations = "Configurations"
         case customAmiId = "CustomAmiId"
+        case ebsRootVolumeIops = "EbsRootVolumeIops"
         case ebsRootVolumeSize = "EbsRootVolumeSize"
+        case ebsRootVolumeThroughput = "EbsRootVolumeThroughput"
         case ec2InstanceAttributes = "Ec2InstanceAttributes"
         case id = "Id"
         case instanceCollectionType = "InstanceCollectionType"
@@ -1711,7 +1713,7 @@ extension EMRClientTypes.Cluster: Swift.Codable {
         if let autoScalingRole = self.autoScalingRole {
             try encodeContainer.encode(autoScalingRole, forKey: .autoScalingRole)
         }
-        if autoTerminate != false {
+        if let autoTerminate = self.autoTerminate {
             try encodeContainer.encode(autoTerminate, forKey: .autoTerminate)
         }
         if let clusterArn = self.clusterArn {
@@ -1726,8 +1728,14 @@ extension EMRClientTypes.Cluster: Swift.Codable {
         if let customAmiId = self.customAmiId {
             try encodeContainer.encode(customAmiId, forKey: .customAmiId)
         }
+        if let ebsRootVolumeIops = self.ebsRootVolumeIops {
+            try encodeContainer.encode(ebsRootVolumeIops, forKey: .ebsRootVolumeIops)
+        }
         if let ebsRootVolumeSize = self.ebsRootVolumeSize {
             try encodeContainer.encode(ebsRootVolumeSize, forKey: .ebsRootVolumeSize)
+        }
+        if let ebsRootVolumeThroughput = self.ebsRootVolumeThroughput {
+            try encodeContainer.encode(ebsRootVolumeThroughput, forKey: .ebsRootVolumeThroughput)
         }
         if let ec2InstanceAttributes = self.ec2InstanceAttributes {
             try encodeContainer.encode(ec2InstanceAttributes, forKey: .ec2InstanceAttributes)
@@ -1801,10 +1809,10 @@ extension EMRClientTypes.Cluster: Swift.Codable {
                 try tagsContainer.encode(tag0)
             }
         }
-        if terminationProtected != false {
+        if let terminationProtected = self.terminationProtected {
             try encodeContainer.encode(terminationProtected, forKey: .terminationProtected)
         }
-        if visibleToAllUsers != false {
+        if let visibleToAllUsers = self.visibleToAllUsers {
             try encodeContainer.encode(visibleToAllUsers, forKey: .visibleToAllUsers)
         }
     }
@@ -1831,11 +1839,11 @@ extension EMRClientTypes.Cluster: Swift.Codable {
         runningAmiVersion = runningAmiVersionDecoded
         let releaseLabelDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .releaseLabel)
         releaseLabel = releaseLabelDecoded
-        let autoTerminateDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoTerminate) ?? false
+        let autoTerminateDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoTerminate)
         autoTerminate = autoTerminateDecoded
-        let terminationProtectedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .terminationProtected) ?? false
+        let terminationProtectedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .terminationProtected)
         terminationProtected = terminationProtectedDecoded
-        let visibleToAllUsersDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .visibleToAllUsers) ?? false
+        let visibleToAllUsersDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .visibleToAllUsers)
         visibleToAllUsers = visibleToAllUsersDecoded
         let applicationsContainer = try containerValues.decodeIfPresent([EMRClientTypes.Application?].self, forKey: .applications)
         var applicationsDecoded0:[EMRClientTypes.Application]? = nil
@@ -1909,6 +1917,10 @@ extension EMRClientTypes.Cluster: Swift.Codable {
         placementGroups = placementGroupsDecoded0
         let osReleaseLabelDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .osReleaseLabel)
         osReleaseLabel = osReleaseLabelDecoded
+        let ebsRootVolumeIopsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .ebsRootVolumeIops)
+        ebsRootVolumeIops = ebsRootVolumeIopsDecoded
+        let ebsRootVolumeThroughputDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .ebsRootVolumeThroughput)
+        ebsRootVolumeThroughput = ebsRootVolumeThroughputDecoded
     }
 }
 
@@ -1920,24 +1932,28 @@ extension EMRClientTypes {
         /// An IAM role for automatic scaling policies. The default role is EMR_AutoScaling_DefaultRole. The IAM role provides permissions that the automatic scaling feature requires to launch and terminate Amazon EC2 instances in an instance group.
         public var autoScalingRole: Swift.String?
         /// Specifies whether the cluster should terminate after completing all steps.
-        public var autoTerminate: Swift.Bool
+        public var autoTerminate: Swift.Bool?
         /// The Amazon Resource Name of the cluster.
         public var clusterArn: Swift.String?
-        /// Applies only to Amazon EMR releases 4.x and later. The list of configurations that are supplied to the Amazon EMR cluster.
+        /// Applies only to Amazon EMR releases 4.x and higher. The list of configurations that are supplied to the Amazon EMR cluster.
         public var configurations: [EMRClientTypes.Configuration]?
-        /// Available only in Amazon EMR releases 5.7.0 and later. The ID of a custom Amazon EBS-backed Linux AMI if the cluster uses a custom AMI.
+        /// Available only in Amazon EMR releases 5.7.0 and higher. The ID of a custom Amazon EBS-backed Linux AMI if the cluster uses a custom AMI.
         public var customAmiId: Swift.String?
-        /// The size, in GiB, of the Amazon EBS root device volume of the Linux AMI that is used for each Amazon EC2 instance. Available in Amazon EMR releases 4.x and later.
+        /// The IOPS, of the Amazon EBS root device volume for the Linux AMI that each Amazon EC2 instance uses. Available in Amazon EMR releases 6.15.0 and higher.
+        public var ebsRootVolumeIops: Swift.Int?
+        /// The size, in GiB, of the Amazon EBS root device volume for the Linux AMI that each Amazon EC2 instance uses. Available in Amazon EMR releases 4.x and higher.
         public var ebsRootVolumeSize: Swift.Int?
+        /// The throughput, in MiB/s, of the Amazon EBS root device volume for the Linux AMI that each Amazon EC2 instance uses. Available in Amazon EMR releases 6.15.0 and higher.
+        public var ebsRootVolumeThroughput: Swift.Int?
         /// Provides information about the Amazon EC2 instances in a cluster grouped by category. For example, key name, subnet ID, IAM instance profile, and so on.
         public var ec2InstanceAttributes: EMRClientTypes.Ec2InstanceAttributes?
         /// The unique identifier for the cluster.
         public var id: Swift.String?
-        /// The instance fleet configuration is available only in Amazon EMR releases 4.8.0 and later, excluding 5.0.x versions. The instance group configuration of the cluster. A value of INSTANCE_GROUP indicates a uniform instance group configuration. A value of INSTANCE_FLEET indicates an instance fleets configuration.
+        /// The instance fleet configuration is available only in Amazon EMR releases 4.8.0 and higher, excluding 5.0.x versions. The instance group configuration of the cluster. A value of INSTANCE_GROUP indicates a uniform instance group configuration. A value of INSTANCE_FLEET indicates an instance fleets configuration.
         public var instanceCollectionType: EMRClientTypes.InstanceCollectionType?
         /// Attributes for Kerberos configuration when Kerberos authentication is enabled using a security configuration. For more information see [Use Kerberos Authentication](https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-kerberos.html) in the Amazon EMR Management Guide.
         public var kerberosAttributes: EMRClientTypes.KerberosAttributes?
-        /// The KMS key used for encrypting log files. This attribute is only available with Amazon EMR 5.30.0 and later, excluding Amazon EMR 6.0.0.
+        /// The KMS key used for encrypting log files. This attribute is only available with Amazon EMR 5.30.0 and higher, excluding Amazon EMR 6.0.0.
         public var logEncryptionKmsKeyId: Swift.String?
         /// The path to the Amazon S3 location where logs for this cluster are stored.
         public var logUri: Swift.String?
@@ -1953,7 +1969,7 @@ extension EMRClientTypes {
         public var outpostArn: Swift.String?
         /// Placement group configured for an Amazon EMR cluster.
         public var placementGroups: [EMRClientTypes.PlacementGroupConfig]?
-        /// The Amazon EMR release label, which determines the version of open-source application packages installed on the cluster. Release labels are in the form emr-x.x.x, where x.x.x is an Amazon EMR release version such as emr-5.14.0. For more information about Amazon EMR release versions and included application versions and features, see [https://docs.aws.amazon.com/emr/latest/ReleaseGuide/](https://docs.aws.amazon.com/emr/latest/ReleaseGuide/). The release label applies only to Amazon EMR releases version 4.0 and later. Earlier versions use AmiVersion.
+        /// The Amazon EMR release label, which determines the version of open-source application packages installed on the cluster. Release labels are in the form emr-x.x.x, where x.x.x is an Amazon EMR release version such as emr-5.14.0. For more information about Amazon EMR release versions and included application versions and features, see [https://docs.aws.amazon.com/emr/latest/ReleaseGuide/](https://docs.aws.amazon.com/emr/latest/ReleaseGuide/). The release label applies only to Amazon EMR releases version 4.0 and higher. Earlier versions use AmiVersion.
         public var releaseLabel: Swift.String?
         /// Applies only when CustomAmiID is used. Specifies the type of updates that the Amazon Linux AMI package repositories apply when an instance boots using the AMI.
         public var repoUpgradeOnBoot: EMRClientTypes.RepoUpgradeOnBoot?
@@ -1961,7 +1977,7 @@ extension EMRClientTypes {
         public var requestedAmiVersion: Swift.String?
         /// The AMI version running on this cluster.
         public var runningAmiVersion: Swift.String?
-        /// The way that individual Amazon EC2 instances terminate when an automatic scale-in activity occurs or an instance group is resized. TERMINATE_AT_INSTANCE_HOUR indicates that Amazon EMR terminates nodes at the instance-hour boundary, regardless of when the request to terminate the instance was submitted. This option is only available with Amazon EMR 5.1.0 and later and is the default for clusters created using that version. TERMINATE_AT_TASK_COMPLETION indicates that Amazon EMR adds nodes to a deny list and drains tasks from nodes before terminating the Amazon EC2 instances, regardless of the instance-hour boundary. With either behavior, Amazon EMR removes the least active nodes first and blocks instance termination if it could lead to HDFS corruption. TERMINATE_AT_TASK_COMPLETION is available only in Amazon EMR releases 4.1.0 and later, and is the default for versions of Amazon EMR earlier than 5.1.0.
+        /// The way that individual Amazon EC2 instances terminate when an automatic scale-in activity occurs or an instance group is resized. TERMINATE_AT_INSTANCE_HOUR indicates that Amazon EMR terminates nodes at the instance-hour boundary, regardless of when the request to terminate the instance was submitted. This option is only available with Amazon EMR 5.1.0 and higher and is the default for clusters created using that version. TERMINATE_AT_TASK_COMPLETION indicates that Amazon EMR adds nodes to a deny list and drains tasks from nodes before terminating the Amazon EC2 instances, regardless of the instance-hour boundary. With either behavior, Amazon EMR removes the least active nodes first and blocks instance termination if it could lead to HDFS corruption. TERMINATE_AT_TASK_COMPLETION is available only in Amazon EMR releases 4.1.0 and higher, and is the default for versions of Amazon EMR earlier than 5.1.0.
         public var scaleDownBehavior: EMRClientTypes.ScaleDownBehavior?
         /// The name of the security configuration applied to the cluster.
         public var securityConfiguration: Swift.String?
@@ -1974,18 +1990,20 @@ extension EMRClientTypes {
         /// A list of tags associated with a cluster.
         public var tags: [EMRClientTypes.Tag]?
         /// Indicates whether Amazon EMR will lock the cluster to prevent the Amazon EC2 instances from being terminated by an API call or user intervention, or in the event of a cluster error.
-        public var terminationProtected: Swift.Bool
+        public var terminationProtected: Swift.Bool?
         /// Indicates whether the cluster is visible to IAM principals in the Amazon Web Services account associated with the cluster. When true, IAM principals in the Amazon Web Services account can perform Amazon EMR cluster actions on the cluster that their IAM policies allow. When false, only the IAM principal that created the cluster and the Amazon Web Services account root user can perform Amazon EMR actions, regardless of IAM permissions policies attached to other IAM principals. The default value is true if a value is not provided when creating a cluster using the Amazon EMR API [RunJobFlow] command, the CLI [create-cluster](https://docs.aws.amazon.com/cli/latest/reference/emr/create-cluster.html) command, or the Amazon Web Services Management Console.
-        public var visibleToAllUsers: Swift.Bool
+        public var visibleToAllUsers: Swift.Bool?
 
         public init(
             applications: [EMRClientTypes.Application]? = nil,
             autoScalingRole: Swift.String? = nil,
-            autoTerminate: Swift.Bool = false,
+            autoTerminate: Swift.Bool? = nil,
             clusterArn: Swift.String? = nil,
             configurations: [EMRClientTypes.Configuration]? = nil,
             customAmiId: Swift.String? = nil,
+            ebsRootVolumeIops: Swift.Int? = nil,
             ebsRootVolumeSize: Swift.Int? = nil,
+            ebsRootVolumeThroughput: Swift.Int? = nil,
             ec2InstanceAttributes: EMRClientTypes.Ec2InstanceAttributes? = nil,
             id: Swift.String? = nil,
             instanceCollectionType: EMRClientTypes.InstanceCollectionType? = nil,
@@ -2008,8 +2026,8 @@ extension EMRClientTypes {
             status: EMRClientTypes.ClusterStatus? = nil,
             stepConcurrencyLevel: Swift.Int? = nil,
             tags: [EMRClientTypes.Tag]? = nil,
-            terminationProtected: Swift.Bool = false,
-            visibleToAllUsers: Swift.Bool = false
+            terminationProtected: Swift.Bool? = nil,
+            visibleToAllUsers: Swift.Bool? = nil
         )
         {
             self.applications = applications
@@ -2018,7 +2036,9 @@ extension EMRClientTypes {
             self.clusterArn = clusterArn
             self.configurations = configurations
             self.customAmiId = customAmiId
+            self.ebsRootVolumeIops = ebsRootVolumeIops
             self.ebsRootVolumeSize = ebsRootVolumeSize
+            self.ebsRootVolumeThroughput = ebsRootVolumeThroughput
             self.ec2InstanceAttributes = ec2InstanceAttributes
             self.id = id
             self.instanceCollectionType = instanceCollectionType
@@ -2681,7 +2701,7 @@ extension EMRClientTypes.Configuration: Swift.Codable {
 }
 
 extension EMRClientTypes {
-    /// Amazon EMR releases 4.x or later. An optional configuration specification to be used when provisioning cluster instances, which can include configurations for applications and software bundled with Amazon EMR. A configuration consists of a classification, properties, and optional nested configurations. A classification refers to an application-specific configuration file. Properties are the settings you want to change in that file. For more information, see [Configuring Applications](https://docs.aws.amazon.com/emr/latest/ReleaseGuide/emr-configure-apps.html).
+    /// Amazon EMR releases 4.x or higher. An optional configuration specification to be used when provisioning cluster instances, which can include configurations for applications and software bundled with Amazon EMR. A configuration consists of a classification, properties, and optional nested configurations. A classification refers to an application-specific configuration file. Properties are the settings you want to change in that file. For more information, see [Configuring Applications](https://docs.aws.amazon.com/emr/latest/ReleaseGuide/emr-configure-apps.html).
     public struct Configuration: Swift.Equatable {
         /// The classification within a configuration.
         public var classification: Swift.String?
@@ -5141,7 +5161,7 @@ extension GetBlockPublicAccessConfigurationOutput: ClientRuntime.HttpResponseBin
 }
 
 public struct GetBlockPublicAccessConfigurationOutput: Swift.Equatable {
-    /// A configuration for Amazon EMR block public access. The configuration applies to all clusters created in your account for the current Region. The configuration specifies whether block public access is enabled. If block public access is enabled, security groups associated with the cluster cannot have rules that allow inbound traffic from 0.0.0.0/0 or ::/0 on a port, unless the port is specified as an exception using PermittedPublicSecurityGroupRuleRanges in the BlockPublicAccessConfiguration. By default, Port 22 (SSH) is an exception, and public access is allowed on this port. You can change this by updating the block public access configuration to remove the exception. For accounts that created clusters in a Region before November 25, 2019, block public access is disabled by default in that Region. To use this feature, you must manually enable and configure it. For accounts that did not create an Amazon EMR cluster in a Region before this date, block public access is enabled by default in that Region.
+    /// A configuration for Amazon EMR block public access. The configuration applies to all clusters created in your account for the current Region. The configuration specifies whether block public access is enabled. If block public access is enabled, security groups associated with the cluster cannot have rules that allow inbound traffic from 0.0.0.0/0 or ::/0 on a port, unless the port is specified as an exception using PermittedPublicSecurityGroupRuleRanges in the BlockPublicAccessConfiguration. By default, Port 22 (SSH) is an exception, and public access is allowed on this port. To change this, update the block public access configuration to remove the exception. For accounts that created clusters in a Region before November 25, 2019, block public access is disabled by default in that Region. To use this feature, you must manually enable and configure it. For accounts that did not create an Amazon EMR cluster in a Region before this date, block public access is enabled by default in that Region.
     /// This member is required.
     public var blockPublicAccessConfiguration: EMRClientTypes.BlockPublicAccessConfiguration?
     /// Properties that describe the Amazon Web Services principal that created the BlockPublicAccessConfiguration using the PutBlockPublicAccessConfiguration action as well as the date and time that the configuration was created. Each time a configuration for block public access is updated, Amazon EMR updates this metadata.
@@ -6040,7 +6060,7 @@ extension EMRClientTypes.InstanceFleet: Swift.Codable {
 }
 
 extension EMRClientTypes {
-    /// Describes an instance fleet, which is a group of Amazon EC2 instances that host a particular node type (master, core, or task) in an Amazon EMR cluster. Instance fleets can consist of a mix of instance types and On-Demand and Spot Instances, which are provisioned to meet a defined target capacity. The instance fleet configuration is available only in Amazon EMR releases 4.8.0 and later, excluding 5.0.x versions.
+    /// Describes an instance fleet, which is a group of Amazon EC2 instances that host a particular node type (master, core, or task) in an Amazon EMR cluster. Instance fleets can consist of a mix of instance types and On-Demand and Spot Instances, which are provisioned to meet a defined target capacity. The instance fleet configuration is available only in Amazon EMR releases 4.8.0 and higher, excluding 5.0.x versions.
     public struct InstanceFleet: Swift.Equatable {
         /// The unique identifier of the instance fleet.
         public var id: Swift.String?
@@ -6163,7 +6183,7 @@ extension EMRClientTypes.InstanceFleetConfig: Swift.Codable {
 }
 
 extension EMRClientTypes {
-    /// The configuration that defines an instance fleet. The instance fleet configuration is available only in Amazon EMR releases 4.8.0 and later, excluding 5.0.x versions.
+    /// The configuration that defines an instance fleet. The instance fleet configuration is available only in Amazon EMR releases 4.8.0 and higher, excluding 5.0.x versions.
     public struct InstanceFleetConfig: Swift.Equatable {
         /// The node type that the instance fleet hosts. Valid values are MASTER, CORE, and TASK.
         /// This member is required.
@@ -6241,7 +6261,7 @@ extension EMRClientTypes.InstanceFleetModifyConfig: Swift.Codable {
 }
 
 extension EMRClientTypes {
-    /// Configuration parameters for an instance fleet modification request. The instance fleet configuration is available only in Amazon EMR releases 4.8.0 and later, excluding 5.0.x versions.
+    /// Configuration parameters for an instance fleet modification request. The instance fleet configuration is available only in Amazon EMR releases 4.8.0 and higher, excluding 5.0.x versions.
     public struct InstanceFleetModifyConfig: Swift.Equatable {
         /// A unique identifier for the instance fleet.
         /// This member is required.
@@ -6295,9 +6315,9 @@ extension EMRClientTypes.InstanceFleetProvisioningSpecifications: Swift.Codable 
 }
 
 extension EMRClientTypes {
-    /// The launch specification for Spot Instances in the fleet, which determines the defined duration, provisioning timeout behavior, and allocation strategy. The instance fleet configuration is available only in Amazon EMR releases 4.8.0 and later, excluding 5.0.x versions. On-Demand and Spot instance allocation strategies are available in Amazon EMR releases 5.12.1 and later.
+    /// The launch specification for Spot Instances in the fleet, which determines the defined duration, provisioning timeout behavior, and allocation strategy. The instance fleet configuration is available only in Amazon EMR releases 4.8.0 and higher, excluding 5.0.x versions. On-Demand and Spot instance allocation strategies are available in Amazon EMR releases 5.12.1 and higher.
     public struct InstanceFleetProvisioningSpecifications: Swift.Equatable {
-        /// The launch specification for On-Demand Instances in the instance fleet, which determines the allocation strategy. The instance fleet configuration is available only in Amazon EMR releases 4.8.0 and later, excluding 5.0.x versions. On-Demand Instances allocation strategy is available in Amazon EMR releases 5.12.1 and later.
+        /// The launch specification for On-Demand Instances in the instance fleet, which determines the allocation strategy. The instance fleet configuration is available only in Amazon EMR releases 4.8.0 and higher, excluding 5.0.x versions. On-Demand Instances allocation strategy is available in Amazon EMR releases 5.12.1 and higher.
         public var onDemandSpecification: EMRClientTypes.OnDemandProvisioningSpecification?
         /// The launch specification for Spot instances in the fleet, which determines the defined duration, provisioning timeout behavior, and allocation strategy.
         public var spotSpecification: EMRClientTypes.SpotProvisioningSpecification?
@@ -6432,7 +6452,7 @@ extension EMRClientTypes.InstanceFleetStateChangeReason: Swift.Codable {
 }
 
 extension EMRClientTypes {
-    /// Provides status change reason details for the instance fleet. The instance fleet configuration is available only in Amazon EMR releases 4.8.0 and later, excluding 5.0.x versions.
+    /// Provides status change reason details for the instance fleet. The instance fleet configuration is available only in Amazon EMR releases 4.8.0 and higher, excluding 5.0.x versions.
     public struct InstanceFleetStateChangeReason: Swift.Equatable {
         /// A code corresponding to the reason the state change occurred.
         public var code: EMRClientTypes.InstanceFleetStateChangeReasonCode?
@@ -6521,7 +6541,7 @@ extension EMRClientTypes.InstanceFleetStatus: Swift.Codable {
 }
 
 extension EMRClientTypes {
-    /// The status of the instance fleet. The instance fleet configuration is available only in Amazon EMR releases 4.8.0 and later, excluding 5.0.x versions.
+    /// The status of the instance fleet. The instance fleet configuration is available only in Amazon EMR releases 4.8.0 and higher, excluding 5.0.x versions.
     public struct InstanceFleetStatus: Swift.Equatable {
         /// A code representing the instance fleet status.
         ///
@@ -6590,7 +6610,7 @@ extension EMRClientTypes.InstanceFleetTimeline: Swift.Codable {
 }
 
 extension EMRClientTypes {
-    /// Provides historical timestamps for the instance fleet, including the time of creation, the time it became ready to run jobs, and the time of termination. The instance fleet configuration is available only in Amazon EMR releases 4.8.0 and later, excluding 5.0.x versions.
+    /// Provides historical timestamps for the instance fleet, including the time of creation, the time it became ready to run jobs, and the time of termination. The instance fleet configuration is available only in Amazon EMR releases 4.8.0 and higher, excluding 5.0.x versions.
     public struct InstanceFleetTimeline: Swift.Equatable {
         /// The time and date the instance fleet was created.
         public var creationDateTime: ClientRuntime.Date?
@@ -6684,7 +6704,7 @@ extension EMRClientTypes.InstanceGroup: Swift.Codable {
                 try configurationsContainer.encode(configuration0)
             }
         }
-        if configurationsVersion != 0 {
+        if let configurationsVersion = self.configurationsVersion {
             try encodeContainer.encode(configurationsVersion, forKey: .configurationsVersion)
         }
         if let customAmiId = self.customAmiId {
@@ -6714,7 +6734,7 @@ extension EMRClientTypes.InstanceGroup: Swift.Codable {
                 try lastSuccessfullyAppliedConfigurationsContainer.encode(configuration0)
             }
         }
-        if lastSuccessfullyAppliedConfigurationsVersion != 0 {
+        if let lastSuccessfullyAppliedConfigurationsVersion = self.lastSuccessfullyAppliedConfigurationsVersion {
             try encodeContainer.encode(lastSuccessfullyAppliedConfigurationsVersion, forKey: .lastSuccessfullyAppliedConfigurationsVersion)
         }
         if let market = self.market {
@@ -6768,7 +6788,7 @@ extension EMRClientTypes.InstanceGroup: Swift.Codable {
             }
         }
         configurations = configurationsDecoded0
-        let configurationsVersionDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .configurationsVersion) ?? 0
+        let configurationsVersionDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .configurationsVersion)
         configurationsVersion = configurationsVersionDecoded
         let lastSuccessfullyAppliedConfigurationsContainer = try containerValues.decodeIfPresent([EMRClientTypes.Configuration?].self, forKey: .lastSuccessfullyAppliedConfigurations)
         var lastSuccessfullyAppliedConfigurationsDecoded0:[EMRClientTypes.Configuration]? = nil
@@ -6781,7 +6801,7 @@ extension EMRClientTypes.InstanceGroup: Swift.Codable {
             }
         }
         lastSuccessfullyAppliedConfigurations = lastSuccessfullyAppliedConfigurationsDecoded0
-        let lastSuccessfullyAppliedConfigurationsVersionDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .lastSuccessfullyAppliedConfigurationsVersion) ?? 0
+        let lastSuccessfullyAppliedConfigurationsVersionDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .lastSuccessfullyAppliedConfigurationsVersion)
         lastSuccessfullyAppliedConfigurationsVersion = lastSuccessfullyAppliedConfigurationsVersionDecoded
         let ebsBlockDevicesContainer = try containerValues.decodeIfPresent([EMRClientTypes.EbsBlockDevice?].self, forKey: .ebsBlockDevices)
         var ebsBlockDevicesDecoded0:[EMRClientTypes.EbsBlockDevice]? = nil
@@ -6812,10 +6832,10 @@ extension EMRClientTypes {
         public var autoScalingPolicy: EMRClientTypes.AutoScalingPolicyDescription?
         /// If specified, indicates that the instance group uses Spot Instances. This is the maximum price you are willing to pay for Spot Instances. Specify OnDemandPrice to set the amount equal to the On-Demand price, or specify an amount in USD.
         public var bidPrice: Swift.String?
-        /// Amazon EMR releases 4.x or later. The list of configurations supplied for an Amazon EMR cluster instance group. You can specify a separate configuration for each instance group (master, core, and task).
+        /// Amazon EMR releases 4.x or higher. The list of configurations supplied for an Amazon EMR cluster instance group. You can specify a separate configuration for each instance group (master, core, and task).
         public var configurations: [EMRClientTypes.Configuration]?
         /// The version number of the requested configuration specification for this instance group.
-        public var configurationsVersion: Swift.Int
+        public var configurationsVersion: Swift.Int?
         /// The custom AMI ID to use for the provisioned instance group.
         public var customAmiId: Swift.String?
         /// The EBS block devices that are mapped to this instance group.
@@ -6831,7 +6851,7 @@ extension EMRClientTypes {
         /// A list of configurations that were successfully applied for an instance group last time.
         public var lastSuccessfullyAppliedConfigurations: [EMRClientTypes.Configuration]?
         /// The version number of a configuration specification that was successfully applied for an instance group last time.
-        public var lastSuccessfullyAppliedConfigurationsVersion: Swift.Int
+        public var lastSuccessfullyAppliedConfigurationsVersion: Swift.Int?
         /// The marketplace to provision instances for this group. Valid values are ON_DEMAND or SPOT.
         public var market: EMRClientTypes.MarketType?
         /// The name of the instance group.
@@ -6849,7 +6869,7 @@ extension EMRClientTypes {
             autoScalingPolicy: EMRClientTypes.AutoScalingPolicyDescription? = nil,
             bidPrice: Swift.String? = nil,
             configurations: [EMRClientTypes.Configuration]? = nil,
-            configurationsVersion: Swift.Int = 0,
+            configurationsVersion: Swift.Int? = nil,
             customAmiId: Swift.String? = nil,
             ebsBlockDevices: [EMRClientTypes.EbsBlockDevice]? = nil,
             ebsOptimized: Swift.Bool? = nil,
@@ -6857,7 +6877,7 @@ extension EMRClientTypes {
             instanceGroupType: EMRClientTypes.InstanceGroupType? = nil,
             instanceType: Swift.String? = nil,
             lastSuccessfullyAppliedConfigurations: [EMRClientTypes.Configuration]? = nil,
-            lastSuccessfullyAppliedConfigurationsVersion: Swift.Int = 0,
+            lastSuccessfullyAppliedConfigurationsVersion: Swift.Int? = nil,
             market: EMRClientTypes.MarketType? = nil,
             name: Swift.String? = nil,
             requestedInstanceCount: Swift.Int? = nil,
@@ -6981,7 +7001,7 @@ extension EMRClientTypes {
         public var autoScalingPolicy: EMRClientTypes.AutoScalingPolicy?
         /// If specified, indicates that the instance group uses Spot Instances. This is the maximum price you are willing to pay for Spot Instances. Specify OnDemandPrice to set the amount equal to the On-Demand price, or specify an amount in USD.
         public var bidPrice: Swift.String?
-        /// Amazon EMR releases 4.x or later. The list of configurations supplied for an Amazon EMR cluster instance group. You can specify a separate configuration for each instance group (master, core, and task).
+        /// Amazon EMR releases 4.x or higher. The list of configurations supplied for an Amazon EMR cluster instance group. You can specify a separate configuration for each instance group (master, core, and task).
         public var configurations: [EMRClientTypes.Configuration]?
         /// The custom AMI ID to use for the provisioned instance group.
         public var customAmiId: Swift.String?
@@ -8027,7 +8047,7 @@ extension EMRClientTypes.InstanceTypeConfig: Swift.Codable {
 }
 
 extension EMRClientTypes {
-    /// An instance type configuration for each instance type in an instance fleet, which determines the Amazon EC2 instances Amazon EMR attempts to provision to fulfill On-Demand and Spot target capacities. When you use an allocation strategy, you can include a maximum of 30 instance type configurations for a fleet. For more information about how to use an allocation strategy, see [Configure Instance Fleets](https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-instance-fleet.html). Without an allocation strategy, you may specify a maximum of five instance type configurations for a fleet. The instance fleet configuration is available only in Amazon EMR releases 4.8.0 and later, excluding 5.0.x versions.
+    /// An instance type configuration for each instance type in an instance fleet, which determines the Amazon EC2 instances Amazon EMR attempts to provision to fulfill On-Demand and Spot target capacities. When you use an allocation strategy, you can include a maximum of 30 instance type configurations for a fleet. For more information about how to use an allocation strategy, see [Configure Instance Fleets](https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-instance-fleet.html). Without an allocation strategy, you may specify a maximum of five instance type configurations for a fleet. The instance fleet configuration is available only in Amazon EMR releases 4.8.0 and higher, excluding 5.0.x versions.
     public struct InstanceTypeConfig: Swift.Equatable {
         /// The bid price for each Amazon EC2 Spot Instance type as defined by InstanceType. Expressed in USD. If neither BidPrice nor BidPriceAsPercentageOfOnDemandPrice is provided, BidPriceAsPercentageOfOnDemandPrice defaults to 100%.
         public var bidPrice: Swift.String?
@@ -8153,7 +8173,7 @@ extension EMRClientTypes.InstanceTypeSpecification: Swift.Codable {
 }
 
 extension EMRClientTypes {
-    /// The configuration specification for each instance type in an instance fleet. The instance fleet configuration is available only in Amazon EMR releases 4.8.0 and later, excluding 5.0.x versions.
+    /// The configuration specification for each instance type in an instance fleet. The instance fleet configuration is available only in Amazon EMR releases 4.8.0 and higher, excluding 5.0.x versions.
     public struct InstanceTypeSpecification: Swift.Equatable {
         /// The bid price for each Amazon EC2 Spot Instance type as defined by InstanceType. Expressed in USD.
         public var bidPrice: Swift.String?
@@ -8411,7 +8431,7 @@ extension EMRClientTypes.JobFlowDetail: Swift.Codable {
                 try supportedProductsContainer.encode(xmlstringmaxlen2560)
             }
         }
-        if visibleToAllUsers != false {
+        if let visibleToAllUsers = self.visibleToAllUsers {
             try encodeContainer.encode(visibleToAllUsers, forKey: .visibleToAllUsers)
         }
     }
@@ -8465,7 +8485,7 @@ extension EMRClientTypes.JobFlowDetail: Swift.Codable {
             }
         }
         supportedProducts = supportedProductsDecoded0
-        let visibleToAllUsersDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .visibleToAllUsers) ?? false
+        let visibleToAllUsersDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .visibleToAllUsers)
         visibleToAllUsers = visibleToAllUsersDecoded
         let jobFlowRoleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobFlowRole)
         jobFlowRole = jobFlowRoleDecoded
@@ -8481,7 +8501,7 @@ extension EMRClientTypes.JobFlowDetail: Swift.Codable {
 extension EMRClientTypes {
     /// A description of a cluster (job flow).
     public struct JobFlowDetail: Swift.Equatable {
-        /// Applies only to Amazon EMR AMI versions 3.x and 2.x. For Amazon EMR releases 4.0 and later, ReleaseLabel is used. To specify a custom AMI, use CustomAmiID.
+        /// Applies only to Amazon EMR AMI versions 3.x and 2.x. For Amazon EMR releases 4.0 and higher, ReleaseLabel is used. To specify a custom AMI, use CustomAmiID.
         public var amiVersion: Swift.String?
         /// An IAM role for automatic scaling policies. The default role is EMR_AutoScaling_DefaultRole. The IAM role provides a way for the automatic scaling feature to get the required permissions it needs to launch and terminate Amazon EC2 instances in an instance group.
         public var autoScalingRole: Swift.String?
@@ -8498,14 +8518,14 @@ extension EMRClientTypes {
         public var jobFlowId: Swift.String?
         /// The IAM role that was specified when the job flow was launched. The Amazon EC2 instances of the job flow assume this role.
         public var jobFlowRole: Swift.String?
-        /// The KMS key used for encrypting log files. This attribute is only available with Amazon EMR 5.30.0 and later, excluding 6.0.0.
+        /// The KMS key used for encrypting log files. This attribute is only available with Amazon EMR 5.30.0 and higher, excluding 6.0.0.
         public var logEncryptionKmsKeyId: Swift.String?
         /// The location in Amazon S3 where log files for the job are stored.
         public var logUri: Swift.String?
         /// The name of the job flow.
         /// This member is required.
         public var name: Swift.String?
-        /// The way that individual Amazon EC2 instances terminate when an automatic scale-in activity occurs or an instance group is resized. TERMINATE_AT_INSTANCE_HOUR indicates that Amazon EMR terminates nodes at the instance-hour boundary, regardless of when the request to terminate the instance was submitted. This option is only available with Amazon EMR 5.1.0 and later and is the default for clusters created using that version. TERMINATE_AT_TASK_COMPLETION indicates that Amazon EMR adds nodes to a deny list and drains tasks from nodes before terminating the Amazon EC2 instances, regardless of the instance-hour boundary. With either behavior, Amazon EMR removes the least active nodes first and blocks instance termination if it could lead to HDFS corruption. TERMINATE_AT_TASK_COMPLETION available only in Amazon EMR releases 4.1.0 and later, and is the default for releases of Amazon EMR earlier than 5.1.0.
+        /// The way that individual Amazon EC2 instances terminate when an automatic scale-in activity occurs or an instance group is resized. TERMINATE_AT_INSTANCE_HOUR indicates that Amazon EMR terminates nodes at the instance-hour boundary, regardless of when the request to terminate the instance was submitted. This option is only available with Amazon EMR 5.1.0 and higher and is the default for clusters created using that version. TERMINATE_AT_TASK_COMPLETION indicates that Amazon EMR adds nodes to a deny list and drains tasks from nodes before terminating the Amazon EC2 instances, regardless of the instance-hour boundary. With either behavior, Amazon EMR removes the least active nodes first and blocks instance termination if it could lead to HDFS corruption. TERMINATE_AT_TASK_COMPLETION available only in Amazon EMR releases 4.1.0 and higher, and is the default for releases of Amazon EMR earlier than 5.1.0.
         public var scaleDownBehavior: EMRClientTypes.ScaleDownBehavior?
         /// The IAM role that is assumed by the Amazon EMR service to access Amazon Web Services resources on your behalf.
         public var serviceRole: Swift.String?
@@ -8514,7 +8534,7 @@ extension EMRClientTypes {
         /// A list of strings set by third-party software when the job flow is launched. If you are not using third-party software to manage the job flow, this value is empty.
         public var supportedProducts: [Swift.String]?
         /// Indicates whether the cluster is visible to IAM principals in the Amazon Web Services account associated with the cluster. When true, IAM principals in the Amazon Web Services account can perform Amazon EMR cluster actions that their IAM policies allow. When false, only the IAM principal that created the cluster and the Amazon Web Services account root user can perform Amazon EMR actions, regardless of IAM permissions policies attached to other IAM principals. The default value is true if a value is not provided when creating a cluster using the Amazon EMR API [RunJobFlow] command, the CLI [create-cluster](https://docs.aws.amazon.com/cli/latest/reference/emr/create-cluster.html) command, or the Amazon Web Services Management Console.
-        public var visibleToAllUsers: Swift.Bool
+        public var visibleToAllUsers: Swift.Bool?
 
         public init(
             amiVersion: Swift.String? = nil,
@@ -8531,7 +8551,7 @@ extension EMRClientTypes {
             serviceRole: Swift.String? = nil,
             steps: [EMRClientTypes.StepDetail]? = nil,
             supportedProducts: [Swift.String]? = nil,
-            visibleToAllUsers: Swift.Bool = false
+            visibleToAllUsers: Swift.Bool? = nil
         )
         {
             self.amiVersion = amiVersion
@@ -8763,7 +8783,7 @@ extension EMRClientTypes.JobFlowInstancesConfig: Swift.Codable {
                 try instanceGroupsContainer.encode(instancegroupconfig0)
             }
         }
-        if keepJobFlowAliveWhenNoSteps != false {
+        if let keepJobFlowAliveWhenNoSteps = self.keepJobFlowAliveWhenNoSteps {
             try encodeContainer.encode(keepJobFlowAliveWhenNoSteps, forKey: .keepJobFlowAliveWhenNoSteps)
         }
         if let masterInstanceType = self.masterInstanceType {
@@ -8778,7 +8798,7 @@ extension EMRClientTypes.JobFlowInstancesConfig: Swift.Codable {
         if let slaveInstanceType = self.slaveInstanceType {
             try encodeContainer.encode(slaveInstanceType, forKey: .slaveInstanceType)
         }
-        if terminationProtected != false {
+        if let terminationProtected = self.terminationProtected {
             try encodeContainer.encode(terminationProtected, forKey: .terminationProtected)
         }
     }
@@ -8817,9 +8837,9 @@ extension EMRClientTypes.JobFlowInstancesConfig: Swift.Codable {
         ec2KeyName = ec2KeyNameDecoded
         let placementDecoded = try containerValues.decodeIfPresent(EMRClientTypes.PlacementType.self, forKey: .placement)
         placement = placementDecoded
-        let keepJobFlowAliveWhenNoStepsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .keepJobFlowAliveWhenNoSteps) ?? false
+        let keepJobFlowAliveWhenNoStepsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .keepJobFlowAliveWhenNoSteps)
         keepJobFlowAliveWhenNoSteps = keepJobFlowAliveWhenNoStepsDecoded
-        let terminationProtectedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .terminationProtected) ?? false
+        let terminationProtectedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .terminationProtected)
         terminationProtected = terminationProtectedDecoded
         let hadoopVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .hadoopVersion)
         hadoopVersion = hadoopVersionDecoded
@@ -8878,7 +8898,7 @@ extension EMRClientTypes {
         public var ec2KeyName: Swift.String?
         /// Applies to clusters that use the uniform instance group configuration. To launch the cluster in Amazon Virtual Private Cloud (Amazon VPC), set this parameter to the identifier of the Amazon VPC subnet where you want the cluster to launch. If you do not specify this value and your account supports EC2-Classic, the cluster launches in EC2-Classic.
         public var ec2SubnetId: Swift.String?
-        /// Applies to clusters that use the instance fleet configuration. When multiple Amazon EC2 subnet IDs are specified, Amazon EMR evaluates them and launches instances in the optimal subnet. The instance fleet configuration is available only in Amazon EMR releases 4.8.0 and later, excluding 5.0.x versions.
+        /// Applies to clusters that use the instance fleet configuration. When multiple Amazon EC2 subnet IDs are specified, Amazon EMR evaluates them and launches instances in the optimal subnet. The instance fleet configuration is available only in Amazon EMR releases 4.8.0 and higher, excluding 5.0.x versions.
         public var ec2SubnetIds: [Swift.String]?
         /// The identifier of the Amazon EC2 security group for the master node. If you specify EmrManagedMasterSecurityGroup, you must also specify EmrManagedSlaveSecurityGroup.
         public var emrManagedMasterSecurityGroup: Swift.String?
@@ -8888,12 +8908,12 @@ extension EMRClientTypes {
         public var hadoopVersion: Swift.String?
         /// The number of Amazon EC2 instances in the cluster.
         public var instanceCount: Swift.Int?
-        /// The instance fleet configuration is available only in Amazon EMR releases 4.8.0 and later, excluding 5.0.x versions. Describes the Amazon EC2 instances and instance configurations for clusters that use the instance fleet configuration.
+        /// The instance fleet configuration is available only in Amazon EMR releases 4.8.0 and higher, excluding 5.0.x versions. Describes the Amazon EC2 instances and instance configurations for clusters that use the instance fleet configuration.
         public var instanceFleets: [EMRClientTypes.InstanceFleetConfig]?
         /// Configuration for the instance groups in a cluster.
         public var instanceGroups: [EMRClientTypes.InstanceGroupConfig]?
         /// Specifies whether the cluster should remain available after completing all steps. Defaults to true. For more information about configuring cluster termination, see [Control Cluster Termination](https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-plan-termination.html) in the EMR Management Guide.
-        public var keepJobFlowAliveWhenNoSteps: Swift.Bool
+        public var keepJobFlowAliveWhenNoSteps: Swift.Bool?
         /// The Amazon EC2 instance type of the master node.
         public var masterInstanceType: Swift.String?
         /// The Availability Zone in which the cluster runs.
@@ -8903,7 +8923,7 @@ extension EMRClientTypes {
         /// The Amazon EC2 instance type of the core and task nodes.
         public var slaveInstanceType: Swift.String?
         /// Specifies whether to lock the cluster to prevent the Amazon EC2 instances from being terminated by API call, user intervention, or in the event of a job-flow error.
-        public var terminationProtected: Swift.Bool
+        public var terminationProtected: Swift.Bool?
 
         public init(
             additionalMasterSecurityGroups: [Swift.String]? = nil,
@@ -8917,12 +8937,12 @@ extension EMRClientTypes {
             instanceCount: Swift.Int? = nil,
             instanceFleets: [EMRClientTypes.InstanceFleetConfig]? = nil,
             instanceGroups: [EMRClientTypes.InstanceGroupConfig]? = nil,
-            keepJobFlowAliveWhenNoSteps: Swift.Bool = false,
+            keepJobFlowAliveWhenNoSteps: Swift.Bool? = nil,
             masterInstanceType: Swift.String? = nil,
             placement: EMRClientTypes.PlacementType? = nil,
             serviceAccessSecurityGroup: Swift.String? = nil,
             slaveInstanceType: Swift.String? = nil,
-            terminationProtected: Swift.Bool = false
+            terminationProtected: Swift.Bool? = nil
         )
         {
             self.additionalMasterSecurityGroups = additionalMasterSecurityGroups
@@ -8984,7 +9004,7 @@ extension EMRClientTypes.JobFlowInstancesDetail: Swift.Codable {
                 try instanceGroupsContainer.encode(instancegroupdetail0)
             }
         }
-        if keepJobFlowAliveWhenNoSteps != false {
+        if let keepJobFlowAliveWhenNoSteps = self.keepJobFlowAliveWhenNoSteps {
             try encodeContainer.encode(keepJobFlowAliveWhenNoSteps, forKey: .keepJobFlowAliveWhenNoSteps)
         }
         if let masterInstanceId = self.masterInstanceId {
@@ -9005,7 +9025,7 @@ extension EMRClientTypes.JobFlowInstancesDetail: Swift.Codable {
         if let slaveInstanceType = self.slaveInstanceType {
             try encodeContainer.encode(slaveInstanceType, forKey: .slaveInstanceType)
         }
-        if terminationProtected != false {
+        if let terminationProtected = self.terminationProtected {
             try encodeContainer.encode(terminationProtected, forKey: .terminationProtected)
         }
     }
@@ -9041,9 +9061,9 @@ extension EMRClientTypes.JobFlowInstancesDetail: Swift.Codable {
         ec2SubnetId = ec2SubnetIdDecoded
         let placementDecoded = try containerValues.decodeIfPresent(EMRClientTypes.PlacementType.self, forKey: .placement)
         placement = placementDecoded
-        let keepJobFlowAliveWhenNoStepsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .keepJobFlowAliveWhenNoSteps) ?? false
+        let keepJobFlowAliveWhenNoStepsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .keepJobFlowAliveWhenNoSteps)
         keepJobFlowAliveWhenNoSteps = keepJobFlowAliveWhenNoStepsDecoded
-        let terminationProtectedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .terminationProtected) ?? false
+        let terminationProtectedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .terminationProtected)
         terminationProtected = terminationProtectedDecoded
         let hadoopVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .hadoopVersion)
         hadoopVersion = hadoopVersionDecoded
@@ -9065,7 +9085,7 @@ extension EMRClientTypes {
         /// Details about the instance groups in a cluster.
         public var instanceGroups: [EMRClientTypes.InstanceGroupDetail]?
         /// Specifies whether the cluster should remain available after completing all steps.
-        public var keepJobFlowAliveWhenNoSteps: Swift.Bool
+        public var keepJobFlowAliveWhenNoSteps: Swift.Bool?
         /// The Amazon EC2 instance identifier of the master node.
         public var masterInstanceId: Swift.String?
         /// The Amazon EC2 master node instance type.
@@ -9081,7 +9101,7 @@ extension EMRClientTypes {
         /// This member is required.
         public var slaveInstanceType: Swift.String?
         /// Specifies whether the Amazon EC2 instances in the cluster are protected from termination by API calls, user intervention, or in the event of a job-flow error.
-        public var terminationProtected: Swift.Bool
+        public var terminationProtected: Swift.Bool?
 
         public init(
             ec2KeyName: Swift.String? = nil,
@@ -9089,14 +9109,14 @@ extension EMRClientTypes {
             hadoopVersion: Swift.String? = nil,
             instanceCount: Swift.Int? = nil,
             instanceGroups: [EMRClientTypes.InstanceGroupDetail]? = nil,
-            keepJobFlowAliveWhenNoSteps: Swift.Bool = false,
+            keepJobFlowAliveWhenNoSteps: Swift.Bool? = nil,
             masterInstanceId: Swift.String? = nil,
             masterInstanceType: Swift.String? = nil,
             masterPublicDnsName: Swift.String? = nil,
             normalizedInstanceHours: Swift.Int? = nil,
             placement: EMRClientTypes.PlacementType? = nil,
             slaveInstanceType: Swift.String? = nil,
-            terminationProtected: Swift.Bool = false
+            terminationProtected: Swift.Bool? = nil
         )
         {
             self.ec2KeyName = ec2KeyName
@@ -12171,7 +12191,7 @@ extension EMRClientTypes.OnDemandProvisioningSpecification: Swift.Codable {
 }
 
 extension EMRClientTypes {
-    /// The launch specification for On-Demand Instances in the instance fleet, which determines the allocation strategy. The instance fleet configuration is available only in Amazon EMR releases 4.8.0 and later, excluding 5.0.x versions. On-Demand Instances allocation strategy is available in Amazon EMR releases 5.12.1 and later.
+    /// The launch specification for On-Demand Instances in the instance fleet, which determines the allocation strategy. The instance fleet configuration is available only in Amazon EMR releases 4.8.0 and higher, excluding 5.0.x versions. On-Demand Instances allocation strategy is available in Amazon EMR releases 5.12.1 and higher.
     public struct OnDemandProvisioningSpecification: Swift.Equatable {
         /// Specifies the strategy to use in launching On-Demand instance fleets. Currently, the only option is lowest-price (the default), which launches the lowest price first.
         /// This member is required.
@@ -12472,7 +12492,7 @@ extension EMRClientTypes {
     public struct PlacementType: Swift.Equatable {
         /// The Amazon EC2 Availability Zone for the cluster. AvailabilityZone is used for uniform instance groups, while AvailabilityZones (plural) is used for instance fleets.
         public var availabilityZone: Swift.String?
-        /// When multiple Availability Zones are specified, Amazon EMR evaluates them and launches instances in the optimal Availability Zone. AvailabilityZones is used for instance fleets, while AvailabilityZone (singular) is used for uniform instance groups. The instance fleet configuration is available only in Amazon EMR releases 4.8.0 and later, excluding 5.0.x versions.
+        /// When multiple Availability Zones are specified, Amazon EMR evaluates them and launches instances in the optimal Availability Zone. AvailabilityZones is used for instance fleets, while AvailabilityZone (singular) is used for uniform instance groups. The instance fleet configuration is available only in Amazon EMR releases 4.8.0 and higher, excluding 5.0.x versions.
         public var availabilityZones: [Swift.String]?
 
         public init(
@@ -13351,7 +13371,9 @@ extension RunJobFlowInput: Swift.Encodable {
         case bootstrapActions = "BootstrapActions"
         case configurations = "Configurations"
         case customAmiId = "CustomAmiId"
+        case ebsRootVolumeIops = "EbsRootVolumeIops"
         case ebsRootVolumeSize = "EbsRootVolumeSize"
+        case ebsRootVolumeThroughput = "EbsRootVolumeThroughput"
         case instances = "Instances"
         case jobFlowRole = "JobFlowRole"
         case kerberosAttributes = "KerberosAttributes"
@@ -13409,8 +13431,14 @@ extension RunJobFlowInput: Swift.Encodable {
         if let customAmiId = self.customAmiId {
             try encodeContainer.encode(customAmiId, forKey: .customAmiId)
         }
+        if let ebsRootVolumeIops = self.ebsRootVolumeIops {
+            try encodeContainer.encode(ebsRootVolumeIops, forKey: .ebsRootVolumeIops)
+        }
         if let ebsRootVolumeSize = self.ebsRootVolumeSize {
             try encodeContainer.encode(ebsRootVolumeSize, forKey: .ebsRootVolumeSize)
+        }
+        if let ebsRootVolumeThroughput = self.ebsRootVolumeThroughput {
+            try encodeContainer.encode(ebsRootVolumeThroughput, forKey: .ebsRootVolumeThroughput)
         }
         if let instances = self.instances {
             try encodeContainer.encode(instances, forKey: .instances)
@@ -13500,9 +13528,9 @@ extension RunJobFlowInput: ClientRuntime.URLPathProvider {
 public struct RunJobFlowInput: Swift.Equatable {
     /// A JSON string for selecting additional features.
     public var additionalInfo: Swift.String?
-    /// Applies only to Amazon EMR AMI versions 3.x and 2.x. For Amazon EMR releases 4.0 and later, ReleaseLabel is used. To specify a custom AMI, use CustomAmiID.
+    /// Applies only to Amazon EMR AMI versions 3.x and 2.x. For Amazon EMR releases 4.0 and higher, ReleaseLabel is used. To specify a custom AMI, use CustomAmiID.
     public var amiVersion: Swift.String?
-    /// Applies to Amazon EMR releases 4.0 and later. A case-insensitive list of applications for Amazon EMR to install and configure when launching the cluster. For a list of applications available for each Amazon EMR release version, see the [Amazon EMRRelease Guide](https://docs.aws.amazon.com/emr/latest/ReleaseGuide/).
+    /// Applies to Amazon EMR releases 4.0 and higher. A case-insensitive list of applications for Amazon EMR to install and configure when launching the cluster. For a list of applications available for each Amazon EMR release version, see the [Amazon EMRRelease Guide](https://docs.aws.amazon.com/emr/latest/ReleaseGuide/).
     public var applications: [EMRClientTypes.Application]?
     /// An IAM role for automatic scaling policies. The default role is EMR_AutoScaling_DefaultRole. The IAM role provides permissions that the automatic scaling feature requires to launch and terminate Amazon EC2 instances in an instance group.
     public var autoScalingRole: Swift.String?
@@ -13510,12 +13538,16 @@ public struct RunJobFlowInput: Swift.Equatable {
     public var autoTerminationPolicy: EMRClientTypes.AutoTerminationPolicy?
     /// A list of bootstrap actions to run before Hadoop starts on the cluster nodes.
     public var bootstrapActions: [EMRClientTypes.BootstrapActionConfig]?
-    /// For Amazon EMR releases 4.0 and later. The list of configurations supplied for the Amazon EMR cluster that you are creating.
+    /// For Amazon EMR releases 4.0 and higher. The list of configurations supplied for the Amazon EMR cluster that you are creating.
     public var configurations: [EMRClientTypes.Configuration]?
-    /// Available only in Amazon EMR releases 5.7.0 and later. The ID of a custom Amazon EBS-backed Linux AMI. If specified, Amazon EMR uses this AMI when it launches cluster Amazon EC2 instances. For more information about custom AMIs in Amazon EMR, see [Using a Custom AMI](https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-custom-ami.html) in the Amazon EMR Management Guide. If omitted, the cluster uses the base Linux AMI for the ReleaseLabel specified. For Amazon EMR releases 2.x and 3.x, use AmiVersion instead. For information about creating a custom AMI, see [Creating an Amazon EBS-Backed Linux AMI](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/creating-an-ami-ebs.html) in the Amazon Elastic Compute Cloud User Guide for Linux Instances. For information about finding an AMI ID, see [Finding a Linux AMI](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/finding-an-ami.html).
+    /// Available only in Amazon EMR releases 5.7.0 and higher. The ID of a custom Amazon EBS-backed Linux AMI. If specified, Amazon EMR uses this AMI when it launches cluster Amazon EC2 instances. For more information about custom AMIs in Amazon EMR, see [Using a Custom AMI](https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-custom-ami.html) in the Amazon EMR Management Guide. If omitted, the cluster uses the base Linux AMI for the ReleaseLabel specified. For Amazon EMR releases 2.x and 3.x, use AmiVersion instead. For information about creating a custom AMI, see [Creating an Amazon EBS-Backed Linux AMI](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/creating-an-ami-ebs.html) in the Amazon Elastic Compute Cloud User Guide for Linux Instances. For information about finding an AMI ID, see [Finding a Linux AMI](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/finding-an-ami.html).
     public var customAmiId: Swift.String?
-    /// The size, in GiB, of the Amazon EBS root device volume of the Linux AMI that is used for each Amazon EC2 instance. Available in Amazon EMR releases 4.x and later.
+    /// The IOPS for the Amazon EBS root device volume for the Linux AMI that each Amazon EC2 instance uses. Available in Amazon EMR releases 6.15.0 and higher.
+    public var ebsRootVolumeIops: Swift.Int?
+    /// The size, in GiB, of the Amazon EBS root device volume for the Linux AMI that each Amazon EC2 instance uses. Available in Amazon EMR releases 4.x and higher.
     public var ebsRootVolumeSize: Swift.Int?
+    /// The throughput, in MiB/s, of the Amazon EBS root device volume for the Linux AMI that each Amazon EC2 instance uses. Available in Amazon EMR releases 6.15.0 and higher.
+    public var ebsRootVolumeThroughput: Swift.Int?
     /// A specification of the number and type of Amazon EC2 instances.
     /// This member is required.
     public var instances: EMRClientTypes.JobFlowInstancesConfig?
@@ -13523,7 +13555,7 @@ public struct RunJobFlowInput: Swift.Equatable {
     public var jobFlowRole: Swift.String?
     /// Attributes for Kerberos configuration when Kerberos authentication is enabled using a security configuration. For more information see [Use Kerberos Authentication](https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-kerberos.html) in the Amazon EMR Management Guide.
     public var kerberosAttributes: EMRClientTypes.KerberosAttributes?
-    /// The KMS key used for encrypting log files. If a value is not provided, the logs remain encrypted by AES-256. This attribute is only available with Amazon EMR releases 5.30.0 and later, excluding Amazon EMR 6.0.0.
+    /// The KMS key used for encrypting log files. If a value is not provided, the logs remain encrypted by AES-256. This attribute is only available with Amazon EMR releases 5.30.0 and higher, excluding Amazon EMR 6.0.0.
     public var logEncryptionKmsKeyId: Swift.String?
     /// The location in Amazon S3 to write the log files of the job flow. If a value is not provided, logs are not created.
     public var logUri: Swift.String?
@@ -13532,7 +13564,7 @@ public struct RunJobFlowInput: Swift.Equatable {
     /// The name of the job flow.
     /// This member is required.
     public var name: Swift.String?
-    /// For Amazon EMR releases 3.x and 2.x. For Amazon EMR releases 4.x and later, use Applications. A list of strings that indicates third-party software to use with the job flow that accepts a user argument list. Amazon EMR accepts and forwards the argument list to the corresponding installation script as bootstrap action arguments. For more information, see "Launch a Job Flow on the MapR Distribution for Hadoop" in the [Amazon EMR Developer Guide](https://docs.aws.amazon.com/emr/latest/DeveloperGuide/emr-dg.pdf). Supported values are:
+    /// For Amazon EMR releases 3.x and 2.x. For Amazon EMR releases 4.x and higher, use Applications. A list of strings that indicates third-party software to use with the job flow that accepts a user argument list. Amazon EMR accepts and forwards the argument list to the corresponding installation script as bootstrap action arguments. For more information, see "Launch a Job Flow on the MapR Distribution for Hadoop" in the [Amazon EMR Developer Guide](https://docs.aws.amazon.com/emr/latest/DeveloperGuide/emr-dg.pdf). Supported values are:
     ///
     /// * "mapr-m3" - launch the cluster using MapR M3 Edition.
     ///
@@ -13554,11 +13586,11 @@ public struct RunJobFlowInput: Swift.Equatable {
     public var osReleaseLabel: Swift.String?
     /// The specified placement group configuration for an Amazon EMR cluster.
     public var placementGroupConfigs: [EMRClientTypes.PlacementGroupConfig]?
-    /// The Amazon EMR release label, which determines the version of open-source application packages installed on the cluster. Release labels are in the form emr-x.x.x, where x.x.x is an Amazon EMR release version such as emr-5.14.0. For more information about Amazon EMR release versions and included application versions and features, see [https://docs.aws.amazon.com/emr/latest/ReleaseGuide/](https://docs.aws.amazon.com/emr/latest/ReleaseGuide/). The release label applies only to Amazon EMR releases version 4.0 and later. Earlier versions use AmiVersion.
+    /// The Amazon EMR release label, which determines the version of open-source application packages installed on the cluster. Release labels are in the form emr-x.x.x, where x.x.x is an Amazon EMR release version such as emr-5.14.0. For more information about Amazon EMR release versions and included application versions and features, see [https://docs.aws.amazon.com/emr/latest/ReleaseGuide/](https://docs.aws.amazon.com/emr/latest/ReleaseGuide/). The release label applies only to Amazon EMR releases version 4.0 and higher. Earlier versions use AmiVersion.
     public var releaseLabel: Swift.String?
     /// Applies only when CustomAmiID is used. Specifies which updates from the Amazon Linux AMI package repositories to apply automatically when the instance boots using the AMI. If omitted, the default is SECURITY, which indicates that only security updates are applied. If NONE is specified, no updates are applied, and all updates must be applied manually.
     public var repoUpgradeOnBoot: EMRClientTypes.RepoUpgradeOnBoot?
-    /// Specifies the way that individual Amazon EC2 instances terminate when an automatic scale-in activity occurs or an instance group is resized. TERMINATE_AT_INSTANCE_HOUR indicates that Amazon EMR terminates nodes at the instance-hour boundary, regardless of when the request to terminate the instance was submitted. This option is only available with Amazon EMR 5.1.0 and later and is the default for clusters created using that version. TERMINATE_AT_TASK_COMPLETION indicates that Amazon EMR adds nodes to a deny list and drains tasks from nodes before terminating the Amazon EC2 instances, regardless of the instance-hour boundary. With either behavior, Amazon EMR removes the least active nodes first and blocks instance termination if it could lead to HDFS corruption. TERMINATE_AT_TASK_COMPLETION available only in Amazon EMR releases 4.1.0 and later, and is the default for releases of Amazon EMR earlier than 5.1.0.
+    /// Specifies the way that individual Amazon EC2 instances terminate when an automatic scale-in activity occurs or an instance group is resized. TERMINATE_AT_INSTANCE_HOUR indicates that Amazon EMR terminates nodes at the instance-hour boundary, regardless of when the request to terminate the instance was submitted. This option is only available with Amazon EMR 5.1.0 and higher and is the default for clusters created using that version. TERMINATE_AT_TASK_COMPLETION indicates that Amazon EMR adds nodes to a deny list and drains tasks from nodes before terminating the Amazon EC2 instances, regardless of the instance-hour boundary. With either behavior, Amazon EMR removes the least active nodes first and blocks instance termination if it could lead to HDFS corruption. TERMINATE_AT_TASK_COMPLETION available only in Amazon EMR releases 4.1.0 and higher, and is the default for releases of Amazon EMR earlier than 5.1.0.
     public var scaleDownBehavior: EMRClientTypes.ScaleDownBehavior?
     /// The name of a security configuration to apply to the cluster.
     public var securityConfiguration: Swift.String?
@@ -13568,7 +13600,7 @@ public struct RunJobFlowInput: Swift.Equatable {
     public var stepConcurrencyLevel: Swift.Int?
     /// A list of steps to run.
     public var steps: [EMRClientTypes.StepConfig]?
-    /// For Amazon EMR releases 3.x and 2.x. For Amazon EMR releases 4.x and later, use Applications. A list of strings that indicates third-party software to use. For more information, see the [Amazon EMR Developer Guide](https://docs.aws.amazon.com/emr/latest/DeveloperGuide/emr-dg.pdf). Currently supported values are:
+    /// For Amazon EMR releases 3.x and 2.x. For Amazon EMR releases 4.x and higher, use Applications. A list of strings that indicates third-party software to use. For more information, see the [Amazon EMR Developer Guide](https://docs.aws.amazon.com/emr/latest/DeveloperGuide/emr-dg.pdf). Currently supported values are:
     ///
     /// * "mapr-m3" - launch the job flow using MapR M3 Edition.
     ///
@@ -13588,7 +13620,9 @@ public struct RunJobFlowInput: Swift.Equatable {
         bootstrapActions: [EMRClientTypes.BootstrapActionConfig]? = nil,
         configurations: [EMRClientTypes.Configuration]? = nil,
         customAmiId: Swift.String? = nil,
+        ebsRootVolumeIops: Swift.Int? = nil,
         ebsRootVolumeSize: Swift.Int? = nil,
+        ebsRootVolumeThroughput: Swift.Int? = nil,
         instances: EMRClientTypes.JobFlowInstancesConfig? = nil,
         jobFlowRole: Swift.String? = nil,
         kerberosAttributes: EMRClientTypes.KerberosAttributes? = nil,
@@ -13619,7 +13653,9 @@ public struct RunJobFlowInput: Swift.Equatable {
         self.bootstrapActions = bootstrapActions
         self.configurations = configurations
         self.customAmiId = customAmiId
+        self.ebsRootVolumeIops = ebsRootVolumeIops
         self.ebsRootVolumeSize = ebsRootVolumeSize
+        self.ebsRootVolumeThroughput = ebsRootVolumeThroughput
         self.instances = instances
         self.jobFlowRole = jobFlowRole
         self.kerberosAttributes = kerberosAttributes
@@ -13673,6 +13709,8 @@ struct RunJobFlowInputBody: Swift.Equatable {
     let placementGroupConfigs: [EMRClientTypes.PlacementGroupConfig]?
     let autoTerminationPolicy: EMRClientTypes.AutoTerminationPolicy?
     let osReleaseLabel: Swift.String?
+    let ebsRootVolumeIops: Swift.Int?
+    let ebsRootVolumeThroughput: Swift.Int?
 }
 
 extension RunJobFlowInputBody: Swift.Decodable {
@@ -13685,7 +13723,9 @@ extension RunJobFlowInputBody: Swift.Decodable {
         case bootstrapActions = "BootstrapActions"
         case configurations = "Configurations"
         case customAmiId = "CustomAmiId"
+        case ebsRootVolumeIops = "EbsRootVolumeIops"
         case ebsRootVolumeSize = "EbsRootVolumeSize"
+        case ebsRootVolumeThroughput = "EbsRootVolumeThroughput"
         case instances = "Instances"
         case jobFlowRole = "JobFlowRole"
         case kerberosAttributes = "KerberosAttributes"
@@ -13840,6 +13880,10 @@ extension RunJobFlowInputBody: Swift.Decodable {
         autoTerminationPolicy = autoTerminationPolicyDecoded
         let osReleaseLabelDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .osReleaseLabel)
         osReleaseLabel = osReleaseLabelDecoded
+        let ebsRootVolumeIopsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .ebsRootVolumeIops)
+        ebsRootVolumeIops = ebsRootVolumeIopsDecoded
+        let ebsRootVolumeThroughputDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .ebsRootVolumeThroughput)
+        ebsRootVolumeThroughput = ebsRootVolumeThroughputDecoded
     }
 }
 
@@ -14829,9 +14873,9 @@ extension EMRClientTypes.SpotProvisioningSpecification: Swift.Codable {
 }
 
 extension EMRClientTypes {
-    /// The launch specification for Spot Instances in the instance fleet, which determines the defined duration, provisioning timeout behavior, and allocation strategy. The instance fleet configuration is available only in Amazon EMR releases 4.8.0 and later, excluding 5.0.x versions. Spot Instance allocation strategy is available in Amazon EMR releases 5.12.1 and later. Spot Instances with a defined duration (also known as Spot blocks) are no longer available to new customers from July 1, 2021. For customers who have previously used the feature, we will continue to support Spot Instances with a defined duration until December 31, 2022.
+    /// The launch specification for Spot Instances in the instance fleet, which determines the defined duration, provisioning timeout behavior, and allocation strategy. The instance fleet configuration is available only in Amazon EMR releases 4.8.0 and higher, excluding 5.0.x versions. Spot Instance allocation strategy is available in Amazon EMR releases 5.12.1 and higher. Spot Instances with a defined duration (also known as Spot blocks) are no longer available to new customers from July 1, 2021. For customers who have previously used the feature, we will continue to support Spot Instances with a defined duration until December 31, 2022.
     public struct SpotProvisioningSpecification: Swift.Equatable {
-        /// Specifies the strategy to use in launching Spot Instance fleets. Currently, the only option is capacity-optimized (the default), which launches instances from Spot Instance pools with optimal capacity for the number of instances that are launching.
+        /// Specifies one of the following strategies to launch Spot Instance fleets: price-capacity-optimized, capacity-optimized, lowest-price, or diversified. For more information on the provisioning strategies, see [Allocation strategies for Spot Instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-fleet-allocation-strategy.html) in the Amazon EC2 User Guide for Linux Instances. When you launch a Spot Instance fleet with the old console, it automatically launches with the capacity-optimized strategy. You can't change the allocation strategy from the old console.
         public var allocationStrategy: EMRClientTypes.SpotProvisioningAllocationStrategy?
         /// The defined duration for Spot Instances (also known as Spot blocks) in minutes. When specified, the Spot Instance does not terminate before the defined duration expires, and defined duration pricing for Spot Instances applies. Valid values are 60, 120, 180, 240, 300, or 360. The duration period starts as soon as a Spot Instance receives its instance ID. At the end of the duration, Amazon EC2 marks the Spot Instance for termination and provides a Spot Instance termination notice, which gives the instance a two-minute warning before it terminates. Spot Instances with a defined duration (also known as Spot blocks) are no longer available to new customers from July 1, 2021. For customers who have previously used the feature, we will continue to support Spot Instances with a defined duration until December 31, 2022.
         public var blockDurationMinutes: Swift.Int?
@@ -16300,22 +16344,22 @@ extension EMRClientTypes.SupportedInstanceType: Swift.Codable {
         if let architecture = self.architecture {
             try encodeContainer.encode(architecture, forKey: .architecture)
         }
-        if ebsOptimizedAvailable != false {
+        if let ebsOptimizedAvailable = self.ebsOptimizedAvailable {
             try encodeContainer.encode(ebsOptimizedAvailable, forKey: .ebsOptimizedAvailable)
         }
-        if ebsOptimizedByDefault != false {
+        if let ebsOptimizedByDefault = self.ebsOptimizedByDefault {
             try encodeContainer.encode(ebsOptimizedByDefault, forKey: .ebsOptimizedByDefault)
         }
-        if ebsStorageOnly != false {
+        if let ebsStorageOnly = self.ebsStorageOnly {
             try encodeContainer.encode(ebsStorageOnly, forKey: .ebsStorageOnly)
         }
         if let instanceFamilyId = self.instanceFamilyId {
             try encodeContainer.encode(instanceFamilyId, forKey: .instanceFamilyId)
         }
-        if is64BitsOnly != false {
+        if let is64BitsOnly = self.is64BitsOnly {
             try encodeContainer.encode(is64BitsOnly, forKey: .is64BitsOnly)
         }
-        if memoryGB != 0.0 {
+        if let memoryGB = self.memoryGB {
             try encodeContainer.encode(memoryGB, forKey: .memoryGB)
         }
         if let numberOfDisks = self.numberOfDisks {
@@ -16336,23 +16380,23 @@ extension EMRClientTypes.SupportedInstanceType: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let typeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .type)
         type = typeDecoded
-        let memoryGBDecoded = try containerValues.decodeIfPresent(Swift.Float.self, forKey: .memoryGB) ?? 0.0
+        let memoryGBDecoded = try containerValues.decodeIfPresent(Swift.Float.self, forKey: .memoryGB)
         memoryGB = memoryGBDecoded
         let storageGBDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .storageGB)
         storageGB = storageGBDecoded
         let vcpuDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .vcpu)
         vcpu = vcpuDecoded
-        let is64BitsOnlyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .is64BitsOnly) ?? false
+        let is64BitsOnlyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .is64BitsOnly)
         is64BitsOnly = is64BitsOnlyDecoded
         let instanceFamilyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceFamilyId)
         instanceFamilyId = instanceFamilyIdDecoded
-        let ebsOptimizedAvailableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .ebsOptimizedAvailable) ?? false
+        let ebsOptimizedAvailableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .ebsOptimizedAvailable)
         ebsOptimizedAvailable = ebsOptimizedAvailableDecoded
-        let ebsOptimizedByDefaultDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .ebsOptimizedByDefault) ?? false
+        let ebsOptimizedByDefaultDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .ebsOptimizedByDefault)
         ebsOptimizedByDefault = ebsOptimizedByDefaultDecoded
         let numberOfDisksDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .numberOfDisks)
         numberOfDisks = numberOfDisksDecoded
-        let ebsStorageOnlyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .ebsStorageOnly) ?? false
+        let ebsStorageOnlyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .ebsStorageOnly)
         ebsStorageOnly = ebsStorageOnlyDecoded
         let architectureDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .architecture)
         architecture = architectureDecoded
@@ -16365,17 +16409,17 @@ extension EMRClientTypes {
         /// The CPU architecture, for example X86_64 or AARCH64.
         public var architecture: Swift.String?
         /// Indicates whether the SupportedInstanceType supports Amazon EBS optimization.
-        public var ebsOptimizedAvailable: Swift.Bool
+        public var ebsOptimizedAvailable: Swift.Bool?
         /// Indicates whether the SupportedInstanceType uses Amazon EBS optimization by default.
-        public var ebsOptimizedByDefault: Swift.Bool
+        public var ebsOptimizedByDefault: Swift.Bool?
         /// Indicates whether the SupportedInstanceType only supports Amazon EBS.
-        public var ebsStorageOnly: Swift.Bool
+        public var ebsStorageOnly: Swift.Bool?
         /// The Amazon EC2 family and generation for the SupportedInstanceType.
         public var instanceFamilyId: Swift.String?
         /// Indicates whether the SupportedInstanceType only supports 64-bit architecture.
-        public var is64BitsOnly: Swift.Bool
+        public var is64BitsOnly: Swift.Bool?
         /// The amount of memory that is available to Amazon EMR from the SupportedInstanceType. The kernel and hypervisor software consume some memory, so this value might be lower than the overall memory for the instance type.
-        public var memoryGB: Swift.Float
+        public var memoryGB: Swift.Float?
         /// Number of disks for the SupportedInstanceType. This value is 0 for Amazon EBS-only instance types.
         public var numberOfDisks: Swift.Int?
         /// StorageGB represents the storage capacity of the SupportedInstanceType. This value is 0 for Amazon EBS-only instance types.
@@ -16387,12 +16431,12 @@ extension EMRClientTypes {
 
         public init(
             architecture: Swift.String? = nil,
-            ebsOptimizedAvailable: Swift.Bool = false,
-            ebsOptimizedByDefault: Swift.Bool = false,
-            ebsStorageOnly: Swift.Bool = false,
+            ebsOptimizedAvailable: Swift.Bool? = nil,
+            ebsOptimizedByDefault: Swift.Bool? = nil,
+            ebsStorageOnly: Swift.Bool? = nil,
             instanceFamilyId: Swift.String? = nil,
-            is64BitsOnly: Swift.Bool = false,
-            memoryGB: Swift.Float = 0.0,
+            is64BitsOnly: Swift.Bool? = nil,
+            memoryGB: Swift.Float? = nil,
             numberOfDisks: Swift.Int? = nil,
             storageGB: Swift.Int? = nil,
             type: Swift.String? = nil,

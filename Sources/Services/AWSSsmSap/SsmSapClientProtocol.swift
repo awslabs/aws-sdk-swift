@@ -27,6 +27,7 @@ public protocol SsmSapClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : An internal error has occurred.
+    /// - `UnauthorizedException` : The request is not authorized.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func deregisterApplication(input: DeregisterApplicationInput) async throws -> DeregisterApplicationOutput
     /// Gets an application registered with AWS Systems Manager for SAP. It also returns the components of the application.
@@ -51,6 +52,7 @@ public protocol SsmSapClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : An internal error has occurred.
+    /// - `UnauthorizedException` : The request is not authorized.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func getComponent(input: GetComponentInput) async throws -> GetComponentOutput
     /// Gets the SAP HANA database of an application registered with AWS Systems Manager for SAP.
@@ -114,6 +116,7 @@ public protocol SsmSapClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : An internal error has occurred.
     /// - `ResourceNotFoundException` : The resource is not available.
+    /// - `UnauthorizedException` : The request is not authorized.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func listComponents(input: ListComponentsInput) async throws -> ListComponentsOutput
     /// Lists the SAP HANA databases of an application registered with AWS Systems Manager for SAP.
@@ -178,6 +181,7 @@ public protocol SsmSapClientProtocol {
     /// __Possible Exceptions:__
     /// - `ConflictException` : A conflict has occurred.
     /// - `InternalServerException` : An internal error has occurred.
+    /// - `ResourceNotFoundException` : The resource is not available.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func registerApplication(input: RegisterApplicationInput) async throws -> RegisterApplicationOutput
     /// Refreshes a registered application.
@@ -192,6 +196,7 @@ public protocol SsmSapClientProtocol {
     /// - `ConflictException` : A conflict has occurred.
     /// - `InternalServerException` : An internal error has occurred.
     /// - `ResourceNotFoundException` : The resource is not available.
+    /// - `UnauthorizedException` : The request is not authorized.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func startApplicationRefresh(input: StartApplicationRefreshInput) async throws -> StartApplicationRefreshOutput
     /// Creates tag for a resource by specifying the ARN.
@@ -232,6 +237,7 @@ public protocol SsmSapClientProtocol {
     /// - `ConflictException` : A conflict has occurred.
     /// - `InternalServerException` : An internal error has occurred.
     /// - `ResourceNotFoundException` : The resource is not available.
+    /// - `UnauthorizedException` : The request is not authorized.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func updateApplicationSettings(input: UpdateApplicationSettingsInput) async throws -> UpdateApplicationSettingsOutput
 }

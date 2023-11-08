@@ -3981,19 +3981,19 @@ extension TimestreamWriteClientTypes.RetentionProperties: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if magneticStoreRetentionPeriodInDays != 0 {
+        if let magneticStoreRetentionPeriodInDays = self.magneticStoreRetentionPeriodInDays {
             try encodeContainer.encode(magneticStoreRetentionPeriodInDays, forKey: .magneticStoreRetentionPeriodInDays)
         }
-        if memoryStoreRetentionPeriodInHours != 0 {
+        if let memoryStoreRetentionPeriodInHours = self.memoryStoreRetentionPeriodInHours {
             try encodeContainer.encode(memoryStoreRetentionPeriodInHours, forKey: .memoryStoreRetentionPeriodInHours)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let memoryStoreRetentionPeriodInHoursDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .memoryStoreRetentionPeriodInHours) ?? 0
+        let memoryStoreRetentionPeriodInHoursDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .memoryStoreRetentionPeriodInHours)
         memoryStoreRetentionPeriodInHours = memoryStoreRetentionPeriodInHoursDecoded
-        let magneticStoreRetentionPeriodInDaysDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .magneticStoreRetentionPeriodInDays) ?? 0
+        let magneticStoreRetentionPeriodInDaysDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .magneticStoreRetentionPeriodInDays)
         magneticStoreRetentionPeriodInDays = magneticStoreRetentionPeriodInDaysDecoded
     }
 }
@@ -4003,14 +4003,14 @@ extension TimestreamWriteClientTypes {
     public struct RetentionProperties: Swift.Equatable {
         /// The duration for which data must be stored in the magnetic store.
         /// This member is required.
-        public var magneticStoreRetentionPeriodInDays: Swift.Int
+        public var magneticStoreRetentionPeriodInDays: Swift.Int?
         /// The duration for which data must be stored in the memory store.
         /// This member is required.
-        public var memoryStoreRetentionPeriodInHours: Swift.Int
+        public var memoryStoreRetentionPeriodInHours: Swift.Int?
 
         public init(
-            magneticStoreRetentionPeriodInDays: Swift.Int = 0,
-            memoryStoreRetentionPeriodInHours: Swift.Int = 0
+            magneticStoreRetentionPeriodInDays: Swift.Int? = nil,
+            memoryStoreRetentionPeriodInHours: Swift.Int? = nil
         )
         {
             self.magneticStoreRetentionPeriodInDays = magneticStoreRetentionPeriodInDays

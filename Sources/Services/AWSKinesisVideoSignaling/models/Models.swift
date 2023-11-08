@@ -219,7 +219,7 @@ extension KinesisVideoSignalingClientTypes.IceServer: Swift.Codable {
         if let password = self.password {
             try encodeContainer.encode(password, forKey: .password)
         }
-        if ttl != 0 {
+        if let ttl = self.ttl {
             try encodeContainer.encode(ttl, forKey: .ttl)
         }
         if let uris = uris {
@@ -250,7 +250,7 @@ extension KinesisVideoSignalingClientTypes.IceServer: Swift.Codable {
         username = usernameDecoded
         let passwordDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .password)
         password = passwordDecoded
-        let ttlDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .ttl) ?? 0
+        let ttlDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .ttl)
         ttl = ttlDecoded
     }
 }
@@ -261,7 +261,7 @@ extension KinesisVideoSignalingClientTypes {
         /// A password to login to the ICE server.
         public var password: Swift.String?
         /// The period of time, in seconds, during which the username and password are valid.
-        public var ttl: Swift.Int
+        public var ttl: Swift.Int?
         /// An array of URIs, in the form specified in the [I-D.petithuguenin-behave-turn-uris](https://tools.ietf.org/html/draft-petithuguenin-behave-turn-uris-03) spec. These URIs provide the different addresses and/or protocols that can be used to reach the TURN server.
         public var uris: [Swift.String]?
         /// A username to login to the ICE server.
@@ -269,7 +269,7 @@ extension KinesisVideoSignalingClientTypes {
 
         public init(
             password: Swift.String? = nil,
-            ttl: Swift.Int = 0,
+            ttl: Swift.Int? = nil,
             uris: [Swift.String]? = nil,
             username: Swift.String? = nil
         )

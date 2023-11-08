@@ -370,6 +370,7 @@ extension MWAAClient: MWAAClientProtocol {
     }
 
     /// Internal only. Publishes environment health metrics to Amazon CloudWatch.
+    @available(*, deprecated, message: "This API is for internal use and not meant for public use, and is no longer available.")
     ///
     /// - Parameter PublishMetricsInput : [no documentation found]
     ///

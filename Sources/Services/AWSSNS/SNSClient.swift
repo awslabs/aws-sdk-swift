@@ -171,6 +171,7 @@ extension SNSClient: SNSClientProtocol {
     /// - `InternalErrorException` : Indicates an internal service error.
     /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
     /// - `NotFoundException` : Indicates that the requested resource does not exist.
+    /// - `ReplayLimitExceededException` : Indicates that the request parameter has exceeded the maximum number of concurrent message replays.
     /// - `SubscriptionLimitExceededException` : Indicates that the customer already owns the maximum allowed number of subscriptions.
     public func confirmSubscription(input: ConfirmSubscriptionInput) async throws -> ConfirmSubscriptionOutput
     {
@@ -571,6 +572,7 @@ extension SNSClient: SNSClientProtocol {
     /// - `ConcurrentAccessException` : Can't perform multiple operations on a tag simultaneously. Perform the operations sequentially.
     /// - `InternalErrorException` : Indicates an internal service error.
     /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
+    /// - `InvalidStateException` : Indicates that the specified state is not a valid state for an event source.
     /// - `NotFoundException` : Indicates that the requested resource does not exist.
     /// - `StaleTagException` : A tag has been added to a resource with the same ARN as a deleted resource. Wait a short while and then retry the operation.
     /// - `TagPolicyException` : The request doesn't comply with the IAM tag policy. Correct your request and then retry it.
@@ -1424,8 +1426,8 @@ extension SNSClient: SNSClientProtocol {
     /// - `InvalidParameterValueException` : Indicates that a request parameter does not comply with the associated constraints.
     /// - `InvalidSecurityException` : The credential signature isn't valid. You must use an HTTPS endpoint and sign your request using Signature Version 4.
     /// - `KMSAccessDeniedException` : The ciphertext references a key that doesn't exist or that you don't have access to.
-    /// - `KMSDisabledException` : The request was rejected because the specified customer master key (CMK) isn't enabled.
-    /// - `KMSInvalidStateException` : The request was rejected because the state of the specified resource isn't valid for this request. For more information, see [How Key State Affects Use of a Customer Master Key](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Key Management Service Developer Guide.
+    /// - `KMSDisabledException` : The request was rejected because the specified Amazon Web Services KMS key isn't enabled.
+    /// - `KMSInvalidStateException` : The request was rejected because the state of the specified resource isn't valid for this request. For more information, see [Key states of Amazon Web Services KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Key Management Service Developer Guide.
     /// - `KMSNotFoundException` : The request was rejected because the specified entity or resource can't be found.
     /// - `KMSOptInRequired` : The Amazon Web Services access key ID needs a subscription for the service.
     /// - `KMSThrottlingException` : The request was denied due to request throttling. For more information about throttling, see [Limits](https://docs.aws.amazon.com/kms/latest/developerguide/limits.html#requests-per-second) in the Key Management Service Developer Guide.
@@ -1486,8 +1488,8 @@ extension SNSClient: SNSClientProtocol {
     /// - `InvalidParameterValueException` : Indicates that a request parameter does not comply with the associated constraints.
     /// - `InvalidSecurityException` : The credential signature isn't valid. You must use an HTTPS endpoint and sign your request using Signature Version 4.
     /// - `KMSAccessDeniedException` : The ciphertext references a key that doesn't exist or that you don't have access to.
-    /// - `KMSDisabledException` : The request was rejected because the specified customer master key (CMK) isn't enabled.
-    /// - `KMSInvalidStateException` : The request was rejected because the state of the specified resource isn't valid for this request. For more information, see [How Key State Affects Use of a Customer Master Key](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Key Management Service Developer Guide.
+    /// - `KMSDisabledException` : The request was rejected because the specified Amazon Web Services KMS key isn't enabled.
+    /// - `KMSInvalidStateException` : The request was rejected because the state of the specified resource isn't valid for this request. For more information, see [Key states of Amazon Web Services KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Key Management Service Developer Guide.
     /// - `KMSNotFoundException` : The request was rejected because the specified entity or resource can't be found.
     /// - `KMSOptInRequired` : The Amazon Web Services access key ID needs a subscription for the service.
     /// - `KMSThrottlingException` : The request was denied due to request throttling. For more information about throttling, see [Limits](https://docs.aws.amazon.com/kms/latest/developerguide/limits.html#requests-per-second) in the Key Management Service Developer Guide.
@@ -1779,6 +1781,7 @@ extension SNSClient: SNSClientProtocol {
     /// - `InternalErrorException` : Indicates an internal service error.
     /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
     /// - `NotFoundException` : Indicates that the requested resource does not exist.
+    /// - `ReplayLimitExceededException` : Indicates that the request parameter has exceeded the maximum number of concurrent message replays.
     public func setSubscriptionAttributes(input: SetSubscriptionAttributesInput) async throws -> SetSubscriptionAttributesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1861,7 +1864,7 @@ extension SNSClient: SNSClientProtocol {
         return result
     }
 
-    /// Subscribes an endpoint to an Amazon SNS topic. If the endpoint type is HTTP/S or email, or if the endpoint and the topic are not in the same Amazon Web Services account, the endpoint owner must run the ConfirmSubscription action to confirm the subscription. You call the ConfirmSubscription action with the token from the subscription response. Confirmation tokens are valid for three days. This action is throttled at 100 transactions per second (TPS).
+    /// Subscribes an endpoint to an Amazon SNS topic. If the endpoint type is HTTP/S or email, or if the endpoint and the topic are not in the same Amazon Web Services account, the endpoint owner must run the ConfirmSubscription action to confirm the subscription. You call the ConfirmSubscription action with the token from the subscription response. Confirmation tokens are valid for two days. This action is throttled at 100 transactions per second (TPS).
     ///
     /// - Parameter SubscribeInput : Input for Subscribe action.
     ///
@@ -1876,6 +1879,7 @@ extension SNSClient: SNSClientProtocol {
     /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
     /// - `InvalidSecurityException` : The credential signature isn't valid. You must use an HTTPS endpoint and sign your request using Signature Version 4.
     /// - `NotFoundException` : Indicates that the requested resource does not exist.
+    /// - `ReplayLimitExceededException` : Indicates that the request parameter has exceeded the maximum number of concurrent message replays.
     /// - `SubscriptionLimitExceededException` : Indicates that the customer already owns the maximum allowed number of subscriptions.
     public func subscribe(input: SubscribeInput) async throws -> SubscribeOutput
     {

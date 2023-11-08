@@ -777,7 +777,7 @@ extension LightsailClientTypes.Alarm: Swift.Codable {
                 try notificationTriggersContainer.encode(alarmstate0.rawValue)
             }
         }
-        if period != 0 {
+        if let period = self.period {
             try encodeContainer.encode(period, forKey: .period)
         }
         if let resourceType = self.resourceType {
@@ -823,7 +823,7 @@ extension LightsailClientTypes.Alarm: Swift.Codable {
         comparisonOperator = comparisonOperatorDecoded
         let evaluationPeriodsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .evaluationPeriods)
         evaluationPeriods = evaluationPeriodsDecoded
-        let periodDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .period) ?? 0
+        let periodDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .period)
         period = periodDecoded
         let thresholdDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .threshold)
         threshold = thresholdDecoded
@@ -894,7 +894,7 @@ extension LightsailClientTypes {
         /// The alarm states that trigger a notification.
         public var notificationTriggers: [LightsailClientTypes.AlarmState]?
         /// The period, in seconds, over which the statistic is applied.
-        public var period: Swift.Int
+        public var period: Swift.Int?
         /// The Lightsail resource type (e.g., Alarm).
         public var resourceType: LightsailClientTypes.ResourceType?
         /// The current state of the alarm. An alarm has the following possible states:
@@ -947,7 +947,7 @@ extension LightsailClientTypes {
             name: Swift.String? = nil,
             notificationEnabled: Swift.Bool? = nil,
             notificationTriggers: [LightsailClientTypes.AlarmState]? = nil,
-            period: Swift.Int = 0,
+            period: Swift.Int? = nil,
             resourceType: LightsailClientTypes.ResourceType? = nil,
             state: LightsailClientTypes.AlarmState? = nil,
             statistic: LightsailClientTypes.MetricStatistic? = nil,

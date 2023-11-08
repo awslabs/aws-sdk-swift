@@ -492,7 +492,6 @@ public struct CreateDataIntegrationInput: Swift.Equatable {
     /// The configuration for what data should be pulled from the source.
     public var objectConfiguration: [Swift.String:[Swift.String:[Swift.String]]]?
     /// The name of the data and how often it should be pulled from the source.
-    /// This member is required.
     public var scheduleConfig: AppIntegrationsClientTypes.ScheduleConfiguration?
     /// The URI of the data source.
     /// This member is required.

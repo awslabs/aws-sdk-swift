@@ -74,6 +74,7 @@ public protocol RDSClientProtocol {
     /// - `DBProxyNotFoundFault` : The specified proxy name doesn't correspond to a proxy owned by your Amazon Web Services account in the specified Amazon Web Services Region.
     /// - `DBProxyTargetGroupNotFoundFault` : The specified target group isn't available for a proxy owned by your Amazon Web Services account in the specified Amazon Web Services Region.
     /// - `DBSnapshotNotFoundFault` : DBSnapshotIdentifier doesn't refer to an existing DB snapshot.
+    /// - `IntegrationNotFoundFault` : The specified integration could not be found.
     func addTagsToResource(input: AddTagsToResourceInput) async throws -> AddTagsToResourceOutput
     /// Applies a pending maintenance action to a resource (for example, to a DB instance).
     ///
@@ -500,6 +501,22 @@ public protocol RDSClientProtocol {
     /// - `GlobalClusterQuotaExceededFault` : The number of global database clusters for this account is already at the maximum allowed.
     /// - `InvalidDBClusterStateFault` : The requested operation can't be performed while the cluster is in this state.
     func createGlobalCluster(input: CreateGlobalClusterInput) async throws -> CreateGlobalClusterOutput
+    /// Creates a zero-ETL integration with Amazon Redshift. For more information, see [Working with Amazon Aurora zero-ETL integrations with Amazon Redshift](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/zero-etl.html) in the Amazon Aurora User Guide.
+    ///
+    /// - Parameter CreateIntegrationInput : [no documentation found]
+    ///
+    /// - Returns: `CreateIntegrationOutput` : An Aurora zero-ETL integration with Amazon Redshift. For more information, see [Working with Amazon Aurora zero-ETL integrations with Amazon Redshift](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/zero-etl.html) in the Amazon Aurora User Guide.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBClusterNotFoundFault` : DBClusterIdentifier doesn't refer to an existing DB cluster.
+    /// - `DBInstanceNotFoundFault` : DBInstanceIdentifier doesn't refer to an existing DB instance.
+    /// - `IntegrationAlreadyExistsFault` : The integration you are trying to create already exists.
+    /// - `IntegrationConflictOperationFault` : A conflicting conditional operation is currently in progress against this resource. Typically occurs when there are multiple requests being made to the same resource at the same time, and these requests conflict with each other.
+    /// - `IntegrationQuotaExceededFault` : You can't crate any more zero-ETL integrations because the quota has been reached.
+    /// - `KMSKeyNotAccessibleFault` : An error occurred accessing an Amazon Web Services KMS key.
+    func createIntegration(input: CreateIntegrationInput) async throws -> CreateIntegrationOutput
     /// Creates a new option group. You can create up to 20 option groups. This command doesn't apply to RDS Custom.
     ///
     /// - Parameter CreateOptionGroupInput :
@@ -751,6 +768,19 @@ public protocol RDSClientProtocol {
     /// - `GlobalClusterNotFoundFault` : The GlobalClusterIdentifier doesn't refer to an existing global database cluster.
     /// - `InvalidGlobalClusterStateFault` : The global cluster is in an invalid state and can't perform the requested operation.
     func deleteGlobalCluster(input: DeleteGlobalClusterInput) async throws -> DeleteGlobalClusterOutput
+    /// Deletes a zero-ETL integration with Amazon Redshift. For more information, see [Deleting Amazon Aurora zero-ETL integrations with Amazon Redshift](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/zero-etl.deleting.html) in the Amazon Aurora User Guide
+    ///
+    /// - Parameter DeleteIntegrationInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteIntegrationOutput` : An Aurora zero-ETL integration with Amazon Redshift. For more information, see [Working with Amazon Aurora zero-ETL integrations with Amazon Redshift](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/zero-etl.html) in the Amazon Aurora User Guide.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `IntegrationConflictOperationFault` : A conflicting conditional operation is currently in progress against this resource. Typically occurs when there are multiple requests being made to the same resource at the same time, and these requests conflict with each other.
+    /// - `IntegrationNotFoundFault` : The specified integration could not be found.
+    /// - `InvalidIntegrationStateFault` : The integration is in an invalid state and can't perform the requested operation.
+    func deleteIntegration(input: DeleteIntegrationInput) async throws -> DeleteIntegrationOutput
     /// Deletes an existing option group.
     ///
     /// - Parameter DeleteOptionGroupInput :
@@ -1106,6 +1136,17 @@ public protocol RDSClientProtocol {
     /// __Possible Exceptions:__
     /// - `GlobalClusterNotFoundFault` : The GlobalClusterIdentifier doesn't refer to an existing global database cluster.
     func describeGlobalClusters(input: DescribeGlobalClustersInput) async throws -> DescribeGlobalClustersOutput
+    /// Describe one or more zero-ETL integration with Amazon Redshift. For more information, see [Viewing and monitoring Amazon Aurora zero-ETL integrations with Amazon Redshift](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/zero-etl.describingmonitoring.html) in the Amazon Aurora User Guide
+    ///
+    /// - Parameter DescribeIntegrationsInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeIntegrationsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `IntegrationNotFoundFault` : The specified integration could not be found.
+    func describeIntegrations(input: DescribeIntegrationsInput) async throws -> DescribeIntegrationsOutput
     /// Describes all available options.
     ///
     /// - Parameter DescribeOptionGroupOptionsInput :
@@ -1245,6 +1286,7 @@ public protocol RDSClientProtocol {
     /// - `DBProxyNotFoundFault` : The specified proxy name doesn't correspond to a proxy owned by your Amazon Web Services account in the specified Amazon Web Services Region.
     /// - `DBProxyTargetGroupNotFoundFault` : The specified target group isn't available for a proxy owned by your Amazon Web Services account in the specified Amazon Web Services Region.
     /// - `DBSnapshotNotFoundFault` : DBSnapshotIdentifier doesn't refer to an existing DB snapshot.
+    /// - `IntegrationNotFoundFault` : The specified integration could not be found.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     /// Changes the audit policy state of a database activity stream to either locked (default) or unlocked. A locked policy is read-only, whereas an unlocked policy is read/write. If your activity stream is started and locked, you can unlock it, customize your audit policy, and then lock your activity stream. Restarting the activity stream isn't required. For more information, see [ Modifying a database activity stream](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/DBActivityStreams.Modifying.html) in the Amazon RDS User Guide. This operation is supported for RDS for Oracle and Microsoft SQL Server.
     ///
@@ -1691,6 +1733,7 @@ public protocol RDSClientProtocol {
     /// - `DBProxyNotFoundFault` : The specified proxy name doesn't correspond to a proxy owned by your Amazon Web Services account in the specified Amazon Web Services Region.
     /// - `DBProxyTargetGroupNotFoundFault` : The specified target group isn't available for a proxy owned by your Amazon Web Services account in the specified Amazon Web Services Region.
     /// - `DBSnapshotNotFoundFault` : DBSnapshotIdentifier doesn't refer to an existing DB snapshot.
+    /// - `IntegrationNotFoundFault` : The specified integration could not be found.
     func removeTagsFromResource(input: RemoveTagsFromResourceInput) async throws -> RemoveTagsFromResourceOutput
     /// Modifies the parameters of a DB cluster parameter group to the default value. To reset specific parameters submit a list of the following: ParameterName and ApplyMethod. To reset the entire DB cluster parameter group, specify the DBClusterParameterGroupName and ResetAllParameters parameters. When resetting the entire group, dynamic parameters are updated immediately and static parameters are set to pending-reboot to take effect on the next DB instance restart or RebootDBInstance request. You must call RebootDBInstance for every DB instance in your DB cluster that you want the updated static parameter to apply to. For more information on Amazon Aurora DB clusters, see [ What is Amazon Aurora?](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html) in the Amazon Aurora User Guide. For more information on Multi-AZ DB clusters, see [ Multi-AZ DB cluster deployments](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/multi-az-db-clusters-concepts.html) in the Amazon RDS User Guide.
     ///

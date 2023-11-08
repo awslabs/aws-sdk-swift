@@ -145,6 +145,20 @@ public protocol MigrationHubStrategyClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request body isn't valid.
     func getServerStrategies(input: GetServerStrategiesInput) async throws -> GetServerStrategiesOutput
+    /// Retrieves a list of all the servers fetched from customer vCenter using Strategy Recommendation Collector.
+    ///
+    /// - Parameter ListAnalyzableServersInput : Represents input for ListAnalyzableServers operation.
+    ///
+    /// - Returns: `ListAnalyzableServersOutput` : Represents output for ListAnalyzableServers operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The user does not have permission to perform the action. Check the AWS Identity and Access Management (IAM) policy associated with this user.
+    /// - `InternalServerException` : The server experienced an internal error. Try again.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request body isn't valid.
+    func listAnalyzableServers(input: ListAnalyzableServersInput) async throws -> ListAnalyzableServersOutput
     /// Retrieves a list of all the application components (processes).
     ///
     /// - Parameter ListApplicationComponentsInput : [no documentation found]

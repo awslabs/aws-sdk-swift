@@ -116,6 +116,54 @@ extension ApplicationDiscoveryClient: ApplicationDiscoveryClientProtocol {
         return result
     }
 
+    /// Deletes one or more agents or collectors as specified by ID. Deleting an agent or collector does not delete the previously discovered data. To delete the data collected, use StartBatchDeleteConfigurationTask.
+    ///
+    /// - Parameter BatchDeleteAgentsInput : [no documentation found]
+    ///
+    /// - Returns: `BatchDeleteAgentsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AuthorizationErrorException` : The user does not have permission to perform the action. Check the IAM policy associated with this user.
+    /// - `InvalidParameterException` : One or more parameters are not valid. Verify the parameters and try again.
+    /// - `InvalidParameterValueException` : The value of one or more parameters are either invalid or out of range. Verify the parameter values and try again.
+    /// - `ServerInternalErrorException` : The server experienced an internal error. Try again.
+    public func batchDeleteAgents(input: BatchDeleteAgentsInput) async throws -> BatchDeleteAgentsOutput
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "batchDeleteAgents")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "discovery")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<BatchDeleteAgentsInput, BatchDeleteAgentsOutput, BatchDeleteAgentsOutputError>(id: "batchDeleteAgents")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchDeleteAgentsInput, BatchDeleteAgentsOutput, BatchDeleteAgentsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchDeleteAgentsInput, BatchDeleteAgentsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BatchDeleteAgentsOutput, BatchDeleteAgentsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<BatchDeleteAgentsInput, BatchDeleteAgentsOutput>(xAmzTarget: "AWSPoseidonService_V2015_11_01.BatchDeleteAgents"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<BatchDeleteAgentsInput, BatchDeleteAgentsOutput>(xmlName: "BatchDeleteAgentsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<BatchDeleteAgentsInput, BatchDeleteAgentsOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, BatchDeleteAgentsOutput, BatchDeleteAgentsOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchDeleteAgentsOutput, BatchDeleteAgentsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchDeleteAgentsOutput, BatchDeleteAgentsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchDeleteAgentsOutput, BatchDeleteAgentsOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Deletes one or more import tasks, each identified by their import ID. Each import task has a number of records that can identify servers or applications. Amazon Web Services Application Discovery Service has built-in matching logic that will identify when discovered servers match existing entries that you've previously discovered, the information for the already-existing discovered server is updated. When you delete an import task that contains records that were used to match, the information in those matched records that comes from the deleted records will also be deleted.
     ///
     /// - Parameter BatchDeleteImportDataInput : [no documentation found]
@@ -408,6 +456,54 @@ extension ApplicationDiscoveryClient: ApplicationDiscoveryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAgentsOutput, DescribeAgentsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAgentsOutput, DescribeAgentsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAgentsOutput, DescribeAgentsOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Takes a unique deletion task identifier as input and returns metadata about a configuration deletion task.
+    ///
+    /// - Parameter DescribeBatchDeleteConfigurationTaskInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeBatchDeleteConfigurationTaskOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AuthorizationErrorException` : The user does not have permission to perform the action. Check the IAM policy associated with this user.
+    /// - `HomeRegionNotSetException` : The home Region is not set. Set the home Region to continue.
+    /// - `InvalidParameterValueException` : The value of one or more parameters are either invalid or out of range. Verify the parameter values and try again.
+    /// - `ServerInternalErrorException` : The server experienced an internal error. Try again.
+    public func describeBatchDeleteConfigurationTask(input: DescribeBatchDeleteConfigurationTaskInput) async throws -> DescribeBatchDeleteConfigurationTaskOutput
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeBatchDeleteConfigurationTask")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "discovery")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<DescribeBatchDeleteConfigurationTaskInput, DescribeBatchDeleteConfigurationTaskOutput, DescribeBatchDeleteConfigurationTaskOutputError>(id: "describeBatchDeleteConfigurationTask")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeBatchDeleteConfigurationTaskInput, DescribeBatchDeleteConfigurationTaskOutput, DescribeBatchDeleteConfigurationTaskOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeBatchDeleteConfigurationTaskInput, DescribeBatchDeleteConfigurationTaskOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeBatchDeleteConfigurationTaskOutput, DescribeBatchDeleteConfigurationTaskOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeBatchDeleteConfigurationTaskInput, DescribeBatchDeleteConfigurationTaskOutput>(xAmzTarget: "AWSPoseidonService_V2015_11_01.DescribeBatchDeleteConfigurationTask"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeBatchDeleteConfigurationTaskInput, DescribeBatchDeleteConfigurationTaskOutput>(xmlName: "DescribeBatchDeleteConfigurationTaskRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeBatchDeleteConfigurationTaskInput, DescribeBatchDeleteConfigurationTaskOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeBatchDeleteConfigurationTaskOutput, DescribeBatchDeleteConfigurationTaskOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeBatchDeleteConfigurationTaskOutput, DescribeBatchDeleteConfigurationTaskOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeBatchDeleteConfigurationTaskOutput, DescribeBatchDeleteConfigurationTaskOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeBatchDeleteConfigurationTaskOutput, DescribeBatchDeleteConfigurationTaskOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -979,6 +1075,56 @@ extension ApplicationDiscoveryClient: ApplicationDiscoveryClientProtocol {
         return result
     }
 
+    /// Takes a list of configurationId as input and starts an asynchronous deletion task to remove the configurationItems. Returns a unique deletion task identifier.
+    ///
+    /// - Parameter StartBatchDeleteConfigurationTaskInput : [no documentation found]
+    ///
+    /// - Returns: `StartBatchDeleteConfigurationTaskOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AuthorizationErrorException` : The user does not have permission to perform the action. Check the IAM policy associated with this user.
+    /// - `HomeRegionNotSetException` : The home Region is not set. Set the home Region to continue.
+    /// - `InvalidParameterValueException` : The value of one or more parameters are either invalid or out of range. Verify the parameter values and try again.
+    /// - `LimitExceededException` : The limit of 200 configuration IDs per request has been exceeded.
+    /// - `OperationNotPermittedException` : This operation is not permitted.
+    /// - `ServerInternalErrorException` : The server experienced an internal error. Try again.
+    public func startBatchDeleteConfigurationTask(input: StartBatchDeleteConfigurationTaskInput) async throws -> StartBatchDeleteConfigurationTaskOutput
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "startBatchDeleteConfigurationTask")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "discovery")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<StartBatchDeleteConfigurationTaskInput, StartBatchDeleteConfigurationTaskOutput, StartBatchDeleteConfigurationTaskOutputError>(id: "startBatchDeleteConfigurationTask")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartBatchDeleteConfigurationTaskInput, StartBatchDeleteConfigurationTaskOutput, StartBatchDeleteConfigurationTaskOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartBatchDeleteConfigurationTaskInput, StartBatchDeleteConfigurationTaskOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartBatchDeleteConfigurationTaskOutput, StartBatchDeleteConfigurationTaskOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StartBatchDeleteConfigurationTaskInput, StartBatchDeleteConfigurationTaskOutput>(xAmzTarget: "AWSPoseidonService_V2015_11_01.StartBatchDeleteConfigurationTask"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartBatchDeleteConfigurationTaskInput, StartBatchDeleteConfigurationTaskOutput>(xmlName: "StartBatchDeleteConfigurationTaskRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartBatchDeleteConfigurationTaskInput, StartBatchDeleteConfigurationTaskOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartBatchDeleteConfigurationTaskOutput, StartBatchDeleteConfigurationTaskOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartBatchDeleteConfigurationTaskOutput, StartBatchDeleteConfigurationTaskOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartBatchDeleteConfigurationTaskOutput, StartBatchDeleteConfigurationTaskOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartBatchDeleteConfigurationTaskOutput, StartBatchDeleteConfigurationTaskOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Start the continuous flow of agent's discovered data into Amazon Athena.
     ///
     /// - Parameter StartContinuousExportInput : [no documentation found]
@@ -989,7 +1135,7 @@ extension ApplicationDiscoveryClient: ApplicationDiscoveryClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `AuthorizationErrorException` : The user does not have permission to perform the action. Check the IAM policy associated with this user.
-    /// - `ConflictErrorException` :
+    /// - `ConflictErrorException` : Conflict error.
     /// - `HomeRegionNotSetException` : The home Region is not set. Set the home Region to continue.
     /// - `InvalidParameterException` : One or more parameters are not valid. Verify the parameters and try again.
     /// - `InvalidParameterValueException` : The value of one or more parameters are either invalid or out of range. Verify the parameter values and try again.
@@ -1173,14 +1319,7 @@ extension ApplicationDiscoveryClient: ApplicationDiscoveryClientProtocol {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<StartImportTaskInput, StartImportTaskOutput, StartImportTaskOutputError>(id: "startImportTask")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<StartImportTaskOutput> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.clientRequestToken == nil {
-                copiedInput.clientRequestToken = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<StartImportTaskInput, StartImportTaskOutput, StartImportTaskOutputError>(keyPath: \.clientRequestToken))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartImportTaskInput, StartImportTaskOutput, StartImportTaskOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartImportTaskInput, StartImportTaskOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)

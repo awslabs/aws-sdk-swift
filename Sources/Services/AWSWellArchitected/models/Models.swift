@@ -189,7 +189,7 @@ extension WellArchitectedClientTypes.Answer: Swift.Codable {
         if let improvementPlanUrl = self.improvementPlanUrl {
             try encodeContainer.encode(improvementPlanUrl, forKey: .improvementPlanUrl)
         }
-        if isApplicable != false {
+        if let isApplicable = self.isApplicable {
             try encodeContainer.encode(isApplicable, forKey: .isApplicable)
         }
         if let notes = self.notes {
@@ -270,7 +270,7 @@ extension WellArchitectedClientTypes.Answer: Swift.Codable {
             }
         }
         choiceAnswers = choiceAnswersDecoded0
-        let isApplicableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isApplicable) ?? false
+        let isApplicableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isApplicable)
         isApplicable = isApplicableDecoded
         let riskDecoded = try containerValues.decodeIfPresent(WellArchitectedClientTypes.Risk.self, forKey: .risk)
         risk = riskDecoded
@@ -295,7 +295,7 @@ extension WellArchitectedClientTypes {
         /// The improvement plan URL for a question in an Amazon Web Services official lenses. This value is only available if the question has been answered. This value does not apply to custom lenses.
         public var improvementPlanUrl: Swift.String?
         /// Defines whether this question is applicable to a lens review.
-        public var isApplicable: Swift.Bool
+        public var isApplicable: Swift.Bool?
         /// The notes associated with the workload. For a review template, these are the notes that will be associated with the workload when the template is applied.
         public var notes: Swift.String?
         /// The ID used to identify a pillar, for example, security. A pillar is identified by its [PillarReviewSummary$PillarId].
@@ -319,7 +319,7 @@ extension WellArchitectedClientTypes {
             helpfulResourceDisplayText: Swift.String? = nil,
             helpfulResourceUrl: Swift.String? = nil,
             improvementPlanUrl: Swift.String? = nil,
-            isApplicable: Swift.Bool = false,
+            isApplicable: Swift.Bool? = nil,
             notes: Swift.String? = nil,
             pillarId: Swift.String? = nil,
             questionDescription: Swift.String? = nil,
@@ -418,7 +418,7 @@ extension WellArchitectedClientTypes.AnswerSummary: Swift.Codable {
                 try choicesContainer.encode(choice0)
             }
         }
-        if isApplicable != false {
+        if let isApplicable = self.isApplicable {
             try encodeContainer.encode(isApplicable, forKey: .isApplicable)
         }
         if let pillarId = self.pillarId {
@@ -488,7 +488,7 @@ extension WellArchitectedClientTypes.AnswerSummary: Swift.Codable {
             }
         }
         choiceAnswerSummaries = choiceAnswerSummariesDecoded0
-        let isApplicableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isApplicable) ?? false
+        let isApplicableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isApplicable)
         isApplicable = isApplicableDecoded
         let riskDecoded = try containerValues.decodeIfPresent(WellArchitectedClientTypes.Risk.self, forKey: .risk)
         risk = riskDecoded
@@ -507,7 +507,7 @@ extension WellArchitectedClientTypes {
         /// List of choices available for a question.
         public var choices: [WellArchitectedClientTypes.Choice]?
         /// Defines whether this question is applicable to a lens review.
-        public var isApplicable: Swift.Bool
+        public var isApplicable: Swift.Bool?
         /// The ID used to identify a pillar, for example, security. A pillar is identified by its [PillarReviewSummary$PillarId].
         public var pillarId: Swift.String?
         /// The ID of the question.
@@ -526,7 +526,7 @@ extension WellArchitectedClientTypes {
         public init(
             choiceAnswerSummaries: [WellArchitectedClientTypes.ChoiceAnswerSummary]? = nil,
             choices: [WellArchitectedClientTypes.Choice]? = nil,
-            isApplicable: Swift.Bool = false,
+            isApplicable: Swift.Bool? = nil,
             pillarId: Swift.String? = nil,
             questionId: Swift.String? = nil,
             questionTitle: Swift.String? = nil,
@@ -813,7 +813,7 @@ extension WellArchitectedClientTypes.CheckDetail: Swift.Codable {
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
         }
-        if flaggedResources != 0 {
+        if let flaggedResources = self.flaggedResources {
             try encodeContainer.encode(flaggedResources, forKey: .flaggedResources)
         }
         if let id = self.id {
@@ -867,7 +867,7 @@ extension WellArchitectedClientTypes.CheckDetail: Swift.Codable {
         status = statusDecoded
         let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
         accountId = accountIdDecoded
-        let flaggedResourcesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .flaggedResources) ?? 0
+        let flaggedResourcesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .flaggedResources)
         flaggedResources = flaggedResourcesDecoded
         let reasonDecoded = try containerValues.decodeIfPresent(WellArchitectedClientTypes.CheckFailureReason.self, forKey: .reason)
         reason = reasonDecoded
@@ -886,7 +886,7 @@ extension WellArchitectedClientTypes {
         /// Trusted Advisor check description.
         public var description: Swift.String?
         /// Count of flagged resources associated to the check.
-        public var flaggedResources: Swift.Int
+        public var flaggedResources: Swift.Int?
         /// Trusted Advisor check ID.
         public var id: Swift.String?
         /// Well-Architected Lens ARN associated to the check.
@@ -910,7 +910,7 @@ extension WellArchitectedClientTypes {
             accountId: Swift.String? = nil,
             choiceId: Swift.String? = nil,
             description: Swift.String? = nil,
-            flaggedResources: Swift.Int = 0,
+            flaggedResources: Swift.Int? = nil,
             id: Swift.String? = nil,
             lensArn: Swift.String? = nil,
             name: Swift.String? = nil,
@@ -1743,7 +1743,7 @@ extension WellArchitectedClientTypes.ConsolidatedReportMetric: Swift.Codable {
                 try lensesContainer.encode(lensmetric0)
             }
         }
-        if lensesAppliedCount != 0 {
+        if let lensesAppliedCount = self.lensesAppliedCount {
             try encodeContainer.encode(lensesAppliedCount, forKey: .lensesAppliedCount)
         }
         if let metricType = self.metricType {
@@ -1803,7 +1803,7 @@ extension WellArchitectedClientTypes.ConsolidatedReportMetric: Swift.Codable {
             }
         }
         lenses = lensesDecoded0
-        let lensesAppliedCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .lensesAppliedCount) ?? 0
+        let lensesAppliedCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .lensesAppliedCount)
         lensesAppliedCount = lensesAppliedCountDecoded
     }
 }
@@ -1814,7 +1814,7 @@ extension WellArchitectedClientTypes {
         /// The metrics for the lenses in the workload.
         public var lenses: [WellArchitectedClientTypes.LensMetric]?
         /// The total number of lenses applied to the workload.
-        public var lensesAppliedCount: Swift.Int
+        public var lensesAppliedCount: Swift.Int?
         /// The metric type of a metric in the consolidated report. Currently only WORKLOAD metric types are supported.
         public var metricType: WellArchitectedClientTypes.MetricType?
         /// A map from risk names to the count of how many questions have that rating.
@@ -1830,7 +1830,7 @@ extension WellArchitectedClientTypes {
 
         public init(
             lenses: [WellArchitectedClientTypes.LensMetric]? = nil,
-            lensesAppliedCount: Swift.Int = 0,
+            lensesAppliedCount: Swift.Int? = nil,
             metricType: WellArchitectedClientTypes.MetricType? = nil,
             riskCounts: [Swift.String:Swift.Int]? = nil,
             updatedAt: ClientRuntime.Date? = nil,
@@ -2204,7 +2204,7 @@ extension CreateMilestoneOutput: ClientRuntime.HttpResponseBinding {
             self.milestoneNumber = output.milestoneNumber
             self.workloadId = output.workloadId
         } else {
-            self.milestoneNumber = 0
+            self.milestoneNumber = nil
             self.workloadId = nil
         }
     }
@@ -2213,12 +2213,12 @@ extension CreateMilestoneOutput: ClientRuntime.HttpResponseBinding {
 /// Output of a create milestone call.
 public struct CreateMilestoneOutput: Swift.Equatable {
     /// The milestone number. A workload can have a maximum of 100 milestones.
-    public var milestoneNumber: Swift.Int
+    public var milestoneNumber: Swift.Int?
     /// The ID assigned to the workload. This ID is unique within an Amazon Web Services Region.
     public var workloadId: Swift.String?
 
     public init(
-        milestoneNumber: Swift.Int = 0,
+        milestoneNumber: Swift.Int? = nil,
         workloadId: Swift.String? = nil
     )
     {
@@ -2229,7 +2229,7 @@ public struct CreateMilestoneOutput: Swift.Equatable {
 
 struct CreateMilestoneOutputBody: Swift.Equatable {
     let workloadId: Swift.String?
-    let milestoneNumber: Swift.Int
+    let milestoneNumber: Swift.Int?
 }
 
 extension CreateMilestoneOutputBody: Swift.Decodable {
@@ -2242,7 +2242,7 @@ extension CreateMilestoneOutputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let workloadIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workloadId)
         workloadId = workloadIdDecoded
-        let milestoneNumberDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .milestoneNumber) ?? 0
+        let milestoneNumberDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .milestoneNumber)
         milestoneNumber = milestoneNumberDecoded
     }
 }
@@ -4698,7 +4698,7 @@ extension GetAnswerOutput: ClientRuntime.HttpResponseBinding {
             self.answer = nil
             self.lensAlias = nil
             self.lensArn = nil
-            self.milestoneNumber = 0
+            self.milestoneNumber = nil
             self.workloadId = nil
         }
     }
@@ -4713,7 +4713,7 @@ public struct GetAnswerOutput: Swift.Equatable {
     /// The ARN for the lens.
     public var lensArn: Swift.String?
     /// The milestone number. A workload can have a maximum of 100 milestones.
-    public var milestoneNumber: Swift.Int
+    public var milestoneNumber: Swift.Int?
     /// The ID assigned to the workload. This ID is unique within an Amazon Web Services Region.
     public var workloadId: Swift.String?
 
@@ -4721,7 +4721,7 @@ public struct GetAnswerOutput: Swift.Equatable {
         answer: WellArchitectedClientTypes.Answer? = nil,
         lensAlias: Swift.String? = nil,
         lensArn: Swift.String? = nil,
-        milestoneNumber: Swift.Int = 0,
+        milestoneNumber: Swift.Int? = nil,
         workloadId: Swift.String? = nil
     )
     {
@@ -4735,7 +4735,7 @@ public struct GetAnswerOutput: Swift.Equatable {
 
 struct GetAnswerOutputBody: Swift.Equatable {
     let workloadId: Swift.String?
-    let milestoneNumber: Swift.Int
+    let milestoneNumber: Swift.Int?
     let lensAlias: Swift.String?
     let lensArn: Swift.String?
     let answer: WellArchitectedClientTypes.Answer?
@@ -4754,7 +4754,7 @@ extension GetAnswerOutputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let workloadIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workloadId)
         workloadId = workloadIdDecoded
-        let milestoneNumberDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .milestoneNumber) ?? 0
+        let milestoneNumberDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .milestoneNumber)
         milestoneNumber = milestoneNumberDecoded
         let lensAliasDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lensAlias)
         lensAlias = lensAliasDecoded
@@ -5101,7 +5101,7 @@ extension GetLensReviewOutput: ClientRuntime.HttpResponseBinding {
             self.workloadId = output.workloadId
         } else {
             self.lensReview = nil
-            self.milestoneNumber = 0
+            self.milestoneNumber = nil
             self.workloadId = nil
         }
     }
@@ -5112,13 +5112,13 @@ public struct GetLensReviewOutput: Swift.Equatable {
     /// A lens review of a question.
     public var lensReview: WellArchitectedClientTypes.LensReview?
     /// The milestone number. A workload can have a maximum of 100 milestones.
-    public var milestoneNumber: Swift.Int
+    public var milestoneNumber: Swift.Int?
     /// The ID assigned to the workload. This ID is unique within an Amazon Web Services Region.
     public var workloadId: Swift.String?
 
     public init(
         lensReview: WellArchitectedClientTypes.LensReview? = nil,
-        milestoneNumber: Swift.Int = 0,
+        milestoneNumber: Swift.Int? = nil,
         workloadId: Swift.String? = nil
     )
     {
@@ -5130,7 +5130,7 @@ public struct GetLensReviewOutput: Swift.Equatable {
 
 struct GetLensReviewOutputBody: Swift.Equatable {
     let workloadId: Swift.String?
-    let milestoneNumber: Swift.Int
+    let milestoneNumber: Swift.Int?
     let lensReview: WellArchitectedClientTypes.LensReview?
 }
 
@@ -5145,7 +5145,7 @@ extension GetLensReviewOutputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let workloadIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workloadId)
         workloadId = workloadIdDecoded
-        let milestoneNumberDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .milestoneNumber) ?? 0
+        let milestoneNumberDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .milestoneNumber)
         milestoneNumber = milestoneNumberDecoded
         let lensReviewDecoded = try containerValues.decodeIfPresent(WellArchitectedClientTypes.LensReview.self, forKey: .lensReview)
         lensReview = lensReviewDecoded
@@ -5234,7 +5234,7 @@ extension GetLensReviewReportOutput: ClientRuntime.HttpResponseBinding {
             self.workloadId = output.workloadId
         } else {
             self.lensReviewReport = nil
-            self.milestoneNumber = 0
+            self.milestoneNumber = nil
             self.workloadId = nil
         }
     }
@@ -5245,13 +5245,13 @@ public struct GetLensReviewReportOutput: Swift.Equatable {
     /// A report of a lens review.
     public var lensReviewReport: WellArchitectedClientTypes.LensReviewReport?
     /// The milestone number. A workload can have a maximum of 100 milestones.
-    public var milestoneNumber: Swift.Int
+    public var milestoneNumber: Swift.Int?
     /// The ID assigned to the workload. This ID is unique within an Amazon Web Services Region.
     public var workloadId: Swift.String?
 
     public init(
         lensReviewReport: WellArchitectedClientTypes.LensReviewReport? = nil,
-        milestoneNumber: Swift.Int = 0,
+        milestoneNumber: Swift.Int? = nil,
         workloadId: Swift.String? = nil
     )
     {
@@ -5263,7 +5263,7 @@ public struct GetLensReviewReportOutput: Swift.Equatable {
 
 struct GetLensReviewReportOutputBody: Swift.Equatable {
     let workloadId: Swift.String?
-    let milestoneNumber: Swift.Int
+    let milestoneNumber: Swift.Int?
     let lensReviewReport: WellArchitectedClientTypes.LensReviewReport?
 }
 
@@ -5278,7 +5278,7 @@ extension GetLensReviewReportOutputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let workloadIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workloadId)
         workloadId = workloadIdDecoded
-        let milestoneNumberDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .milestoneNumber) ?? 0
+        let milestoneNumberDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .milestoneNumber)
         milestoneNumber = milestoneNumberDecoded
         let lensReviewReportDecoded = try containerValues.decodeIfPresent(WellArchitectedClientTypes.LensReviewReport.self, forKey: .lensReviewReport)
         lensReviewReport = lensReviewReportDecoded
@@ -7593,7 +7593,7 @@ extension ListAnswersOutput: ClientRuntime.HttpResponseBinding {
             self.answerSummaries = nil
             self.lensAlias = nil
             self.lensArn = nil
-            self.milestoneNumber = 0
+            self.milestoneNumber = nil
             self.nextToken = nil
             self.workloadId = nil
         }
@@ -7609,7 +7609,7 @@ public struct ListAnswersOutput: Swift.Equatable {
     /// The ARN for the lens.
     public var lensArn: Swift.String?
     /// The milestone number. A workload can have a maximum of 100 milestones.
-    public var milestoneNumber: Swift.Int
+    public var milestoneNumber: Swift.Int?
     /// The token to use to retrieve the next set of results.
     public var nextToken: Swift.String?
     /// The ID assigned to the workload. This ID is unique within an Amazon Web Services Region.
@@ -7619,7 +7619,7 @@ public struct ListAnswersOutput: Swift.Equatable {
         answerSummaries: [WellArchitectedClientTypes.AnswerSummary]? = nil,
         lensAlias: Swift.String? = nil,
         lensArn: Swift.String? = nil,
-        milestoneNumber: Swift.Int = 0,
+        milestoneNumber: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         workloadId: Swift.String? = nil
     )
@@ -7635,7 +7635,7 @@ public struct ListAnswersOutput: Swift.Equatable {
 
 struct ListAnswersOutputBody: Swift.Equatable {
     let workloadId: Swift.String?
-    let milestoneNumber: Swift.Int
+    let milestoneNumber: Swift.Int?
     let lensAlias: Swift.String?
     let lensArn: Swift.String?
     let answerSummaries: [WellArchitectedClientTypes.AnswerSummary]?
@@ -7656,7 +7656,7 @@ extension ListAnswersOutputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let workloadIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workloadId)
         workloadId = workloadIdDecoded
-        let milestoneNumberDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .milestoneNumber) ?? 0
+        let milestoneNumberDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .milestoneNumber)
         milestoneNumber = milestoneNumberDecoded
         let lensAliasDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lensAlias)
         lensAlias = lensAliasDecoded
@@ -8183,7 +8183,7 @@ extension ListLensReviewImprovementsOutput: ClientRuntime.HttpResponseBinding {
             self.improvementSummaries = nil
             self.lensAlias = nil
             self.lensArn = nil
-            self.milestoneNumber = 0
+            self.milestoneNumber = nil
             self.nextToken = nil
             self.workloadId = nil
         }
@@ -8199,7 +8199,7 @@ public struct ListLensReviewImprovementsOutput: Swift.Equatable {
     /// The ARN for the lens.
     public var lensArn: Swift.String?
     /// The milestone number. A workload can have a maximum of 100 milestones.
-    public var milestoneNumber: Swift.Int
+    public var milestoneNumber: Swift.Int?
     /// The token to use to retrieve the next set of results.
     public var nextToken: Swift.String?
     /// The ID assigned to the workload. This ID is unique within an Amazon Web Services Region.
@@ -8209,7 +8209,7 @@ public struct ListLensReviewImprovementsOutput: Swift.Equatable {
         improvementSummaries: [WellArchitectedClientTypes.ImprovementSummary]? = nil,
         lensAlias: Swift.String? = nil,
         lensArn: Swift.String? = nil,
-        milestoneNumber: Swift.Int = 0,
+        milestoneNumber: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         workloadId: Swift.String? = nil
     )
@@ -8225,7 +8225,7 @@ public struct ListLensReviewImprovementsOutput: Swift.Equatable {
 
 struct ListLensReviewImprovementsOutputBody: Swift.Equatable {
     let workloadId: Swift.String?
-    let milestoneNumber: Swift.Int
+    let milestoneNumber: Swift.Int?
     let lensAlias: Swift.String?
     let lensArn: Swift.String?
     let improvementSummaries: [WellArchitectedClientTypes.ImprovementSummary]?
@@ -8246,7 +8246,7 @@ extension ListLensReviewImprovementsOutputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let workloadIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workloadId)
         workloadId = workloadIdDecoded
-        let milestoneNumberDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .milestoneNumber) ?? 0
+        let milestoneNumberDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .milestoneNumber)
         milestoneNumber = milestoneNumberDecoded
         let lensAliasDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lensAlias)
         lensAlias = lensAliasDecoded
@@ -8359,7 +8359,7 @@ extension ListLensReviewsOutput: ClientRuntime.HttpResponseBinding {
             self.workloadId = output.workloadId
         } else {
             self.lensReviewSummaries = nil
-            self.milestoneNumber = 0
+            self.milestoneNumber = nil
             self.nextToken = nil
             self.workloadId = nil
         }
@@ -8371,7 +8371,7 @@ public struct ListLensReviewsOutput: Swift.Equatable {
     /// List of lens summaries of lens reviews of a workload.
     public var lensReviewSummaries: [WellArchitectedClientTypes.LensReviewSummary]?
     /// The milestone number. A workload can have a maximum of 100 milestones.
-    public var milestoneNumber: Swift.Int
+    public var milestoneNumber: Swift.Int?
     /// The token to use to retrieve the next set of results.
     public var nextToken: Swift.String?
     /// The ID assigned to the workload. This ID is unique within an Amazon Web Services Region.
@@ -8379,7 +8379,7 @@ public struct ListLensReviewsOutput: Swift.Equatable {
 
     public init(
         lensReviewSummaries: [WellArchitectedClientTypes.LensReviewSummary]? = nil,
-        milestoneNumber: Swift.Int = 0,
+        milestoneNumber: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         workloadId: Swift.String? = nil
     )
@@ -8393,7 +8393,7 @@ public struct ListLensReviewsOutput: Swift.Equatable {
 
 struct ListLensReviewsOutputBody: Swift.Equatable {
     let workloadId: Swift.String?
-    let milestoneNumber: Swift.Int
+    let milestoneNumber: Swift.Int?
     let lensReviewSummaries: [WellArchitectedClientTypes.LensReviewSummary]?
     let nextToken: Swift.String?
 }
@@ -8410,7 +8410,7 @@ extension ListLensReviewsOutputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let workloadIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workloadId)
         workloadId = workloadIdDecoded
-        let milestoneNumberDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .milestoneNumber) ?? 0
+        let milestoneNumberDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .milestoneNumber)
         milestoneNumber = milestoneNumberDecoded
         let lensReviewSummariesContainer = try containerValues.decodeIfPresent([WellArchitectedClientTypes.LensReviewSummary?].self, forKey: .lensReviewSummaries)
         var lensReviewSummariesDecoded0:[WellArchitectedClientTypes.LensReviewSummary]? = nil
@@ -10501,7 +10501,7 @@ extension WellArchitectedClientTypes.Milestone: Swift.Codable {
         if let milestoneName = self.milestoneName {
             try encodeContainer.encode(milestoneName, forKey: .milestoneName)
         }
-        if milestoneNumber != 0 {
+        if let milestoneNumber = self.milestoneNumber {
             try encodeContainer.encode(milestoneNumber, forKey: .milestoneNumber)
         }
         if let recordedAt = self.recordedAt {
@@ -10514,7 +10514,7 @@ extension WellArchitectedClientTypes.Milestone: Swift.Codable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let milestoneNumberDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .milestoneNumber) ?? 0
+        let milestoneNumberDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .milestoneNumber)
         milestoneNumber = milestoneNumberDecoded
         let milestoneNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .milestoneName)
         milestoneName = milestoneNameDecoded
@@ -10531,7 +10531,7 @@ extension WellArchitectedClientTypes {
         /// The name of the milestone in a workload. Milestone names must be unique within a workload.
         public var milestoneName: Swift.String?
         /// The milestone number. A workload can have a maximum of 100 milestones.
-        public var milestoneNumber: Swift.Int
+        public var milestoneNumber: Swift.Int?
         /// The date and time recorded.
         public var recordedAt: ClientRuntime.Date?
         /// A workload return object.
@@ -10539,7 +10539,7 @@ extension WellArchitectedClientTypes {
 
         public init(
             milestoneName: Swift.String? = nil,
-            milestoneNumber: Swift.Int = 0,
+            milestoneNumber: Swift.Int? = nil,
             recordedAt: ClientRuntime.Date? = nil,
             workload: WellArchitectedClientTypes.Workload? = nil
         )
@@ -10566,7 +10566,7 @@ extension WellArchitectedClientTypes.MilestoneSummary: Swift.Codable {
         if let milestoneName = self.milestoneName {
             try encodeContainer.encode(milestoneName, forKey: .milestoneName)
         }
-        if milestoneNumber != 0 {
+        if let milestoneNumber = self.milestoneNumber {
             try encodeContainer.encode(milestoneNumber, forKey: .milestoneNumber)
         }
         if let recordedAt = self.recordedAt {
@@ -10579,7 +10579,7 @@ extension WellArchitectedClientTypes.MilestoneSummary: Swift.Codable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let milestoneNumberDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .milestoneNumber) ?? 0
+        let milestoneNumberDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .milestoneNumber)
         milestoneNumber = milestoneNumberDecoded
         let milestoneNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .milestoneName)
         milestoneName = milestoneNameDecoded
@@ -10596,7 +10596,7 @@ extension WellArchitectedClientTypes {
         /// The name of the milestone in a workload. Milestone names must be unique within a workload.
         public var milestoneName: Swift.String?
         /// The milestone number. A workload can have a maximum of 100 milestones.
-        public var milestoneNumber: Swift.Int
+        public var milestoneNumber: Swift.Int?
         /// The date and time recorded.
         public var recordedAt: ClientRuntime.Date?
         /// A workload summary return object.
@@ -10604,7 +10604,7 @@ extension WellArchitectedClientTypes {
 
         public init(
             milestoneName: Swift.String? = nil,
-            milestoneNumber: Swift.Int = 0,
+            milestoneNumber: Swift.Int? = nil,
             recordedAt: ClientRuntime.Date? = nil,
             workloadSummary: WellArchitectedClientTypes.WorkloadSummary? = nil
         )
@@ -11391,10 +11391,10 @@ extension WellArchitectedClientTypes.ProfileQuestion: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if maxSelectedChoices != 0 {
+        if let maxSelectedChoices = self.maxSelectedChoices {
             try encodeContainer.encode(maxSelectedChoices, forKey: .maxSelectedChoices)
         }
-        if minSelectedChoices != 0 {
+        if let minSelectedChoices = self.minSelectedChoices {
             try encodeContainer.encode(minSelectedChoices, forKey: .minSelectedChoices)
         }
         if let questionChoices = questionChoices {
@@ -11450,9 +11450,9 @@ extension WellArchitectedClientTypes.ProfileQuestion: Swift.Codable {
             }
         }
         selectedChoiceIds = selectedChoiceIdsDecoded0
-        let minSelectedChoicesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .minSelectedChoices) ?? 0
+        let minSelectedChoicesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .minSelectedChoices)
         minSelectedChoices = minSelectedChoicesDecoded
-        let maxSelectedChoicesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxSelectedChoices) ?? 0
+        let maxSelectedChoicesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxSelectedChoices)
         maxSelectedChoices = maxSelectedChoicesDecoded
     }
 }
@@ -11461,9 +11461,9 @@ extension WellArchitectedClientTypes {
     /// A profile question.
     public struct ProfileQuestion: Swift.Equatable {
         /// The maximum number of selected choices.
-        public var maxSelectedChoices: Swift.Int
+        public var maxSelectedChoices: Swift.Int?
         /// The minimum number of selected choices.
-        public var minSelectedChoices: Swift.Int
+        public var minSelectedChoices: Swift.Int?
         /// The question choices.
         public var questionChoices: [WellArchitectedClientTypes.ProfileChoice]?
         /// The description of the question.
@@ -11476,8 +11476,8 @@ extension WellArchitectedClientTypes {
         public var selectedChoiceIds: [Swift.String]?
 
         public init(
-            maxSelectedChoices: Swift.Int = 0,
-            minSelectedChoices: Swift.Int = 0,
+            maxSelectedChoices: Swift.Int? = nil,
+            minSelectedChoices: Swift.Int? = nil,
             questionChoices: [WellArchitectedClientTypes.ProfileChoice]? = nil,
             questionDescription: Swift.String? = nil,
             questionId: Swift.String? = nil,
@@ -11858,10 +11858,10 @@ extension WellArchitectedClientTypes.ProfileTemplateQuestion: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if maxSelectedChoices != 0 {
+        if let maxSelectedChoices = self.maxSelectedChoices {
             try encodeContainer.encode(maxSelectedChoices, forKey: .maxSelectedChoices)
         }
-        if minSelectedChoices != 0 {
+        if let minSelectedChoices = self.minSelectedChoices {
             try encodeContainer.encode(minSelectedChoices, forKey: .minSelectedChoices)
         }
         if let questionChoices = questionChoices {
@@ -11900,9 +11900,9 @@ extension WellArchitectedClientTypes.ProfileTemplateQuestion: Swift.Codable {
             }
         }
         questionChoices = questionChoicesDecoded0
-        let minSelectedChoicesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .minSelectedChoices) ?? 0
+        let minSelectedChoicesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .minSelectedChoices)
         minSelectedChoices = minSelectedChoicesDecoded
-        let maxSelectedChoicesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxSelectedChoices) ?? 0
+        let maxSelectedChoicesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxSelectedChoices)
         maxSelectedChoices = maxSelectedChoicesDecoded
     }
 }
@@ -11911,9 +11911,9 @@ extension WellArchitectedClientTypes {
     /// A profile template question.
     public struct ProfileTemplateQuestion: Swift.Equatable {
         /// The maximum number of choices selected.
-        public var maxSelectedChoices: Swift.Int
+        public var maxSelectedChoices: Swift.Int?
         /// The minimum number of choices selected.
-        public var minSelectedChoices: Swift.Int
+        public var minSelectedChoices: Swift.Int?
         /// The question choices.
         public var questionChoices: [WellArchitectedClientTypes.ProfileTemplateChoice]?
         /// The description of the question.
@@ -11924,8 +11924,8 @@ extension WellArchitectedClientTypes {
         public var questionTitle: Swift.String?
 
         public init(
-            maxSelectedChoices: Swift.Int = 0,
-            minSelectedChoices: Swift.Int = 0,
+            maxSelectedChoices: Swift.Int? = nil,
+            minSelectedChoices: Swift.Int? = nil,
             questionChoices: [WellArchitectedClientTypes.ProfileTemplateChoice]? = nil,
             questionDescription: Swift.String? = nil,
             questionId: Swift.String? = nil,
@@ -12487,7 +12487,7 @@ extension WellArchitectedClientTypes.ReviewTemplateAnswer: Swift.Codable {
         if let improvementPlanUrl = self.improvementPlanUrl {
             try encodeContainer.encode(improvementPlanUrl, forKey: .improvementPlanUrl)
         }
-        if isApplicable != false {
+        if let isApplicable = self.isApplicable {
             try encodeContainer.encode(isApplicable, forKey: .isApplicable)
         }
         if let notes = self.notes {
@@ -12565,7 +12565,7 @@ extension WellArchitectedClientTypes.ReviewTemplateAnswer: Swift.Codable {
             }
         }
         choiceAnswers = choiceAnswersDecoded0
-        let isApplicableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isApplicable) ?? false
+        let isApplicableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isApplicable)
         isApplicable = isApplicableDecoded
         let answerStatusDecoded = try containerValues.decodeIfPresent(WellArchitectedClientTypes.ReviewTemplateAnswerStatus.self, forKey: .answerStatus)
         answerStatus = answerStatusDecoded
@@ -12592,7 +12592,7 @@ extension WellArchitectedClientTypes {
         /// The improvement plan URL for a question in an Amazon Web Services official lenses. This value is only available if the question has been answered. This value does not apply to custom lenses.
         public var improvementPlanUrl: Swift.String?
         /// Defines whether this question is applicable to a lens review.
-        public var isApplicable: Swift.Bool
+        public var isApplicable: Swift.Bool?
         /// The notes associated with the workload. For a review template, these are the notes that will be associated with the workload when the template is applied.
         public var notes: Swift.String?
         /// The ID used to identify a pillar, for example, security. A pillar is identified by its [PillarReviewSummary$PillarId].
@@ -12615,7 +12615,7 @@ extension WellArchitectedClientTypes {
             helpfulResourceDisplayText: Swift.String? = nil,
             helpfulResourceUrl: Swift.String? = nil,
             improvementPlanUrl: Swift.String? = nil,
-            isApplicable: Swift.Bool = false,
+            isApplicable: Swift.Bool? = nil,
             notes: Swift.String? = nil,
             pillarId: Swift.String? = nil,
             questionDescription: Swift.String? = nil,
@@ -12707,7 +12707,7 @@ extension WellArchitectedClientTypes.ReviewTemplateAnswerSummary: Swift.Codable 
                 try choicesContainer.encode(choice0)
             }
         }
-        if isApplicable != false {
+        if let isApplicable = self.isApplicable {
             try encodeContainer.encode(isApplicable, forKey: .isApplicable)
         }
         if let pillarId = self.pillarId {
@@ -12774,7 +12774,7 @@ extension WellArchitectedClientTypes.ReviewTemplateAnswerSummary: Swift.Codable 
             }
         }
         choiceAnswerSummaries = choiceAnswerSummariesDecoded0
-        let isApplicableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isApplicable) ?? false
+        let isApplicableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isApplicable)
         isApplicable = isApplicableDecoded
         let answerStatusDecoded = try containerValues.decodeIfPresent(WellArchitectedClientTypes.ReviewTemplateAnswerStatus.self, forKey: .answerStatus)
         answerStatus = answerStatusDecoded
@@ -12795,7 +12795,7 @@ extension WellArchitectedClientTypes {
         /// List of choices available for a question.
         public var choices: [WellArchitectedClientTypes.Choice]?
         /// Defines whether this question is applicable to a lens review.
-        public var isApplicable: Swift.Bool
+        public var isApplicable: Swift.Bool?
         /// The ID used to identify a pillar, for example, security. A pillar is identified by its [PillarReviewSummary$PillarId].
         public var pillarId: Swift.String?
         /// The ID of the question.
@@ -12813,7 +12813,7 @@ extension WellArchitectedClientTypes {
             answerStatus: WellArchitectedClientTypes.ReviewTemplateAnswerStatus? = nil,
             choiceAnswerSummaries: [WellArchitectedClientTypes.ChoiceAnswerSummary]? = nil,
             choices: [WellArchitectedClientTypes.Choice]? = nil,
-            isApplicable: Swift.Bool = false,
+            isApplicable: Swift.Bool? = nil,
             pillarId: Swift.String? = nil,
             questionId: Swift.String? = nil,
             questionTitle: Swift.String? = nil,
@@ -16449,7 +16449,7 @@ extension WellArchitectedClientTypes.Workload: Swift.Codable {
         if let industryType = self.industryType {
             try encodeContainer.encode(industryType, forKey: .industryType)
         }
-        if isReviewOwnerUpdateAcknowledged != false {
+        if let isReviewOwnerUpdateAcknowledged = self.isReviewOwnerUpdateAcknowledged {
             try encodeContainer.encode(isReviewOwnerUpdateAcknowledged, forKey: .isReviewOwnerUpdateAcknowledged)
         }
         if let lenses = lenses {
@@ -16576,7 +16576,7 @@ extension WellArchitectedClientTypes.Workload: Swift.Codable {
         reviewOwner = reviewOwnerDecoded
         let reviewRestrictionDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .reviewRestrictionDate)
         reviewRestrictionDate = reviewRestrictionDateDecoded
-        let isReviewOwnerUpdateAcknowledgedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isReviewOwnerUpdateAcknowledged) ?? false
+        let isReviewOwnerUpdateAcknowledgedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isReviewOwnerUpdateAcknowledged)
         isReviewOwnerUpdateAcknowledged = isReviewOwnerUpdateAcknowledgedDecoded
         let industryTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .industryType)
         industryType = industryTypeDecoded
@@ -16750,7 +16750,7 @@ extension WellArchitectedClientTypes {
         /// * Other
         public var industryType: Swift.String?
         /// Flag indicating whether the workload owner has acknowledged that the Review owner field is required. If a Review owner is not added to the workload within 60 days of acknowledgement, access to the workload is restricted until an owner is added.
-        public var isReviewOwnerUpdateAcknowledged: Swift.Bool
+        public var isReviewOwnerUpdateAcknowledged: Swift.Bool?
         /// The list of lenses associated with the workload. Each lens is identified by its [LensSummary$LensAlias]. If a review template that specifies lenses is applied to the workload, those lenses are applied to the workload in addition to these lenses.
         public var lenses: [Swift.String]?
         /// The list of non-Amazon Web Services Regions associated with the workload.
@@ -16795,7 +16795,7 @@ extension WellArchitectedClientTypes {
             improvementStatus: WellArchitectedClientTypes.WorkloadImprovementStatus? = nil,
             industry: Swift.String? = nil,
             industryType: Swift.String? = nil,
-            isReviewOwnerUpdateAcknowledged: Swift.Bool = false,
+            isReviewOwnerUpdateAcknowledged: Swift.Bool? = nil,
             lenses: [Swift.String]? = nil,
             nonAwsRegions: [Swift.String]? = nil,
             notes: Swift.String? = nil,

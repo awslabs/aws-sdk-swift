@@ -418,7 +418,7 @@ extension SecurityHubClientTypes.ActionLocalPortDetails: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if port != 0 {
+        if let port = self.port {
             try encodeContainer.encode(port, forKey: .port)
         }
         if let portName = self.portName {
@@ -428,7 +428,7 @@ extension SecurityHubClientTypes.ActionLocalPortDetails: Swift.Codable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port) ?? 0
+        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port)
         port = portDecoded
         let portNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .portName)
         portName = portNameDecoded
@@ -439,12 +439,12 @@ extension SecurityHubClientTypes {
     /// For NetworkConnectionAction and PortProbeDetails, LocalPortDetails provides information about the local port that was involved in the action.
     public struct ActionLocalPortDetails: Swift.Equatable {
         /// The number of the port.
-        public var port: Swift.Int
+        public var port: Swift.Int?
         /// The port name of the local connection.
         public var portName: Swift.String?
 
         public init(
-            port: Swift.Int = 0,
+            port: Swift.Int? = nil,
             portName: Swift.String? = nil
         )
         {
@@ -538,7 +538,7 @@ extension SecurityHubClientTypes.ActionRemotePortDetails: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if port != 0 {
+        if let port = self.port {
             try encodeContainer.encode(port, forKey: .port)
         }
         if let portName = self.portName {
@@ -548,7 +548,7 @@ extension SecurityHubClientTypes.ActionRemotePortDetails: Swift.Codable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port) ?? 0
+        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port)
         port = portDecoded
         let portNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .portName)
         portName = portNameDecoded
@@ -559,12 +559,12 @@ extension SecurityHubClientTypes {
     /// Provides information about the remote port that was involved in an attempted network connection.
     public struct ActionRemotePortDetails: Swift.Equatable {
         /// The number of the port.
-        public var port: Swift.Int
+        public var port: Swift.Int?
         /// The port name of the remote connection.
         public var portName: Swift.String?
 
         public init(
-            port: Swift.Int = 0,
+            port: Swift.Int? = nil,
             portName: Swift.String? = nil
         )
         {
@@ -808,7 +808,7 @@ extension SecurityHubClientTypes.AssociationSetDetails: Swift.Codable {
         if let gatewayId = self.gatewayId {
             try encodeContainer.encode(gatewayId, forKey: .gatewayId)
         }
-        if main != false {
+        if let main = self.main {
             try encodeContainer.encode(main, forKey: .main)
         }
         if let routeTableAssociationId = self.routeTableAssociationId {
@@ -828,7 +828,7 @@ extension SecurityHubClientTypes.AssociationSetDetails: Swift.Codable {
         associationState = associationStateDecoded
         let gatewayIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayId)
         gatewayId = gatewayIdDecoded
-        let mainDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .main) ?? false
+        let mainDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .main)
         main = mainDecoded
         let routeTableAssociationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .routeTableAssociationId)
         routeTableAssociationId = routeTableAssociationIdDecoded
@@ -847,7 +847,7 @@ extension SecurityHubClientTypes {
         /// The ID of the internet gateway or virtual private gateway.
         public var gatewayId: Swift.String?
         /// Indicates whether this is the main route table.
-        public var main: Swift.Bool
+        public var main: Swift.Bool?
         /// The ID of the association.
         public var routeTableAssociationId: Swift.String?
         /// The ID of the route table.
@@ -858,7 +858,7 @@ extension SecurityHubClientTypes {
         public init(
             associationState: SecurityHubClientTypes.AssociationStateDetails? = nil,
             gatewayId: Swift.String? = nil,
-            main: Swift.Bool = false,
+            main: Swift.Bool? = nil,
             routeTableAssociationId: Swift.String? = nil,
             routeTableId: Swift.String? = nil,
             subnetId: Swift.String? = nil
@@ -1093,7 +1093,7 @@ extension SecurityHubClientTypes.AutomationRulesConfig: Swift.Codable {
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
         }
-        if isTerminal != false {
+        if let isTerminal = self.isTerminal {
             try encodeContainer.encode(isTerminal, forKey: .isTerminal)
         }
         if let ruleArn = self.ruleArn {
@@ -1102,7 +1102,7 @@ extension SecurityHubClientTypes.AutomationRulesConfig: Swift.Codable {
         if let ruleName = self.ruleName {
             try encodeContainer.encode(ruleName, forKey: .ruleName)
         }
-        if ruleOrder != 0 {
+        if let ruleOrder = self.ruleOrder {
             try encodeContainer.encode(ruleOrder, forKey: .ruleOrder)
         }
         if let ruleStatus = self.ruleStatus {
@@ -1119,13 +1119,13 @@ extension SecurityHubClientTypes.AutomationRulesConfig: Swift.Codable {
         ruleArn = ruleArnDecoded
         let ruleStatusDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.RuleStatus.self, forKey: .ruleStatus)
         ruleStatus = ruleStatusDecoded
-        let ruleOrderDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .ruleOrder) ?? 0
+        let ruleOrderDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .ruleOrder)
         ruleOrder = ruleOrderDecoded
         let ruleNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ruleName)
         ruleName = ruleNameDecoded
         let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
         description = descriptionDecoded
-        let isTerminalDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isTerminal) ?? false
+        let isTerminalDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isTerminal)
         isTerminal = isTerminalDecoded
         let criteriaDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AutomationRulesFindingFilters.self, forKey: .criteria)
         criteria = criteriaDecoded
@@ -1163,13 +1163,13 @@ extension SecurityHubClientTypes {
         /// A description of the rule.
         public var description: Swift.String?
         /// Specifies whether a rule is the last to be applied with respect to a finding that matches the rule criteria. This is useful when a finding matches the criteria for multiple rules, and each rule has different actions. If a rule is terminal, Security Hub applies the rule action to a finding that matches the rule criteria and doesn't evaluate other rules for the finding. By default, a rule isn't terminal.
-        public var isTerminal: Swift.Bool
+        public var isTerminal: Swift.Bool?
         /// The Amazon Resource Name (ARN) of a rule.
         public var ruleArn: Swift.String?
         /// The name of the rule.
         public var ruleName: Swift.String?
         /// An integer ranging from 1 to 1000 that represents the order in which the rule action is applied to findings. Security Hub applies rules with lower values for this parameter first.
-        public var ruleOrder: Swift.Int
+        public var ruleOrder: Swift.Int?
         /// Whether the rule is active after it is created. If this parameter is equal to ENABLED, Security Hub starts applying the rule to findings and finding updates after the rule is created.
         public var ruleStatus: SecurityHubClientTypes.RuleStatus?
         /// A timestamp that indicates when the rule was most recently updated. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
@@ -1181,10 +1181,10 @@ extension SecurityHubClientTypes {
             createdBy: Swift.String? = nil,
             criteria: SecurityHubClientTypes.AutomationRulesFindingFilters? = nil,
             description: Swift.String? = nil,
-            isTerminal: Swift.Bool = false,
+            isTerminal: Swift.Bool? = nil,
             ruleArn: Swift.String? = nil,
             ruleName: Swift.String? = nil,
-            ruleOrder: Swift.Int = 0,
+            ruleOrder: Swift.Int? = nil,
             ruleStatus: SecurityHubClientTypes.RuleStatus? = nil,
             updatedAt: ClientRuntime.Date? = nil
         )
@@ -1220,10 +1220,10 @@ extension SecurityHubClientTypes.AutomationRulesFindingFieldsUpdate: Swift.Codab
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if confidence != 0 {
+        if let confidence = self.confidence {
             try encodeContainer.encode(confidence, forKey: .confidence)
         }
-        if criticality != 0 {
+        if let criticality = self.criticality {
             try encodeContainer.encode(criticality, forKey: .criticality)
         }
         if let note = self.note {
@@ -1266,9 +1266,9 @@ extension SecurityHubClientTypes.AutomationRulesFindingFieldsUpdate: Swift.Codab
         severity = severityDecoded
         let verificationStateDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.VerificationState.self, forKey: .verificationState)
         verificationState = verificationStateDecoded
-        let confidenceDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .confidence) ?? 0
+        let confidenceDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .confidence)
         confidence = confidenceDecoded
-        let criticalityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .criticality) ?? 0
+        let criticalityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .criticality)
         criticality = criticalityDecoded
         let typesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .types)
         var typesDecoded0:[Swift.String]? = nil
@@ -1312,9 +1312,9 @@ extension SecurityHubClientTypes {
     /// Identifies the finding fields that the automation rule action updates when a finding matches the defined criteria.
     public struct AutomationRulesFindingFieldsUpdate: Swift.Equatable {
         /// The rule action updates the Confidence field of a finding.
-        public var confidence: Swift.Int
+        public var confidence: Swift.Int?
         /// The rule action updates the Criticality field of a finding.
-        public var criticality: Swift.Int
+        public var criticality: Swift.Int?
         /// The updated note.
         public var note: SecurityHubClientTypes.NoteUpdate?
         /// The rule action updates the RelatedFindings field of a finding.
@@ -1331,8 +1331,8 @@ extension SecurityHubClientTypes {
         public var workflow: SecurityHubClientTypes.WorkflowUpdate?
 
         public init(
-            confidence: Swift.Int = 0,
-            criticality: Swift.Int = 0,
+            confidence: Swift.Int? = nil,
+            criticality: Swift.Int? = nil,
             note: SecurityHubClientTypes.NoteUpdate? = nil,
             relatedFindings: [SecurityHubClientTypes.RelatedFinding]? = nil,
             severity: SecurityHubClientTypes.SeverityUpdate? = nil,
@@ -2175,7 +2175,7 @@ extension SecurityHubClientTypes.AutomationRulesMetadata: Swift.Codable {
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
         }
-        if isTerminal != false {
+        if let isTerminal = self.isTerminal {
             try encodeContainer.encode(isTerminal, forKey: .isTerminal)
         }
         if let ruleArn = self.ruleArn {
@@ -2184,7 +2184,7 @@ extension SecurityHubClientTypes.AutomationRulesMetadata: Swift.Codable {
         if let ruleName = self.ruleName {
             try encodeContainer.encode(ruleName, forKey: .ruleName)
         }
-        if ruleOrder != 0 {
+        if let ruleOrder = self.ruleOrder {
             try encodeContainer.encode(ruleOrder, forKey: .ruleOrder)
         }
         if let ruleStatus = self.ruleStatus {
@@ -2201,13 +2201,13 @@ extension SecurityHubClientTypes.AutomationRulesMetadata: Swift.Codable {
         ruleArn = ruleArnDecoded
         let ruleStatusDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.RuleStatus.self, forKey: .ruleStatus)
         ruleStatus = ruleStatusDecoded
-        let ruleOrderDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .ruleOrder) ?? 0
+        let ruleOrderDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .ruleOrder)
         ruleOrder = ruleOrderDecoded
         let ruleNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ruleName)
         ruleName = ruleNameDecoded
         let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
         description = descriptionDecoded
-        let isTerminalDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isTerminal) ?? false
+        let isTerminalDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isTerminal)
         isTerminal = isTerminalDecoded
         let createdAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .createdAt)
         createdAt = createdAtDecoded
@@ -2228,13 +2228,13 @@ extension SecurityHubClientTypes {
         /// A description of the rule.
         public var description: Swift.String?
         /// Specifies whether a rule is the last to be applied with respect to a finding that matches the rule criteria. This is useful when a finding matches the criteria for multiple rules, and each rule has different actions. If a rule is terminal, Security Hub applies the rule action to a finding that matches the rule criteria and doesn't evaluate other rules for the finding. By default, a rule isn't terminal.
-        public var isTerminal: Swift.Bool
+        public var isTerminal: Swift.Bool?
         /// The Amazon Resource Name (ARN) for the rule.
         public var ruleArn: Swift.String?
         /// The name of the rule.
         public var ruleName: Swift.String?
         /// An integer ranging from 1 to 1000 that represents the order in which the rule action is applied to findings. Security Hub applies rules with lower values for this parameter first.
-        public var ruleOrder: Swift.Int
+        public var ruleOrder: Swift.Int?
         /// Whether the rule is active after it is created. If this parameter is equal to ENABLED, Security Hub starts applying the rule to findings and finding updates after the rule is created. To change the value of this parameter after creating a rule, use [BatchUpdateAutomationRules](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_BatchUpdateAutomationRules.html).
         public var ruleStatus: SecurityHubClientTypes.RuleStatus?
         /// A timestamp that indicates when the rule was most recently updated. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
@@ -2244,10 +2244,10 @@ extension SecurityHubClientTypes {
             createdAt: ClientRuntime.Date? = nil,
             createdBy: Swift.String? = nil,
             description: Swift.String? = nil,
-            isTerminal: Swift.Bool = false,
+            isTerminal: Swift.Bool? = nil,
             ruleArn: Swift.String? = nil,
             ruleName: Swift.String? = nil,
-            ruleOrder: Swift.Int = 0,
+            ruleOrder: Swift.Int? = nil,
             ruleStatus: SecurityHubClientTypes.RuleStatus? = nil,
             updatedAt: ClientRuntime.Date? = nil
         )
@@ -2338,7 +2338,7 @@ extension SecurityHubClientTypes.AwsAmazonMqBrokerDetails: Swift.Codable {
         if let authenticationStrategy = self.authenticationStrategy {
             try encodeContainer.encode(authenticationStrategy, forKey: .authenticationStrategy)
         }
-        if autoMinorVersionUpgrade != false {
+        if let autoMinorVersionUpgrade = self.autoMinorVersionUpgrade {
             try encodeContainer.encode(autoMinorVersionUpgrade, forKey: .autoMinorVersionUpgrade)
         }
         if let brokerArn = self.brokerArn {
@@ -2374,7 +2374,7 @@ extension SecurityHubClientTypes.AwsAmazonMqBrokerDetails: Swift.Codable {
         if let maintenanceWindowStartTime = self.maintenanceWindowStartTime {
             try encodeContainer.encode(maintenanceWindowStartTime, forKey: .maintenanceWindowStartTime)
         }
-        if publiclyAccessible != false {
+        if let publiclyAccessible = self.publiclyAccessible {
             try encodeContainer.encode(publiclyAccessible, forKey: .publiclyAccessible)
         }
         if let securityGroups = securityGroups {
@@ -2404,7 +2404,7 @@ extension SecurityHubClientTypes.AwsAmazonMqBrokerDetails: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let authenticationStrategyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .authenticationStrategy)
         authenticationStrategy = authenticationStrategyDecoded
-        let autoMinorVersionUpgradeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoMinorVersionUpgrade) ?? false
+        let autoMinorVersionUpgradeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoMinorVersionUpgrade)
         autoMinorVersionUpgrade = autoMinorVersionUpgradeDecoded
         let brokerArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .brokerArn)
         brokerArn = brokerArnDecoded
@@ -2428,7 +2428,7 @@ extension SecurityHubClientTypes.AwsAmazonMqBrokerDetails: Swift.Codable {
         logs = logsDecoded
         let maintenanceWindowStartTimeDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsAmazonMqBrokerMaintenanceWindowStartTimeDetails.self, forKey: .maintenanceWindowStartTime)
         maintenanceWindowStartTime = maintenanceWindowStartTimeDecoded
-        let publiclyAccessibleDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .publiclyAccessible) ?? false
+        let publiclyAccessibleDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .publiclyAccessible)
         publiclyAccessible = publiclyAccessibleDecoded
         let securityGroupsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .securityGroups)
         var securityGroupsDecoded0:[Swift.String]? = nil
@@ -2474,7 +2474,7 @@ extension SecurityHubClientTypes {
         /// The authentication strategy used to secure the broker. The default is SIMPLE.
         public var authenticationStrategy: Swift.String?
         /// Whether automatically upgrade new minor versions for brokers, as new versions are released and supported by Amazon MQ. Automatic upgrades occur during the scheduled maintenance window of the broker or after a manual broker reboot.
-        public var autoMinorVersionUpgrade: Swift.Bool
+        public var autoMinorVersionUpgrade: Swift.Bool?
         /// The Amazon Resource Name (ARN) of the broker.
         public var brokerArn: Swift.String?
         /// The unique ID that Amazon MQ generates for the broker.
@@ -2498,7 +2498,7 @@ extension SecurityHubClientTypes {
         /// The scheduled time period (UTC) during which Amazon MQ begins to apply pending updates or patches to the broker.
         public var maintenanceWindowStartTime: SecurityHubClientTypes.AwsAmazonMqBrokerMaintenanceWindowStartTimeDetails?
         /// Permits connections from applications outside of the VPC that hosts the broker's subnets.
-        public var publiclyAccessible: Swift.Bool
+        public var publiclyAccessible: Swift.Bool?
         /// The list of rules (one minimum, 125 maximum) that authorize connections to brokers.
         public var securityGroups: [Swift.String]?
         /// The broker's storage type.
@@ -2510,7 +2510,7 @@ extension SecurityHubClientTypes {
 
         public init(
             authenticationStrategy: Swift.String? = nil,
-            autoMinorVersionUpgrade: Swift.Bool = false,
+            autoMinorVersionUpgrade: Swift.Bool? = nil,
             brokerArn: Swift.String? = nil,
             brokerId: Swift.String? = nil,
             brokerName: Swift.String? = nil,
@@ -2522,7 +2522,7 @@ extension SecurityHubClientTypes {
             ldapServerMetadata: SecurityHubClientTypes.AwsAmazonMqBrokerLdapServerMetadataDetails? = nil,
             logs: SecurityHubClientTypes.AwsAmazonMqBrokerLogsDetails? = nil,
             maintenanceWindowStartTime: SecurityHubClientTypes.AwsAmazonMqBrokerMaintenanceWindowStartTimeDetails? = nil,
-            publiclyAccessible: Swift.Bool = false,
+            publiclyAccessible: Swift.Bool? = nil,
             securityGroups: [Swift.String]? = nil,
             storageType: Swift.String? = nil,
             subnetIds: [Swift.String]? = nil,
@@ -2563,7 +2563,7 @@ extension SecurityHubClientTypes.AwsAmazonMqBrokerEncryptionOptionsDetails: Swif
         if let kmsKeyId = self.kmsKeyId {
             try encodeContainer.encode(kmsKeyId, forKey: .kmsKeyId)
         }
-        if useAwsOwnedKey != false {
+        if let useAwsOwnedKey = self.useAwsOwnedKey {
             try encodeContainer.encode(useAwsOwnedKey, forKey: .useAwsOwnedKey)
         }
     }
@@ -2572,7 +2572,7 @@ extension SecurityHubClientTypes.AwsAmazonMqBrokerEncryptionOptionsDetails: Swif
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
         kmsKeyId = kmsKeyIdDecoded
-        let useAwsOwnedKeyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .useAwsOwnedKey) ?? false
+        let useAwsOwnedKeyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .useAwsOwnedKey)
         useAwsOwnedKey = useAwsOwnedKeyDecoded
     }
 }
@@ -2583,11 +2583,11 @@ extension SecurityHubClientTypes {
         /// The KMS key that’s used to encrypt your data at rest. If not provided, Amazon MQ will use a default KMS key to encrypt your data.
         public var kmsKeyId: Swift.String?
         /// Specifies that an KMS key should be used for at-rest encryption. Set to true by default if no value is provided (for example, for RabbitMQ brokers).
-        public var useAwsOwnedKey: Swift.Bool
+        public var useAwsOwnedKey: Swift.Bool?
 
         public init(
             kmsKeyId: Swift.String? = nil,
-            useAwsOwnedKey: Swift.Bool = false
+            useAwsOwnedKey: Swift.Bool? = nil
         )
         {
             self.kmsKeyId = kmsKeyId
@@ -2628,7 +2628,7 @@ extension SecurityHubClientTypes.AwsAmazonMqBrokerLdapServerMetadataDetails: Swi
         if let roleSearchMatching = self.roleSearchMatching {
             try encodeContainer.encode(roleSearchMatching, forKey: .roleSearchMatching)
         }
-        if roleSearchSubtree != false {
+        if let roleSearchSubtree = self.roleSearchSubtree {
             try encodeContainer.encode(roleSearchSubtree, forKey: .roleSearchSubtree)
         }
         if let serviceAccountUsername = self.serviceAccountUsername {
@@ -2643,7 +2643,7 @@ extension SecurityHubClientTypes.AwsAmazonMqBrokerLdapServerMetadataDetails: Swi
         if let userSearchMatching = self.userSearchMatching {
             try encodeContainer.encode(userSearchMatching, forKey: .userSearchMatching)
         }
-        if userSearchSubtree != false {
+        if let userSearchSubtree = self.userSearchSubtree {
             try encodeContainer.encode(userSearchSubtree, forKey: .userSearchSubtree)
         }
     }
@@ -2667,7 +2667,7 @@ extension SecurityHubClientTypes.AwsAmazonMqBrokerLdapServerMetadataDetails: Swi
         roleName = roleNameDecoded
         let roleSearchMatchingDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleSearchMatching)
         roleSearchMatching = roleSearchMatchingDecoded
-        let roleSearchSubtreeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .roleSearchSubtree) ?? false
+        let roleSearchSubtreeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .roleSearchSubtree)
         roleSearchSubtree = roleSearchSubtreeDecoded
         let serviceAccountUsernameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serviceAccountUsername)
         serviceAccountUsername = serviceAccountUsernameDecoded
@@ -2677,7 +2677,7 @@ extension SecurityHubClientTypes.AwsAmazonMqBrokerLdapServerMetadataDetails: Swi
         userRoleName = userRoleNameDecoded
         let userSearchMatchingDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .userSearchMatching)
         userSearchMatching = userSearchMatchingDecoded
-        let userSearchSubtreeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .userSearchSubtree) ?? false
+        let userSearchSubtreeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .userSearchSubtree)
         userSearchSubtree = userSearchSubtreeDecoded
     }
 }
@@ -2694,7 +2694,7 @@ extension SecurityHubClientTypes {
         /// The LDAP search filter used to find roles within the roleBase.
         public var roleSearchMatching: Swift.String?
         /// The directory search scope for the role. If set to true, the scope is to search the entire subtree.
-        public var roleSearchSubtree: Swift.Bool
+        public var roleSearchSubtree: Swift.Bool?
         /// A username for the service account, which is an account in your LDAP server that has access to initiate a connection.
         public var serviceAccountUsername: Swift.String?
         /// Selects a particular subtree of the directory information tree (DIT) to search for user entries.
@@ -2704,19 +2704,19 @@ extension SecurityHubClientTypes {
         /// The LDAP search filter used to find users within the userBase.
         public var userSearchMatching: Swift.String?
         /// The directory search scope for the user. If set to true, the scope is to search the entire subtree.
-        public var userSearchSubtree: Swift.Bool
+        public var userSearchSubtree: Swift.Bool?
 
         public init(
             hosts: [Swift.String]? = nil,
             roleBase: Swift.String? = nil,
             roleName: Swift.String? = nil,
             roleSearchMatching: Swift.String? = nil,
-            roleSearchSubtree: Swift.Bool = false,
+            roleSearchSubtree: Swift.Bool? = nil,
             serviceAccountUsername: Swift.String? = nil,
             userBase: Swift.String? = nil,
             userRoleName: Swift.String? = nil,
             userSearchMatching: Swift.String? = nil,
-            userSearchSubtree: Swift.Bool = false
+            userSearchSubtree: Swift.Bool? = nil
         )
         {
             self.hosts = hosts
@@ -2745,13 +2745,13 @@ extension SecurityHubClientTypes.AwsAmazonMqBrokerLogsDetails: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if audit != false {
+        if let audit = self.audit {
             try encodeContainer.encode(audit, forKey: .audit)
         }
         if let auditLogGroup = self.auditLogGroup {
             try encodeContainer.encode(auditLogGroup, forKey: .auditLogGroup)
         }
-        if general != false {
+        if let general = self.general {
             try encodeContainer.encode(general, forKey: .general)
         }
         if let generalLogGroup = self.generalLogGroup {
@@ -2764,9 +2764,9 @@ extension SecurityHubClientTypes.AwsAmazonMqBrokerLogsDetails: Swift.Codable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let auditDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .audit) ?? false
+        let auditDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .audit)
         audit = auditDecoded
-        let generalDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .general) ?? false
+        let generalDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .general)
         general = generalDecoded
         let auditLogGroupDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .auditLogGroup)
         auditLogGroup = auditLogGroupDecoded
@@ -2781,20 +2781,20 @@ extension SecurityHubClientTypes {
     /// Provides information about logs to be activated for the specified broker.
     public struct AwsAmazonMqBrokerLogsDetails: Swift.Equatable {
         /// Activates audit logging. Every user management action made using JMX or the ActiveMQ Web Console is logged. Doesn't apply to RabbitMQ brokers.
-        public var audit: Swift.Bool
+        public var audit: Swift.Bool?
         /// The location of the CloudWatch Logs log group where audit logs are sent.
         public var auditLogGroup: Swift.String?
         /// Activates general logging.
-        public var general: Swift.Bool
+        public var general: Swift.Bool?
         /// The location of the CloudWatch Logs log group where general logs are sent.
         public var generalLogGroup: Swift.String?
         /// The list of information about logs that are to be turned on for the specified broker.
         public var pending: SecurityHubClientTypes.AwsAmazonMqBrokerLogsPendingDetails?
 
         public init(
-            audit: Swift.Bool = false,
+            audit: Swift.Bool? = nil,
             auditLogGroup: Swift.String? = nil,
-            general: Swift.Bool = false,
+            general: Swift.Bool? = nil,
             generalLogGroup: Swift.String? = nil,
             pending: SecurityHubClientTypes.AwsAmazonMqBrokerLogsPendingDetails? = nil
         )
@@ -2817,19 +2817,19 @@ extension SecurityHubClientTypes.AwsAmazonMqBrokerLogsPendingDetails: Swift.Coda
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if audit != false {
+        if let audit = self.audit {
             try encodeContainer.encode(audit, forKey: .audit)
         }
-        if general != false {
+        if let general = self.general {
             try encodeContainer.encode(general, forKey: .general)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let auditDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .audit) ?? false
+        let auditDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .audit)
         audit = auditDecoded
-        let generalDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .general) ?? false
+        let generalDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .general)
         general = generalDecoded
     }
 }
@@ -2838,13 +2838,13 @@ extension SecurityHubClientTypes {
     /// Provides information about logs to be activated for the specified broker.
     public struct AwsAmazonMqBrokerLogsPendingDetails: Swift.Equatable {
         /// Activates audit logging. Every user management action made using JMX or the ActiveMQ Web Console is logged. Doesn't apply to RabbitMQ brokers.
-        public var audit: Swift.Bool
+        public var audit: Swift.Bool?
         /// Activates general logging.
-        public var general: Swift.Bool
+        public var general: Swift.Bool?
 
         public init(
-            audit: Swift.Bool = false,
-            general: Swift.Bool = false
+            audit: Swift.Bool? = nil,
+            general: Swift.Bool? = nil
         )
         {
             self.audit = audit
@@ -3164,7 +3164,7 @@ extension SecurityHubClientTypes.AwsApiGatewayCanarySettings: Swift.Codable {
         if let deploymentId = self.deploymentId {
             try encodeContainer.encode(deploymentId, forKey: .deploymentId)
         }
-        if percentTraffic != 0.0 {
+        if let percentTraffic = self.percentTraffic {
             try encodeContainer.encode(percentTraffic, forKey: .percentTraffic)
         }
         if let stageVariableOverrides = stageVariableOverrides {
@@ -3173,14 +3173,14 @@ extension SecurityHubClientTypes.AwsApiGatewayCanarySettings: Swift.Codable {
                 try stageVariableOverridesContainer.encode(fieldMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
-        if useStageCache != false {
+        if let useStageCache = self.useStageCache {
             try encodeContainer.encode(useStageCache, forKey: .useStageCache)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let percentTrafficDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .percentTraffic) ?? 0.0
+        let percentTrafficDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .percentTraffic)
         percentTraffic = percentTrafficDecoded
         let deploymentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deploymentId)
         deploymentId = deploymentIdDecoded
@@ -3195,7 +3195,7 @@ extension SecurityHubClientTypes.AwsApiGatewayCanarySettings: Swift.Codable {
             }
         }
         stageVariableOverrides = stageVariableOverridesDecoded0
-        let useStageCacheDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .useStageCache) ?? false
+        let useStageCacheDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .useStageCache)
         useStageCache = useStageCacheDecoded
     }
 }
@@ -3206,17 +3206,17 @@ extension SecurityHubClientTypes {
         /// The deployment identifier for the canary deployment.
         public var deploymentId: Swift.String?
         /// The percentage of traffic that is diverted to a canary deployment.
-        public var percentTraffic: Swift.Double
+        public var percentTraffic: Swift.Double?
         /// Stage variables that are overridden in the canary release deployment. The variables include new stage variables that are introduced in the canary. Each variable is represented as a string-to-string map between the stage variable name and the variable value.
         public var stageVariableOverrides: [Swift.String:Swift.String]?
         /// Indicates whether the canary deployment uses the stage cache.
-        public var useStageCache: Swift.Bool
+        public var useStageCache: Swift.Bool?
 
         public init(
             deploymentId: Swift.String? = nil,
-            percentTraffic: Swift.Double = 0.0,
+            percentTraffic: Swift.Double? = nil,
             stageVariableOverrides: [Swift.String:Swift.String]? = nil,
-            useStageCache: Swift.Bool = false
+            useStageCache: Swift.Bool? = nil
         )
         {
             self.deploymentId = deploymentId
@@ -3293,16 +3293,16 @@ extension SecurityHubClientTypes.AwsApiGatewayMethodSettings: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if cacheDataEncrypted != false {
+        if let cacheDataEncrypted = self.cacheDataEncrypted {
             try encodeContainer.encode(cacheDataEncrypted, forKey: .cacheDataEncrypted)
         }
-        if cacheTtlInSeconds != 0 {
+        if let cacheTtlInSeconds = self.cacheTtlInSeconds {
             try encodeContainer.encode(cacheTtlInSeconds, forKey: .cacheTtlInSeconds)
         }
-        if cachingEnabled != false {
+        if let cachingEnabled = self.cachingEnabled {
             try encodeContainer.encode(cachingEnabled, forKey: .cachingEnabled)
         }
-        if dataTraceEnabled != false {
+        if let dataTraceEnabled = self.dataTraceEnabled {
             try encodeContainer.encode(dataTraceEnabled, forKey: .dataTraceEnabled)
         }
         if let httpMethod = self.httpMethod {
@@ -3311,19 +3311,19 @@ extension SecurityHubClientTypes.AwsApiGatewayMethodSettings: Swift.Codable {
         if let loggingLevel = self.loggingLevel {
             try encodeContainer.encode(loggingLevel, forKey: .loggingLevel)
         }
-        if metricsEnabled != false {
+        if let metricsEnabled = self.metricsEnabled {
             try encodeContainer.encode(metricsEnabled, forKey: .metricsEnabled)
         }
-        if requireAuthorizationForCacheControl != false {
+        if let requireAuthorizationForCacheControl = self.requireAuthorizationForCacheControl {
             try encodeContainer.encode(requireAuthorizationForCacheControl, forKey: .requireAuthorizationForCacheControl)
         }
         if let resourcePath = self.resourcePath {
             try encodeContainer.encode(resourcePath, forKey: .resourcePath)
         }
-        if throttlingBurstLimit != 0 {
+        if let throttlingBurstLimit = self.throttlingBurstLimit {
             try encodeContainer.encode(throttlingBurstLimit, forKey: .throttlingBurstLimit)
         }
-        if throttlingRateLimit != 0.0 {
+        if let throttlingRateLimit = self.throttlingRateLimit {
             try encodeContainer.encode(throttlingRateLimit, forKey: .throttlingRateLimit)
         }
         if let unauthorizedCacheControlHeaderStrategy = self.unauthorizedCacheControlHeaderStrategy {
@@ -3333,23 +3333,23 @@ extension SecurityHubClientTypes.AwsApiGatewayMethodSettings: Swift.Codable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let metricsEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .metricsEnabled) ?? false
+        let metricsEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .metricsEnabled)
         metricsEnabled = metricsEnabledDecoded
         let loggingLevelDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .loggingLevel)
         loggingLevel = loggingLevelDecoded
-        let dataTraceEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dataTraceEnabled) ?? false
+        let dataTraceEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dataTraceEnabled)
         dataTraceEnabled = dataTraceEnabledDecoded
-        let throttlingBurstLimitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .throttlingBurstLimit) ?? 0
+        let throttlingBurstLimitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .throttlingBurstLimit)
         throttlingBurstLimit = throttlingBurstLimitDecoded
-        let throttlingRateLimitDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .throttlingRateLimit) ?? 0.0
+        let throttlingRateLimitDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .throttlingRateLimit)
         throttlingRateLimit = throttlingRateLimitDecoded
-        let cachingEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .cachingEnabled) ?? false
+        let cachingEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .cachingEnabled)
         cachingEnabled = cachingEnabledDecoded
-        let cacheTtlInSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .cacheTtlInSeconds) ?? 0
+        let cacheTtlInSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .cacheTtlInSeconds)
         cacheTtlInSeconds = cacheTtlInSecondsDecoded
-        let cacheDataEncryptedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .cacheDataEncrypted) ?? false
+        let cacheDataEncryptedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .cacheDataEncrypted)
         cacheDataEncrypted = cacheDataEncryptedDecoded
-        let requireAuthorizationForCacheControlDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .requireAuthorizationForCacheControl) ?? false
+        let requireAuthorizationForCacheControlDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .requireAuthorizationForCacheControl)
         requireAuthorizationForCacheControl = requireAuthorizationForCacheControlDecoded
         let unauthorizedCacheControlHeaderStrategyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .unauthorizedCacheControlHeaderStrategy)
         unauthorizedCacheControlHeaderStrategy = unauthorizedCacheControlHeaderStrategyDecoded
@@ -3364,42 +3364,42 @@ extension SecurityHubClientTypes {
     /// Defines settings for a method for the stage.
     public struct AwsApiGatewayMethodSettings: Swift.Equatable {
         /// Indicates whether the cached responses are encrypted.
-        public var cacheDataEncrypted: Swift.Bool
+        public var cacheDataEncrypted: Swift.Bool?
         /// Specifies the time to live (TTL), in seconds, for cached responses. The higher the TTL, the longer the response is cached.
-        public var cacheTtlInSeconds: Swift.Int
+        public var cacheTtlInSeconds: Swift.Int?
         /// Indicates whether responses are cached and returned for requests. For responses to be cached, a cache cluster must be enabled on the stage.
-        public var cachingEnabled: Swift.Bool
+        public var cachingEnabled: Swift.Bool?
         /// Indicates whether data trace logging is enabled for the method. Data trace logging affects the log entries that are pushed to CloudWatch Logs.
-        public var dataTraceEnabled: Swift.Bool
+        public var dataTraceEnabled: Swift.Bool?
         /// The HTTP method. You can use an asterisk (*) as a wildcard to apply method settings to multiple methods.
         public var httpMethod: Swift.String?
         /// The logging level for this method. The logging level affects the log entries that are pushed to CloudWatch Logs. If the logging level is ERROR, then the logs only include error-level entries. If the logging level is INFO, then the logs include both ERROR events and extra informational events. Valid values: OFF | ERROR | INFO
         public var loggingLevel: Swift.String?
         /// Indicates whether CloudWatch metrics are enabled for the method.
-        public var metricsEnabled: Swift.Bool
+        public var metricsEnabled: Swift.Bool?
         /// Indicates whether authorization is required for a cache invalidation request.
-        public var requireAuthorizationForCacheControl: Swift.Bool
+        public var requireAuthorizationForCacheControl: Swift.Bool?
         /// The resource path for this method. Forward slashes (/) are encoded as ~1 . The initial slash must include a forward slash. For example, the path value /resource/subresource must be encoded as /~1resource~1subresource. To specify the root path, use only a slash (/). You can use an asterisk (*) as a wildcard to apply method settings to multiple methods.
         public var resourcePath: Swift.String?
         /// The throttling burst limit for the method.
-        public var throttlingBurstLimit: Swift.Int
+        public var throttlingBurstLimit: Swift.Int?
         /// The throttling rate limit for the method.
-        public var throttlingRateLimit: Swift.Double
+        public var throttlingRateLimit: Swift.Double?
         /// Indicates how to handle unauthorized requests for cache invalidation. Valid values: FAIL_WITH_403 | SUCCEED_WITH_RESPONSE_HEADER | SUCCEED_WITHOUT_RESPONSE_HEADER
         public var unauthorizedCacheControlHeaderStrategy: Swift.String?
 
         public init(
-            cacheDataEncrypted: Swift.Bool = false,
-            cacheTtlInSeconds: Swift.Int = 0,
-            cachingEnabled: Swift.Bool = false,
-            dataTraceEnabled: Swift.Bool = false,
+            cacheDataEncrypted: Swift.Bool? = nil,
+            cacheTtlInSeconds: Swift.Int? = nil,
+            cachingEnabled: Swift.Bool? = nil,
+            dataTraceEnabled: Swift.Bool? = nil,
             httpMethod: Swift.String? = nil,
             loggingLevel: Swift.String? = nil,
-            metricsEnabled: Swift.Bool = false,
-            requireAuthorizationForCacheControl: Swift.Bool = false,
+            metricsEnabled: Swift.Bool? = nil,
+            requireAuthorizationForCacheControl: Swift.Bool? = nil,
             resourcePath: Swift.String? = nil,
-            throttlingBurstLimit: Swift.Int = 0,
-            throttlingRateLimit: Swift.Double = 0.0,
+            throttlingBurstLimit: Swift.Int? = nil,
+            throttlingRateLimit: Swift.Double? = nil,
             unauthorizedCacheControlHeaderStrategy: Swift.String? = nil
         )
         {
@@ -3456,7 +3456,7 @@ extension SecurityHubClientTypes.AwsApiGatewayRestApiDetails: Swift.Codable {
         if let id = self.id {
             try encodeContainer.encode(id, forKey: .id)
         }
-        if minimumCompressionSize != 0 {
+        if let minimumCompressionSize = self.minimumCompressionSize {
             try encodeContainer.encode(minimumCompressionSize, forKey: .minimumCompressionSize)
         }
         if let name = self.name {
@@ -3490,7 +3490,7 @@ extension SecurityHubClientTypes.AwsApiGatewayRestApiDetails: Swift.Codable {
             }
         }
         binaryMediaTypes = binaryMediaTypesDecoded0
-        let minimumCompressionSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .minimumCompressionSize) ?? 0
+        let minimumCompressionSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .minimumCompressionSize)
         minimumCompressionSize = minimumCompressionSizeDecoded
         let apiKeySourceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .apiKeySource)
         apiKeySource = apiKeySourceDecoded
@@ -3515,7 +3515,7 @@ extension SecurityHubClientTypes {
         /// The identifier of the REST API.
         public var id: Swift.String?
         /// The minimum size in bytes of a payload before compression is enabled. If null, then compression is disabled. If 0, then all payloads are compressed.
-        public var minimumCompressionSize: Swift.Int
+        public var minimumCompressionSize: Swift.Int?
         /// The name of the REST API.
         public var name: Swift.String?
         /// The version identifier for the REST API.
@@ -3528,7 +3528,7 @@ extension SecurityHubClientTypes {
             description: Swift.String? = nil,
             endpointConfiguration: SecurityHubClientTypes.AwsApiGatewayEndpointConfiguration? = nil,
             id: Swift.String? = nil,
-            minimumCompressionSize: Swift.Int = 0,
+            minimumCompressionSize: Swift.Int? = nil,
             name: Swift.String? = nil,
             version: Swift.String? = nil
         )
@@ -3572,7 +3572,7 @@ extension SecurityHubClientTypes.AwsApiGatewayStageDetails: Swift.Codable {
         if let accessLogSettings = self.accessLogSettings {
             try encodeContainer.encode(accessLogSettings, forKey: .accessLogSettings)
         }
-        if cacheClusterEnabled != false {
+        if let cacheClusterEnabled = self.cacheClusterEnabled {
             try encodeContainer.encode(cacheClusterEnabled, forKey: .cacheClusterEnabled)
         }
         if let cacheClusterSize = self.cacheClusterSize {
@@ -3611,7 +3611,7 @@ extension SecurityHubClientTypes.AwsApiGatewayStageDetails: Swift.Codable {
         if let stageName = self.stageName {
             try encodeContainer.encode(stageName, forKey: .stageName)
         }
-        if tracingEnabled != false {
+        if let tracingEnabled = self.tracingEnabled {
             try encodeContainer.encode(tracingEnabled, forKey: .tracingEnabled)
         }
         if let variables = variables {
@@ -3635,7 +3635,7 @@ extension SecurityHubClientTypes.AwsApiGatewayStageDetails: Swift.Codable {
         stageName = stageNameDecoded
         let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
         description = descriptionDecoded
-        let cacheClusterEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .cacheClusterEnabled) ?? false
+        let cacheClusterEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .cacheClusterEnabled)
         cacheClusterEnabled = cacheClusterEnabledDecoded
         let cacheClusterSizeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cacheClusterSize)
         cacheClusterSize = cacheClusterSizeDecoded
@@ -3669,7 +3669,7 @@ extension SecurityHubClientTypes.AwsApiGatewayStageDetails: Swift.Codable {
         accessLogSettings = accessLogSettingsDecoded
         let canarySettingsDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsApiGatewayCanarySettings.self, forKey: .canarySettings)
         canarySettings = canarySettingsDecoded
-        let tracingEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .tracingEnabled) ?? false
+        let tracingEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .tracingEnabled)
         tracingEnabled = tracingEnabledDecoded
         let createdDateDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .createdDate)
         createdDate = createdDateDecoded
@@ -3686,7 +3686,7 @@ extension SecurityHubClientTypes {
         /// Settings for logging access for the stage.
         public var accessLogSettings: SecurityHubClientTypes.AwsApiGatewayAccessLogSettings?
         /// Indicates whether a cache cluster is enabled for the stage.
-        public var cacheClusterEnabled: Swift.Bool
+        public var cacheClusterEnabled: Swift.Bool?
         /// If a cache cluster is enabled, the size of the cache cluster.
         public var cacheClusterSize: Swift.String?
         /// If a cache cluster is enabled, the status of the cache cluster.
@@ -3710,7 +3710,7 @@ extension SecurityHubClientTypes {
         /// The name of the stage.
         public var stageName: Swift.String?
         /// Indicates whether active tracing with X-Ray is enabled for the stage.
-        public var tracingEnabled: Swift.Bool
+        public var tracingEnabled: Swift.Bool?
         /// A map that defines the stage variables for the stage. Variable names can have alphanumeric and underscore characters. Variable values can contain the following characters:
         ///
         /// * Uppercase and lowercase letters
@@ -3724,7 +3724,7 @@ extension SecurityHubClientTypes {
 
         public init(
             accessLogSettings: SecurityHubClientTypes.AwsApiGatewayAccessLogSettings? = nil,
-            cacheClusterEnabled: Swift.Bool = false,
+            cacheClusterEnabled: Swift.Bool? = nil,
             cacheClusterSize: Swift.String? = nil,
             cacheClusterStatus: Swift.String? = nil,
             canarySettings: SecurityHubClientTypes.AwsApiGatewayCanarySettings? = nil,
@@ -3736,7 +3736,7 @@ extension SecurityHubClientTypes {
             lastUpdatedDate: Swift.String? = nil,
             methodSettings: [SecurityHubClientTypes.AwsApiGatewayMethodSettings]? = nil,
             stageName: Swift.String? = nil,
-            tracingEnabled: Swift.Bool = false,
+            tracingEnabled: Swift.Bool? = nil,
             variables: [Swift.String:Swift.String]? = nil,
             webAclArn: Swift.String? = nil
         )
@@ -3898,34 +3898,34 @@ extension SecurityHubClientTypes.AwsApiGatewayV2RouteSettings: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if dataTraceEnabled != false {
+        if let dataTraceEnabled = self.dataTraceEnabled {
             try encodeContainer.encode(dataTraceEnabled, forKey: .dataTraceEnabled)
         }
-        if detailedMetricsEnabled != false {
+        if let detailedMetricsEnabled = self.detailedMetricsEnabled {
             try encodeContainer.encode(detailedMetricsEnabled, forKey: .detailedMetricsEnabled)
         }
         if let loggingLevel = self.loggingLevel {
             try encodeContainer.encode(loggingLevel, forKey: .loggingLevel)
         }
-        if throttlingBurstLimit != 0 {
+        if let throttlingBurstLimit = self.throttlingBurstLimit {
             try encodeContainer.encode(throttlingBurstLimit, forKey: .throttlingBurstLimit)
         }
-        if throttlingRateLimit != 0.0 {
+        if let throttlingRateLimit = self.throttlingRateLimit {
             try encodeContainer.encode(throttlingRateLimit, forKey: .throttlingRateLimit)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let detailedMetricsEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .detailedMetricsEnabled) ?? false
+        let detailedMetricsEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .detailedMetricsEnabled)
         detailedMetricsEnabled = detailedMetricsEnabledDecoded
         let loggingLevelDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .loggingLevel)
         loggingLevel = loggingLevelDecoded
-        let dataTraceEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dataTraceEnabled) ?? false
+        let dataTraceEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dataTraceEnabled)
         dataTraceEnabled = dataTraceEnabledDecoded
-        let throttlingBurstLimitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .throttlingBurstLimit) ?? 0
+        let throttlingBurstLimitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .throttlingBurstLimit)
         throttlingBurstLimit = throttlingBurstLimitDecoded
-        let throttlingRateLimitDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .throttlingRateLimit) ?? 0.0
+        let throttlingRateLimitDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .throttlingRateLimit)
         throttlingRateLimit = throttlingRateLimitDecoded
     }
 }
@@ -3934,22 +3934,22 @@ extension SecurityHubClientTypes {
     /// Contains route settings for a stage.
     public struct AwsApiGatewayV2RouteSettings: Swift.Equatable {
         /// Indicates whether data trace logging is enabled. Data trace logging affects the log entries that are pushed to CloudWatch Logs. Supported only for WebSocket APIs.
-        public var dataTraceEnabled: Swift.Bool
+        public var dataTraceEnabled: Swift.Bool?
         /// Indicates whether detailed metrics are enabled.
-        public var detailedMetricsEnabled: Swift.Bool
+        public var detailedMetricsEnabled: Swift.Bool?
         /// The logging level. The logging level affects the log entries that are pushed to CloudWatch Logs. Supported only for WebSocket APIs. If the logging level is ERROR, then the logs only include error-level entries. If the logging level is INFO, then the logs include both ERROR events and extra informational events. Valid values: OFF | ERROR | INFO
         public var loggingLevel: Swift.String?
         /// The throttling burst limit.
-        public var throttlingBurstLimit: Swift.Int
+        public var throttlingBurstLimit: Swift.Int?
         /// The throttling rate limit.
-        public var throttlingRateLimit: Swift.Double
+        public var throttlingRateLimit: Swift.Double?
 
         public init(
-            dataTraceEnabled: Swift.Bool = false,
-            detailedMetricsEnabled: Swift.Bool = false,
+            dataTraceEnabled: Swift.Bool? = nil,
+            detailedMetricsEnabled: Swift.Bool? = nil,
             loggingLevel: Swift.String? = nil,
-            throttlingBurstLimit: Swift.Int = 0,
-            throttlingRateLimit: Swift.Double = 0.0
+            throttlingBurstLimit: Swift.Int? = nil,
+            throttlingRateLimit: Swift.Double? = nil
         )
         {
             self.dataTraceEnabled = dataTraceEnabled
@@ -3984,10 +3984,10 @@ extension SecurityHubClientTypes.AwsApiGatewayV2StageDetails: Swift.Codable {
         if let accessLogSettings = self.accessLogSettings {
             try encodeContainer.encode(accessLogSettings, forKey: .accessLogSettings)
         }
-        if apiGatewayManaged != false {
+        if let apiGatewayManaged = self.apiGatewayManaged {
             try encodeContainer.encode(apiGatewayManaged, forKey: .apiGatewayManaged)
         }
-        if autoDeploy != false {
+        if let autoDeploy = self.autoDeploy {
             try encodeContainer.encode(autoDeploy, forKey: .autoDeploy)
         }
         if let clientCertificateId = self.clientCertificateId {
@@ -4056,11 +4056,11 @@ extension SecurityHubClientTypes.AwsApiGatewayV2StageDetails: Swift.Codable {
         stageVariables = stageVariablesDecoded0
         let accessLogSettingsDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsApiGatewayAccessLogSettings.self, forKey: .accessLogSettings)
         accessLogSettings = accessLogSettingsDecoded
-        let autoDeployDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoDeploy) ?? false
+        let autoDeployDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoDeploy)
         autoDeploy = autoDeployDecoded
         let lastDeploymentStatusMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastDeploymentStatusMessage)
         lastDeploymentStatusMessage = lastDeploymentStatusMessageDecoded
-        let apiGatewayManagedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .apiGatewayManaged) ?? false
+        let apiGatewayManagedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .apiGatewayManaged)
         apiGatewayManaged = apiGatewayManagedDecoded
     }
 }
@@ -4071,9 +4071,9 @@ extension SecurityHubClientTypes {
         /// Information about settings for logging access for the stage.
         public var accessLogSettings: SecurityHubClientTypes.AwsApiGatewayAccessLogSettings?
         /// Indicates whether the stage is managed by API Gateway.
-        public var apiGatewayManaged: Swift.Bool
+        public var apiGatewayManaged: Swift.Bool?
         /// Indicates whether updates to an API automatically trigger a new deployment.
-        public var autoDeploy: Swift.Bool
+        public var autoDeploy: Swift.Bool?
         /// The identifier of a client certificate for a stage. Supported only for WebSocket API calls.
         public var clientCertificateId: Swift.String?
         /// Indicates when the stage was created. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
@@ -4103,8 +4103,8 @@ extension SecurityHubClientTypes {
 
         public init(
             accessLogSettings: SecurityHubClientTypes.AwsApiGatewayAccessLogSettings? = nil,
-            apiGatewayManaged: Swift.Bool = false,
-            autoDeploy: Swift.Bool = false,
+            apiGatewayManaged: Swift.Bool? = nil,
+            autoDeploy: Swift.Bool? = nil,
             clientCertificateId: Swift.String? = nil,
             createdDate: Swift.String? = nil,
             defaultRouteSettings: SecurityHubClientTypes.AwsApiGatewayV2RouteSettings? = nil,
@@ -4254,7 +4254,7 @@ extension SecurityHubClientTypes.AwsAppSyncGraphQlApiDetails: Swift.Codable {
         if let wafWebAclArn = self.wafWebAclArn {
             try encodeContainer.encode(wafWebAclArn, forKey: .wafWebAclArn)
         }
-        if xrayEnabled != false {
+        if let xrayEnabled = self.xrayEnabled {
             try encodeContainer.encode(xrayEnabled, forKey: .xrayEnabled)
         }
     }
@@ -4271,7 +4271,7 @@ extension SecurityHubClientTypes.AwsAppSyncGraphQlApiDetails: Swift.Codable {
         name = nameDecoded
         let lambdaAuthorizerConfigDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsAppSyncGraphQlApiLambdaAuthorizerConfigDetails.self, forKey: .lambdaAuthorizerConfig)
         lambdaAuthorizerConfig = lambdaAuthorizerConfigDecoded
-        let xrayEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .xrayEnabled) ?? false
+        let xrayEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .xrayEnabled)
         xrayEnabled = xrayEnabledDecoded
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
@@ -4323,7 +4323,7 @@ extension SecurityHubClientTypes {
         /// The Amazon Resource Name (ARN) of the WAF web access control list (web ACL) associated with this GraphQL API, if one exists.
         public var wafWebAclArn: Swift.String?
         /// Indicates whether to use X-Ray tracing for the GraphQL API.
-        public var xrayEnabled: Swift.Bool
+        public var xrayEnabled: Swift.Bool?
 
         public init(
             additionalAuthenticationProviders: [SecurityHubClientTypes.AwsAppSyncGraphQlApiAdditionalAuthenticationProvidersDetails]? = nil,
@@ -4337,7 +4337,7 @@ extension SecurityHubClientTypes {
             openIdConnectConfig: SecurityHubClientTypes.AwsAppSyncGraphQlApiOpenIdConnectConfigDetails? = nil,
             userPoolConfig: SecurityHubClientTypes.AwsAppSyncGraphQlApiUserPoolConfigDetails? = nil,
             wafWebAclArn: Swift.String? = nil,
-            xrayEnabled: Swift.Bool = false
+            xrayEnabled: Swift.Bool? = nil
         )
         {
             self.additionalAuthenticationProviders = additionalAuthenticationProviders
@@ -4366,7 +4366,7 @@ extension SecurityHubClientTypes.AwsAppSyncGraphQlApiLambdaAuthorizerConfigDetai
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if authorizerResultTtlInSeconds != 0 {
+        if let authorizerResultTtlInSeconds = self.authorizerResultTtlInSeconds {
             try encodeContainer.encode(authorizerResultTtlInSeconds, forKey: .authorizerResultTtlInSeconds)
         }
         if let authorizerUri = self.authorizerUri {
@@ -4379,7 +4379,7 @@ extension SecurityHubClientTypes.AwsAppSyncGraphQlApiLambdaAuthorizerConfigDetai
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let authorizerResultTtlInSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .authorizerResultTtlInSeconds) ?? 0
+        let authorizerResultTtlInSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .authorizerResultTtlInSeconds)
         authorizerResultTtlInSeconds = authorizerResultTtlInSecondsDecoded
         let authorizerUriDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .authorizerUri)
         authorizerUri = authorizerUriDecoded
@@ -4392,14 +4392,14 @@ extension SecurityHubClientTypes {
     /// Specifies the authorization configuration for using an Lambda function with your AppSync GraphQL API endpoint.
     public struct AwsAppSyncGraphQlApiLambdaAuthorizerConfigDetails: Swift.Equatable {
         /// The number of seconds a response should be cached for. The default is 5 minutes (300 seconds).
-        public var authorizerResultTtlInSeconds: Swift.Int
+        public var authorizerResultTtlInSeconds: Swift.Int?
         /// The Amazon Resource Name (ARN) of the Lambda function to be called for authorization. This can be a standard Lambda ARN, a version ARN (.../v3), or an alias ARN.
         public var authorizerUri: Swift.String?
         /// A regular expression for validation of tokens before the Lambda function is called.
         public var identityValidationExpression: Swift.String?
 
         public init(
-            authorizerResultTtlInSeconds: Swift.Int = 0,
+            authorizerResultTtlInSeconds: Swift.Int? = nil,
             authorizerUri: Swift.String? = nil,
             identityValidationExpression: Swift.String? = nil
         )
@@ -4424,7 +4424,7 @@ extension SecurityHubClientTypes.AwsAppSyncGraphQlApiLogConfigDetails: Swift.Cod
         if let cloudWatchLogsRoleArn = self.cloudWatchLogsRoleArn {
             try encodeContainer.encode(cloudWatchLogsRoleArn, forKey: .cloudWatchLogsRoleArn)
         }
-        if excludeVerboseContent != false {
+        if let excludeVerboseContent = self.excludeVerboseContent {
             try encodeContainer.encode(excludeVerboseContent, forKey: .excludeVerboseContent)
         }
         if let fieldLogLevel = self.fieldLogLevel {
@@ -4436,7 +4436,7 @@ extension SecurityHubClientTypes.AwsAppSyncGraphQlApiLogConfigDetails: Swift.Cod
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let cloudWatchLogsRoleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cloudWatchLogsRoleArn)
         cloudWatchLogsRoleArn = cloudWatchLogsRoleArnDecoded
-        let excludeVerboseContentDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .excludeVerboseContent) ?? false
+        let excludeVerboseContentDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .excludeVerboseContent)
         excludeVerboseContent = excludeVerboseContentDecoded
         let fieldLogLevelDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fieldLogLevel)
         fieldLogLevel = fieldLogLevelDecoded
@@ -4449,13 +4449,13 @@ extension SecurityHubClientTypes {
         /// The Amazon Resource Name (ARN) of the service role that AppSync assumes to publish to CloudWatch Logs in your account.
         public var cloudWatchLogsRoleArn: Swift.String?
         /// Set to TRUE to exclude sections that contain information such as headers, context, and evaluated mapping templates, regardless of logging level.
-        public var excludeVerboseContent: Swift.Bool
+        public var excludeVerboseContent: Swift.Bool?
         /// The field logging level.
         public var fieldLogLevel: Swift.String?
 
         public init(
             cloudWatchLogsRoleArn: Swift.String? = nil,
-            excludeVerboseContent: Swift.Bool = false,
+            excludeVerboseContent: Swift.Bool? = nil,
             fieldLogLevel: Swift.String? = nil
         )
         {
@@ -4477,13 +4477,13 @@ extension SecurityHubClientTypes.AwsAppSyncGraphQlApiOpenIdConnectConfigDetails:
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if authTtL != 0 {
+        if let authTtL = self.authTtL {
             try encodeContainer.encode(authTtL, forKey: .authTtL)
         }
         if let clientId = self.clientId {
             try encodeContainer.encode(clientId, forKey: .clientId)
         }
-        if iatTtL != 0 {
+        if let iatTtL = self.iatTtL {
             try encodeContainer.encode(iatTtL, forKey: .iatTtL)
         }
         if let issuer = self.issuer {
@@ -4493,11 +4493,11 @@ extension SecurityHubClientTypes.AwsAppSyncGraphQlApiOpenIdConnectConfigDetails:
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let authTtLDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .authTtL) ?? 0
+        let authTtLDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .authTtL)
         authTtL = authTtLDecoded
         let clientIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientId)
         clientId = clientIdDecoded
-        let iatTtLDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .iatTtL) ?? 0
+        let iatTtLDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .iatTtL)
         iatTtL = iatTtLDecoded
         let issuerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .issuer)
         issuer = issuerDecoded
@@ -4508,18 +4508,18 @@ extension SecurityHubClientTypes {
     /// Specifies the authorization configuration for using an OpenID Connect compliant service with your AppSync GraphQL API endpoint.
     public struct AwsAppSyncGraphQlApiOpenIdConnectConfigDetails: Swift.Equatable {
         /// The number of milliseconds that a token is valid after being authenticated.
-        public var authTtL: Swift.Int
+        public var authTtL: Swift.Int?
         /// The client identifier of the relying party at the OpenID identity provider. This identifier is typically obtained when the relying party is registered with the OpenID identity provider. You can specify a regular expression so that AppSync can validate against multiple client identifiers at a time.
         public var clientId: Swift.String?
         /// The number of milliseconds that a token is valid after it's issued to a user.
-        public var iatTtL: Swift.Int
+        public var iatTtL: Swift.Int?
         /// The issuer for the OIDC configuration. The issuer returned by discovery must exactly match the value of iss in the ID token.
         public var issuer: Swift.String?
 
         public init(
-            authTtL: Swift.Int = 0,
+            authTtL: Swift.Int? = nil,
             clientId: Swift.String? = nil,
-            iatTtL: Swift.Int = 0,
+            iatTtL: Swift.Int? = nil,
             issuer: Swift.String? = nil
         )
         {
@@ -4833,13 +4833,13 @@ extension SecurityHubClientTypes.AwsAutoScalingAutoScalingGroupDetails: Swift.Co
                 try availabilityZonesContainer.encode(awsautoscalingautoscalinggroupavailabilityzoneslistdetails0)
             }
         }
-        if capacityRebalance != false {
+        if let capacityRebalance = self.capacityRebalance {
             try encodeContainer.encode(capacityRebalance, forKey: .capacityRebalance)
         }
         if let createdTime = self.createdTime {
             try encodeContainer.encode(createdTime, forKey: .createdTime)
         }
-        if healthCheckGracePeriod != 0 {
+        if let healthCheckGracePeriod = self.healthCheckGracePeriod {
             try encodeContainer.encode(healthCheckGracePeriod, forKey: .healthCheckGracePeriod)
         }
         if let healthCheckType = self.healthCheckType {
@@ -4879,7 +4879,7 @@ extension SecurityHubClientTypes.AwsAutoScalingAutoScalingGroupDetails: Swift.Co
         loadBalancerNames = loadBalancerNamesDecoded0
         let healthCheckTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .healthCheckType)
         healthCheckType = healthCheckTypeDecoded
-        let healthCheckGracePeriodDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .healthCheckGracePeriod) ?? 0
+        let healthCheckGracePeriodDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .healthCheckGracePeriod)
         healthCheckGracePeriod = healthCheckGracePeriodDecoded
         let createdTimeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .createdTime)
         createdTime = createdTimeDecoded
@@ -4898,7 +4898,7 @@ extension SecurityHubClientTypes.AwsAutoScalingAutoScalingGroupDetails: Swift.Co
         availabilityZones = availabilityZonesDecoded0
         let launchTemplateDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsAutoScalingAutoScalingGroupLaunchTemplateLaunchTemplateSpecification.self, forKey: .launchTemplate)
         launchTemplate = launchTemplateDecoded
-        let capacityRebalanceDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .capacityRebalance) ?? false
+        let capacityRebalanceDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .capacityRebalance)
         capacityRebalance = capacityRebalanceDecoded
     }
 }
@@ -4909,11 +4909,11 @@ extension SecurityHubClientTypes {
         /// The list of Availability Zones for the automatic scaling group.
         public var availabilityZones: [SecurityHubClientTypes.AwsAutoScalingAutoScalingGroupAvailabilityZonesListDetails]?
         /// Indicates whether capacity rebalancing is enabled.
-        public var capacityRebalance: Swift.Bool
+        public var capacityRebalance: Swift.Bool?
         /// Indicates when the auto scaling group was created. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public var createdTime: Swift.String?
         /// The amount of time, in seconds, that Amazon EC2 Auto Scaling waits before it checks the health status of an EC2 instance that has come into service.
-        public var healthCheckGracePeriod: Swift.Int
+        public var healthCheckGracePeriod: Swift.Int?
         /// The service to use for the health checks. Valid values are EC2 or ELB.
         public var healthCheckType: Swift.String?
         /// The name of the launch configuration.
@@ -4927,9 +4927,9 @@ extension SecurityHubClientTypes {
 
         public init(
             availabilityZones: [SecurityHubClientTypes.AwsAutoScalingAutoScalingGroupAvailabilityZonesListDetails]? = nil,
-            capacityRebalance: Swift.Bool = false,
+            capacityRebalance: Swift.Bool? = nil,
             createdTime: Swift.String? = nil,
-            healthCheckGracePeriod: Swift.Int = 0,
+            healthCheckGracePeriod: Swift.Int? = nil,
             healthCheckType: Swift.String? = nil,
             launchConfigurationName: Swift.String? = nil,
             launchTemplate: SecurityHubClientTypes.AwsAutoScalingAutoScalingGroupLaunchTemplateLaunchTemplateSpecification? = nil,
@@ -5066,16 +5066,16 @@ extension SecurityHubClientTypes.AwsAutoScalingAutoScalingGroupMixedInstancesPol
         if let onDemandAllocationStrategy = self.onDemandAllocationStrategy {
             try encodeContainer.encode(onDemandAllocationStrategy, forKey: .onDemandAllocationStrategy)
         }
-        if onDemandBaseCapacity != 0 {
+        if let onDemandBaseCapacity = self.onDemandBaseCapacity {
             try encodeContainer.encode(onDemandBaseCapacity, forKey: .onDemandBaseCapacity)
         }
-        if onDemandPercentageAboveBaseCapacity != 0 {
+        if let onDemandPercentageAboveBaseCapacity = self.onDemandPercentageAboveBaseCapacity {
             try encodeContainer.encode(onDemandPercentageAboveBaseCapacity, forKey: .onDemandPercentageAboveBaseCapacity)
         }
         if let spotAllocationStrategy = self.spotAllocationStrategy {
             try encodeContainer.encode(spotAllocationStrategy, forKey: .spotAllocationStrategy)
         }
-        if spotInstancePools != 0 {
+        if let spotInstancePools = self.spotInstancePools {
             try encodeContainer.encode(spotInstancePools, forKey: .spotInstancePools)
         }
         if let spotMaxPrice = self.spotMaxPrice {
@@ -5087,13 +5087,13 @@ extension SecurityHubClientTypes.AwsAutoScalingAutoScalingGroupMixedInstancesPol
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let onDemandAllocationStrategyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .onDemandAllocationStrategy)
         onDemandAllocationStrategy = onDemandAllocationStrategyDecoded
-        let onDemandBaseCapacityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .onDemandBaseCapacity) ?? 0
+        let onDemandBaseCapacityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .onDemandBaseCapacity)
         onDemandBaseCapacity = onDemandBaseCapacityDecoded
-        let onDemandPercentageAboveBaseCapacityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .onDemandPercentageAboveBaseCapacity) ?? 0
+        let onDemandPercentageAboveBaseCapacityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .onDemandPercentageAboveBaseCapacity)
         onDemandPercentageAboveBaseCapacity = onDemandPercentageAboveBaseCapacityDecoded
         let spotAllocationStrategyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .spotAllocationStrategy)
         spotAllocationStrategy = spotAllocationStrategyDecoded
-        let spotInstancePoolsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .spotInstancePools) ?? 0
+        let spotInstancePoolsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .spotInstancePools)
         spotInstancePools = spotInstancePoolsDecoded
         let spotMaxPriceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .spotMaxPrice)
         spotMaxPrice = spotMaxPriceDecoded
@@ -5106,9 +5106,9 @@ extension SecurityHubClientTypes {
         /// How to allocate instance types to fulfill On-Demand capacity. The valid value is prioritized.
         public var onDemandAllocationStrategy: Swift.String?
         /// The minimum amount of the Auto Scaling group's capacity that must be fulfilled by On-Demand Instances.
-        public var onDemandBaseCapacity: Swift.Int
+        public var onDemandBaseCapacity: Swift.Int?
         /// The percentage of On-Demand Instances and Spot Instances for additional capacity beyond OnDemandBaseCapacity.
-        public var onDemandPercentageAboveBaseCapacity: Swift.Int
+        public var onDemandPercentageAboveBaseCapacity: Swift.Int?
         /// How to allocate instances across Spot Instance pools. Valid values are as follows:
         ///
         /// * lowest-price
@@ -5118,16 +5118,16 @@ extension SecurityHubClientTypes {
         /// * capacity-optimized-prioritized
         public var spotAllocationStrategy: Swift.String?
         /// The number of Spot Instance pools across which to allocate your Spot Instances.
-        public var spotInstancePools: Swift.Int
+        public var spotInstancePools: Swift.Int?
         /// The maximum price per unit hour that you are willing to pay for a Spot Instance.
         public var spotMaxPrice: Swift.String?
 
         public init(
             onDemandAllocationStrategy: Swift.String? = nil,
-            onDemandBaseCapacity: Swift.Int = 0,
-            onDemandPercentageAboveBaseCapacity: Swift.Int = 0,
+            onDemandBaseCapacity: Swift.Int? = nil,
+            onDemandPercentageAboveBaseCapacity: Swift.Int? = nil,
             spotAllocationStrategy: Swift.String? = nil,
-            spotInstancePools: Swift.Int = 0,
+            spotInstancePools: Swift.Int? = nil,
             spotMaxPrice: Swift.String? = nil
         )
         {
@@ -5315,7 +5315,7 @@ extension SecurityHubClientTypes.AwsAutoScalingLaunchConfigurationBlockDeviceMap
         if let ebs = self.ebs {
             try encodeContainer.encode(ebs, forKey: .ebs)
         }
-        if noDevice != false {
+        if let noDevice = self.noDevice {
             try encodeContainer.encode(noDevice, forKey: .noDevice)
         }
         if let virtualName = self.virtualName {
@@ -5329,7 +5329,7 @@ extension SecurityHubClientTypes.AwsAutoScalingLaunchConfigurationBlockDeviceMap
         deviceName = deviceNameDecoded
         let ebsDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsAutoScalingLaunchConfigurationBlockDeviceMappingsEbsDetails.self, forKey: .ebs)
         ebs = ebsDecoded
-        let noDeviceDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .noDevice) ?? false
+        let noDeviceDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .noDevice)
         noDevice = noDeviceDecoded
         let virtualNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .virtualName)
         virtualName = virtualNameDecoded
@@ -5344,14 +5344,14 @@ extension SecurityHubClientTypes {
         /// Parameters that are used to automatically set up Amazon EBS volumes when an instance is launched.
         public var ebs: SecurityHubClientTypes.AwsAutoScalingLaunchConfigurationBlockDeviceMappingsEbsDetails?
         /// Whether to suppress the device that is included in the block device mapping of the Amazon Machine Image (AMI). If NoDevice is true, then you cannot specify Ebs.>
-        public var noDevice: Swift.Bool
+        public var noDevice: Swift.Bool?
         /// The name of the virtual device (for example, ephemeral0). You can provide either VirtualName or Ebs, but not both.
         public var virtualName: Swift.String?
 
         public init(
             deviceName: Swift.String? = nil,
             ebs: SecurityHubClientTypes.AwsAutoScalingLaunchConfigurationBlockDeviceMappingsEbsDetails? = nil,
-            noDevice: Swift.Bool = false,
+            noDevice: Swift.Bool? = nil,
             virtualName: Swift.String? = nil
         )
         {
@@ -5376,19 +5376,19 @@ extension SecurityHubClientTypes.AwsAutoScalingLaunchConfigurationBlockDeviceMap
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if deleteOnTermination != false {
+        if let deleteOnTermination = self.deleteOnTermination {
             try encodeContainer.encode(deleteOnTermination, forKey: .deleteOnTermination)
         }
-        if encrypted != false {
+        if let encrypted = self.encrypted {
             try encodeContainer.encode(encrypted, forKey: .encrypted)
         }
-        if iops != 0 {
+        if let iops = self.iops {
             try encodeContainer.encode(iops, forKey: .iops)
         }
         if let snapshotId = self.snapshotId {
             try encodeContainer.encode(snapshotId, forKey: .snapshotId)
         }
-        if volumeSize != 0 {
+        if let volumeSize = self.volumeSize {
             try encodeContainer.encode(volumeSize, forKey: .volumeSize)
         }
         if let volumeType = self.volumeType {
@@ -5398,15 +5398,15 @@ extension SecurityHubClientTypes.AwsAutoScalingLaunchConfigurationBlockDeviceMap
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let deleteOnTerminationDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deleteOnTermination) ?? false
+        let deleteOnTerminationDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deleteOnTermination)
         deleteOnTermination = deleteOnTerminationDecoded
-        let encryptedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .encrypted) ?? false
+        let encryptedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .encrypted)
         encrypted = encryptedDecoded
-        let iopsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .iops) ?? 0
+        let iopsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .iops)
         iops = iopsDecoded
         let snapshotIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .snapshotId)
         snapshotId = snapshotIdDecoded
-        let volumeSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .volumeSize) ?? 0
+        let volumeSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .volumeSize)
         volumeSize = volumeSizeDecoded
         let volumeTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .volumeType)
         volumeType = volumeTypeDecoded
@@ -5417,11 +5417,11 @@ extension SecurityHubClientTypes {
     /// Parameters that are used to automatically set up EBS volumes when an instance is launched.
     public struct AwsAutoScalingLaunchConfigurationBlockDeviceMappingsEbsDetails: Swift.Equatable {
         /// Whether to delete the volume when the instance is terminated.
-        public var deleteOnTermination: Swift.Bool
+        public var deleteOnTermination: Swift.Bool?
         /// Whether to encrypt the volume.
-        public var encrypted: Swift.Bool
+        public var encrypted: Swift.Bool?
         /// The number of input/output (I/O) operations per second (IOPS) to provision for the volume. Only supported for gp3 or io1 volumes. Required for io1 volumes. Not used with standard, gp2, st1, or sc1 volumes.
-        public var iops: Swift.Int
+        public var iops: Swift.Int?
         /// The snapshot ID of the volume to use. You must specify either VolumeSize or SnapshotId.
         public var snapshotId: Swift.String?
         /// The volume size, in GiBs. The following are the supported volumes sizes for each volume type:
@@ -5436,7 +5436,7 @@ extension SecurityHubClientTypes {
         ///
         ///
         /// You must specify either SnapshotId or VolumeSize. If you specify both SnapshotId and VolumeSize, the volume size must be equal or greater than the size of the snapshot.
-        public var volumeSize: Swift.Int
+        public var volumeSize: Swift.Int?
         /// The volume type. Valid values are as follows:
         ///
         /// * gp2
@@ -5453,11 +5453,11 @@ extension SecurityHubClientTypes {
         public var volumeType: Swift.String?
 
         public init(
-            deleteOnTermination: Swift.Bool = false,
-            encrypted: Swift.Bool = false,
-            iops: Swift.Int = 0,
+            deleteOnTermination: Swift.Bool? = nil,
+            encrypted: Swift.Bool? = nil,
+            iops: Swift.Int? = nil,
             snapshotId: Swift.String? = nil,
-            volumeSize: Swift.Int = 0,
+            volumeSize: Swift.Int? = nil,
             volumeType: Swift.String? = nil
         )
         {
@@ -5497,7 +5497,7 @@ extension SecurityHubClientTypes.AwsAutoScalingLaunchConfigurationDetails: Swift
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if associatePublicIpAddress != false {
+        if let associatePublicIpAddress = self.associatePublicIpAddress {
             try encodeContainer.encode(associatePublicIpAddress, forKey: .associatePublicIpAddress)
         }
         if let blockDeviceMappings = blockDeviceMappings {
@@ -5518,7 +5518,7 @@ extension SecurityHubClientTypes.AwsAutoScalingLaunchConfigurationDetails: Swift
         if let createdTime = self.createdTime {
             try encodeContainer.encode(createdTime, forKey: .createdTime)
         }
-        if ebsOptimized != false {
+        if let ebsOptimized = self.ebsOptimized {
             try encodeContainer.encode(ebsOptimized, forKey: .ebsOptimized)
         }
         if let iamInstanceProfile = self.iamInstanceProfile {
@@ -5567,7 +5567,7 @@ extension SecurityHubClientTypes.AwsAutoScalingLaunchConfigurationDetails: Swift
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let associatePublicIpAddressDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .associatePublicIpAddress) ?? false
+        let associatePublicIpAddressDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .associatePublicIpAddress)
         associatePublicIpAddress = associatePublicIpAddressDecoded
         let blockDeviceMappingsContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.AwsAutoScalingLaunchConfigurationBlockDeviceMappingsDetails?].self, forKey: .blockDeviceMappings)
         var blockDeviceMappingsDecoded0:[SecurityHubClientTypes.AwsAutoScalingLaunchConfigurationBlockDeviceMappingsDetails]? = nil
@@ -5595,7 +5595,7 @@ extension SecurityHubClientTypes.AwsAutoScalingLaunchConfigurationDetails: Swift
         classicLinkVpcSecurityGroups = classicLinkVpcSecurityGroupsDecoded0
         let createdTimeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .createdTime)
         createdTime = createdTimeDecoded
-        let ebsOptimizedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .ebsOptimized) ?? false
+        let ebsOptimizedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .ebsOptimized)
         ebsOptimized = ebsOptimizedDecoded
         let iamInstanceProfileDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .iamInstanceProfile)
         iamInstanceProfile = iamInstanceProfileDecoded
@@ -5639,7 +5639,7 @@ extension SecurityHubClientTypes {
     /// Details about a launch configuration.
     public struct AwsAutoScalingLaunchConfigurationDetails: Swift.Equatable {
         /// For Auto Scaling groups that run in a VPC, specifies whether to assign a public IP address to the group's instances.
-        public var associatePublicIpAddress: Swift.Bool
+        public var associatePublicIpAddress: Swift.Bool?
         /// Specifies the block devices for the instance.
         public var blockDeviceMappings: [SecurityHubClientTypes.AwsAutoScalingLaunchConfigurationBlockDeviceMappingsDetails]?
         /// The identifier of a ClassicLink-enabled VPC that EC2-Classic instances are linked to.
@@ -5649,7 +5649,7 @@ extension SecurityHubClientTypes {
         /// The creation date and time for the launch configuration. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public var createdTime: Swift.String?
         /// Whether the launch configuration is optimized for Amazon EBS I/O.
-        public var ebsOptimized: Swift.Bool
+        public var ebsOptimized: Swift.Bool?
         /// The name or the ARN of the instance profile associated with the IAM role for the instance. The instance profile contains the IAM role.
         public var iamInstanceProfile: Swift.String?
         /// The identifier of the Amazon Machine Image (AMI) that is used to launch EC2 instances.
@@ -5678,12 +5678,12 @@ extension SecurityHubClientTypes {
         public var userData: Swift.String?
 
         public init(
-            associatePublicIpAddress: Swift.Bool = false,
+            associatePublicIpAddress: Swift.Bool? = nil,
             blockDeviceMappings: [SecurityHubClientTypes.AwsAutoScalingLaunchConfigurationBlockDeviceMappingsDetails]? = nil,
             classicLinkVpcId: Swift.String? = nil,
             classicLinkVpcSecurityGroups: [Swift.String]? = nil,
             createdTime: Swift.String? = nil,
-            ebsOptimized: Swift.Bool = false,
+            ebsOptimized: Swift.Bool? = nil,
             iamInstanceProfile: Swift.String? = nil,
             imageId: Swift.String? = nil,
             instanceMonitoring: SecurityHubClientTypes.AwsAutoScalingLaunchConfigurationInstanceMonitoringDetails? = nil,
@@ -5730,14 +5730,14 @@ extension SecurityHubClientTypes.AwsAutoScalingLaunchConfigurationInstanceMonito
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if enabled != false {
+        if let enabled = self.enabled {
             try encodeContainer.encode(enabled, forKey: .enabled)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled) ?? false
+        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled)
         enabled = enabledDecoded
     }
 }
@@ -5746,10 +5746,10 @@ extension SecurityHubClientTypes {
     /// Information about the type of monitoring for instances in the group.
     public struct AwsAutoScalingLaunchConfigurationInstanceMonitoringDetails: Swift.Equatable {
         /// If set to true, then instances in the group launch with detailed monitoring. If set to false, then instances in the group launch with basic monitoring.
-        public var enabled: Swift.Bool
+        public var enabled: Swift.Bool?
 
         public init(
-            enabled: Swift.Bool = false
+            enabled: Swift.Bool? = nil
         )
         {
             self.enabled = enabled
@@ -5770,7 +5770,7 @@ extension SecurityHubClientTypes.AwsAutoScalingLaunchConfigurationMetadataOption
         if let httpEndpoint = self.httpEndpoint {
             try encodeContainer.encode(httpEndpoint, forKey: .httpEndpoint)
         }
-        if httpPutResponseHopLimit != 0 {
+        if let httpPutResponseHopLimit = self.httpPutResponseHopLimit {
             try encodeContainer.encode(httpPutResponseHopLimit, forKey: .httpPutResponseHopLimit)
         }
         if let httpTokens = self.httpTokens {
@@ -5782,7 +5782,7 @@ extension SecurityHubClientTypes.AwsAutoScalingLaunchConfigurationMetadataOption
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let httpEndpointDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .httpEndpoint)
         httpEndpoint = httpEndpointDecoded
-        let httpPutResponseHopLimitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .httpPutResponseHopLimit) ?? 0
+        let httpPutResponseHopLimitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .httpPutResponseHopLimit)
         httpPutResponseHopLimit = httpPutResponseHopLimitDecoded
         let httpTokensDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .httpTokens)
         httpTokens = httpTokensDecoded
@@ -5795,13 +5795,13 @@ extension SecurityHubClientTypes {
         /// Enables or disables the HTTP metadata endpoint on your instances. By default, the metadata endpoint is enabled.
         public var httpEndpoint: Swift.String?
         /// The HTTP PUT response hop limit for instance metadata requests. The larger the number, the further instance metadata requests can travel.
-        public var httpPutResponseHopLimit: Swift.Int
+        public var httpPutResponseHopLimit: Swift.Int?
         /// Indicates whether token usage is required or optional for metadata requests. By default, token usage is optional.
         public var httpTokens: Swift.String?
 
         public init(
             httpEndpoint: Swift.String? = nil,
-            httpPutResponseHopLimit: Swift.Int = 0,
+            httpPutResponseHopLimit: Swift.Int? = nil,
             httpTokens: Swift.String? = nil
         )
         {
@@ -6026,19 +6026,19 @@ extension SecurityHubClientTypes.AwsBackupBackupPlanLifecycleDetails: Swift.Coda
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if deleteAfterDays != 0 {
+        if let deleteAfterDays = self.deleteAfterDays {
             try encodeContainer.encode(deleteAfterDays, forKey: .deleteAfterDays)
         }
-        if moveToColdStorageAfterDays != 0 {
+        if let moveToColdStorageAfterDays = self.moveToColdStorageAfterDays {
             try encodeContainer.encode(moveToColdStorageAfterDays, forKey: .moveToColdStorageAfterDays)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let deleteAfterDaysDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .deleteAfterDays) ?? 0
+        let deleteAfterDaysDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .deleteAfterDays)
         deleteAfterDays = deleteAfterDaysDecoded
-        let moveToColdStorageAfterDaysDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .moveToColdStorageAfterDays) ?? 0
+        let moveToColdStorageAfterDaysDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .moveToColdStorageAfterDays)
         moveToColdStorageAfterDays = moveToColdStorageAfterDaysDecoded
     }
 }
@@ -6047,13 +6047,13 @@ extension SecurityHubClientTypes {
     /// Provides lifecycle details for the backup plan. A lifecycle defines when a backup is transitioned to cold storage and when it expires.
     public struct AwsBackupBackupPlanLifecycleDetails: Swift.Equatable {
         /// Specifies the number of days after creation that a recovery point is deleted. Must be greater than 90 days plus MoveToColdStorageAfterDays.
-        public var deleteAfterDays: Swift.Int
+        public var deleteAfterDays: Swift.Int?
         /// Specifies the number of days after creation that a recovery point is moved to cold storage.
-        public var moveToColdStorageAfterDays: Swift.Int
+        public var moveToColdStorageAfterDays: Swift.Int?
 
         public init(
-            deleteAfterDays: Swift.Int = 0,
-            moveToColdStorageAfterDays: Swift.Int = 0
+            deleteAfterDays: Swift.Int? = nil,
+            moveToColdStorageAfterDays: Swift.Int? = nil
         )
         {
             self.deleteAfterDays = deleteAfterDays
@@ -6123,7 +6123,7 @@ extension SecurityHubClientTypes.AwsBackupBackupPlanRuleDetails: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if completionWindowMinutes != 0 {
+        if let completionWindowMinutes = self.completionWindowMinutes {
             try encodeContainer.encode(completionWindowMinutes, forKey: .completionWindowMinutes)
         }
         if let copyActions = copyActions {
@@ -6132,7 +6132,7 @@ extension SecurityHubClientTypes.AwsBackupBackupPlanRuleDetails: Swift.Codable {
                 try copyActionsContainer.encode(awsbackupbackupplanrulecopyactionsdetails0)
             }
         }
-        if enableContinuousBackup != false {
+        if let enableContinuousBackup = self.enableContinuousBackup {
             try encodeContainer.encode(enableContinuousBackup, forKey: .enableContinuousBackup)
         }
         if let lifecycle = self.lifecycle {
@@ -6147,7 +6147,7 @@ extension SecurityHubClientTypes.AwsBackupBackupPlanRuleDetails: Swift.Codable {
         if let scheduleExpression = self.scheduleExpression {
             try encodeContainer.encode(scheduleExpression, forKey: .scheduleExpression)
         }
-        if startWindowMinutes != 0 {
+        if let startWindowMinutes = self.startWindowMinutes {
             try encodeContainer.encode(startWindowMinutes, forKey: .startWindowMinutes)
         }
         if let targetBackupVault = self.targetBackupVault {
@@ -6159,7 +6159,7 @@ extension SecurityHubClientTypes.AwsBackupBackupPlanRuleDetails: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let targetBackupVaultDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .targetBackupVault)
         targetBackupVault = targetBackupVaultDecoded
-        let startWindowMinutesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .startWindowMinutes) ?? 0
+        let startWindowMinutesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .startWindowMinutes)
         startWindowMinutes = startWindowMinutesDecoded
         let scheduleExpressionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .scheduleExpression)
         scheduleExpression = scheduleExpressionDecoded
@@ -6167,9 +6167,9 @@ extension SecurityHubClientTypes.AwsBackupBackupPlanRuleDetails: Swift.Codable {
         ruleName = ruleNameDecoded
         let ruleIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ruleId)
         ruleId = ruleIdDecoded
-        let enableContinuousBackupDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enableContinuousBackup) ?? false
+        let enableContinuousBackupDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enableContinuousBackup)
         enableContinuousBackup = enableContinuousBackupDecoded
-        let completionWindowMinutesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .completionWindowMinutes) ?? 0
+        let completionWindowMinutesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .completionWindowMinutes)
         completionWindowMinutes = completionWindowMinutesDecoded
         let copyActionsContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.AwsBackupBackupPlanRuleCopyActionsDetails?].self, forKey: .copyActions)
         var copyActionsDecoded0:[SecurityHubClientTypes.AwsBackupBackupPlanRuleCopyActionsDetails]? = nil
@@ -6191,11 +6191,11 @@ extension SecurityHubClientTypes {
     /// Provides details about an array of BackupRule objects, each of which specifies a scheduled task that is used to back up a selection of resources.
     public struct AwsBackupBackupPlanRuleDetails: Swift.Equatable {
         /// A value in minutes after a backup job is successfully started before it must be completed, or it is canceled by Backup.
-        public var completionWindowMinutes: Swift.Int
+        public var completionWindowMinutes: Swift.Int?
         /// An array of CopyAction objects, each of which contains details of the copy operation.
         public var copyActions: [SecurityHubClientTypes.AwsBackupBackupPlanRuleCopyActionsDetails]?
         /// Specifies whether Backup creates continuous backups capable of point-in-time restore (PITR).
-        public var enableContinuousBackup: Swift.Bool
+        public var enableContinuousBackup: Swift.Bool?
         /// Defines when a protected resource is transitioned to cold storage and when it expires. Backup transitions and expires backups automatically according to the lifecycle that you define. If you do not specify a lifecycle, Backup applies the lifecycle policy of the source backup to the destination backup. Backups transitioned to cold storage must be stored in cold storage for a minimum of 90 days.
         public var lifecycle: SecurityHubClientTypes.AwsBackupBackupPlanLifecycleDetails?
         /// Uniquely identifies a rule that is used to schedule the backup of a selection of resources.
@@ -6205,19 +6205,19 @@ extension SecurityHubClientTypes {
         /// A cron expression in UTC specifying when Backup initiates a backup job.
         public var scheduleExpression: Swift.String?
         /// A value in minutes after a backup is scheduled before a job will be canceled if it doesn't start successfully.
-        public var startWindowMinutes: Swift.Int
+        public var startWindowMinutes: Swift.Int?
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the Amazon Web Services account used to create them and the Amazon Web Services Region where they are created. They consist of letters, numbers, and hyphens.
         public var targetBackupVault: Swift.String?
 
         public init(
-            completionWindowMinutes: Swift.Int = 0,
+            completionWindowMinutes: Swift.Int? = nil,
             copyActions: [SecurityHubClientTypes.AwsBackupBackupPlanRuleCopyActionsDetails]? = nil,
-            enableContinuousBackup: Swift.Bool = false,
+            enableContinuousBackup: Swift.Bool? = nil,
             lifecycle: SecurityHubClientTypes.AwsBackupBackupPlanLifecycleDetails? = nil,
             ruleId: Swift.String? = nil,
             ruleName: Swift.String? = nil,
             scheduleExpression: Swift.String? = nil,
-            startWindowMinutes: Swift.Int = 0,
+            startWindowMinutes: Swift.Int? = nil,
             targetBackupVault: Swift.String? = nil
         )
         {
@@ -6510,7 +6510,7 @@ extension SecurityHubClientTypes.AwsBackupRecoveryPointDetails: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if backupSizeInBytes != 0 {
+        if let backupSizeInBytes = self.backupSizeInBytes {
             try encodeContainer.encode(backupSizeInBytes, forKey: .backupSizeInBytes)
         }
         if let backupVaultArn = self.backupVaultArn {
@@ -6537,7 +6537,7 @@ extension SecurityHubClientTypes.AwsBackupRecoveryPointDetails: Swift.Codable {
         if let iamRoleArn = self.iamRoleArn {
             try encodeContainer.encode(iamRoleArn, forKey: .iamRoleArn)
         }
-        if isEncrypted != false {
+        if let isEncrypted = self.isEncrypted {
             try encodeContainer.encode(isEncrypted, forKey: .isEncrypted)
         }
         if let lastRestoreTime = self.lastRestoreTime {
@@ -6571,7 +6571,7 @@ extension SecurityHubClientTypes.AwsBackupRecoveryPointDetails: Swift.Codable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let backupSizeInBytesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .backupSizeInBytes) ?? 0
+        let backupSizeInBytesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .backupSizeInBytes)
         backupSizeInBytes = backupSizeInBytesDecoded
         let backupVaultArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .backupVaultArn)
         backupVaultArn = backupVaultArnDecoded
@@ -6589,7 +6589,7 @@ extension SecurityHubClientTypes.AwsBackupRecoveryPointDetails: Swift.Codable {
         encryptionKeyArn = encryptionKeyArnDecoded
         let iamRoleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .iamRoleArn)
         iamRoleArn = iamRoleArnDecoded
-        let isEncryptedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isEncrypted) ?? false
+        let isEncryptedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isEncrypted)
         isEncrypted = isEncryptedDecoded
         let lastRestoreTimeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastRestoreTime)
         lastRestoreTime = lastRestoreTimeDecoded
@@ -6616,7 +6616,7 @@ extension SecurityHubClientTypes {
     /// Contains detailed information about the recovery points stored in an Backup backup vault. A backup, or recovery point, represents the content of a resource at a specified time.
     public struct AwsBackupRecoveryPointDetails: Swift.Equatable {
         /// The size, in bytes, of a backup.
-        public var backupSizeInBytes: Swift.Int
+        public var backupSizeInBytes: Swift.Int?
         /// An Amazon Resource Name (ARN) that uniquely identifies a backup vault.
         public var backupVaultArn: Swift.String?
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the Amazon Web Services account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens.
@@ -6634,7 +6634,7 @@ extension SecurityHubClientTypes {
         /// Specifies the IAM role ARN used to create the target recovery point
         public var iamRoleArn: Swift.String?
         /// A Boolean value that is returned as TRUE if the specified recovery point is encrypted, or FALSE if the recovery point is not encrypted.
-        public var isEncrypted: Swift.Bool
+        public var isEncrypted: Swift.Bool?
         /// The date and time that a recovery point was last restored, in Unix format and UTC. The value of LastRestoreTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
         public var lastRestoreTime: Swift.String?
         /// The lifecycle defines when a protected resource is transitioned to cold storage and when it expires. Backup transitions and expires backups automatically according to the lifecycle that you define
@@ -6669,7 +6669,7 @@ extension SecurityHubClientTypes {
         public var storageClass: Swift.String?
 
         public init(
-            backupSizeInBytes: Swift.Int = 0,
+            backupSizeInBytes: Swift.Int? = nil,
             backupVaultArn: Swift.String? = nil,
             backupVaultName: Swift.String? = nil,
             calculatedLifecycle: SecurityHubClientTypes.AwsBackupRecoveryPointCalculatedLifecycleDetails? = nil,
@@ -6678,7 +6678,7 @@ extension SecurityHubClientTypes {
             creationDate: Swift.String? = nil,
             encryptionKeyArn: Swift.String? = nil,
             iamRoleArn: Swift.String? = nil,
-            isEncrypted: Swift.Bool = false,
+            isEncrypted: Swift.Bool? = nil,
             lastRestoreTime: Swift.String? = nil,
             lifecycle: SecurityHubClientTypes.AwsBackupRecoveryPointLifecycleDetails? = nil,
             recoveryPointArn: Swift.String? = nil,
@@ -6722,19 +6722,19 @@ extension SecurityHubClientTypes.AwsBackupRecoveryPointLifecycleDetails: Swift.C
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if deleteAfterDays != 0 {
+        if let deleteAfterDays = self.deleteAfterDays {
             try encodeContainer.encode(deleteAfterDays, forKey: .deleteAfterDays)
         }
-        if moveToColdStorageAfterDays != 0 {
+        if let moveToColdStorageAfterDays = self.moveToColdStorageAfterDays {
             try encodeContainer.encode(moveToColdStorageAfterDays, forKey: .moveToColdStorageAfterDays)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let deleteAfterDaysDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .deleteAfterDays) ?? 0
+        let deleteAfterDaysDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .deleteAfterDays)
         deleteAfterDays = deleteAfterDaysDecoded
-        let moveToColdStorageAfterDaysDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .moveToColdStorageAfterDays) ?? 0
+        let moveToColdStorageAfterDaysDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .moveToColdStorageAfterDays)
         moveToColdStorageAfterDays = moveToColdStorageAfterDaysDecoded
     }
 }
@@ -6743,13 +6743,13 @@ extension SecurityHubClientTypes {
     /// Contains an array of Transition objects specifying how long in days before a recovery point transitions to cold storage or is deleted.
     public struct AwsBackupRecoveryPointLifecycleDetails: Swift.Equatable {
         /// Specifies the number of days after creation that a recovery point is deleted. Must be greater than 90 days plus MoveToColdStorageAfterDays.
-        public var deleteAfterDays: Swift.Int
+        public var deleteAfterDays: Swift.Int?
         /// Specifies the number of days after creation that a recovery point is moved to cold storage.
-        public var moveToColdStorageAfterDays: Swift.Int
+        public var moveToColdStorageAfterDays: Swift.Int?
 
         public init(
-            deleteAfterDays: Swift.Int = 0,
-            moveToColdStorageAfterDays: Swift.Int = 0
+            deleteAfterDays: Swift.Int? = nil,
+            moveToColdStorageAfterDays: Swift.Int? = nil
         )
         {
             self.deleteAfterDays = deleteAfterDays
@@ -7455,13 +7455,13 @@ extension SecurityHubClientTypes.AwsCloudFormationStackDetails: Swift.Codable {
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
         }
-        if disableRollback != false {
+        if let disableRollback = self.disableRollback {
             try encodeContainer.encode(disableRollback, forKey: .disableRollback)
         }
         if let driftInformation = self.driftInformation {
             try encodeContainer.encode(driftInformation, forKey: .driftInformation)
         }
-        if enableTerminationProtection != false {
+        if let enableTerminationProtection = self.enableTerminationProtection {
             try encodeContainer.encode(enableTerminationProtection, forKey: .enableTerminationProtection)
         }
         if let lastUpdatedTime = self.lastUpdatedTime {
@@ -7494,7 +7494,7 @@ extension SecurityHubClientTypes.AwsCloudFormationStackDetails: Swift.Codable {
         if let stackStatusReason = self.stackStatusReason {
             try encodeContainer.encode(stackStatusReason, forKey: .stackStatusReason)
         }
-        if timeoutInMinutes != 0 {
+        if let timeoutInMinutes = self.timeoutInMinutes {
             try encodeContainer.encode(timeoutInMinutes, forKey: .timeoutInMinutes)
         }
     }
@@ -7516,11 +7516,11 @@ extension SecurityHubClientTypes.AwsCloudFormationStackDetails: Swift.Codable {
         creationTime = creationTimeDecoded
         let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
         description = descriptionDecoded
-        let disableRollbackDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .disableRollback) ?? false
+        let disableRollbackDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .disableRollback)
         disableRollback = disableRollbackDecoded
         let driftInformationDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsCloudFormationStackDriftInformationDetails.self, forKey: .driftInformation)
         driftInformation = driftInformationDecoded
-        let enableTerminationProtectionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enableTerminationProtection) ?? false
+        let enableTerminationProtectionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enableTerminationProtection)
         enableTerminationProtection = enableTerminationProtectionDecoded
         let lastUpdatedTimeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastUpdatedTime)
         lastUpdatedTime = lastUpdatedTimeDecoded
@@ -7556,7 +7556,7 @@ extension SecurityHubClientTypes.AwsCloudFormationStackDetails: Swift.Codable {
         stackStatus = stackStatusDecoded
         let stackStatusReasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stackStatusReason)
         stackStatusReason = stackStatusReasonDecoded
-        let timeoutInMinutesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .timeoutInMinutes) ?? 0
+        let timeoutInMinutesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .timeoutInMinutes)
         timeoutInMinutes = timeoutInMinutesDecoded
     }
 }
@@ -7571,11 +7571,11 @@ extension SecurityHubClientTypes {
         /// A user-defined description associated with the stack.
         public var description: Swift.String?
         /// Boolean to enable or disable rollback on stack creation failures.
-        public var disableRollback: Swift.Bool
+        public var disableRollback: Swift.Bool?
         /// Information about whether a stack's actual configuration differs, or has drifted, from its expected configuration, as defined in the stack template and any values specified as template parameters.
         public var driftInformation: SecurityHubClientTypes.AwsCloudFormationStackDriftInformationDetails?
         /// Whether termination protection is enabled for the stack.
-        public var enableTerminationProtection: Swift.Bool
+        public var enableTerminationProtection: Swift.Bool?
         /// The time the nested stack was last updated. This field will only be returned if the stack has been updated at least once.
         public var lastUpdatedTime: Swift.String?
         /// The Amazon Resource Names (ARNs) of the Amazon SNS topic to which stack-related events are published.
@@ -7593,15 +7593,15 @@ extension SecurityHubClientTypes {
         /// Success or failure message associated with the stack status.
         public var stackStatusReason: Swift.String?
         /// The length of time, in minutes, that CloudFormation waits for the nested stack to reach the CREATE_COMPLETE state.
-        public var timeoutInMinutes: Swift.Int
+        public var timeoutInMinutes: Swift.Int?
 
         public init(
             capabilities: [Swift.String]? = nil,
             creationTime: Swift.String? = nil,
             description: Swift.String? = nil,
-            disableRollback: Swift.Bool = false,
+            disableRollback: Swift.Bool? = nil,
             driftInformation: SecurityHubClientTypes.AwsCloudFormationStackDriftInformationDetails? = nil,
-            enableTerminationProtection: Swift.Bool = false,
+            enableTerminationProtection: Swift.Bool? = nil,
             lastUpdatedTime: Swift.String? = nil,
             notificationArns: [Swift.String]? = nil,
             outputs: [SecurityHubClientTypes.AwsCloudFormationStackOutputsDetails]? = nil,
@@ -7610,7 +7610,7 @@ extension SecurityHubClientTypes {
             stackName: Swift.String? = nil,
             stackStatus: Swift.String? = nil,
             stackStatusReason: Swift.String? = nil,
-            timeoutInMinutes: Swift.Int = 0
+            timeoutInMinutes: Swift.Int? = nil
         )
         {
             self.capabilities = capabilities
@@ -8010,10 +8010,10 @@ extension SecurityHubClientTypes.AwsCloudFrontDistributionLogging: Swift.Codable
         if let bucket = self.bucket {
             try encodeContainer.encode(bucket, forKey: .bucket)
         }
-        if enabled != false {
+        if let enabled = self.enabled {
             try encodeContainer.encode(enabled, forKey: .enabled)
         }
-        if includeCookies != false {
+        if let includeCookies = self.includeCookies {
             try encodeContainer.encode(includeCookies, forKey: .includeCookies)
         }
         if let `prefix` = self.`prefix` {
@@ -8025,9 +8025,9 @@ extension SecurityHubClientTypes.AwsCloudFrontDistributionLogging: Swift.Codable
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let bucketDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bucket)
         bucket = bucketDecoded
-        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled) ?? false
+        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled)
         enabled = enabledDecoded
-        let includeCookiesDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .includeCookies) ?? false
+        let includeCookiesDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .includeCookies)
         includeCookies = includeCookiesDecoded
         let prefixDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .prefix)
         `prefix` = prefixDecoded
@@ -8040,16 +8040,16 @@ extension SecurityHubClientTypes {
         /// The S3 bucket to store the access logs in.
         public var bucket: Swift.String?
         /// With this field, you can enable or disable the selected distribution.
-        public var enabled: Swift.Bool
+        public var enabled: Swift.Bool?
         /// Specifies whether you want CloudFront to include cookies in access logs.
-        public var includeCookies: Swift.Bool
+        public var includeCookies: Swift.Bool?
         /// An optional string that you want CloudFront to use as a prefix to the access log filenames for this distribution.
         public var `prefix`: Swift.String?
 
         public init(
             bucket: Swift.String? = nil,
-            enabled: Swift.Bool = false,
-            includeCookies: Swift.Bool = false,
+            enabled: Swift.Bool? = nil,
+            includeCookies: Swift.Bool? = nil,
             `prefix`: Swift.String? = nil
         )
         {
@@ -8074,19 +8074,19 @@ extension SecurityHubClientTypes.AwsCloudFrontDistributionOriginCustomOriginConf
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if httpPort != 0 {
+        if let httpPort = self.httpPort {
             try encodeContainer.encode(httpPort, forKey: .httpPort)
         }
-        if httpsPort != 0 {
+        if let httpsPort = self.httpsPort {
             try encodeContainer.encode(httpsPort, forKey: .httpsPort)
         }
-        if originKeepaliveTimeout != 0 {
+        if let originKeepaliveTimeout = self.originKeepaliveTimeout {
             try encodeContainer.encode(originKeepaliveTimeout, forKey: .originKeepaliveTimeout)
         }
         if let originProtocolPolicy = self.originProtocolPolicy {
             try encodeContainer.encode(originProtocolPolicy, forKey: .originProtocolPolicy)
         }
-        if originReadTimeout != 0 {
+        if let originReadTimeout = self.originReadTimeout {
             try encodeContainer.encode(originReadTimeout, forKey: .originReadTimeout)
         }
         if let originSslProtocols = self.originSslProtocols {
@@ -8096,15 +8096,15 @@ extension SecurityHubClientTypes.AwsCloudFrontDistributionOriginCustomOriginConf
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let httpPortDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .httpPort) ?? 0
+        let httpPortDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .httpPort)
         httpPort = httpPortDecoded
-        let httpsPortDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .httpsPort) ?? 0
+        let httpsPortDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .httpsPort)
         httpsPort = httpsPortDecoded
-        let originKeepaliveTimeoutDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .originKeepaliveTimeout) ?? 0
+        let originKeepaliveTimeoutDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .originKeepaliveTimeout)
         originKeepaliveTimeout = originKeepaliveTimeoutDecoded
         let originProtocolPolicyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .originProtocolPolicy)
         originProtocolPolicy = originProtocolPolicyDecoded
-        let originReadTimeoutDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .originReadTimeout) ?? 0
+        let originReadTimeoutDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .originReadTimeout)
         originReadTimeout = originReadTimeoutDecoded
         let originSslProtocolsDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsCloudFrontDistributionOriginSslProtocols.self, forKey: .originSslProtocols)
         originSslProtocols = originSslProtocolsDecoded
@@ -8115,24 +8115,24 @@ extension SecurityHubClientTypes {
     /// A custom origin. A custom origin is any origin that is not an Amazon S3 bucket, with one exception. An Amazon S3 bucket that is [configured with static website hosting](https://docs.aws.amazon.com/AmazonS3/latest/dev/WebsiteHosting.html) is a custom origin.
     public struct AwsCloudFrontDistributionOriginCustomOriginConfig: Swift.Equatable {
         /// The HTTP port that CloudFront uses to connect to the origin.
-        public var httpPort: Swift.Int
+        public var httpPort: Swift.Int?
         /// The HTTPS port that CloudFront uses to connect to the origin.
-        public var httpsPort: Swift.Int
+        public var httpsPort: Swift.Int?
         /// Specifies how long, in seconds, CloudFront persists its connection to the origin.
-        public var originKeepaliveTimeout: Swift.Int
+        public var originKeepaliveTimeout: Swift.Int?
         /// Specifies the protocol (HTTP or HTTPS) that CloudFront uses to connect to the origin.
         public var originProtocolPolicy: Swift.String?
         /// Specifies how long, in seconds, CloudFront waits for a response from the origin.
-        public var originReadTimeout: Swift.Int
+        public var originReadTimeout: Swift.Int?
         /// Specifies the minimum SSL/TLS protocol that CloudFront uses when connecting to your origin over HTTPS.
         public var originSslProtocols: SecurityHubClientTypes.AwsCloudFrontDistributionOriginSslProtocols?
 
         public init(
-            httpPort: Swift.Int = 0,
-            httpsPort: Swift.Int = 0,
-            originKeepaliveTimeout: Swift.Int = 0,
+            httpPort: Swift.Int? = nil,
+            httpsPort: Swift.Int? = nil,
+            originKeepaliveTimeout: Swift.Int? = nil,
             originProtocolPolicy: Swift.String? = nil,
-            originReadTimeout: Swift.Int = 0,
+            originReadTimeout: Swift.Int? = nil,
             originSslProtocols: SecurityHubClientTypes.AwsCloudFrontDistributionOriginSslProtocols? = nil
         )
         {
@@ -8231,7 +8231,7 @@ extension SecurityHubClientTypes.AwsCloudFrontDistributionOriginGroupFailoverSta
                 try itemsContainer.encode(integer0)
             }
         }
-        if quantity != 0 {
+        if let quantity = self.quantity {
             try encodeContainer.encode(quantity, forKey: .quantity)
         }
     }
@@ -8249,7 +8249,7 @@ extension SecurityHubClientTypes.AwsCloudFrontDistributionOriginGroupFailoverSta
             }
         }
         items = itemsDecoded0
-        let quantityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .quantity) ?? 0
+        let quantityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .quantity)
         quantity = quantityDecoded
     }
 }
@@ -8260,11 +8260,11 @@ extension SecurityHubClientTypes {
         /// The list of status code values that can cause a failover to the next origin.
         public var items: [Swift.Int]?
         /// The number of status codes that can cause a failover.
-        public var quantity: Swift.Int
+        public var quantity: Swift.Int?
 
         public init(
             items: [Swift.Int]? = nil,
-            quantity: Swift.Int = 0
+            quantity: Swift.Int? = nil
         )
         {
             self.items = items
@@ -8445,7 +8445,7 @@ extension SecurityHubClientTypes.AwsCloudFrontDistributionOriginSslProtocols: Sw
                 try itemsContainer.encode(nonemptystring0)
             }
         }
-        if quantity != 0 {
+        if let quantity = self.quantity {
             try encodeContainer.encode(quantity, forKey: .quantity)
         }
     }
@@ -8463,7 +8463,7 @@ extension SecurityHubClientTypes.AwsCloudFrontDistributionOriginSslProtocols: Sw
             }
         }
         items = itemsDecoded0
-        let quantityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .quantity) ?? 0
+        let quantityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .quantity)
         quantity = quantityDecoded
     }
 }
@@ -8474,11 +8474,11 @@ extension SecurityHubClientTypes {
         /// A list that contains allowed SSL/TLS protocols for this distribution.
         public var items: [Swift.String]?
         /// The number of SSL/TLS protocols that you want to allow CloudFront to use when establishing an HTTPS connection with this origin.
-        public var quantity: Swift.Int
+        public var quantity: Swift.Int?
 
         public init(
             items: [Swift.String]? = nil,
-            quantity: Swift.Int = 0
+            quantity: Swift.Int? = nil
         )
         {
             self.items = items
@@ -8557,7 +8557,7 @@ extension SecurityHubClientTypes.AwsCloudFrontDistributionViewerCertificate: Swi
         if let certificateSource = self.certificateSource {
             try encodeContainer.encode(certificateSource, forKey: .certificateSource)
         }
-        if cloudFrontDefaultCertificate != false {
+        if let cloudFrontDefaultCertificate = self.cloudFrontDefaultCertificate {
             try encodeContainer.encode(cloudFrontDefaultCertificate, forKey: .cloudFrontDefaultCertificate)
         }
         if let iamCertificateId = self.iamCertificateId {
@@ -8579,7 +8579,7 @@ extension SecurityHubClientTypes.AwsCloudFrontDistributionViewerCertificate: Swi
         certificate = certificateDecoded
         let certificateSourceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .certificateSource)
         certificateSource = certificateSourceDecoded
-        let cloudFrontDefaultCertificateDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .cloudFrontDefaultCertificate) ?? false
+        let cloudFrontDefaultCertificateDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .cloudFrontDefaultCertificate)
         cloudFrontDefaultCertificate = cloudFrontDefaultCertificateDecoded
         let iamCertificateIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .iamCertificateId)
         iamCertificateId = iamCertificateIdDecoded
@@ -8600,7 +8600,7 @@ extension SecurityHubClientTypes {
         /// The source of the certificate identified by Certificate. Note that in CloudFront, this attribute is deprecated.
         public var certificateSource: Swift.String?
         /// Whether the distribution uses the CloudFront domain name. If set to false, then you provide either AcmCertificateArn or IamCertificateId.
-        public var cloudFrontDefaultCertificate: Swift.Bool
+        public var cloudFrontDefaultCertificate: Swift.Bool?
         /// The identifier of the IAM certificate. Used if the certificate is stored in IAM. If you provide IamCertificateId, then you also must provide MinimumProtocolVersion and SslSupportMethod.
         public var iamCertificateId: Swift.String?
         /// The security policy that CloudFront uses for HTTPS connections with viewers. If SslSupportMethod is sni-only, then MinimumProtocolVersion must be TLSv1 or higher.
@@ -8612,7 +8612,7 @@ extension SecurityHubClientTypes {
             acmCertificateArn: Swift.String? = nil,
             certificate: Swift.String? = nil,
             certificateSource: Swift.String? = nil,
-            cloudFrontDefaultCertificate: Swift.Bool = false,
+            cloudFrontDefaultCertificate: Swift.Bool? = nil,
             iamCertificateId: Swift.String? = nil,
             minimumProtocolVersion: Swift.String? = nil,
             sslSupportMethod: Swift.String? = nil
@@ -8657,25 +8657,25 @@ extension SecurityHubClientTypes.AwsCloudTrailTrailDetails: Swift.Codable {
         if let cloudWatchLogsRoleArn = self.cloudWatchLogsRoleArn {
             try encodeContainer.encode(cloudWatchLogsRoleArn, forKey: .cloudWatchLogsRoleArn)
         }
-        if hasCustomEventSelectors != false {
+        if let hasCustomEventSelectors = self.hasCustomEventSelectors {
             try encodeContainer.encode(hasCustomEventSelectors, forKey: .hasCustomEventSelectors)
         }
         if let homeRegion = self.homeRegion {
             try encodeContainer.encode(homeRegion, forKey: .homeRegion)
         }
-        if includeGlobalServiceEvents != false {
+        if let includeGlobalServiceEvents = self.includeGlobalServiceEvents {
             try encodeContainer.encode(includeGlobalServiceEvents, forKey: .includeGlobalServiceEvents)
         }
-        if isMultiRegionTrail != false {
+        if let isMultiRegionTrail = self.isMultiRegionTrail {
             try encodeContainer.encode(isMultiRegionTrail, forKey: .isMultiRegionTrail)
         }
-        if isOrganizationTrail != false {
+        if let isOrganizationTrail = self.isOrganizationTrail {
             try encodeContainer.encode(isOrganizationTrail, forKey: .isOrganizationTrail)
         }
         if let kmsKeyId = self.kmsKeyId {
             try encodeContainer.encode(kmsKeyId, forKey: .kmsKeyId)
         }
-        if logFileValidationEnabled != false {
+        if let logFileValidationEnabled = self.logFileValidationEnabled {
             try encodeContainer.encode(logFileValidationEnabled, forKey: .logFileValidationEnabled)
         }
         if let name = self.name {
@@ -8704,19 +8704,19 @@ extension SecurityHubClientTypes.AwsCloudTrailTrailDetails: Swift.Codable {
         cloudWatchLogsLogGroupArn = cloudWatchLogsLogGroupArnDecoded
         let cloudWatchLogsRoleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cloudWatchLogsRoleArn)
         cloudWatchLogsRoleArn = cloudWatchLogsRoleArnDecoded
-        let hasCustomEventSelectorsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .hasCustomEventSelectors) ?? false
+        let hasCustomEventSelectorsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .hasCustomEventSelectors)
         hasCustomEventSelectors = hasCustomEventSelectorsDecoded
         let homeRegionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .homeRegion)
         homeRegion = homeRegionDecoded
-        let includeGlobalServiceEventsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .includeGlobalServiceEvents) ?? false
+        let includeGlobalServiceEventsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .includeGlobalServiceEvents)
         includeGlobalServiceEvents = includeGlobalServiceEventsDecoded
-        let isMultiRegionTrailDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isMultiRegionTrail) ?? false
+        let isMultiRegionTrailDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isMultiRegionTrail)
         isMultiRegionTrail = isMultiRegionTrailDecoded
-        let isOrganizationTrailDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isOrganizationTrail) ?? false
+        let isOrganizationTrailDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isOrganizationTrail)
         isOrganizationTrail = isOrganizationTrailDecoded
         let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
         kmsKeyId = kmsKeyIdDecoded
-        let logFileValidationEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .logFileValidationEnabled) ?? false
+        let logFileValidationEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .logFileValidationEnabled)
         logFileValidationEnabled = logFileValidationEnabledDecoded
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -8741,19 +8741,19 @@ extension SecurityHubClientTypes {
         /// The ARN of the role that the CloudWatch Events endpoint assumes when it writes to the log group.
         public var cloudWatchLogsRoleArn: Swift.String?
         /// Indicates whether the trail has custom event selectors.
-        public var hasCustomEventSelectors: Swift.Bool
+        public var hasCustomEventSelectors: Swift.Bool?
         /// The Region where the trail was created.
         public var homeRegion: Swift.String?
         /// Indicates whether the trail publishes events from global services such as IAM to the log files.
-        public var includeGlobalServiceEvents: Swift.Bool
+        public var includeGlobalServiceEvents: Swift.Bool?
         /// Indicates whether the trail applies only to the current Region or to all Regions.
-        public var isMultiRegionTrail: Swift.Bool
+        public var isMultiRegionTrail: Swift.Bool?
         /// Whether the trail is created for all accounts in an organization in Organizations, or only for the current Amazon Web Services account.
-        public var isOrganizationTrail: Swift.Bool
+        public var isOrganizationTrail: Swift.Bool?
         /// The KMS key ID to use to encrypt the logs.
         public var kmsKeyId: Swift.String?
         /// Indicates whether CloudTrail log file validation is enabled.
-        public var logFileValidationEnabled: Swift.Bool
+        public var logFileValidationEnabled: Swift.Bool?
         /// The name of the trail.
         public var name: Swift.String?
         /// The name of the S3 bucket where the log files are published.
@@ -8770,13 +8770,13 @@ extension SecurityHubClientTypes {
         public init(
             cloudWatchLogsLogGroupArn: Swift.String? = nil,
             cloudWatchLogsRoleArn: Swift.String? = nil,
-            hasCustomEventSelectors: Swift.Bool = false,
+            hasCustomEventSelectors: Swift.Bool? = nil,
             homeRegion: Swift.String? = nil,
-            includeGlobalServiceEvents: Swift.Bool = false,
-            isMultiRegionTrail: Swift.Bool = false,
-            isOrganizationTrail: Swift.Bool = false,
+            includeGlobalServiceEvents: Swift.Bool? = nil,
+            isMultiRegionTrail: Swift.Bool? = nil,
+            isOrganizationTrail: Swift.Bool? = nil,
             kmsKeyId: Swift.String? = nil,
-            logFileValidationEnabled: Swift.Bool = false,
+            logFileValidationEnabled: Swift.Bool? = nil,
             name: Swift.String? = nil,
             s3BucketName: Swift.String? = nil,
             s3KeyPrefix: Swift.String? = nil,
@@ -8833,7 +8833,7 @@ extension SecurityHubClientTypes.AwsCloudWatchAlarmDetails: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if actionsEnabled != false {
+        if let actionsEnabled = self.actionsEnabled {
             try encodeContainer.encode(actionsEnabled, forKey: .actionsEnabled)
         }
         if let alarmActions = alarmActions {
@@ -8857,7 +8857,7 @@ extension SecurityHubClientTypes.AwsCloudWatchAlarmDetails: Swift.Codable {
         if let comparisonOperator = self.comparisonOperator {
             try encodeContainer.encode(comparisonOperator, forKey: .comparisonOperator)
         }
-        if datapointsToAlarm != 0 {
+        if let datapointsToAlarm = self.datapointsToAlarm {
             try encodeContainer.encode(datapointsToAlarm, forKey: .datapointsToAlarm)
         }
         if let dimensions = dimensions {
@@ -8869,7 +8869,7 @@ extension SecurityHubClientTypes.AwsCloudWatchAlarmDetails: Swift.Codable {
         if let evaluateLowSampleCountPercentile = self.evaluateLowSampleCountPercentile {
             try encodeContainer.encode(evaluateLowSampleCountPercentile, forKey: .evaluateLowSampleCountPercentile)
         }
-        if evaluationPeriods != 0 {
+        if let evaluationPeriods = self.evaluationPeriods {
             try encodeContainer.encode(evaluationPeriods, forKey: .evaluationPeriods)
         }
         if let extendedStatistic = self.extendedStatistic {
@@ -8893,13 +8893,13 @@ extension SecurityHubClientTypes.AwsCloudWatchAlarmDetails: Swift.Codable {
                 try okActionsContainer.encode(nonemptystring0)
             }
         }
-        if period != 0 {
+        if let period = self.period {
             try encodeContainer.encode(period, forKey: .period)
         }
         if let statistic = self.statistic {
             try encodeContainer.encode(statistic, forKey: .statistic)
         }
-        if threshold != 0.0 {
+        if let threshold = self.threshold {
             try encodeContainer.encode(threshold, forKey: .threshold)
         }
         if let thresholdMetricId = self.thresholdMetricId {
@@ -8915,7 +8915,7 @@ extension SecurityHubClientTypes.AwsCloudWatchAlarmDetails: Swift.Codable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let actionsEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .actionsEnabled) ?? false
+        let actionsEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .actionsEnabled)
         actionsEnabled = actionsEnabledDecoded
         let alarmActionsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .alarmActions)
         var alarmActionsDecoded0:[Swift.String]? = nil
@@ -8938,7 +8938,7 @@ extension SecurityHubClientTypes.AwsCloudWatchAlarmDetails: Swift.Codable {
         alarmName = alarmNameDecoded
         let comparisonOperatorDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .comparisonOperator)
         comparisonOperator = comparisonOperatorDecoded
-        let datapointsToAlarmDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .datapointsToAlarm) ?? 0
+        let datapointsToAlarmDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .datapointsToAlarm)
         datapointsToAlarm = datapointsToAlarmDecoded
         let dimensionsContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.AwsCloudWatchAlarmDimensionsDetails?].self, forKey: .dimensions)
         var dimensionsDecoded0:[SecurityHubClientTypes.AwsCloudWatchAlarmDimensionsDetails]? = nil
@@ -8953,7 +8953,7 @@ extension SecurityHubClientTypes.AwsCloudWatchAlarmDetails: Swift.Codable {
         dimensions = dimensionsDecoded0
         let evaluateLowSampleCountPercentileDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .evaluateLowSampleCountPercentile)
         evaluateLowSampleCountPercentile = evaluateLowSampleCountPercentileDecoded
-        let evaluationPeriodsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .evaluationPeriods) ?? 0
+        let evaluationPeriodsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .evaluationPeriods)
         evaluationPeriods = evaluationPeriodsDecoded
         let extendedStatisticDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .extendedStatistic)
         extendedStatistic = extendedStatisticDecoded
@@ -8983,11 +8983,11 @@ extension SecurityHubClientTypes.AwsCloudWatchAlarmDetails: Swift.Codable {
             }
         }
         okActions = okActionsDecoded0
-        let periodDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .period) ?? 0
+        let periodDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .period)
         period = periodDecoded
         let statisticDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .statistic)
         statistic = statisticDecoded
-        let thresholdDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .threshold) ?? 0.0
+        let thresholdDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .threshold)
         threshold = thresholdDecoded
         let thresholdMetricIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .thresholdMetricId)
         thresholdMetricId = thresholdMetricIdDecoded
@@ -9002,7 +9002,7 @@ extension SecurityHubClientTypes {
     /// Specifies an alarm and associates it with the specified metric or metric math expression.
     public struct AwsCloudWatchAlarmDetails: Swift.Equatable {
         /// Indicates whether actions should be executed during any changes to the alarm state.
-        public var actionsEnabled: Swift.Bool
+        public var actionsEnabled: Swift.Bool?
         /// The list of actions, specified as Amazon Resource Names (ARNs) to execute when this alarm transitions into an ALARM state from any other state.
         public var alarmActions: [Swift.String]?
         /// The ARN of the alarm.
@@ -9016,13 +9016,13 @@ extension SecurityHubClientTypes {
         /// The arithmetic operation to use when comparing the specified statistic and threshold. The specified statistic value is used as the first operand.
         public var comparisonOperator: Swift.String?
         /// The number of datapoints that must be breaching to trigger the alarm.
-        public var datapointsToAlarm: Swift.Int
+        public var datapointsToAlarm: Swift.Int?
         /// The dimensions for the metric associated with the alarm.
         public var dimensions: [SecurityHubClientTypes.AwsCloudWatchAlarmDimensionsDetails]?
         /// Used only for alarms based on percentiles. If ignore, the alarm state does not change during periods with too few data points to be statistically significant. If evaluate or this parameter is not used, the alarm is always evaluated and possibly changes state no matter how many data points are available.
         public var evaluateLowSampleCountPercentile: Swift.String?
         /// The number of periods over which data is compared to the specified threshold.
-        public var evaluationPeriods: Swift.Int
+        public var evaluationPeriods: Swift.Int?
         /// The percentile statistic for the metric associated with the alarm.
         public var extendedStatistic: Swift.String?
         /// The actions to execute when this alarm transitions to the INSUFFICIENT_DATA state from any other state. Each action is specified as an ARN.
@@ -9034,11 +9034,11 @@ extension SecurityHubClientTypes {
         /// The actions to execute when this alarm transitions to the OK state from any other state. Each action is specified as an ARN.
         public var okActions: [Swift.String]?
         /// The period, in seconds, over which the statistic is applied. This is required for an alarm based on a metric.
-        public var period: Swift.Int
+        public var period: Swift.Int?
         /// The statistic for the metric associated with the alarm, other than percentile. For percentile statistics, use ExtendedStatistic. For an alarm based on a metric, you must specify either Statistic or ExtendedStatistic but not both. For an alarm based on a math expression, you can't specify Statistic. Instead, you use Metrics.
         public var statistic: Swift.String?
         /// The value to compare with the specified statistic.
-        public var threshold: Swift.Double
+        public var threshold: Swift.Double?
         /// n an alarm based on an anomaly detection model, this is the ID of the ANOMALY_DETECTION_BAND function used as the threshold for the alarm.
         public var thresholdMetricId: Swift.String?
         /// Sets how this alarm is to handle missing data points.
@@ -9047,25 +9047,25 @@ extension SecurityHubClientTypes {
         public var unit: Swift.String?
 
         public init(
-            actionsEnabled: Swift.Bool = false,
+            actionsEnabled: Swift.Bool? = nil,
             alarmActions: [Swift.String]? = nil,
             alarmArn: Swift.String? = nil,
             alarmConfigurationUpdatedTimestamp: Swift.String? = nil,
             alarmDescription: Swift.String? = nil,
             alarmName: Swift.String? = nil,
             comparisonOperator: Swift.String? = nil,
-            datapointsToAlarm: Swift.Int = 0,
+            datapointsToAlarm: Swift.Int? = nil,
             dimensions: [SecurityHubClientTypes.AwsCloudWatchAlarmDimensionsDetails]? = nil,
             evaluateLowSampleCountPercentile: Swift.String? = nil,
-            evaluationPeriods: Swift.Int = 0,
+            evaluationPeriods: Swift.Int? = nil,
             extendedStatistic: Swift.String? = nil,
             insufficientDataActions: [Swift.String]? = nil,
             metricName: Swift.String? = nil,
             namespace: Swift.String? = nil,
             okActions: [Swift.String]? = nil,
-            period: Swift.Int = 0,
+            period: Swift.Int? = nil,
             statistic: Swift.String? = nil,
-            threshold: Swift.Double = 0.0,
+            threshold: Swift.Double? = nil,
             thresholdMetricId: Swift.String? = nil,
             treatMissingData: Swift.String? = nil,
             unit: Swift.String? = nil
@@ -9161,7 +9161,7 @@ extension SecurityHubClientTypes.AwsCodeBuildProjectArtifactsDetails: Swift.Coda
         if let artifactIdentifier = self.artifactIdentifier {
             try encodeContainer.encode(artifactIdentifier, forKey: .artifactIdentifier)
         }
-        if encryptionDisabled != false {
+        if let encryptionDisabled = self.encryptionDisabled {
             try encodeContainer.encode(encryptionDisabled, forKey: .encryptionDisabled)
         }
         if let location = self.location {
@@ -9173,7 +9173,7 @@ extension SecurityHubClientTypes.AwsCodeBuildProjectArtifactsDetails: Swift.Coda
         if let namespaceType = self.namespaceType {
             try encodeContainer.encode(namespaceType, forKey: .namespaceType)
         }
-        if overrideArtifactName != false {
+        if let overrideArtifactName = self.overrideArtifactName {
             try encodeContainer.encode(overrideArtifactName, forKey: .overrideArtifactName)
         }
         if let packaging = self.packaging {
@@ -9191,7 +9191,7 @@ extension SecurityHubClientTypes.AwsCodeBuildProjectArtifactsDetails: Swift.Coda
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let artifactIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .artifactIdentifier)
         artifactIdentifier = artifactIdentifierDecoded
-        let encryptionDisabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .encryptionDisabled) ?? false
+        let encryptionDisabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .encryptionDisabled)
         encryptionDisabled = encryptionDisabledDecoded
         let locationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .location)
         location = locationDecoded
@@ -9199,7 +9199,7 @@ extension SecurityHubClientTypes.AwsCodeBuildProjectArtifactsDetails: Swift.Coda
         name = nameDecoded
         let namespaceTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .namespaceType)
         namespaceType = namespaceTypeDecoded
-        let overrideArtifactNameDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .overrideArtifactName) ?? false
+        let overrideArtifactNameDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .overrideArtifactName)
         overrideArtifactName = overrideArtifactNameDecoded
         let packagingDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .packaging)
         packaging = packagingDecoded
@@ -9216,7 +9216,7 @@ extension SecurityHubClientTypes {
         /// An identifier for the artifact definition.
         public var artifactIdentifier: Swift.String?
         /// Indicates whether to disable encryption on the artifact. Only valid when Type is S3.
-        public var encryptionDisabled: Swift.Bool
+        public var encryptionDisabled: Swift.Bool?
         /// Only used when Type is S3. The name of the S3 bucket where the artifact is located.
         public var location: Swift.String?
         /// Only used when Type is S3. The name of the artifact. Used with NamepaceType and Path to determine the pattern for storing the artifact.
@@ -9224,7 +9224,7 @@ extension SecurityHubClientTypes {
         /// Only used when Type is S3. The value to use for the namespace. Used with Name and Path to determine the pattern for storing the artifact.
         public var namespaceType: Swift.String?
         /// Whether the name specified in the buildspec file overrides the artifact name.
-        public var overrideArtifactName: Swift.Bool
+        public var overrideArtifactName: Swift.Bool?
         /// Only used when Type is S3. The type of output artifact to create.
         public var packaging: Swift.String?
         /// Only used when Type is S3. The path to the artifact. Used with Name and NamespaceType to determine the pattern for storing the artifact.
@@ -9234,11 +9234,11 @@ extension SecurityHubClientTypes {
 
         public init(
             artifactIdentifier: Swift.String? = nil,
-            encryptionDisabled: Swift.Bool = false,
+            encryptionDisabled: Swift.Bool? = nil,
             location: Swift.String? = nil,
             name: Swift.String? = nil,
             namespaceType: Swift.String? = nil,
-            overrideArtifactName: Swift.Bool = false,
+            overrideArtifactName: Swift.Bool? = nil,
             packaging: Swift.String? = nil,
             path: Swift.String? = nil,
             type: Swift.String? = nil
@@ -9421,7 +9421,7 @@ extension SecurityHubClientTypes.AwsCodeBuildProjectEnvironment: Swift.Codable {
         if let imagePullCredentialsType = self.imagePullCredentialsType {
             try encodeContainer.encode(imagePullCredentialsType, forKey: .imagePullCredentialsType)
         }
-        if privilegedMode != false {
+        if let privilegedMode = self.privilegedMode {
             try encodeContainer.encode(privilegedMode, forKey: .privilegedMode)
         }
         if let registryCredential = self.registryCredential {
@@ -9447,7 +9447,7 @@ extension SecurityHubClientTypes.AwsCodeBuildProjectEnvironment: Swift.Codable {
             }
         }
         environmentVariables = environmentVariablesDecoded0
-        let privilegedModeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .privilegedMode) ?? false
+        let privilegedModeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .privilegedMode)
         privilegedMode = privilegedModeDecoded
         let imagePullCredentialsTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .imagePullCredentialsType)
         imagePullCredentialsType = imagePullCredentialsTypeDecoded
@@ -9475,7 +9475,7 @@ extension SecurityHubClientTypes {
         /// When you use a cross-account or private registry image, you must use SERVICE_ROLE credentials. When you use an CodeBuild curated image, you must use CODEBUILD credentials.
         public var imagePullCredentialsType: Swift.String?
         /// Whether to allow the Docker daemon to run inside a Docker container. Set to true if the build project is used to build Docker images.
-        public var privilegedMode: Swift.Bool
+        public var privilegedMode: Swift.Bool?
         /// The credentials for access to a private registry.
         public var registryCredential: SecurityHubClientTypes.AwsCodeBuildProjectEnvironmentRegistryCredential?
         /// The type of build environment to use for related builds. The environment type ARM_CONTAINER is available only in Regions US East (N. Virginia), US East (Ohio), US West (Oregon), Europe (Ireland), Asia Pacific (Mumbai), Asia Pacific (Tokyo), Asia Pacific (Sydney), and Europe (Frankfurt). The environment type LINUX_CONTAINER with compute type build.general1.2xlarge is available only in Regions US East (N. Virginia), US East (N. Virginia), US West (Oregon), Canada (Central), Europe (Ireland), Europe (London), Europe (Frankfurt), Asia Pacific (Tokyo), Asia Pacific (Seoul), Asia Pacific (Singapore), Asia Pacific (Sydney), China (Beijing), and China (Ningxia). The environment type LINUX_GPU_CONTAINER is available only in Regions US East (N. Virginia), US East (N. Virginia), US West (Oregon), Canada (Central), Europe (Ireland), Europe (London), Europe (Frankfurt), Asia Pacific (Tokyo), Asia Pacific (Seoul), Asia Pacific (Singapore), Asia Pacific (Sydney), China (Beijing), and China (Ningxia). Valid values: WINDOWS_CONTAINER | LINUX_CONTAINER | LINUX_GPU_CONTAINER | ARM_CONTAINER
@@ -9485,7 +9485,7 @@ extension SecurityHubClientTypes {
             certificate: Swift.String? = nil,
             environmentVariables: [SecurityHubClientTypes.AwsCodeBuildProjectEnvironmentEnvironmentVariablesDetails]? = nil,
             imagePullCredentialsType: Swift.String? = nil,
-            privilegedMode: Swift.Bool = false,
+            privilegedMode: Swift.Bool? = nil,
             registryCredential: SecurityHubClientTypes.AwsCodeBuildProjectEnvironmentRegistryCredential? = nil,
             type: Swift.String? = nil
         )
@@ -9710,7 +9710,7 @@ extension SecurityHubClientTypes.AwsCodeBuildProjectLogsConfigS3LogsDetails: Swi
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if encryptionDisabled != false {
+        if let encryptionDisabled = self.encryptionDisabled {
             try encodeContainer.encode(encryptionDisabled, forKey: .encryptionDisabled)
         }
         if let location = self.location {
@@ -9723,7 +9723,7 @@ extension SecurityHubClientTypes.AwsCodeBuildProjectLogsConfigS3LogsDetails: Swi
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let encryptionDisabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .encryptionDisabled) ?? false
+        let encryptionDisabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .encryptionDisabled)
         encryptionDisabled = encryptionDisabledDecoded
         let locationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .location)
         location = locationDecoded
@@ -9736,14 +9736,14 @@ extension SecurityHubClientTypes {
     /// Information about logs built to an S3 bucket for a build project.
     public struct AwsCodeBuildProjectLogsConfigS3LogsDetails: Swift.Equatable {
         /// Whether to disable encryption of the S3 build log output.
-        public var encryptionDisabled: Swift.Bool
+        public var encryptionDisabled: Swift.Bool?
         /// The ARN of the S3 bucket and the path prefix for S3 logs.
         public var location: Swift.String?
         /// The current status of the S3 build logs.
         public var status: Swift.String?
 
         public init(
-            encryptionDisabled: Swift.Bool = false,
+            encryptionDisabled: Swift.Bool? = nil,
             location: Swift.String? = nil,
             status: Swift.String? = nil
         )
@@ -9766,10 +9766,10 @@ extension SecurityHubClientTypes.AwsCodeBuildProjectSource: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if gitCloneDepth != 0 {
+        if let gitCloneDepth = self.gitCloneDepth {
             try encodeContainer.encode(gitCloneDepth, forKey: .gitCloneDepth)
         }
-        if insecureSsl != false {
+        if let insecureSsl = self.insecureSsl {
             try encodeContainer.encode(insecureSsl, forKey: .insecureSsl)
         }
         if let location = self.location {
@@ -9786,9 +9786,9 @@ extension SecurityHubClientTypes.AwsCodeBuildProjectSource: Swift.Codable {
         type = typeDecoded
         let locationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .location)
         location = locationDecoded
-        let gitCloneDepthDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .gitCloneDepth) ?? 0
+        let gitCloneDepthDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .gitCloneDepth)
         gitCloneDepth = gitCloneDepthDecoded
-        let insecureSslDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .insecureSsl) ?? false
+        let insecureSslDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .insecureSsl)
         insecureSsl = insecureSslDecoded
     }
 }
@@ -9797,9 +9797,9 @@ extension SecurityHubClientTypes {
     /// Information about the build input source code for this build project.
     public struct AwsCodeBuildProjectSource: Swift.Equatable {
         /// Information about the Git clone depth for the build project.
-        public var gitCloneDepth: Swift.Int
+        public var gitCloneDepth: Swift.Int?
         /// Whether to ignore SSL warnings while connecting to the project source code.
-        public var insecureSsl: Swift.Bool
+        public var insecureSsl: Swift.Bool?
         /// Information about the location of the source code to be built. Valid values include:
         ///
         /// * For source code settings that are specified in the source action of a pipeline in CodePipeline, location should not be specified. If it is specified, CodePipeline ignores it. This is because CodePipeline uses the settings in a pipeline's source action instead of this value.
@@ -9837,8 +9837,8 @@ extension SecurityHubClientTypes {
         public var type: Swift.String?
 
         public init(
-            gitCloneDepth: Swift.Int = 0,
-            insecureSsl: Swift.Bool = false,
+            gitCloneDepth: Swift.Int? = nil,
+            insecureSsl: Swift.Bool? = nil,
             location: Swift.String? = nil,
             type: Swift.String? = nil
         )
@@ -9943,7 +9943,7 @@ extension SecurityHubClientTypes.AwsCorsConfiguration: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if allowCredentials != false {
+        if let allowCredentials = self.allowCredentials {
             try encodeContainer.encode(allowCredentials, forKey: .allowCredentials)
         }
         if let allowHeaders = allowHeaders {
@@ -9970,7 +9970,7 @@ extension SecurityHubClientTypes.AwsCorsConfiguration: Swift.Codable {
                 try exposeHeadersContainer.encode(nonemptystring0)
             }
         }
-        if maxAge != 0 {
+        if let maxAge = self.maxAge {
             try encodeContainer.encode(maxAge, forKey: .maxAge)
         }
     }
@@ -9988,7 +9988,7 @@ extension SecurityHubClientTypes.AwsCorsConfiguration: Swift.Codable {
             }
         }
         allowOrigins = allowOriginsDecoded0
-        let allowCredentialsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowCredentials) ?? false
+        let allowCredentialsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowCredentials)
         allowCredentials = allowCredentialsDecoded
         let exposeHeadersContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .exposeHeaders)
         var exposeHeadersDecoded0:[Swift.String]? = nil
@@ -10001,7 +10001,7 @@ extension SecurityHubClientTypes.AwsCorsConfiguration: Swift.Codable {
             }
         }
         exposeHeaders = exposeHeadersDecoded0
-        let maxAgeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxAge) ?? 0
+        let maxAgeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxAge)
         maxAge = maxAgeDecoded
         let allowMethodsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .allowMethods)
         var allowMethodsDecoded0:[Swift.String]? = nil
@@ -10032,7 +10032,7 @@ extension SecurityHubClientTypes {
     /// Contains the cross-origin resource sharing (CORS) configuration for the API. CORS is only supported for HTTP APIs.
     public struct AwsCorsConfiguration: Swift.Equatable {
         /// Indicates whether the CORS request includes credentials.
-        public var allowCredentials: Swift.Bool
+        public var allowCredentials: Swift.Bool?
         /// The allowed headers for CORS requests.
         public var allowHeaders: [Swift.String]?
         /// The allowed methods for CORS requests.
@@ -10042,15 +10042,15 @@ extension SecurityHubClientTypes {
         /// The exposed headers for CORS requests.
         public var exposeHeaders: [Swift.String]?
         /// The number of seconds for which the browser caches preflight request results.
-        public var maxAge: Swift.Int
+        public var maxAge: Swift.Int?
 
         public init(
-            allowCredentials: Swift.Bool = false,
+            allowCredentials: Swift.Bool? = nil,
             allowHeaders: [Swift.String]? = nil,
             allowMethods: [Swift.String]? = nil,
             allowOrigins: [Swift.String]? = nil,
             exposeHeaders: [Swift.String]? = nil,
-            maxAge: Swift.Int = 0
+            maxAge: Swift.Int? = nil
         )
         {
             self.allowCredentials = allowCredentials
@@ -10110,7 +10110,7 @@ extension SecurityHubClientTypes.AwsDmsEndpointDetails: Swift.Codable {
         if let kmsKeyId = self.kmsKeyId {
             try encodeContainer.encode(kmsKeyId, forKey: .kmsKeyId)
         }
-        if port != 0 {
+        if let port = self.port {
             try encodeContainer.encode(port, forKey: .port)
         }
         if let serverName = self.serverName {
@@ -10144,7 +10144,7 @@ extension SecurityHubClientTypes.AwsDmsEndpointDetails: Swift.Codable {
         extraConnectionAttributes = extraConnectionAttributesDecoded
         let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
         kmsKeyId = kmsKeyIdDecoded
-        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port) ?? 0
+        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port)
         port = portDecoded
         let serverNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serverName)
         serverName = serverNameDecoded
@@ -10177,7 +10177,7 @@ extension SecurityHubClientTypes {
         /// An DMS key identifier that is used to encrypt the connection parameters for the endpoint. If you don't specify a value for the KmsKeyId parameter, then DMS uses your default encryption key. KMS creates the default encryption key for your Amazon Web Services account. Your Amazon Web Services account has a different default encryption key for each Amazon Web Services Region.
         public var kmsKeyId: Swift.String?
         /// The port used to access the endpoint.
-        public var port: Swift.Int
+        public var port: Swift.Int?
         /// The name of the server where the endpoint database resides.
         public var serverName: Swift.String?
         /// The SSL mode used to connect to the endpoint. The default is none.
@@ -10195,7 +10195,7 @@ extension SecurityHubClientTypes {
             externalId: Swift.String? = nil,
             extraConnectionAttributes: Swift.String? = nil,
             kmsKeyId: Swift.String? = nil,
-            port: Swift.Int = 0,
+            port: Swift.Int? = nil,
             serverName: Swift.String? = nil,
             sslMode: Swift.String? = nil,
             username: Swift.String? = nil
@@ -10237,10 +10237,10 @@ extension SecurityHubClientTypes.AwsDmsReplicationInstanceDetails: Swift.Codable
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if allocatedStorage != 0 {
+        if let allocatedStorage = self.allocatedStorage {
             try encodeContainer.encode(allocatedStorage, forKey: .allocatedStorage)
         }
-        if autoMinorVersionUpgrade != false {
+        if let autoMinorVersionUpgrade = self.autoMinorVersionUpgrade {
             try encodeContainer.encode(autoMinorVersionUpgrade, forKey: .autoMinorVersionUpgrade)
         }
         if let availabilityZone = self.availabilityZone {
@@ -10252,13 +10252,13 @@ extension SecurityHubClientTypes.AwsDmsReplicationInstanceDetails: Swift.Codable
         if let kmsKeyId = self.kmsKeyId {
             try encodeContainer.encode(kmsKeyId, forKey: .kmsKeyId)
         }
-        if multiAZ != false {
+        if let multiAZ = self.multiAZ {
             try encodeContainer.encode(multiAZ, forKey: .multiAZ)
         }
         if let preferredMaintenanceWindow = self.preferredMaintenanceWindow {
             try encodeContainer.encode(preferredMaintenanceWindow, forKey: .preferredMaintenanceWindow)
         }
-        if publiclyAccessible != false {
+        if let publiclyAccessible = self.publiclyAccessible {
             try encodeContainer.encode(publiclyAccessible, forKey: .publiclyAccessible)
         }
         if let replicationInstanceClass = self.replicationInstanceClass {
@@ -10280,9 +10280,9 @@ extension SecurityHubClientTypes.AwsDmsReplicationInstanceDetails: Swift.Codable
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let allocatedStorageDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .allocatedStorage) ?? 0
+        let allocatedStorageDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .allocatedStorage)
         allocatedStorage = allocatedStorageDecoded
-        let autoMinorVersionUpgradeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoMinorVersionUpgrade) ?? false
+        let autoMinorVersionUpgradeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoMinorVersionUpgrade)
         autoMinorVersionUpgrade = autoMinorVersionUpgradeDecoded
         let availabilityZoneDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .availabilityZone)
         availabilityZone = availabilityZoneDecoded
@@ -10290,11 +10290,11 @@ extension SecurityHubClientTypes.AwsDmsReplicationInstanceDetails: Swift.Codable
         engineVersion = engineVersionDecoded
         let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
         kmsKeyId = kmsKeyIdDecoded
-        let multiAZDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .multiAZ) ?? false
+        let multiAZDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .multiAZ)
         multiAZ = multiAZDecoded
         let preferredMaintenanceWindowDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .preferredMaintenanceWindow)
         preferredMaintenanceWindow = preferredMaintenanceWindowDecoded
-        let publiclyAccessibleDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .publiclyAccessible) ?? false
+        let publiclyAccessibleDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .publiclyAccessible)
         publiclyAccessible = publiclyAccessibleDecoded
         let replicationInstanceClassDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .replicationInstanceClass)
         replicationInstanceClass = replicationInstanceClassDecoded
@@ -10320,9 +10320,9 @@ extension SecurityHubClientTypes {
     /// Provides details about an Database Migration Service (DMS) replication instance. DMS uses a replication instance to connect to your source data store, read the source data, and format the data for consumption by the target data store.
     public struct AwsDmsReplicationInstanceDetails: Swift.Equatable {
         /// The amount of storage (in gigabytes) that is allocated for the replication instance.
-        public var allocatedStorage: Swift.Int
+        public var allocatedStorage: Swift.Int?
         /// Indicates whether minor engine upgrades are applied automatically to the replication instance during the maintenance window.
-        public var autoMinorVersionUpgrade: Swift.Bool
+        public var autoMinorVersionUpgrade: Swift.Bool?
         /// The Availability Zone that the replication instance is created in. The default value is a random, system-chosen Availability Zone in the endpoint's Amazon Web Services Region, such as us-east-1d.
         public var availabilityZone: Swift.String?
         /// The engine version number of the replication instance. If an engine version number is not specified when a replication instance is created, the default is the latest engine version available.
@@ -10330,11 +10330,11 @@ extension SecurityHubClientTypes {
         /// An KMS key identifier that is used to encrypt the data on the replication instance. If you don't specify a value for the KmsKeyId parameter, DMS uses your default encryption key. KMS creates the default encryption key for your Amazon Web Services account. Your Amazon Web Services account has a different default encryption key for each Amazon Web Services Region.
         public var kmsKeyId: Swift.String?
         /// Specifies whether the replication instance is deployed across multiple Availability Zones (AZs). You can't set the AvailabilityZone parameter if the MultiAZ parameter is set to true.
-        public var multiAZ: Swift.Bool
+        public var multiAZ: Swift.Bool?
         /// The maintenance window times for the replication instance. Upgrades to the replication instance are performed during this time.
         public var preferredMaintenanceWindow: Swift.String?
         /// Specifies the accessibility options for the replication instance. A value of true represents an instance with a public IP address. A value of false represents an instance with a private IP address. The default value is true.
-        public var publiclyAccessible: Swift.Bool
+        public var publiclyAccessible: Swift.Bool?
         /// The compute and memory capacity of the replication instance as defined for the specified replication instance class.
         public var replicationInstanceClass: Swift.String?
         /// The replication instance identifier.
@@ -10345,14 +10345,14 @@ extension SecurityHubClientTypes {
         public var vpcSecurityGroups: [SecurityHubClientTypes.AwsDmsReplicationInstanceVpcSecurityGroupsDetails]?
 
         public init(
-            allocatedStorage: Swift.Int = 0,
-            autoMinorVersionUpgrade: Swift.Bool = false,
+            allocatedStorage: Swift.Int? = nil,
+            autoMinorVersionUpgrade: Swift.Bool? = nil,
             availabilityZone: Swift.String? = nil,
             engineVersion: Swift.String? = nil,
             kmsKeyId: Swift.String? = nil,
-            multiAZ: Swift.Bool = false,
+            multiAZ: Swift.Bool? = nil,
             preferredMaintenanceWindow: Swift.String? = nil,
-            publiclyAccessible: Swift.Bool = false,
+            publiclyAccessible: Swift.Bool? = nil,
             replicationInstanceClass: Swift.String? = nil,
             replicationInstanceIdentifier: Swift.String? = nil,
             replicationSubnetGroup: SecurityHubClientTypes.AwsDmsReplicationInstanceReplicationSubnetGroupDetails? = nil,
@@ -10737,7 +10737,7 @@ extension SecurityHubClientTypes.AwsDynamoDbTableDetails: Swift.Codable {
         if let globalTableVersion = self.globalTableVersion {
             try encodeContainer.encode(globalTableVersion, forKey: .globalTableVersion)
         }
-        if itemCount != 0 {
+        if let itemCount = self.itemCount {
             try encodeContainer.encode(itemCount, forKey: .itemCount)
         }
         if let keySchema = keySchema {
@@ -10782,7 +10782,7 @@ extension SecurityHubClientTypes.AwsDynamoDbTableDetails: Swift.Codable {
         if let tableName = self.tableName {
             try encodeContainer.encode(tableName, forKey: .tableName)
         }
-        if tableSizeBytes != 0 {
+        if let tableSizeBytes = self.tableSizeBytes {
             try encodeContainer.encode(tableSizeBytes, forKey: .tableSizeBytes)
         }
         if let tableStatus = self.tableStatus {
@@ -10820,7 +10820,7 @@ extension SecurityHubClientTypes.AwsDynamoDbTableDetails: Swift.Codable {
         globalSecondaryIndexes = globalSecondaryIndexesDecoded0
         let globalTableVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .globalTableVersion)
         globalTableVersion = globalTableVersionDecoded
-        let itemCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .itemCount) ?? 0
+        let itemCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .itemCount)
         itemCount = itemCountDecoded
         let keySchemaContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.AwsDynamoDbTableKeySchema?].self, forKey: .keySchema)
         var keySchemaDecoded0:[SecurityHubClientTypes.AwsDynamoDbTableKeySchema]? = nil
@@ -10871,7 +10871,7 @@ extension SecurityHubClientTypes.AwsDynamoDbTableDetails: Swift.Codable {
         tableId = tableIdDecoded
         let tableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableName)
         tableName = tableNameDecoded
-        let tableSizeBytesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .tableSizeBytes) ?? 0
+        let tableSizeBytesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .tableSizeBytes)
         tableSizeBytes = tableSizeBytesDecoded
         let tableStatusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableStatus)
         tableStatus = tableStatusDecoded
@@ -10892,7 +10892,7 @@ extension SecurityHubClientTypes {
         /// The version of global tables being used.
         public var globalTableVersion: Swift.String?
         /// The number of items in the table.
-        public var itemCount: Swift.Int
+        public var itemCount: Swift.Int?
         /// The primary key structure for the table.
         public var keySchema: [SecurityHubClientTypes.AwsDynamoDbTableKeySchema]?
         /// The ARN of the latest stream for the table.
@@ -10916,7 +10916,7 @@ extension SecurityHubClientTypes {
         /// The name of the table.
         public var tableName: Swift.String?
         /// The total size of the table in bytes.
-        public var tableSizeBytes: Swift.Int
+        public var tableSizeBytes: Swift.Int?
         /// The current status of the table. Valid values are as follows:
         ///
         /// * ACTIVE
@@ -10940,7 +10940,7 @@ extension SecurityHubClientTypes {
             creationDateTime: Swift.String? = nil,
             globalSecondaryIndexes: [SecurityHubClientTypes.AwsDynamoDbTableGlobalSecondaryIndex]? = nil,
             globalTableVersion: Swift.String? = nil,
-            itemCount: Swift.Int = 0,
+            itemCount: Swift.Int? = nil,
             keySchema: [SecurityHubClientTypes.AwsDynamoDbTableKeySchema]? = nil,
             latestStreamArn: Swift.String? = nil,
             latestStreamLabel: Swift.String? = nil,
@@ -10952,7 +10952,7 @@ extension SecurityHubClientTypes {
             streamSpecification: SecurityHubClientTypes.AwsDynamoDbTableStreamSpecification? = nil,
             tableId: Swift.String? = nil,
             tableName: Swift.String? = nil,
-            tableSizeBytes: Swift.Int = 0,
+            tableSizeBytes: Swift.Int? = nil,
             tableStatus: Swift.String? = nil
         )
         {
@@ -10995,7 +10995,7 @@ extension SecurityHubClientTypes.AwsDynamoDbTableGlobalSecondaryIndex: Swift.Cod
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if backfilling != false {
+        if let backfilling = self.backfilling {
             try encodeContainer.encode(backfilling, forKey: .backfilling)
         }
         if let indexArn = self.indexArn {
@@ -11004,13 +11004,13 @@ extension SecurityHubClientTypes.AwsDynamoDbTableGlobalSecondaryIndex: Swift.Cod
         if let indexName = self.indexName {
             try encodeContainer.encode(indexName, forKey: .indexName)
         }
-        if indexSizeBytes != 0 {
+        if let indexSizeBytes = self.indexSizeBytes {
             try encodeContainer.encode(indexSizeBytes, forKey: .indexSizeBytes)
         }
         if let indexStatus = self.indexStatus {
             try encodeContainer.encode(indexStatus, forKey: .indexStatus)
         }
-        if itemCount != 0 {
+        if let itemCount = self.itemCount {
             try encodeContainer.encode(itemCount, forKey: .itemCount)
         }
         if let keySchema = keySchema {
@@ -11029,17 +11029,17 @@ extension SecurityHubClientTypes.AwsDynamoDbTableGlobalSecondaryIndex: Swift.Cod
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let backfillingDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .backfilling) ?? false
+        let backfillingDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .backfilling)
         backfilling = backfillingDecoded
         let indexArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .indexArn)
         indexArn = indexArnDecoded
         let indexNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .indexName)
         indexName = indexNameDecoded
-        let indexSizeBytesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .indexSizeBytes) ?? 0
+        let indexSizeBytesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .indexSizeBytes)
         indexSizeBytes = indexSizeBytesDecoded
         let indexStatusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .indexStatus)
         indexStatus = indexStatusDecoded
-        let itemCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .itemCount) ?? 0
+        let itemCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .itemCount)
         itemCount = itemCountDecoded
         let keySchemaContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.AwsDynamoDbTableKeySchema?].self, forKey: .keySchema)
         var keySchemaDecoded0:[SecurityHubClientTypes.AwsDynamoDbTableKeySchema]? = nil
@@ -11063,13 +11063,13 @@ extension SecurityHubClientTypes {
     /// Information abut a global secondary index for the table.
     public struct AwsDynamoDbTableGlobalSecondaryIndex: Swift.Equatable {
         /// Whether the index is currently backfilling.
-        public var backfilling: Swift.Bool
+        public var backfilling: Swift.Bool?
         /// The ARN of the index.
         public var indexArn: Swift.String?
         /// The name of the index.
         public var indexName: Swift.String?
         /// The total size in bytes of the index.
-        public var indexSizeBytes: Swift.Int
+        public var indexSizeBytes: Swift.Int?
         /// The current status of the index.
         ///
         /// * ACTIVE
@@ -11081,7 +11081,7 @@ extension SecurityHubClientTypes {
         /// * UPDATING
         public var indexStatus: Swift.String?
         /// The number of items in the index.
-        public var itemCount: Swift.Int
+        public var itemCount: Swift.Int?
         /// The key schema for the index.
         public var keySchema: [SecurityHubClientTypes.AwsDynamoDbTableKeySchema]?
         /// Attributes that are copied from the table into an index.
@@ -11090,12 +11090,12 @@ extension SecurityHubClientTypes {
         public var provisionedThroughput: SecurityHubClientTypes.AwsDynamoDbTableProvisionedThroughput?
 
         public init(
-            backfilling: Swift.Bool = false,
+            backfilling: Swift.Bool? = nil,
             indexArn: Swift.String? = nil,
             indexName: Swift.String? = nil,
-            indexSizeBytes: Swift.Int = 0,
+            indexSizeBytes: Swift.Int? = nil,
             indexStatus: Swift.String? = nil,
-            itemCount: Swift.Int = 0,
+            itemCount: Swift.Int? = nil,
             keySchema: [SecurityHubClientTypes.AwsDynamoDbTableKeySchema]? = nil,
             projection: SecurityHubClientTypes.AwsDynamoDbTableProjection? = nil,
             provisionedThroughput: SecurityHubClientTypes.AwsDynamoDbTableProvisionedThroughput? = nil
@@ -11317,13 +11317,13 @@ extension SecurityHubClientTypes.AwsDynamoDbTableProvisionedThroughput: Swift.Co
         if let lastIncreaseDateTime = self.lastIncreaseDateTime {
             try encodeContainer.encode(lastIncreaseDateTime, forKey: .lastIncreaseDateTime)
         }
-        if numberOfDecreasesToday != 0 {
+        if let numberOfDecreasesToday = self.numberOfDecreasesToday {
             try encodeContainer.encode(numberOfDecreasesToday, forKey: .numberOfDecreasesToday)
         }
-        if readCapacityUnits != 0 {
+        if let readCapacityUnits = self.readCapacityUnits {
             try encodeContainer.encode(readCapacityUnits, forKey: .readCapacityUnits)
         }
-        if writeCapacityUnits != 0 {
+        if let writeCapacityUnits = self.writeCapacityUnits {
             try encodeContainer.encode(writeCapacityUnits, forKey: .writeCapacityUnits)
         }
     }
@@ -11334,11 +11334,11 @@ extension SecurityHubClientTypes.AwsDynamoDbTableProvisionedThroughput: Swift.Co
         lastDecreaseDateTime = lastDecreaseDateTimeDecoded
         let lastIncreaseDateTimeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastIncreaseDateTime)
         lastIncreaseDateTime = lastIncreaseDateTimeDecoded
-        let numberOfDecreasesTodayDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .numberOfDecreasesToday) ?? 0
+        let numberOfDecreasesTodayDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .numberOfDecreasesToday)
         numberOfDecreasesToday = numberOfDecreasesTodayDecoded
-        let readCapacityUnitsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .readCapacityUnits) ?? 0
+        let readCapacityUnitsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .readCapacityUnits)
         readCapacityUnits = readCapacityUnitsDecoded
-        let writeCapacityUnitsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .writeCapacityUnits) ?? 0
+        let writeCapacityUnitsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .writeCapacityUnits)
         writeCapacityUnits = writeCapacityUnitsDecoded
     }
 }
@@ -11351,18 +11351,18 @@ extension SecurityHubClientTypes {
         /// Indicates when the provisioned throughput was last increased. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public var lastIncreaseDateTime: Swift.String?
         /// The number of times during the current UTC calendar day that the provisioned throughput was decreased.
-        public var numberOfDecreasesToday: Swift.Int
+        public var numberOfDecreasesToday: Swift.Int?
         /// The maximum number of strongly consistent reads consumed per second before DynamoDB returns a ThrottlingException.
-        public var readCapacityUnits: Swift.Int
+        public var readCapacityUnits: Swift.Int?
         /// The maximum number of writes consumed per second before DynamoDB returns a ThrottlingException.
-        public var writeCapacityUnits: Swift.Int
+        public var writeCapacityUnits: Swift.Int?
 
         public init(
             lastDecreaseDateTime: Swift.String? = nil,
             lastIncreaseDateTime: Swift.String? = nil,
-            numberOfDecreasesToday: Swift.Int = 0,
-            readCapacityUnits: Swift.Int = 0,
-            writeCapacityUnits: Swift.Int = 0
+            numberOfDecreasesToday: Swift.Int? = nil,
+            readCapacityUnits: Swift.Int? = nil,
+            writeCapacityUnits: Swift.Int? = nil
         )
         {
             self.lastDecreaseDateTime = lastDecreaseDateTime
@@ -11382,14 +11382,14 @@ extension SecurityHubClientTypes.AwsDynamoDbTableProvisionedThroughputOverride: 
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if readCapacityUnits != 0 {
+        if let readCapacityUnits = self.readCapacityUnits {
             try encodeContainer.encode(readCapacityUnits, forKey: .readCapacityUnits)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let readCapacityUnitsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .readCapacityUnits) ?? 0
+        let readCapacityUnitsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .readCapacityUnits)
         readCapacityUnits = readCapacityUnitsDecoded
     }
 }
@@ -11398,10 +11398,10 @@ extension SecurityHubClientTypes {
     /// Replica-specific configuration for the provisioned throughput.
     public struct AwsDynamoDbTableProvisionedThroughputOverride: Swift.Equatable {
         /// The read capacity units for the replica.
-        public var readCapacityUnits: Swift.Int
+        public var readCapacityUnits: Swift.Int?
 
         public init(
-            readCapacityUnits: Swift.Int = 0
+            readCapacityUnits: Swift.Int? = nil
         )
         {
             self.readCapacityUnits = readCapacityUnits
@@ -11575,7 +11575,7 @@ extension SecurityHubClientTypes.AwsDynamoDbTableRestoreSummary: Swift.Codable {
         if let restoreDateTime = self.restoreDateTime {
             try encodeContainer.encode(restoreDateTime, forKey: .restoreDateTime)
         }
-        if restoreInProgress != false {
+        if let restoreInProgress = self.restoreInProgress {
             try encodeContainer.encode(restoreInProgress, forKey: .restoreInProgress)
         }
         if let sourceBackupArn = self.sourceBackupArn {
@@ -11594,7 +11594,7 @@ extension SecurityHubClientTypes.AwsDynamoDbTableRestoreSummary: Swift.Codable {
         sourceTableArn = sourceTableArnDecoded
         let restoreDateTimeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .restoreDateTime)
         restoreDateTime = restoreDateTimeDecoded
-        let restoreInProgressDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .restoreInProgress) ?? false
+        let restoreInProgressDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .restoreInProgress)
         restoreInProgress = restoreInProgressDecoded
     }
 }
@@ -11605,7 +11605,7 @@ extension SecurityHubClientTypes {
         /// Indicates the point in time that the table was restored to. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public var restoreDateTime: Swift.String?
         /// Whether a restore is currently in progress.
-        public var restoreInProgress: Swift.Bool
+        public var restoreInProgress: Swift.Bool?
         /// The ARN of the source backup from which the table was restored.
         public var sourceBackupArn: Swift.String?
         /// The ARN of the source table for the backup.
@@ -11613,7 +11613,7 @@ extension SecurityHubClientTypes {
 
         public init(
             restoreDateTime: Swift.String? = nil,
-            restoreInProgress: Swift.Bool = false,
+            restoreInProgress: Swift.Bool? = nil,
             sourceBackupArn: Swift.String? = nil,
             sourceTableArn: Swift.String? = nil
         )
@@ -11700,7 +11700,7 @@ extension SecurityHubClientTypes.AwsDynamoDbTableStreamSpecification: Swift.Coda
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if streamEnabled != false {
+        if let streamEnabled = self.streamEnabled {
             try encodeContainer.encode(streamEnabled, forKey: .streamEnabled)
         }
         if let streamViewType = self.streamViewType {
@@ -11710,7 +11710,7 @@ extension SecurityHubClientTypes.AwsDynamoDbTableStreamSpecification: Swift.Coda
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let streamEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .streamEnabled) ?? false
+        let streamEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .streamEnabled)
         streamEnabled = streamEnabledDecoded
         let streamViewTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .streamViewType)
         streamViewType = streamViewTypeDecoded
@@ -11721,12 +11721,12 @@ extension SecurityHubClientTypes {
     /// The current DynamoDB Streams configuration for the table.
     public struct AwsDynamoDbTableStreamSpecification: Swift.Equatable {
         /// Indicates whether DynamoDB Streams is enabled on the table.
-        public var streamEnabled: Swift.Bool
+        public var streamEnabled: Swift.Bool?
         /// Determines the information that is written to the table.
         public var streamViewType: Swift.String?
 
         public init(
-            streamEnabled: Swift.Bool = false,
+            streamEnabled: Swift.Bool? = nil,
             streamViewType: Swift.String? = nil
         )
         {
@@ -12070,7 +12070,7 @@ extension SecurityHubClientTypes.AwsEc2InstanceMetadataOptions: Swift.Codable {
         if let httpProtocolIpv6 = self.httpProtocolIpv6 {
             try encodeContainer.encode(httpProtocolIpv6, forKey: .httpProtocolIpv6)
         }
-        if httpPutResponseHopLimit != 0 {
+        if let httpPutResponseHopLimit = self.httpPutResponseHopLimit {
             try encodeContainer.encode(httpPutResponseHopLimit, forKey: .httpPutResponseHopLimit)
         }
         if let httpTokens = self.httpTokens {
@@ -12087,7 +12087,7 @@ extension SecurityHubClientTypes.AwsEc2InstanceMetadataOptions: Swift.Codable {
         httpEndpoint = httpEndpointDecoded
         let httpProtocolIpv6Decoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .httpProtocolIpv6)
         httpProtocolIpv6 = httpProtocolIpv6Decoded
-        let httpPutResponseHopLimitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .httpPutResponseHopLimit) ?? 0
+        let httpPutResponseHopLimitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .httpPutResponseHopLimit)
         httpPutResponseHopLimit = httpPutResponseHopLimitDecoded
         let httpTokensDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .httpTokens)
         httpTokens = httpTokensDecoded
@@ -12104,7 +12104,7 @@ extension SecurityHubClientTypes {
         /// Enables or disables the IPv6 endpoint for the instance metadata service.
         public var httpProtocolIpv6: Swift.String?
         /// The desired HTTP PUT response hop limit for instance metadata requests. The larger the number, the further instance metadata requests can travel.
-        public var httpPutResponseHopLimit: Swift.Int
+        public var httpPutResponseHopLimit: Swift.Int?
         /// The state of token usage for your instance metadata requests.
         public var httpTokens: Swift.String?
         /// Specifies whether to allow access to instance tags from the instance metadata.
@@ -12113,7 +12113,7 @@ extension SecurityHubClientTypes {
         public init(
             httpEndpoint: Swift.String? = nil,
             httpProtocolIpv6: Swift.String? = nil,
-            httpPutResponseHopLimit: Swift.Int = 0,
+            httpPutResponseHopLimit: Swift.Int? = nil,
             httpTokens: Swift.String? = nil,
             instanceMetadataTags: Swift.String? = nil
         )
@@ -12277,13 +12277,13 @@ extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataBlockDeviceMappingSetEb
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if deleteOnTermination != false {
+        if let deleteOnTermination = self.deleteOnTermination {
             try encodeContainer.encode(deleteOnTermination, forKey: .deleteOnTermination)
         }
-        if encrypted != false {
+        if let encrypted = self.encrypted {
             try encodeContainer.encode(encrypted, forKey: .encrypted)
         }
-        if iops != 0 {
+        if let iops = self.iops {
             try encodeContainer.encode(iops, forKey: .iops)
         }
         if let kmsKeyId = self.kmsKeyId {
@@ -12292,10 +12292,10 @@ extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataBlockDeviceMappingSetEb
         if let snapshotId = self.snapshotId {
             try encodeContainer.encode(snapshotId, forKey: .snapshotId)
         }
-        if throughput != 0 {
+        if let throughput = self.throughput {
             try encodeContainer.encode(throughput, forKey: .throughput)
         }
-        if volumeSize != 0 {
+        if let volumeSize = self.volumeSize {
             try encodeContainer.encode(volumeSize, forKey: .volumeSize)
         }
         if let volumeType = self.volumeType {
@@ -12305,19 +12305,19 @@ extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataBlockDeviceMappingSetEb
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let deleteOnTerminationDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deleteOnTermination) ?? false
+        let deleteOnTerminationDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deleteOnTermination)
         deleteOnTermination = deleteOnTerminationDecoded
-        let encryptedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .encrypted) ?? false
+        let encryptedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .encrypted)
         encrypted = encryptedDecoded
-        let iopsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .iops) ?? 0
+        let iopsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .iops)
         iops = iopsDecoded
         let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
         kmsKeyId = kmsKeyIdDecoded
         let snapshotIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .snapshotId)
         snapshotId = snapshotIdDecoded
-        let throughputDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .throughput) ?? 0
+        let throughputDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .throughput)
         throughput = throughputDecoded
-        let volumeSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .volumeSize) ?? 0
+        let volumeSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .volumeSize)
         volumeSize = volumeSizeDecoded
         let volumeTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .volumeType)
         volumeType = volumeTypeDecoded
@@ -12328,30 +12328,30 @@ extension SecurityHubClientTypes {
     /// Parameters for a block device for an Amazon Elastic Block Store (Amazon EBS) volume in an Amazon EC2 launch template.
     public struct AwsEc2LaunchTemplateDataBlockDeviceMappingSetEbsDetails: Swift.Equatable {
         /// Indicates whether the EBS volume is deleted on instance termination.
-        public var deleteOnTermination: Swift.Bool
+        public var deleteOnTermination: Swift.Bool?
         /// Indicates whether the EBS volume is encrypted. Encrypted volumes can only be attached to instances that support Amazon EBS encryption. If you're creating a volume from a snapshot, you can't specify an encryption value.
-        public var encrypted: Swift.Bool
+        public var encrypted: Swift.Bool?
         /// The number of I/O operations per second (IOPS).
-        public var iops: Swift.Int
+        public var iops: Swift.Int?
         /// The Amazon Resource Name (ARN) of the symmetric Key Management Service (KMS) customer managed key used for encryption.
         public var kmsKeyId: Swift.String?
         /// The ID of the EBS snapshot.
         public var snapshotId: Swift.String?
         /// The throughput to provision for a gp3 volume, with a maximum of 1,000 MiB/s.
-        public var throughput: Swift.Int
+        public var throughput: Swift.Int?
         /// The size of the volume, in GiBs. You must specify either a snapshot ID or a volume size.
-        public var volumeSize: Swift.Int
+        public var volumeSize: Swift.Int?
         /// The volume type.
         public var volumeType: Swift.String?
 
         public init(
-            deleteOnTermination: Swift.Bool = false,
-            encrypted: Swift.Bool = false,
-            iops: Swift.Int = 0,
+            deleteOnTermination: Swift.Bool? = nil,
+            encrypted: Swift.Bool? = nil,
+            iops: Swift.Int? = nil,
             kmsKeyId: Swift.String? = nil,
             snapshotId: Swift.String? = nil,
-            throughput: Swift.Int = 0,
-            volumeSize: Swift.Int = 0,
+            throughput: Swift.Int? = nil,
+            volumeSize: Swift.Int? = nil,
             volumeType: Swift.String? = nil
         )
         {
@@ -12466,19 +12466,19 @@ extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataCpuOptionsDetails: Swif
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if coreCount != 0 {
+        if let coreCount = self.coreCount {
             try encodeContainer.encode(coreCount, forKey: .coreCount)
         }
-        if threadsPerCore != 0 {
+        if let threadsPerCore = self.threadsPerCore {
             try encodeContainer.encode(threadsPerCore, forKey: .threadsPerCore)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let coreCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .coreCount) ?? 0
+        let coreCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .coreCount)
         coreCount = coreCountDecoded
-        let threadsPerCoreDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .threadsPerCore) ?? 0
+        let threadsPerCoreDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .threadsPerCore)
         threadsPerCore = threadsPerCoreDecoded
     }
 }
@@ -12487,13 +12487,13 @@ extension SecurityHubClientTypes {
     /// Specifies the CPU options for an Amazon EC2 instance. For more information, see [Optimize CPU options](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-optimize-cpu.html) in the Amazon Elastic Compute Cloud User Guide.
     public struct AwsEc2LaunchTemplateDataCpuOptionsDetails: Swift.Equatable {
         /// The number of CPU cores for the instance.
-        public var coreCount: Swift.Int
+        public var coreCount: Swift.Int?
         /// The number of threads per CPU core. A value of 1 disables multithreading for the instance, The default value is 2.
-        public var threadsPerCore: Swift.Int
+        public var threadsPerCore: Swift.Int?
 
         public init(
-            coreCount: Swift.Int = 0,
-            threadsPerCore: Swift.Int = 0
+            coreCount: Swift.Int? = nil,
+            threadsPerCore: Swift.Int? = nil
         )
         {
             self.coreCount = coreCount
@@ -12589,13 +12589,13 @@ extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataDetails: Swift.Codable 
         if let creditSpecification = self.creditSpecification {
             try encodeContainer.encode(creditSpecification, forKey: .creditSpecification)
         }
-        if disableApiStop != false {
+        if let disableApiStop = self.disableApiStop {
             try encodeContainer.encode(disableApiStop, forKey: .disableApiStop)
         }
-        if disableApiTermination != false {
+        if let disableApiTermination = self.disableApiTermination {
             try encodeContainer.encode(disableApiTermination, forKey: .disableApiTermination)
         }
-        if ebsOptimized != false {
+        if let ebsOptimized = self.ebsOptimized {
             try encodeContainer.encode(ebsOptimized, forKey: .ebsOptimized)
         }
         if let elasticGpuSpecificationSet = elasticGpuSpecificationSet {
@@ -12706,11 +12706,11 @@ extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataDetails: Swift.Codable 
         cpuOptions = cpuOptionsDecoded
         let creditSpecificationDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsEc2LaunchTemplateDataCreditSpecificationDetails.self, forKey: .creditSpecification)
         creditSpecification = creditSpecificationDecoded
-        let disableApiStopDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .disableApiStop) ?? false
+        let disableApiStopDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .disableApiStop)
         disableApiStop = disableApiStopDecoded
-        let disableApiTerminationDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .disableApiTermination) ?? false
+        let disableApiTerminationDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .disableApiTermination)
         disableApiTermination = disableApiTerminationDecoded
-        let ebsOptimizedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .ebsOptimized) ?? false
+        let ebsOptimizedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .ebsOptimized)
         ebsOptimized = ebsOptimizedDecoded
         let elasticGpuSpecificationSetContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.AwsEc2LaunchTemplateDataElasticGpuSpecificationSetDetails?].self, forKey: .elasticGpuSpecificationSet)
         var elasticGpuSpecificationSetDecoded0:[SecurityHubClientTypes.AwsEc2LaunchTemplateDataElasticGpuSpecificationSetDetails]? = nil
@@ -12827,11 +12827,11 @@ extension SecurityHubClientTypes {
         /// Specifies the credit option for CPU usage of a T2, T3, or T3a instance.
         public var creditSpecification: SecurityHubClientTypes.AwsEc2LaunchTemplateDataCreditSpecificationDetails?
         /// Indicates whether to enable the instance for stop protection. For more information, see [Enable stop protection](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Stop_Start.html#Using_StopProtection) in the Amazon EC2 User Guide.
-        public var disableApiStop: Swift.Bool
+        public var disableApiStop: Swift.Bool?
         /// If you set this parameter to true, you can't terminate the instance using the Amazon EC2 console, CLI, or API. If set to true, you can.
-        public var disableApiTermination: Swift.Bool
+        public var disableApiTermination: Swift.Bool?
         /// Indicates whether the instance is optimized for Amazon EBS I/O.
-        public var ebsOptimized: Swift.Bool
+        public var ebsOptimized: Swift.Bool?
         /// Provides details about Elastic Graphics accelerators to associate with the instance.
         public var elasticGpuSpecificationSet: [SecurityHubClientTypes.AwsEc2LaunchTemplateDataElasticGpuSpecificationSetDetails]?
         /// The Amazon Elastic Inference accelerator for the instance.
@@ -12884,9 +12884,9 @@ extension SecurityHubClientTypes {
             capacityReservationSpecification: SecurityHubClientTypes.AwsEc2LaunchTemplateDataCapacityReservationSpecificationDetails? = nil,
             cpuOptions: SecurityHubClientTypes.AwsEc2LaunchTemplateDataCpuOptionsDetails? = nil,
             creditSpecification: SecurityHubClientTypes.AwsEc2LaunchTemplateDataCreditSpecificationDetails? = nil,
-            disableApiStop: Swift.Bool = false,
-            disableApiTermination: Swift.Bool = false,
-            ebsOptimized: Swift.Bool = false,
+            disableApiStop: Swift.Bool? = nil,
+            disableApiTermination: Swift.Bool? = nil,
+            ebsOptimized: Swift.Bool? = nil,
             elasticGpuSpecificationSet: [SecurityHubClientTypes.AwsEc2LaunchTemplateDataElasticGpuSpecificationSetDetails]? = nil,
             elasticInferenceAcceleratorSet: [SecurityHubClientTypes.AwsEc2LaunchTemplateDataElasticInferenceAcceleratorSetDetails]? = nil,
             enclaveOptions: SecurityHubClientTypes.AwsEc2LaunchTemplateDataEnclaveOptionsDetails? = nil,
@@ -12990,7 +12990,7 @@ extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataElasticInferenceAcceler
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if count != 0 {
+        if let count = self.count {
             try encodeContainer.encode(count, forKey: .count)
         }
         if let type = self.type {
@@ -13000,7 +13000,7 @@ extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataElasticInferenceAcceler
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let countDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .count) ?? 0
+        let countDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .count)
         count = countDecoded
         let typeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .type)
         type = typeDecoded
@@ -13011,12 +13011,12 @@ extension SecurityHubClientTypes {
     /// Provides details for an Amazon Elastic Inference accelerator.
     public struct AwsEc2LaunchTemplateDataElasticInferenceAcceleratorSetDetails: Swift.Equatable {
         /// The number of Elastic Inference accelerators to attach to the instance.
-        public var count: Swift.Int
+        public var count: Swift.Int?
         /// The type of Elastic Inference accelerator.
         public var type: Swift.String?
 
         public init(
-            count: Swift.Int = 0,
+            count: Swift.Int? = nil,
             type: Swift.String? = nil
         )
         {
@@ -13034,14 +13034,14 @@ extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataEnclaveOptionsDetails: 
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if enabled != false {
+        if let enabled = self.enabled {
             try encodeContainer.encode(enabled, forKey: .enabled)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled) ?? false
+        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled)
         enabled = enabledDecoded
     }
 }
@@ -13050,10 +13050,10 @@ extension SecurityHubClientTypes {
     /// Indicates whether the instance is enabled for Amazon Web Services Nitro Enclaves.
     public struct AwsEc2LaunchTemplateDataEnclaveOptionsDetails: Swift.Equatable {
         /// If this parameter is set to true, the instance is enabled for Amazon Web Services Nitro Enclaves.
-        public var enabled: Swift.Bool
+        public var enabled: Swift.Bool?
 
         public init(
-            enabled: Swift.Bool = false
+            enabled: Swift.Bool? = nil
         )
         {
             self.enabled = enabled
@@ -13069,14 +13069,14 @@ extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataHibernationOptionsDetai
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if configured != false {
+        if let configured = self.configured {
             try encodeContainer.encode(configured, forKey: .configured)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let configuredDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .configured) ?? false
+        let configuredDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .configured)
         configured = configuredDecoded
     }
 }
@@ -13085,10 +13085,10 @@ extension SecurityHubClientTypes {
     /// Specifies whether your Amazon EC2 instance is configured for hibernation.
     public struct AwsEc2LaunchTemplateDataHibernationOptionsDetails: Swift.Equatable {
         /// If you set this parameter to true, the instance is enabled for hibernation.
-        public var configured: Swift.Bool
+        public var configured: Swift.Bool?
 
         public init(
-            configured: Swift.Bool = false
+            configured: Swift.Bool? = nil
         )
         {
             self.configured = configured
@@ -13198,7 +13198,7 @@ extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataInstanceMarketOptionsSp
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if blockDurationMinutes != 0 {
+        if let blockDurationMinutes = self.blockDurationMinutes {
             try encodeContainer.encode(blockDurationMinutes, forKey: .blockDurationMinutes)
         }
         if let instanceInterruptionBehavior = self.instanceInterruptionBehavior {
@@ -13217,7 +13217,7 @@ extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataInstanceMarketOptionsSp
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let blockDurationMinutesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .blockDurationMinutes) ?? 0
+        let blockDurationMinutesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .blockDurationMinutes)
         blockDurationMinutes = blockDurationMinutesDecoded
         let instanceInterruptionBehaviorDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceInterruptionBehavior)
         instanceInterruptionBehavior = instanceInterruptionBehaviorDecoded
@@ -13234,7 +13234,7 @@ extension SecurityHubClientTypes {
     /// Provides details about the market (purchasing) options for Spot Instances.
     public struct AwsEc2LaunchTemplateDataInstanceMarketOptionsSpotOptionsDetails: Swift.Equatable {
         /// Deprecated.
-        public var blockDurationMinutes: Swift.Int
+        public var blockDurationMinutes: Swift.Int?
         /// The behavior when a Spot Instance is interrupted.
         public var instanceInterruptionBehavior: Swift.String?
         /// The maximum hourly price you're willing to pay for the Spot Instances.
@@ -13245,7 +13245,7 @@ extension SecurityHubClientTypes {
         public var validUntil: Swift.String?
 
         public init(
-            blockDurationMinutes: Swift.Int = 0,
+            blockDurationMinutes: Swift.Int? = nil,
             instanceInterruptionBehavior: Swift.String? = nil,
             maxPrice: Swift.String? = nil,
             spotInstanceType: Swift.String? = nil,
@@ -13270,19 +13270,19 @@ extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataInstanceRequirementsAcc
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if max != 0 {
+        if let max = self.max {
             try encodeContainer.encode(max, forKey: .max)
         }
-        if min != 0 {
+        if let min = self.min {
             try encodeContainer.encode(min, forKey: .min)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let maxDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .max) ?? 0
+        let maxDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .max)
         max = maxDecoded
-        let minDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .min) ?? 0
+        let minDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .min)
         min = minDecoded
     }
 }
@@ -13291,13 +13291,13 @@ extension SecurityHubClientTypes {
     /// The minimum and maximum number of accelerators (GPUs, FPGAs, or Amazon Web Services Inferentia chips) on an Amazon EC2 instance.
     public struct AwsEc2LaunchTemplateDataInstanceRequirementsAcceleratorCountDetails: Swift.Equatable {
         /// The maximum number of accelerators. If this parameter isn't specified, there's no maximum limit. To exclude accelerator-enabled instance types, set Max to 0.
-        public var max: Swift.Int
+        public var max: Swift.Int?
         /// The minimum number of accelerators. If this parameter isn't specified, there's no minimum limit.
-        public var min: Swift.Int
+        public var min: Swift.Int?
 
         public init(
-            max: Swift.Int = 0,
-            min: Swift.Int = 0
+            max: Swift.Int? = nil,
+            min: Swift.Int? = nil
         )
         {
             self.max = max
@@ -13315,19 +13315,19 @@ extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataInstanceRequirementsAcc
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if max != 0 {
+        if let max = self.max {
             try encodeContainer.encode(max, forKey: .max)
         }
-        if min != 0 {
+        if let min = self.min {
             try encodeContainer.encode(min, forKey: .min)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let maxDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .max) ?? 0
+        let maxDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .max)
         max = maxDecoded
-        let minDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .min) ?? 0
+        let minDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .min)
         min = minDecoded
     }
 }
@@ -13336,13 +13336,13 @@ extension SecurityHubClientTypes {
     /// The minimum and maximum amount of memory, in MiB, for the accelerators on an Amazon EC2 instance.
     public struct AwsEc2LaunchTemplateDataInstanceRequirementsAcceleratorTotalMemoryMiBDetails: Swift.Equatable {
         /// The maximum amount of memory, in MiB. If this parameter isn't specified, there's no maximum limit.
-        public var max: Swift.Int
+        public var max: Swift.Int?
         /// The minimum amount of memory, in MiB. If 0 is specified, there's no maximum limit.
-        public var min: Swift.Int
+        public var min: Swift.Int?
 
         public init(
-            max: Swift.Int = 0,
-            min: Swift.Int = 0
+            max: Swift.Int? = nil,
+            min: Swift.Int? = nil
         )
         {
             self.max = max
@@ -13360,19 +13360,19 @@ extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataInstanceRequirementsBas
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if max != 0 {
+        if let max = self.max {
             try encodeContainer.encode(max, forKey: .max)
         }
-        if min != 0 {
+        if let min = self.min {
             try encodeContainer.encode(min, forKey: .min)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let maxDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .max) ?? 0
+        let maxDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .max)
         max = maxDecoded
-        let minDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .min) ?? 0
+        let minDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .min)
         min = minDecoded
     }
 }
@@ -13381,13 +13381,13 @@ extension SecurityHubClientTypes {
     /// The minimum and maximum baseline bandwidth to Amazon Elastic Block Store (Amazon EBS), in Mbps. For more information, see [Amazon EBS–optimized instances ](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-optimized.html) in the Amazon EC2 User Guide.
     public struct AwsEc2LaunchTemplateDataInstanceRequirementsBaselineEbsBandwidthMbpsDetails: Swift.Equatable {
         /// The maximum baseline bandwidth, in Mbps. If this parameter is omitted, there's no maximum limit.
-        public var max: Swift.Int
+        public var max: Swift.Int?
         /// The minimum baseline bandwidth, in Mbps. If this parameter is omitted, there's no minimum limit.
-        public var min: Swift.Int
+        public var min: Swift.Int?
 
         public init(
-            max: Swift.Int = 0,
-            min: Swift.Int = 0
+            max: Swift.Int? = nil,
+            min: Swift.Int? = nil
         )
         {
             self.max = max
@@ -13493,13 +13493,13 @@ extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataInstanceRequirementsDet
         if let networkInterfaceCount = self.networkInterfaceCount {
             try encodeContainer.encode(networkInterfaceCount, forKey: .networkInterfaceCount)
         }
-        if onDemandMaxPricePercentageOverLowestPrice != 0 {
+        if let onDemandMaxPricePercentageOverLowestPrice = self.onDemandMaxPricePercentageOverLowestPrice {
             try encodeContainer.encode(onDemandMaxPricePercentageOverLowestPrice, forKey: .onDemandMaxPricePercentageOverLowestPrice)
         }
-        if requireHibernateSupport != false {
+        if let requireHibernateSupport = self.requireHibernateSupport {
             try encodeContainer.encode(requireHibernateSupport, forKey: .requireHibernateSupport)
         }
-        if spotMaxPricePercentageOverLowestPrice != 0 {
+        if let spotMaxPricePercentageOverLowestPrice = self.spotMaxPricePercentageOverLowestPrice {
             try encodeContainer.encode(spotMaxPricePercentageOverLowestPrice, forKey: .spotMaxPricePercentageOverLowestPrice)
         }
         if let totalLocalStorageGB = self.totalLocalStorageGB {
@@ -13607,11 +13607,11 @@ extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataInstanceRequirementsDet
         memoryMiB = memoryMiBDecoded
         let networkInterfaceCountDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsEc2LaunchTemplateDataInstanceRequirementsNetworkInterfaceCountDetails.self, forKey: .networkInterfaceCount)
         networkInterfaceCount = networkInterfaceCountDecoded
-        let onDemandMaxPricePercentageOverLowestPriceDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .onDemandMaxPricePercentageOverLowestPrice) ?? 0
+        let onDemandMaxPricePercentageOverLowestPriceDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .onDemandMaxPricePercentageOverLowestPrice)
         onDemandMaxPricePercentageOverLowestPrice = onDemandMaxPricePercentageOverLowestPriceDecoded
-        let requireHibernateSupportDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .requireHibernateSupport) ?? false
+        let requireHibernateSupportDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .requireHibernateSupport)
         requireHibernateSupport = requireHibernateSupportDecoded
-        let spotMaxPricePercentageOverLowestPriceDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .spotMaxPricePercentageOverLowestPrice) ?? 0
+        let spotMaxPricePercentageOverLowestPriceDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .spotMaxPricePercentageOverLowestPrice)
         spotMaxPricePercentageOverLowestPrice = spotMaxPricePercentageOverLowestPriceDecoded
         let totalLocalStorageGBDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsEc2LaunchTemplateDataInstanceRequirementsTotalLocalStorageGBDetails.self, forKey: .totalLocalStorageGB)
         totalLocalStorageGB = totalLocalStorageGBDecoded
@@ -13656,11 +13656,11 @@ extension SecurityHubClientTypes {
         /// The minimum and maximum number of network interfaces.
         public var networkInterfaceCount: SecurityHubClientTypes.AwsEc2LaunchTemplateDataInstanceRequirementsNetworkInterfaceCountDetails?
         /// The price protection threshold for On-Demand Instances. This is the maximum you'll pay for an On-Demand Instance, expressed as a percentage above the least expensive current generation M, C, or R instance type with your specified attributes. When Amazon EC2 selects instance types with your attributes, it excludes instance types priced above your threshold. The parameter accepts an integer, which Amazon EC2 interprets as a percentage. A high value, such as 999999, turns off price protection.
-        public var onDemandMaxPricePercentageOverLowestPrice: Swift.Int
+        public var onDemandMaxPricePercentageOverLowestPrice: Swift.Int?
         /// Indicates whether instance types must support hibernation for On-Demand Instances.
-        public var requireHibernateSupport: Swift.Bool
+        public var requireHibernateSupport: Swift.Bool?
         /// The price protection threshold for Spot Instances. This is the maximum you'll pay for a Spot Instance, expressed as a percentage above the least expensive current generation M, C, or R instance type with your specified attributes. When Amazon EC2 selects instance types with your attributes, it excludes instance types priced above your threshold. The parameter accepts an integer, which Amazon EC2 interprets as a percentage. A high value, such as 999999, turns off price protection.
-        public var spotMaxPricePercentageOverLowestPrice: Swift.Int
+        public var spotMaxPricePercentageOverLowestPrice: Swift.Int?
         /// The minimum and maximum amount of total local storage, in GB.
         public var totalLocalStorageGB: SecurityHubClientTypes.AwsEc2LaunchTemplateDataInstanceRequirementsTotalLocalStorageGBDetails?
         /// The minimum and maximum number of vCPUs.
@@ -13683,9 +13683,9 @@ extension SecurityHubClientTypes {
             memoryGiBPerVCpu: SecurityHubClientTypes.AwsEc2LaunchTemplateDataInstanceRequirementsMemoryGiBPerVCpuDetails? = nil,
             memoryMiB: SecurityHubClientTypes.AwsEc2LaunchTemplateDataInstanceRequirementsMemoryMiBDetails? = nil,
             networkInterfaceCount: SecurityHubClientTypes.AwsEc2LaunchTemplateDataInstanceRequirementsNetworkInterfaceCountDetails? = nil,
-            onDemandMaxPricePercentageOverLowestPrice: Swift.Int = 0,
-            requireHibernateSupport: Swift.Bool = false,
-            spotMaxPricePercentageOverLowestPrice: Swift.Int = 0,
+            onDemandMaxPricePercentageOverLowestPrice: Swift.Int? = nil,
+            requireHibernateSupport: Swift.Bool? = nil,
+            spotMaxPricePercentageOverLowestPrice: Swift.Int? = nil,
             totalLocalStorageGB: SecurityHubClientTypes.AwsEc2LaunchTemplateDataInstanceRequirementsTotalLocalStorageGBDetails? = nil,
             vCpuCount: SecurityHubClientTypes.AwsEc2LaunchTemplateDataInstanceRequirementsVCpuCountDetails? = nil
         )
@@ -13724,19 +13724,19 @@ extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataInstanceRequirementsMem
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if max != 0.0 {
+        if let max = self.max {
             try encodeContainer.encode(max, forKey: .max)
         }
-        if min != 0.0 {
+        if let min = self.min {
             try encodeContainer.encode(min, forKey: .min)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let maxDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .max) ?? 0.0
+        let maxDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .max)
         max = maxDecoded
-        let minDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .min) ?? 0.0
+        let minDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .min)
         min = minDecoded
     }
 }
@@ -13745,13 +13745,13 @@ extension SecurityHubClientTypes {
     /// The minimum and maximum amount of memory per vCPU, in GiB.
     public struct AwsEc2LaunchTemplateDataInstanceRequirementsMemoryGiBPerVCpuDetails: Swift.Equatable {
         /// The maximum amount of memory per vCPU, in GiB. If this parameter is omitted, there's no maximum limit.
-        public var max: Swift.Double
+        public var max: Swift.Double?
         /// The minimum amount of memory per vCPU, in GiB. If this parameter is omitted, there's no maximum limit.
-        public var min: Swift.Double
+        public var min: Swift.Double?
 
         public init(
-            max: Swift.Double = 0.0,
-            min: Swift.Double = 0.0
+            max: Swift.Double? = nil,
+            min: Swift.Double? = nil
         )
         {
             self.max = max
@@ -13769,19 +13769,19 @@ extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataInstanceRequirementsMem
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if max != 0 {
+        if let max = self.max {
             try encodeContainer.encode(max, forKey: .max)
         }
-        if min != 0 {
+        if let min = self.min {
             try encodeContainer.encode(min, forKey: .min)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let maxDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .max) ?? 0
+        let maxDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .max)
         max = maxDecoded
-        let minDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .min) ?? 0
+        let minDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .min)
         min = minDecoded
     }
 }
@@ -13790,13 +13790,13 @@ extension SecurityHubClientTypes {
     /// The minimum and maximum amount of memory, in MiB, for an Amazon EC2 instance.
     public struct AwsEc2LaunchTemplateDataInstanceRequirementsMemoryMiBDetails: Swift.Equatable {
         /// The maximum amount of memory, in MiB.
-        public var max: Swift.Int
+        public var max: Swift.Int?
         /// The minimum amount of memory, in MiB.
-        public var min: Swift.Int
+        public var min: Swift.Int?
 
         public init(
-            max: Swift.Int = 0,
-            min: Swift.Int = 0
+            max: Swift.Int? = nil,
+            min: Swift.Int? = nil
         )
         {
             self.max = max
@@ -13814,19 +13814,19 @@ extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataInstanceRequirementsNet
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if max != 0 {
+        if let max = self.max {
             try encodeContainer.encode(max, forKey: .max)
         }
-        if min != 0 {
+        if let min = self.min {
             try encodeContainer.encode(min, forKey: .min)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let maxDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .max) ?? 0
+        let maxDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .max)
         max = maxDecoded
-        let minDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .min) ?? 0
+        let minDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .min)
         min = minDecoded
     }
 }
@@ -13835,13 +13835,13 @@ extension SecurityHubClientTypes {
     /// The minimum and maximum number of network interfaces to be attached to an Amazon EC2 instance.
     public struct AwsEc2LaunchTemplateDataInstanceRequirementsNetworkInterfaceCountDetails: Swift.Equatable {
         /// The maximum number of network interfaces.
-        public var max: Swift.Int
+        public var max: Swift.Int?
         /// The minimum number of network interfaces.
-        public var min: Swift.Int
+        public var min: Swift.Int?
 
         public init(
-            max: Swift.Int = 0,
-            min: Swift.Int = 0
+            max: Swift.Int? = nil,
+            min: Swift.Int? = nil
         )
         {
             self.max = max
@@ -13859,19 +13859,19 @@ extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataInstanceRequirementsTot
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if max != 0.0 {
+        if let max = self.max {
             try encodeContainer.encode(max, forKey: .max)
         }
-        if min != 0.0 {
+        if let min = self.min {
             try encodeContainer.encode(min, forKey: .min)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let maxDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .max) ?? 0.0
+        let maxDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .max)
         max = maxDecoded
-        let minDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .min) ?? 0.0
+        let minDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .min)
         min = minDecoded
     }
 }
@@ -13880,13 +13880,13 @@ extension SecurityHubClientTypes {
     /// The minimum and maximum amount of total local storage, in GB, that an Amazon EC2 instance uses.
     public struct AwsEc2LaunchTemplateDataInstanceRequirementsTotalLocalStorageGBDetails: Swift.Equatable {
         /// The maximum amount of total local storage, in GB.
-        public var max: Swift.Double
+        public var max: Swift.Double?
         /// The minimum amount of total local storage, in GB.
-        public var min: Swift.Double
+        public var min: Swift.Double?
 
         public init(
-            max: Swift.Double = 0.0,
-            min: Swift.Double = 0.0
+            max: Swift.Double? = nil,
+            min: Swift.Double? = nil
         )
         {
             self.max = max
@@ -13904,19 +13904,19 @@ extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataInstanceRequirementsVCp
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if max != 0 {
+        if let max = self.max {
             try encodeContainer.encode(max, forKey: .max)
         }
-        if min != 0 {
+        if let min = self.min {
             try encodeContainer.encode(min, forKey: .min)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let maxDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .max) ?? 0
+        let maxDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .max)
         max = maxDecoded
-        let minDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .min) ?? 0
+        let minDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .min)
         min = minDecoded
     }
 }
@@ -13925,13 +13925,13 @@ extension SecurityHubClientTypes {
     /// The minimum and maximum number of vCPUs for an Amazon EC2 instance.
     public struct AwsEc2LaunchTemplateDataInstanceRequirementsVCpuCountDetails: Swift.Equatable {
         /// The maximum number of vCPUs.
-        public var max: Swift.Int
+        public var max: Swift.Int?
         /// The minimum number of vCPUs.
-        public var min: Swift.Int
+        public var min: Swift.Int?
 
         public init(
-            max: Swift.Int = 0,
-            min: Swift.Int = 0
+            max: Swift.Int? = nil,
+            min: Swift.Int? = nil
         )
         {
             self.max = max
@@ -14028,7 +14028,7 @@ extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataMetadataOptionsDetails:
         if let httpProtocolIpv6 = self.httpProtocolIpv6 {
             try encodeContainer.encode(httpProtocolIpv6, forKey: .httpProtocolIpv6)
         }
-        if httpPutResponseHopLimit != 0 {
+        if let httpPutResponseHopLimit = self.httpPutResponseHopLimit {
             try encodeContainer.encode(httpPutResponseHopLimit, forKey: .httpPutResponseHopLimit)
         }
         if let httpTokens = self.httpTokens {
@@ -14047,7 +14047,7 @@ extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataMetadataOptionsDetails:
         httpProtocolIpv6 = httpProtocolIpv6Decoded
         let httpTokensDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .httpTokens)
         httpTokens = httpTokensDecoded
-        let httpPutResponseHopLimitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .httpPutResponseHopLimit) ?? 0
+        let httpPutResponseHopLimitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .httpPutResponseHopLimit)
         httpPutResponseHopLimit = httpPutResponseHopLimitDecoded
         let instanceMetadataTagsDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceMetadataTags)
         instanceMetadataTags = instanceMetadataTagsDecoded
@@ -14062,7 +14062,7 @@ extension SecurityHubClientTypes {
         /// Enables or disables the IPv6 endpoint for the instance metadata service.
         public var httpProtocolIpv6: Swift.String?
         /// The desired HTTP PUT response hop limit for instance metadata requests. The larger the number, the further instance metadata requests can travel.
-        public var httpPutResponseHopLimit: Swift.Int
+        public var httpPutResponseHopLimit: Swift.Int?
         /// The state of token usage for your instance metadata requests.
         public var httpTokens: Swift.String?
         /// When set to enabled, this parameter allows access to instance tags from the instance metadata. When set to disabled, it turns off access to instance tags from the instance metadata. For more information, see [Work with instance tags in instance metadata](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html#work-with-tags-in-IMDS) in the Amazon EC2 User Guide.
@@ -14071,7 +14071,7 @@ extension SecurityHubClientTypes {
         public init(
             httpEndpoint: Swift.String? = nil,
             httpProtocolIpv6: Swift.String? = nil,
-            httpPutResponseHopLimit: Swift.Int = 0,
+            httpPutResponseHopLimit: Swift.Int? = nil,
             httpTokens: Swift.String? = nil,
             instanceMetadataTags: Swift.String? = nil
         )
@@ -14093,14 +14093,14 @@ extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataMonitoringDetails: Swif
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if enabled != false {
+        if let enabled = self.enabled {
             try encodeContainer.encode(enabled, forKey: .enabled)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled) ?? false
+        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled)
         enabled = enabledDecoded
     }
 }
@@ -14109,10 +14109,10 @@ extension SecurityHubClientTypes {
     /// The monitoring for an Amazon EC2 instance.
     public struct AwsEc2LaunchTemplateDataMonitoringDetails: Swift.Equatable {
         /// Enables detailed monitoring when true is specified. Otherwise, basic monitoring is enabled. For more information about detailed monitoring, see [Enable or turn off detailed monitoring for your instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-cloudwatch-new.html) in the Amazon EC2 User Guide.
-        public var enabled: Swift.Bool
+        public var enabled: Swift.Bool?
 
         public init(
-            enabled: Swift.Bool = false
+            enabled: Swift.Bool? = nil
         )
         {
             self.enabled = enabled
@@ -14146,19 +14146,19 @@ extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataNetworkInterfaceSetDeta
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if associateCarrierIpAddress != false {
+        if let associateCarrierIpAddress = self.associateCarrierIpAddress {
             try encodeContainer.encode(associateCarrierIpAddress, forKey: .associateCarrierIpAddress)
         }
-        if associatePublicIpAddress != false {
+        if let associatePublicIpAddress = self.associatePublicIpAddress {
             try encodeContainer.encode(associatePublicIpAddress, forKey: .associatePublicIpAddress)
         }
-        if deleteOnTermination != false {
+        if let deleteOnTermination = self.deleteOnTermination {
             try encodeContainer.encode(deleteOnTermination, forKey: .deleteOnTermination)
         }
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
         }
-        if deviceIndex != 0 {
+        if let deviceIndex = self.deviceIndex {
             try encodeContainer.encode(deviceIndex, forKey: .deviceIndex)
         }
         if let groups = groups {
@@ -14170,7 +14170,7 @@ extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataNetworkInterfaceSetDeta
         if let interfaceType = self.interfaceType {
             try encodeContainer.encode(interfaceType, forKey: .interfaceType)
         }
-        if ipv4PrefixCount != 0 {
+        if let ipv4PrefixCount = self.ipv4PrefixCount {
             try encodeContainer.encode(ipv4PrefixCount, forKey: .ipv4PrefixCount)
         }
         if let ipv4Prefixes = ipv4Prefixes {
@@ -14179,7 +14179,7 @@ extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataNetworkInterfaceSetDeta
                 try ipv4PrefixesContainer.encode(awsec2launchtemplatedatanetworkinterfacesetipv4prefixesdetails0)
             }
         }
-        if ipv6AddressCount != 0 {
+        if let ipv6AddressCount = self.ipv6AddressCount {
             try encodeContainer.encode(ipv6AddressCount, forKey: .ipv6AddressCount)
         }
         if let ipv6Addresses = ipv6Addresses {
@@ -14188,7 +14188,7 @@ extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataNetworkInterfaceSetDeta
                 try ipv6AddressesContainer.encode(awsec2launchtemplatedatanetworkinterfacesetipv6addressesdetails0)
             }
         }
-        if ipv6PrefixCount != 0 {
+        if let ipv6PrefixCount = self.ipv6PrefixCount {
             try encodeContainer.encode(ipv6PrefixCount, forKey: .ipv6PrefixCount)
         }
         if let ipv6Prefixes = ipv6Prefixes {
@@ -14197,7 +14197,7 @@ extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataNetworkInterfaceSetDeta
                 try ipv6PrefixesContainer.encode(awsec2launchtemplatedatanetworkinterfacesetipv6prefixesdetails0)
             }
         }
-        if networkCardIndex != 0 {
+        if let networkCardIndex = self.networkCardIndex {
             try encodeContainer.encode(networkCardIndex, forKey: .networkCardIndex)
         }
         if let networkInterfaceId = self.networkInterfaceId {
@@ -14212,7 +14212,7 @@ extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataNetworkInterfaceSetDeta
                 try privateIpAddressesContainer.encode(awsec2launchtemplatedatanetworkinterfacesetprivateipaddressesdetails0)
             }
         }
-        if secondaryPrivateIpAddressCount != 0 {
+        if let secondaryPrivateIpAddressCount = self.secondaryPrivateIpAddressCount {
             try encodeContainer.encode(secondaryPrivateIpAddressCount, forKey: .secondaryPrivateIpAddressCount)
         }
         if let subnetId = self.subnetId {
@@ -14222,15 +14222,15 @@ extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataNetworkInterfaceSetDeta
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let associateCarrierIpAddressDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .associateCarrierIpAddress) ?? false
+        let associateCarrierIpAddressDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .associateCarrierIpAddress)
         associateCarrierIpAddress = associateCarrierIpAddressDecoded
-        let associatePublicIpAddressDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .associatePublicIpAddress) ?? false
+        let associatePublicIpAddressDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .associatePublicIpAddress)
         associatePublicIpAddress = associatePublicIpAddressDecoded
-        let deleteOnTerminationDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deleteOnTermination) ?? false
+        let deleteOnTerminationDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deleteOnTermination)
         deleteOnTermination = deleteOnTerminationDecoded
         let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
         description = descriptionDecoded
-        let deviceIndexDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .deviceIndex) ?? 0
+        let deviceIndexDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .deviceIndex)
         deviceIndex = deviceIndexDecoded
         let groupsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .groups)
         var groupsDecoded0:[Swift.String]? = nil
@@ -14245,7 +14245,7 @@ extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataNetworkInterfaceSetDeta
         groups = groupsDecoded0
         let interfaceTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .interfaceType)
         interfaceType = interfaceTypeDecoded
-        let ipv4PrefixCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .ipv4PrefixCount) ?? 0
+        let ipv4PrefixCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .ipv4PrefixCount)
         ipv4PrefixCount = ipv4PrefixCountDecoded
         let ipv4PrefixesContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.AwsEc2LaunchTemplateDataNetworkInterfaceSetIpv4PrefixesDetails?].self, forKey: .ipv4Prefixes)
         var ipv4PrefixesDecoded0:[SecurityHubClientTypes.AwsEc2LaunchTemplateDataNetworkInterfaceSetIpv4PrefixesDetails]? = nil
@@ -14258,7 +14258,7 @@ extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataNetworkInterfaceSetDeta
             }
         }
         ipv4Prefixes = ipv4PrefixesDecoded0
-        let ipv6AddressCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .ipv6AddressCount) ?? 0
+        let ipv6AddressCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .ipv6AddressCount)
         ipv6AddressCount = ipv6AddressCountDecoded
         let ipv6AddressesContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.AwsEc2LaunchTemplateDataNetworkInterfaceSetIpv6AddressesDetails?].self, forKey: .ipv6Addresses)
         var ipv6AddressesDecoded0:[SecurityHubClientTypes.AwsEc2LaunchTemplateDataNetworkInterfaceSetIpv6AddressesDetails]? = nil
@@ -14271,7 +14271,7 @@ extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataNetworkInterfaceSetDeta
             }
         }
         ipv6Addresses = ipv6AddressesDecoded0
-        let ipv6PrefixCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .ipv6PrefixCount) ?? 0
+        let ipv6PrefixCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .ipv6PrefixCount)
         ipv6PrefixCount = ipv6PrefixCountDecoded
         let ipv6PrefixesContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.AwsEc2LaunchTemplateDataNetworkInterfaceSetIpv6PrefixesDetails?].self, forKey: .ipv6Prefixes)
         var ipv6PrefixesDecoded0:[SecurityHubClientTypes.AwsEc2LaunchTemplateDataNetworkInterfaceSetIpv6PrefixesDetails]? = nil
@@ -14284,7 +14284,7 @@ extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataNetworkInterfaceSetDeta
             }
         }
         ipv6Prefixes = ipv6PrefixesDecoded0
-        let networkCardIndexDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .networkCardIndex) ?? 0
+        let networkCardIndexDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .networkCardIndex)
         networkCardIndex = networkCardIndexDecoded
         let networkInterfaceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .networkInterfaceId)
         networkInterfaceId = networkInterfaceIdDecoded
@@ -14301,7 +14301,7 @@ extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataNetworkInterfaceSetDeta
             }
         }
         privateIpAddresses = privateIpAddressesDecoded0
-        let secondaryPrivateIpAddressCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .secondaryPrivateIpAddressCount) ?? 0
+        let secondaryPrivateIpAddressCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .secondaryPrivateIpAddressCount)
         secondaryPrivateIpAddressCount = secondaryPrivateIpAddressCountDecoded
         let subnetIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .subnetId)
         subnetId = subnetIdDecoded
@@ -14312,33 +14312,33 @@ extension SecurityHubClientTypes {
     /// One or more network interfaces to attach to an Amazon EC2 instance. If you specify a network interface, you must specify security groups and subnets as part of the network interface.
     public struct AwsEc2LaunchTemplateDataNetworkInterfaceSetDetails: Swift.Equatable {
         /// Indicates whether to associate a Carrier IP address with eth0 for a new network interface. You use this option when you launch an instance in a Wavelength Zone and want to associate a Carrier IP address with the network interface. For more information, see [Carrier IP address](https://docs.aws.amazon.com/wavelength/latest/developerguide/how-wavelengths-work.html#provider-owned-ip) in the Wavelength Developer Guide.
-        public var associateCarrierIpAddress: Swift.Bool
+        public var associateCarrierIpAddress: Swift.Bool?
         /// Associates a public IPv4 address with eth0 for a new network interface.
-        public var associatePublicIpAddress: Swift.Bool
+        public var associatePublicIpAddress: Swift.Bool?
         /// Indicates whether the network interface is deleted when the instance is terminated.
-        public var deleteOnTermination: Swift.Bool
+        public var deleteOnTermination: Swift.Bool?
         /// A description for the network interface.
         public var description: Swift.String?
         /// The device index for the network interface attachment.
-        public var deviceIndex: Swift.Int
+        public var deviceIndex: Swift.Int?
         /// The IDs of one or more security groups.
         public var groups: [Swift.String]?
         /// The type of network interface.
         public var interfaceType: Swift.String?
         /// The number of IPv4 prefixes to be automatically assigned to the network interface. You cannot use this option if you use the Ipv4Prefixes option.
-        public var ipv4PrefixCount: Swift.Int
+        public var ipv4PrefixCount: Swift.Int?
         /// One or more IPv4 prefixes to be assigned to the network interface. You cannot use this option if you use the Ipv4PrefixCount option.
         public var ipv4Prefixes: [SecurityHubClientTypes.AwsEc2LaunchTemplateDataNetworkInterfaceSetIpv4PrefixesDetails]?
         /// The number of IPv6 addresses to assign to a network interface. Amazon EC2 automatically selects the IPv6 addresses from the subnet range. You can't use this option if you use Ipv6Addresses.
-        public var ipv6AddressCount: Swift.Int
+        public var ipv6AddressCount: Swift.Int?
         /// One or more specific IPv6 addresses from the IPv6 CIDR block range of your subnet. You can't use this option if you use Ipv6AddressCount.
         public var ipv6Addresses: [SecurityHubClientTypes.AwsEc2LaunchTemplateDataNetworkInterfaceSetIpv6AddressesDetails]?
         /// The number of IPv6 prefixes to be automatically assigned to the network interface. You cannot use this option if you use the Ipv6Prefix option.
-        public var ipv6PrefixCount: Swift.Int
+        public var ipv6PrefixCount: Swift.Int?
         /// One or more IPv6 prefixes to be assigned to the network interface. You cannot use this option if you use the Ipv6PrefixCount option.
         public var ipv6Prefixes: [SecurityHubClientTypes.AwsEc2LaunchTemplateDataNetworkInterfaceSetIpv6PrefixesDetails]?
         /// The index of the network card. Some instance types support multiple network cards. The primary network interface must be assigned to network card index 0. The default is network card index 0.
-        public var networkCardIndex: Swift.Int
+        public var networkCardIndex: Swift.Int?
         /// The ID of the network interface.
         public var networkInterfaceId: Swift.String?
         /// The primary private IPv4 address of the network interface.
@@ -14346,29 +14346,29 @@ extension SecurityHubClientTypes {
         /// One or more private IPv4 addresses.
         public var privateIpAddresses: [SecurityHubClientTypes.AwsEc2LaunchTemplateDataNetworkInterfaceSetPrivateIpAddressesDetails]?
         /// The number of secondary private IPv4 addresses to assign to a network interface.
-        public var secondaryPrivateIpAddressCount: Swift.Int
+        public var secondaryPrivateIpAddressCount: Swift.Int?
         /// The ID of the subnet for the network interface.
         public var subnetId: Swift.String?
 
         public init(
-            associateCarrierIpAddress: Swift.Bool = false,
-            associatePublicIpAddress: Swift.Bool = false,
-            deleteOnTermination: Swift.Bool = false,
+            associateCarrierIpAddress: Swift.Bool? = nil,
+            associatePublicIpAddress: Swift.Bool? = nil,
+            deleteOnTermination: Swift.Bool? = nil,
             description: Swift.String? = nil,
-            deviceIndex: Swift.Int = 0,
+            deviceIndex: Swift.Int? = nil,
             groups: [Swift.String]? = nil,
             interfaceType: Swift.String? = nil,
-            ipv4PrefixCount: Swift.Int = 0,
+            ipv4PrefixCount: Swift.Int? = nil,
             ipv4Prefixes: [SecurityHubClientTypes.AwsEc2LaunchTemplateDataNetworkInterfaceSetIpv4PrefixesDetails]? = nil,
-            ipv6AddressCount: Swift.Int = 0,
+            ipv6AddressCount: Swift.Int? = nil,
             ipv6Addresses: [SecurityHubClientTypes.AwsEc2LaunchTemplateDataNetworkInterfaceSetIpv6AddressesDetails]? = nil,
-            ipv6PrefixCount: Swift.Int = 0,
+            ipv6PrefixCount: Swift.Int? = nil,
             ipv6Prefixes: [SecurityHubClientTypes.AwsEc2LaunchTemplateDataNetworkInterfaceSetIpv6PrefixesDetails]? = nil,
-            networkCardIndex: Swift.Int = 0,
+            networkCardIndex: Swift.Int? = nil,
             networkInterfaceId: Swift.String? = nil,
             privateIpAddress: Swift.String? = nil,
             privateIpAddresses: [SecurityHubClientTypes.AwsEc2LaunchTemplateDataNetworkInterfaceSetPrivateIpAddressesDetails]? = nil,
-            secondaryPrivateIpAddressCount: Swift.Int = 0,
+            secondaryPrivateIpAddressCount: Swift.Int? = nil,
             subnetId: Swift.String? = nil
         )
         {
@@ -14509,7 +14509,7 @@ extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataNetworkInterfaceSetPriv
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if primary != false {
+        if let primary = self.primary {
             try encodeContainer.encode(primary, forKey: .primary)
         }
         if let privateIpAddress = self.privateIpAddress {
@@ -14519,7 +14519,7 @@ extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataNetworkInterfaceSetPriv
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let primaryDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .primary) ?? false
+        let primaryDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .primary)
         primary = primaryDecoded
         let privateIpAddressDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .privateIpAddress)
         privateIpAddress = privateIpAddressDecoded
@@ -14530,12 +14530,12 @@ extension SecurityHubClientTypes {
     /// One or more private IPv4 addresses.
     public struct AwsEc2LaunchTemplateDataNetworkInterfaceSetPrivateIpAddressesDetails: Swift.Equatable {
         /// Indicates whether the private IPv4 address is the primary private IPv4 address. Only one IPv4 address can be designated as primary.
-        public var primary: Swift.Bool
+        public var primary: Swift.Bool?
         /// The private IPv4 address.
         public var privateIpAddress: Swift.String?
 
         public init(
-            primary: Swift.Bool = false,
+            primary: Swift.Bool? = nil,
             privateIpAddress: Swift.String? = nil
         )
         {
@@ -14575,7 +14575,7 @@ extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataPlacementDetails: Swift
         if let hostResourceGroupArn = self.hostResourceGroupArn {
             try encodeContainer.encode(hostResourceGroupArn, forKey: .hostResourceGroupArn)
         }
-        if partitionNumber != 0 {
+        if let partitionNumber = self.partitionNumber {
             try encodeContainer.encode(partitionNumber, forKey: .partitionNumber)
         }
         if let spreadDomain = self.spreadDomain {
@@ -14598,7 +14598,7 @@ extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataPlacementDetails: Swift
         hostId = hostIdDecoded
         let hostResourceGroupArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .hostResourceGroupArn)
         hostResourceGroupArn = hostResourceGroupArnDecoded
-        let partitionNumberDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .partitionNumber) ?? 0
+        let partitionNumberDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .partitionNumber)
         partitionNumber = partitionNumberDecoded
         let spreadDomainDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .spreadDomain)
         spreadDomain = spreadDomainDecoded
@@ -14621,7 +14621,7 @@ extension SecurityHubClientTypes {
         /// The Amazon Resource Name (ARN) of the host resource group in which to launch the instances.
         public var hostResourceGroupArn: Swift.String?
         /// The number of the partition the instance should launch in.
-        public var partitionNumber: Swift.Int
+        public var partitionNumber: Swift.Int?
         /// Reserved for future use.
         public var spreadDomain: Swift.String?
         /// The tenancy of the instance (if the instance is running in a VPC). An instance with a tenancy of dedicated runs on single-tenant hardware.
@@ -14633,7 +14633,7 @@ extension SecurityHubClientTypes {
             groupName: Swift.String? = nil,
             hostId: Swift.String? = nil,
             hostResourceGroupArn: Swift.String? = nil,
-            partitionNumber: Swift.Int = 0,
+            partitionNumber: Swift.Int? = nil,
             spreadDomain: Swift.String? = nil,
             tenancy: Swift.String? = nil
         )
@@ -14660,10 +14660,10 @@ extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataPrivateDnsNameOptionsDe
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if enableResourceNameDnsAAAARecord != false {
+        if let enableResourceNameDnsAAAARecord = self.enableResourceNameDnsAAAARecord {
             try encodeContainer.encode(enableResourceNameDnsAAAARecord, forKey: .enableResourceNameDnsAAAARecord)
         }
-        if enableResourceNameDnsARecord != false {
+        if let enableResourceNameDnsARecord = self.enableResourceNameDnsARecord {
             try encodeContainer.encode(enableResourceNameDnsARecord, forKey: .enableResourceNameDnsARecord)
         }
         if let hostnameType = self.hostnameType {
@@ -14673,9 +14673,9 @@ extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataPrivateDnsNameOptionsDe
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let enableResourceNameDnsAAAARecordDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enableResourceNameDnsAAAARecord) ?? false
+        let enableResourceNameDnsAAAARecordDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enableResourceNameDnsAAAARecord)
         enableResourceNameDnsAAAARecord = enableResourceNameDnsAAAARecordDecoded
-        let enableResourceNameDnsARecordDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enableResourceNameDnsARecord) ?? false
+        let enableResourceNameDnsARecordDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enableResourceNameDnsARecord)
         enableResourceNameDnsARecord = enableResourceNameDnsARecordDecoded
         let hostnameTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .hostnameType)
         hostnameType = hostnameTypeDecoded
@@ -14686,15 +14686,15 @@ extension SecurityHubClientTypes {
     /// Describes the options for Amazon EC2 instance hostnames.
     public struct AwsEc2LaunchTemplateDataPrivateDnsNameOptionsDetails: Swift.Equatable {
         /// Indicates whether to respond to DNS queries for instance hostnames with DNS AAAA records.
-        public var enableResourceNameDnsAAAARecord: Swift.Bool
+        public var enableResourceNameDnsAAAARecord: Swift.Bool?
         /// Indicates whether to respond to DNS queries for instance hostnames with DNS A records.
-        public var enableResourceNameDnsARecord: Swift.Bool
+        public var enableResourceNameDnsARecord: Swift.Bool?
         /// The type of hostname for EC2 instances.
         public var hostnameType: Swift.String?
 
         public init(
-            enableResourceNameDnsAAAARecord: Swift.Bool = false,
-            enableResourceNameDnsARecord: Swift.Bool = false,
+            enableResourceNameDnsAAAARecord: Swift.Bool? = nil,
+            enableResourceNameDnsARecord: Swift.Bool? = nil,
             hostnameType: Swift.String? = nil
         )
         {
@@ -14717,13 +14717,13 @@ extension SecurityHubClientTypes.AwsEc2LaunchTemplateDetails: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if defaultVersionNumber != 0 {
+        if let defaultVersionNumber = self.defaultVersionNumber {
             try encodeContainer.encode(defaultVersionNumber, forKey: .defaultVersionNumber)
         }
         if let id = self.id {
             try encodeContainer.encode(id, forKey: .id)
         }
-        if latestVersionNumber != 0 {
+        if let latestVersionNumber = self.latestVersionNumber {
             try encodeContainer.encode(latestVersionNumber, forKey: .latestVersionNumber)
         }
         if let launchTemplateData = self.launchTemplateData {
@@ -14742,9 +14742,9 @@ extension SecurityHubClientTypes.AwsEc2LaunchTemplateDetails: Swift.Codable {
         id = idDecoded
         let launchTemplateDataDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsEc2LaunchTemplateDataDetails.self, forKey: .launchTemplateData)
         launchTemplateData = launchTemplateDataDecoded
-        let defaultVersionNumberDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .defaultVersionNumber) ?? 0
+        let defaultVersionNumberDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .defaultVersionNumber)
         defaultVersionNumber = defaultVersionNumberDecoded
-        let latestVersionNumberDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .latestVersionNumber) ?? 0
+        let latestVersionNumberDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .latestVersionNumber)
         latestVersionNumber = latestVersionNumberDecoded
     }
 }
@@ -14753,20 +14753,20 @@ extension SecurityHubClientTypes {
     /// Specifies the properties for creating an Amazon Elastic Compute Cloud (Amazon EC2) launch template.
     public struct AwsEc2LaunchTemplateDetails: Swift.Equatable {
         /// The default version of the launch template.
-        public var defaultVersionNumber: Swift.Int
+        public var defaultVersionNumber: Swift.Int?
         /// An ID for the launch template.
         public var id: Swift.String?
         /// The latest version of the launch template.
-        public var latestVersionNumber: Swift.Int
+        public var latestVersionNumber: Swift.Int?
         /// The information to include in the launch template.
         public var launchTemplateData: SecurityHubClientTypes.AwsEc2LaunchTemplateDataDetails?
         /// A name for the launch template.
         public var launchTemplateName: Swift.String?
 
         public init(
-            defaultVersionNumber: Swift.Int = 0,
+            defaultVersionNumber: Swift.Int? = nil,
             id: Swift.String? = nil,
-            latestVersionNumber: Swift.Int = 0,
+            latestVersionNumber: Swift.Int? = nil,
             launchTemplateData: SecurityHubClientTypes.AwsEc2LaunchTemplateDataDetails? = nil,
             launchTemplateName: Swift.String? = nil
         )
@@ -14860,7 +14860,7 @@ extension SecurityHubClientTypes.AwsEc2NetworkAclDetails: Swift.Codable {
                 try entriesContainer.encode(awsec2networkaclentry0)
             }
         }
-        if isDefault != false {
+        if let isDefault = self.isDefault {
             try encodeContainer.encode(isDefault, forKey: .isDefault)
         }
         if let networkAclId = self.networkAclId {
@@ -14876,7 +14876,7 @@ extension SecurityHubClientTypes.AwsEc2NetworkAclDetails: Swift.Codable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let isDefaultDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isDefault) ?? false
+        let isDefaultDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isDefault)
         isDefault = isDefaultDecoded
         let networkAclIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .networkAclId)
         networkAclId = networkAclIdDecoded
@@ -14917,7 +14917,7 @@ extension SecurityHubClientTypes {
         /// The set of rules in the network ACL.
         public var entries: [SecurityHubClientTypes.AwsEc2NetworkAclEntry]?
         /// Whether this is the default network ACL for the VPC.
-        public var isDefault: Swift.Bool
+        public var isDefault: Swift.Bool?
         /// The identifier of the network ACL.
         public var networkAclId: Swift.String?
         /// The identifier of the Amazon Web Services account that owns the network ACL.
@@ -14928,7 +14928,7 @@ extension SecurityHubClientTypes {
         public init(
             associations: [SecurityHubClientTypes.AwsEc2NetworkAclAssociation]? = nil,
             entries: [SecurityHubClientTypes.AwsEc2NetworkAclEntry]? = nil,
-            isDefault: Swift.Bool = false,
+            isDefault: Swift.Bool? = nil,
             networkAclId: Swift.String? = nil,
             ownerId: Swift.String? = nil,
             vpcId: Swift.String? = nil
@@ -14962,7 +14962,7 @@ extension SecurityHubClientTypes.AwsEc2NetworkAclEntry: Swift.Codable {
         if let cidrBlock = self.cidrBlock {
             try encodeContainer.encode(cidrBlock, forKey: .cidrBlock)
         }
-        if egress != false {
+        if let egress = self.egress {
             try encodeContainer.encode(egress, forKey: .egress)
         }
         if let icmpTypeCode = self.icmpTypeCode {
@@ -14980,7 +14980,7 @@ extension SecurityHubClientTypes.AwsEc2NetworkAclEntry: Swift.Codable {
         if let ruleAction = self.ruleAction {
             try encodeContainer.encode(ruleAction, forKey: .ruleAction)
         }
-        if ruleNumber != 0 {
+        if let ruleNumber = self.ruleNumber {
             try encodeContainer.encode(ruleNumber, forKey: .ruleNumber)
         }
     }
@@ -14989,7 +14989,7 @@ extension SecurityHubClientTypes.AwsEc2NetworkAclEntry: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let cidrBlockDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cidrBlock)
         cidrBlock = cidrBlockDecoded
-        let egressDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .egress) ?? false
+        let egressDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .egress)
         egress = egressDecoded
         let icmpTypeCodeDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.IcmpTypeCode.self, forKey: .icmpTypeCode)
         icmpTypeCode = icmpTypeCodeDecoded
@@ -15001,7 +15001,7 @@ extension SecurityHubClientTypes.AwsEc2NetworkAclEntry: Swift.Codable {
         `protocol` = protocolDecoded
         let ruleActionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ruleAction)
         ruleAction = ruleActionDecoded
-        let ruleNumberDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .ruleNumber) ?? 0
+        let ruleNumberDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .ruleNumber)
         ruleNumber = ruleNumberDecoded
     }
 }
@@ -15012,7 +15012,7 @@ extension SecurityHubClientTypes {
         /// The IPV4 network range for which to deny or allow access.
         public var cidrBlock: Swift.String?
         /// Whether the rule is an egress rule. An egress rule is a rule that applies to traffic that leaves the subnet.
-        public var egress: Swift.Bool
+        public var egress: Swift.Bool?
         /// The Internet Control Message Protocol (ICMP) type and code for which to deny or allow access.
         public var icmpTypeCode: SecurityHubClientTypes.IcmpTypeCode?
         /// The IPV6 network range for which to deny or allow access.
@@ -15024,17 +15024,17 @@ extension SecurityHubClientTypes {
         /// Whether the rule is used to allow access or deny access.
         public var ruleAction: Swift.String?
         /// The rule number. The rules are processed in order by their number.
-        public var ruleNumber: Swift.Int
+        public var ruleNumber: Swift.Int?
 
         public init(
             cidrBlock: Swift.String? = nil,
-            egress: Swift.Bool = false,
+            egress: Swift.Bool? = nil,
             icmpTypeCode: SecurityHubClientTypes.IcmpTypeCode? = nil,
             ipv6CidrBlock: Swift.String? = nil,
             portRange: SecurityHubClientTypes.PortRangeFromTo? = nil,
             `protocol`: Swift.String? = nil,
             ruleAction: Swift.String? = nil,
-            ruleNumber: Swift.Int = 0
+            ruleNumber: Swift.Int? = nil
         )
         {
             self.cidrBlock = cidrBlock
@@ -15069,10 +15069,10 @@ extension SecurityHubClientTypes.AwsEc2NetworkInterfaceAttachment: Swift.Codable
         if let attachmentId = self.attachmentId {
             try encodeContainer.encode(attachmentId, forKey: .attachmentId)
         }
-        if deleteOnTermination != false {
+        if let deleteOnTermination = self.deleteOnTermination {
             try encodeContainer.encode(deleteOnTermination, forKey: .deleteOnTermination)
         }
-        if deviceIndex != 0 {
+        if let deviceIndex = self.deviceIndex {
             try encodeContainer.encode(deviceIndex, forKey: .deviceIndex)
         }
         if let instanceId = self.instanceId {
@@ -15092,9 +15092,9 @@ extension SecurityHubClientTypes.AwsEc2NetworkInterfaceAttachment: Swift.Codable
         attachTime = attachTimeDecoded
         let attachmentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .attachmentId)
         attachmentId = attachmentIdDecoded
-        let deleteOnTerminationDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deleteOnTermination) ?? false
+        let deleteOnTerminationDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deleteOnTermination)
         deleteOnTermination = deleteOnTerminationDecoded
-        let deviceIndexDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .deviceIndex) ?? 0
+        let deviceIndexDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .deviceIndex)
         deviceIndex = deviceIndexDecoded
         let instanceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceId)
         instanceId = instanceIdDecoded
@@ -15113,9 +15113,9 @@ extension SecurityHubClientTypes {
         /// The identifier of the network interface attachment
         public var attachmentId: Swift.String?
         /// Indicates whether the network interface is deleted when the instance is terminated.
-        public var deleteOnTermination: Swift.Bool
+        public var deleteOnTermination: Swift.Bool?
         /// The device index of the network interface attachment on the instance.
-        public var deviceIndex: Swift.Int
+        public var deviceIndex: Swift.Int?
         /// The ID of the instance.
         public var instanceId: Swift.String?
         /// The Amazon Web Services account ID of the owner of the instance.
@@ -15126,8 +15126,8 @@ extension SecurityHubClientTypes {
         public init(
             attachTime: Swift.String? = nil,
             attachmentId: Swift.String? = nil,
-            deleteOnTermination: Swift.Bool = false,
-            deviceIndex: Swift.Int = 0,
+            deleteOnTermination: Swift.Bool? = nil,
+            deviceIndex: Swift.Int? = nil,
             instanceId: Swift.String? = nil,
             instanceOwnerId: Swift.String? = nil,
             status: Swift.String? = nil
@@ -15189,7 +15189,7 @@ extension SecurityHubClientTypes.AwsEc2NetworkInterfaceDetails: Swift.Codable {
                 try securityGroupsContainer.encode(awsec2networkinterfacesecuritygroup0)
             }
         }
-        if sourceDestCheck != false {
+        if let sourceDestCheck = self.sourceDestCheck {
             try encodeContainer.encode(sourceDestCheck, forKey: .sourceDestCheck)
         }
     }
@@ -15211,7 +15211,7 @@ extension SecurityHubClientTypes.AwsEc2NetworkInterfaceDetails: Swift.Codable {
             }
         }
         securityGroups = securityGroupsDecoded0
-        let sourceDestCheckDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .sourceDestCheck) ?? false
+        let sourceDestCheckDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .sourceDestCheck)
         sourceDestCheck = sourceDestCheckDecoded
         let ipV6AddressesContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.AwsEc2NetworkInterfaceIpV6AddressDetail?].self, forKey: .ipV6Addresses)
         var ipV6AddressesDecoded0:[SecurityHubClientTypes.AwsEc2NetworkInterfaceIpV6AddressDetail]? = nil
@@ -15260,7 +15260,7 @@ extension SecurityHubClientTypes {
         /// Security groups for the network interface.
         public var securityGroups: [SecurityHubClientTypes.AwsEc2NetworkInterfaceSecurityGroup]?
         /// Indicates whether traffic to or from the instance is validated.
-        public var sourceDestCheck: Swift.Bool
+        public var sourceDestCheck: Swift.Bool?
 
         public init(
             attachment: SecurityHubClientTypes.AwsEc2NetworkInterfaceAttachment? = nil,
@@ -15270,7 +15270,7 @@ extension SecurityHubClientTypes {
             publicDnsName: Swift.String? = nil,
             publicIp: Swift.String? = nil,
             securityGroups: [SecurityHubClientTypes.AwsEc2NetworkInterfaceSecurityGroup]? = nil,
-            sourceDestCheck: Swift.Bool = false
+            sourceDestCheck: Swift.Bool? = nil
         )
         {
             self.attachment = attachment
@@ -15654,7 +15654,7 @@ extension SecurityHubClientTypes.AwsEc2SecurityGroupIpPermission: Swift.Codable 
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if fromPort != 0 {
+        if let fromPort = self.fromPort {
             try encodeContainer.encode(fromPort, forKey: .fromPort)
         }
         if let ipProtocol = self.ipProtocol {
@@ -15678,7 +15678,7 @@ extension SecurityHubClientTypes.AwsEc2SecurityGroupIpPermission: Swift.Codable 
                 try prefixListIdsContainer.encode(awsec2securitygroupprefixlistid0)
             }
         }
-        if toPort != 0 {
+        if let toPort = self.toPort {
             try encodeContainer.encode(toPort, forKey: .toPort)
         }
         if let userIdGroupPairs = userIdGroupPairs {
@@ -15693,9 +15693,9 @@ extension SecurityHubClientTypes.AwsEc2SecurityGroupIpPermission: Swift.Codable 
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let ipProtocolDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ipProtocol)
         ipProtocol = ipProtocolDecoded
-        let fromPortDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .fromPort) ?? 0
+        let fromPortDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .fromPort)
         fromPort = fromPortDecoded
-        let toPortDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .toPort) ?? 0
+        let toPortDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .toPort)
         toPort = toPortDecoded
         let userIdGroupPairsContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.AwsEc2SecurityGroupUserIdGroupPair?].self, forKey: .userIdGroupPairs)
         var userIdGroupPairsDecoded0:[SecurityHubClientTypes.AwsEc2SecurityGroupUserIdGroupPair]? = nil
@@ -15748,7 +15748,7 @@ extension SecurityHubClientTypes {
     /// An IP permission for an EC2 security group.
     public struct AwsEc2SecurityGroupIpPermission: Swift.Equatable {
         /// The start of the port range for the TCP and UDP protocols, or an ICMP/ICMPv6 type number. A value of -1 indicates all ICMP/ICMPv6 types. If you specify all ICMP/ICMPv6 types, you must specify all codes.
-        public var fromPort: Swift.Int
+        public var fromPort: Swift.Int?
         /// The IP protocol name (tcp, udp, icmp, icmpv6) or number. [VPC only] Use -1 to specify all protocols. When authorizing security group rules, specifying -1 or a protocol number other than tcp, udp, icmp, or icmpv6 allows traffic on all ports, regardless of any port range you specify. For tcp, udp, and icmp, you must specify a port range. For icmpv6, the port range is optional. If you omit the port range, traffic for all types and codes is allowed.
         public var ipProtocol: Swift.String?
         /// The IPv4 ranges.
@@ -15758,17 +15758,17 @@ extension SecurityHubClientTypes {
         /// [VPC only] The prefix list IDs for an Amazon Web Services service. With outbound rules, this is the Amazon Web Services service to access through a VPC endpoint from instances associated with the security group.
         public var prefixListIds: [SecurityHubClientTypes.AwsEc2SecurityGroupPrefixListId]?
         /// The end of the port range for the TCP and UDP protocols, or an ICMP/ICMPv6 code. A value of -1 indicates all ICMP/ICMPv6 codes. If you specify all ICMP/ICMPv6 types, you must specify all codes.
-        public var toPort: Swift.Int
+        public var toPort: Swift.Int?
         /// The security group and Amazon Web Services account ID pairs.
         public var userIdGroupPairs: [SecurityHubClientTypes.AwsEc2SecurityGroupUserIdGroupPair]?
 
         public init(
-            fromPort: Swift.Int = 0,
+            fromPort: Swift.Int? = nil,
             ipProtocol: Swift.String? = nil,
             ipRanges: [SecurityHubClientTypes.AwsEc2SecurityGroupIpRange]? = nil,
             ipv6Ranges: [SecurityHubClientTypes.AwsEc2SecurityGroupIpv6Range]? = nil,
             prefixListIds: [SecurityHubClientTypes.AwsEc2SecurityGroupPrefixListId]? = nil,
-            toPort: Swift.Int = 0,
+            toPort: Swift.Int? = nil,
             userIdGroupPairs: [SecurityHubClientTypes.AwsEc2SecurityGroupUserIdGroupPair]? = nil
         )
         {
@@ -15993,7 +15993,7 @@ extension SecurityHubClientTypes.AwsEc2SubnetDetails: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if assignIpv6AddressOnCreation != false {
+        if let assignIpv6AddressOnCreation = self.assignIpv6AddressOnCreation {
             try encodeContainer.encode(assignIpv6AddressOnCreation, forKey: .assignIpv6AddressOnCreation)
         }
         if let availabilityZone = self.availabilityZone {
@@ -16002,13 +16002,13 @@ extension SecurityHubClientTypes.AwsEc2SubnetDetails: Swift.Codable {
         if let availabilityZoneId = self.availabilityZoneId {
             try encodeContainer.encode(availabilityZoneId, forKey: .availabilityZoneId)
         }
-        if availableIpAddressCount != 0 {
+        if let availableIpAddressCount = self.availableIpAddressCount {
             try encodeContainer.encode(availableIpAddressCount, forKey: .availableIpAddressCount)
         }
         if let cidrBlock = self.cidrBlock {
             try encodeContainer.encode(cidrBlock, forKey: .cidrBlock)
         }
-        if defaultForAz != false {
+        if let defaultForAz = self.defaultForAz {
             try encodeContainer.encode(defaultForAz, forKey: .defaultForAz)
         }
         if let ipv6CidrBlockAssociationSet = ipv6CidrBlockAssociationSet {
@@ -16017,7 +16017,7 @@ extension SecurityHubClientTypes.AwsEc2SubnetDetails: Swift.Codable {
                 try ipv6CidrBlockAssociationSetContainer.encode(ipv6cidrblockassociation0)
             }
         }
-        if mapPublicIpOnLaunch != false {
+        if let mapPublicIpOnLaunch = self.mapPublicIpOnLaunch {
             try encodeContainer.encode(mapPublicIpOnLaunch, forKey: .mapPublicIpOnLaunch)
         }
         if let ownerId = self.ownerId {
@@ -16039,19 +16039,19 @@ extension SecurityHubClientTypes.AwsEc2SubnetDetails: Swift.Codable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let assignIpv6AddressOnCreationDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .assignIpv6AddressOnCreation) ?? false
+        let assignIpv6AddressOnCreationDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .assignIpv6AddressOnCreation)
         assignIpv6AddressOnCreation = assignIpv6AddressOnCreationDecoded
         let availabilityZoneDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .availabilityZone)
         availabilityZone = availabilityZoneDecoded
         let availabilityZoneIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .availabilityZoneId)
         availabilityZoneId = availabilityZoneIdDecoded
-        let availableIpAddressCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .availableIpAddressCount) ?? 0
+        let availableIpAddressCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .availableIpAddressCount)
         availableIpAddressCount = availableIpAddressCountDecoded
         let cidrBlockDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cidrBlock)
         cidrBlock = cidrBlockDecoded
-        let defaultForAzDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .defaultForAz) ?? false
+        let defaultForAzDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .defaultForAz)
         defaultForAz = defaultForAzDecoded
-        let mapPublicIpOnLaunchDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .mapPublicIpOnLaunch) ?? false
+        let mapPublicIpOnLaunchDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .mapPublicIpOnLaunch)
         mapPublicIpOnLaunch = mapPublicIpOnLaunchDecoded
         let ownerIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ownerId)
         ownerId = ownerIdDecoded
@@ -16081,21 +16081,21 @@ extension SecurityHubClientTypes {
     /// Contains information about a subnet in Amazon EC2.
     public struct AwsEc2SubnetDetails: Swift.Equatable {
         /// Whether to assign an IPV6 address to a network interface that is created in this subnet.
-        public var assignIpv6AddressOnCreation: Swift.Bool
+        public var assignIpv6AddressOnCreation: Swift.Bool?
         /// The Availability Zone for the subnet.
         public var availabilityZone: Swift.String?
         /// The identifier of the Availability Zone for the subnet.
         public var availabilityZoneId: Swift.String?
         /// The number of available IPV4 addresses in the subnet. Does not include addresses for stopped instances.
-        public var availableIpAddressCount: Swift.Int
+        public var availableIpAddressCount: Swift.Int?
         /// The IPV4 CIDR block that is assigned to the subnet.
         public var cidrBlock: Swift.String?
         /// Whether this subnet is the default subnet for the Availability Zone.
-        public var defaultForAz: Swift.Bool
+        public var defaultForAz: Swift.Bool?
         /// The IPV6 CIDR blocks that are associated with the subnet.
         public var ipv6CidrBlockAssociationSet: [SecurityHubClientTypes.Ipv6CidrBlockAssociation]?
         /// Whether instances in this subnet receive a public IP address.
-        public var mapPublicIpOnLaunch: Swift.Bool
+        public var mapPublicIpOnLaunch: Swift.Bool?
         /// The identifier of the Amazon Web Services account that owns the subnet.
         public var ownerId: Swift.String?
         /// The current state of the subnet. Valid values are available or pending.
@@ -16108,14 +16108,14 @@ extension SecurityHubClientTypes {
         public var vpcId: Swift.String?
 
         public init(
-            assignIpv6AddressOnCreation: Swift.Bool = false,
+            assignIpv6AddressOnCreation: Swift.Bool? = nil,
             availabilityZone: Swift.String? = nil,
             availabilityZoneId: Swift.String? = nil,
-            availableIpAddressCount: Swift.Int = 0,
+            availableIpAddressCount: Swift.Int? = nil,
             cidrBlock: Swift.String? = nil,
-            defaultForAz: Swift.Bool = false,
+            defaultForAz: Swift.Bool? = nil,
             ipv6CidrBlockAssociationSet: [SecurityHubClientTypes.Ipv6CidrBlockAssociation]? = nil,
-            mapPublicIpOnLaunch: Swift.Bool = false,
+            mapPublicIpOnLaunch: Swift.Bool? = nil,
             ownerId: Swift.String? = nil,
             state: Swift.String? = nil,
             subnetArn: Swift.String? = nil,
@@ -16159,7 +16159,7 @@ extension SecurityHubClientTypes.AwsEc2TransitGatewayDetails: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if amazonSideAsn != 0 {
+        if let amazonSideAsn = self.amazonSideAsn {
             try encodeContainer.encode(amazonSideAsn, forKey: .amazonSideAsn)
         }
         if let associationDefaultRouteTableId = self.associationDefaultRouteTableId {
@@ -16233,7 +16233,7 @@ extension SecurityHubClientTypes.AwsEc2TransitGatewayDetails: Swift.Codable {
         dnsSupport = dnsSupportDecoded
         let multicastSupportDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .multicastSupport)
         multicastSupport = multicastSupportDecoded
-        let amazonSideAsnDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .amazonSideAsn) ?? 0
+        let amazonSideAsnDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .amazonSideAsn)
         amazonSideAsn = amazonSideAsnDecoded
     }
 }
@@ -16242,7 +16242,7 @@ extension SecurityHubClientTypes {
     /// Information about an Amazon Web Services Amazon EC2 Transit Gateway that interconnects virtual private clouds (VPCs) and on-premises networks.
     public struct AwsEc2TransitGatewayDetails: Swift.Equatable {
         /// A private Autonomous System Number (ASN) for the Amazon side of a BGP session.
-        public var amazonSideAsn: Swift.Int
+        public var amazonSideAsn: Swift.Int?
         /// The ID of the default association route table.
         public var associationDefaultRouteTableId: Swift.String?
         /// Turn on or turn off automatic acceptance of attachment requests.
@@ -16267,7 +16267,7 @@ extension SecurityHubClientTypes {
         public var vpnEcmpSupport: Swift.String?
 
         public init(
-            amazonSideAsn: Swift.Int = 0,
+            amazonSideAsn: Swift.Int? = nil,
             associationDefaultRouteTableId: Swift.String? = nil,
             autoAcceptSharedAttachments: Swift.String? = nil,
             defaultRouteTableAssociation: Swift.String? = nil,
@@ -16311,7 +16311,7 @@ extension SecurityHubClientTypes.AwsEc2VolumeAttachment: Swift.Codable {
         if let attachTime = self.attachTime {
             try encodeContainer.encode(attachTime, forKey: .attachTime)
         }
-        if deleteOnTermination != false {
+        if let deleteOnTermination = self.deleteOnTermination {
             try encodeContainer.encode(deleteOnTermination, forKey: .deleteOnTermination)
         }
         if let instanceId = self.instanceId {
@@ -16326,7 +16326,7 @@ extension SecurityHubClientTypes.AwsEc2VolumeAttachment: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let attachTimeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .attachTime)
         attachTime = attachTimeDecoded
-        let deleteOnTerminationDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deleteOnTermination) ?? false
+        let deleteOnTerminationDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deleteOnTermination)
         deleteOnTermination = deleteOnTerminationDecoded
         let instanceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceId)
         instanceId = instanceIdDecoded
@@ -16341,7 +16341,7 @@ extension SecurityHubClientTypes {
         /// The datetime when the attachment initiated.
         public var attachTime: Swift.String?
         /// Whether the EBS volume is deleted when the EC2 instance is terminated.
-        public var deleteOnTermination: Swift.Bool
+        public var deleteOnTermination: Swift.Bool?
         /// The identifier of the EC2 instance.
         public var instanceId: Swift.String?
         /// The attachment state of the volume. Valid values are as follows:
@@ -16359,7 +16359,7 @@ extension SecurityHubClientTypes {
 
         public init(
             attachTime: Swift.String? = nil,
-            deleteOnTermination: Swift.Bool = false,
+            deleteOnTermination: Swift.Bool? = nil,
             instanceId: Swift.String? = nil,
             status: Swift.String? = nil
         )
@@ -16402,13 +16402,13 @@ extension SecurityHubClientTypes.AwsEc2VolumeDetails: Swift.Codable {
         if let deviceName = self.deviceName {
             try encodeContainer.encode(deviceName, forKey: .deviceName)
         }
-        if encrypted != false {
+        if let encrypted = self.encrypted {
             try encodeContainer.encode(encrypted, forKey: .encrypted)
         }
         if let kmsKeyId = self.kmsKeyId {
             try encodeContainer.encode(kmsKeyId, forKey: .kmsKeyId)
         }
-        if size != 0 {
+        if let size = self.size {
             try encodeContainer.encode(size, forKey: .size)
         }
         if let snapshotId = self.snapshotId {
@@ -16434,9 +16434,9 @@ extension SecurityHubClientTypes.AwsEc2VolumeDetails: Swift.Codable {
         createTime = createTimeDecoded
         let deviceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deviceName)
         deviceName = deviceNameDecoded
-        let encryptedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .encrypted) ?? false
+        let encryptedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .encrypted)
         encrypted = encryptedDecoded
-        let sizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .size) ?? 0
+        let sizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .size)
         size = sizeDecoded
         let snapshotIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .snapshotId)
         snapshotId = snapshotIdDecoded
@@ -16474,11 +16474,11 @@ extension SecurityHubClientTypes {
         /// The device name for the volume that is attached to the instance.
         public var deviceName: Swift.String?
         /// Specifies whether the volume is encrypted.
-        public var encrypted: Swift.Bool
+        public var encrypted: Swift.Bool?
         /// The ARN of the KMS key that was used to protect the volume encryption key for the volume.
         public var kmsKeyId: Swift.String?
         /// The size of the volume, in GiBs.
-        public var size: Swift.Int
+        public var size: Swift.Int?
         /// The snapshot from which the volume was created.
         public var snapshotId: Swift.String?
         /// The volume state. Valid values are as follows:
@@ -16506,9 +16506,9 @@ extension SecurityHubClientTypes {
             attachments: [SecurityHubClientTypes.AwsEc2VolumeAttachment]? = nil,
             createTime: Swift.String? = nil,
             deviceName: Swift.String? = nil,
-            encrypted: Swift.Bool = false,
+            encrypted: Swift.Bool? = nil,
             kmsKeyId: Swift.String? = nil,
-            size: Swift.Int = 0,
+            size: Swift.Int? = nil,
             snapshotId: Swift.String? = nil,
             status: Swift.String? = nil,
             volumeId: Swift.String? = nil,
@@ -16638,7 +16638,7 @@ extension SecurityHubClientTypes.AwsEc2VpcEndpointServiceDetails: Swift.Codable 
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if acceptanceRequired != false {
+        if let acceptanceRequired = self.acceptanceRequired {
             try encodeContainer.encode(acceptanceRequired, forKey: .acceptanceRequired)
         }
         if let availabilityZones = availabilityZones {
@@ -16659,7 +16659,7 @@ extension SecurityHubClientTypes.AwsEc2VpcEndpointServiceDetails: Swift.Codable 
                 try gatewayLoadBalancerArnsContainer.encode(nonemptystring0)
             }
         }
-        if managesVpcEndpoints != false {
+        if let managesVpcEndpoints = self.managesVpcEndpoints {
             try encodeContainer.encode(managesVpcEndpoints, forKey: .managesVpcEndpoints)
         }
         if let networkLoadBalancerArns = networkLoadBalancerArns {
@@ -16690,7 +16690,7 @@ extension SecurityHubClientTypes.AwsEc2VpcEndpointServiceDetails: Swift.Codable 
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let acceptanceRequiredDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .acceptanceRequired) ?? false
+        let acceptanceRequiredDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .acceptanceRequired)
         acceptanceRequired = acceptanceRequiredDecoded
         let availabilityZonesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .availabilityZones)
         var availabilityZonesDecoded0:[Swift.String]? = nil
@@ -16714,7 +16714,7 @@ extension SecurityHubClientTypes.AwsEc2VpcEndpointServiceDetails: Swift.Codable 
             }
         }
         baseEndpointDnsNames = baseEndpointDnsNamesDecoded0
-        let managesVpcEndpointsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .managesVpcEndpoints) ?? false
+        let managesVpcEndpointsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .managesVpcEndpoints)
         managesVpcEndpoints = managesVpcEndpointsDecoded
         let gatewayLoadBalancerArnsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .gatewayLoadBalancerArns)
         var gatewayLoadBalancerArnsDecoded0:[Swift.String]? = nil
@@ -16764,7 +16764,7 @@ extension SecurityHubClientTypes {
     /// Contains details about the service configuration for a VPC endpoint service.
     public struct AwsEc2VpcEndpointServiceDetails: Swift.Equatable {
         /// Whether requests from other Amazon Web Services accounts to create an endpoint to the service must first be accepted.
-        public var acceptanceRequired: Swift.Bool
+        public var acceptanceRequired: Swift.Bool?
         /// The Availability Zones where the service is available.
         public var availabilityZones: [Swift.String]?
         /// The DNS names for the service.
@@ -16772,7 +16772,7 @@ extension SecurityHubClientTypes {
         /// The ARNs of the Gateway Load Balancers for the service.
         public var gatewayLoadBalancerArns: [Swift.String]?
         /// Whether the service manages its VPC endpoints.
-        public var managesVpcEndpoints: Swift.Bool
+        public var managesVpcEndpoints: Swift.Bool?
         /// The ARNs of the Network Load Balancers for the service.
         public var networkLoadBalancerArns: [Swift.String]?
         /// The private DNS name for the service.
@@ -16797,11 +16797,11 @@ extension SecurityHubClientTypes {
         public var serviceType: [SecurityHubClientTypes.AwsEc2VpcEndpointServiceServiceTypeDetails]?
 
         public init(
-            acceptanceRequired: Swift.Bool = false,
+            acceptanceRequired: Swift.Bool? = nil,
             availabilityZones: [Swift.String]? = nil,
             baseEndpointDnsNames: [Swift.String]? = nil,
             gatewayLoadBalancerArns: [Swift.String]? = nil,
-            managesVpcEndpoints: Swift.Bool = false,
+            managesVpcEndpoints: Swift.Bool? = nil,
             networkLoadBalancerArns: [Swift.String]? = nil,
             privateDnsName: Swift.String? = nil,
             serviceId: Swift.String? = nil,
@@ -17275,7 +17275,7 @@ extension SecurityHubClientTypes.AwsEc2VpnConnectionOptionsDetails: Swift.Codabl
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if staticRoutesOnly != false {
+        if let staticRoutesOnly = self.staticRoutesOnly {
             try encodeContainer.encode(staticRoutesOnly, forKey: .staticRoutesOnly)
         }
         if let tunnelOptions = tunnelOptions {
@@ -17288,7 +17288,7 @@ extension SecurityHubClientTypes.AwsEc2VpnConnectionOptionsDetails: Swift.Codabl
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let staticRoutesOnlyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .staticRoutesOnly) ?? false
+        let staticRoutesOnlyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .staticRoutesOnly)
         staticRoutesOnly = staticRoutesOnlyDecoded
         let tunnelOptionsContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.AwsEc2VpnConnectionOptionsTunnelOptionsDetails?].self, forKey: .tunnelOptions)
         var tunnelOptionsDecoded0:[SecurityHubClientTypes.AwsEc2VpnConnectionOptionsTunnelOptionsDetails]? = nil
@@ -17308,12 +17308,12 @@ extension SecurityHubClientTypes {
     /// VPN connection options.
     public struct AwsEc2VpnConnectionOptionsDetails: Swift.Equatable {
         /// Whether the VPN connection uses static routes only.
-        public var staticRoutesOnly: Swift.Bool
+        public var staticRoutesOnly: Swift.Bool?
         /// The VPN tunnel options.
         public var tunnelOptions: [SecurityHubClientTypes.AwsEc2VpnConnectionOptionsTunnelOptionsDetails]?
 
         public init(
-            staticRoutesOnly: Swift.Bool = false,
+            staticRoutesOnly: Swift.Bool? = nil,
             tunnelOptions: [SecurityHubClientTypes.AwsEc2VpnConnectionOptionsTunnelOptionsDetails]? = nil
         )
         {
@@ -17346,7 +17346,7 @@ extension SecurityHubClientTypes.AwsEc2VpnConnectionOptionsTunnelOptionsDetails:
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if dpdTimeoutSeconds != 0 {
+        if let dpdTimeoutSeconds = self.dpdTimeoutSeconds {
             try encodeContainer.encode(dpdTimeoutSeconds, forKey: .dpdTimeoutSeconds)
         }
         if let ikeVersions = ikeVersions {
@@ -17376,7 +17376,7 @@ extension SecurityHubClientTypes.AwsEc2VpnConnectionOptionsTunnelOptionsDetails:
                 try phase1IntegrityAlgorithmsContainer.encode(nonemptystring0)
             }
         }
-        if phase1LifetimeSeconds != 0 {
+        if let phase1LifetimeSeconds = self.phase1LifetimeSeconds {
             try encodeContainer.encode(phase1LifetimeSeconds, forKey: .phase1LifetimeSeconds)
         }
         if let phase2DhGroupNumbers = phase2DhGroupNumbers {
@@ -17397,19 +17397,19 @@ extension SecurityHubClientTypes.AwsEc2VpnConnectionOptionsTunnelOptionsDetails:
                 try phase2IntegrityAlgorithmsContainer.encode(nonemptystring0)
             }
         }
-        if phase2LifetimeSeconds != 0 {
+        if let phase2LifetimeSeconds = self.phase2LifetimeSeconds {
             try encodeContainer.encode(phase2LifetimeSeconds, forKey: .phase2LifetimeSeconds)
         }
         if let preSharedKey = self.preSharedKey {
             try encodeContainer.encode(preSharedKey, forKey: .preSharedKey)
         }
-        if rekeyFuzzPercentage != 0 {
+        if let rekeyFuzzPercentage = self.rekeyFuzzPercentage {
             try encodeContainer.encode(rekeyFuzzPercentage, forKey: .rekeyFuzzPercentage)
         }
-        if rekeyMarginTimeSeconds != 0 {
+        if let rekeyMarginTimeSeconds = self.rekeyMarginTimeSeconds {
             try encodeContainer.encode(rekeyMarginTimeSeconds, forKey: .rekeyMarginTimeSeconds)
         }
-        if replayWindowSize != 0 {
+        if let replayWindowSize = self.replayWindowSize {
             try encodeContainer.encode(replayWindowSize, forKey: .replayWindowSize)
         }
         if let tunnelInsideCidr = self.tunnelInsideCidr {
@@ -17419,7 +17419,7 @@ extension SecurityHubClientTypes.AwsEc2VpnConnectionOptionsTunnelOptionsDetails:
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let dpdTimeoutSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .dpdTimeoutSeconds) ?? 0
+        let dpdTimeoutSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .dpdTimeoutSeconds)
         dpdTimeoutSeconds = dpdTimeoutSecondsDecoded
         let ikeVersionsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .ikeVersions)
         var ikeVersionsDecoded0:[Swift.String]? = nil
@@ -17467,7 +17467,7 @@ extension SecurityHubClientTypes.AwsEc2VpnConnectionOptionsTunnelOptionsDetails:
             }
         }
         phase1IntegrityAlgorithms = phase1IntegrityAlgorithmsDecoded0
-        let phase1LifetimeSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .phase1LifetimeSeconds) ?? 0
+        let phase1LifetimeSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .phase1LifetimeSeconds)
         phase1LifetimeSeconds = phase1LifetimeSecondsDecoded
         let phase2DhGroupNumbersContainer = try containerValues.decodeIfPresent([Swift.Int?].self, forKey: .phase2DhGroupNumbers)
         var phase2DhGroupNumbersDecoded0:[Swift.Int]? = nil
@@ -17502,15 +17502,15 @@ extension SecurityHubClientTypes.AwsEc2VpnConnectionOptionsTunnelOptionsDetails:
             }
         }
         phase2IntegrityAlgorithms = phase2IntegrityAlgorithmsDecoded0
-        let phase2LifetimeSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .phase2LifetimeSeconds) ?? 0
+        let phase2LifetimeSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .phase2LifetimeSeconds)
         phase2LifetimeSeconds = phase2LifetimeSecondsDecoded
         let preSharedKeyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .preSharedKey)
         preSharedKey = preSharedKeyDecoded
-        let rekeyFuzzPercentageDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .rekeyFuzzPercentage) ?? 0
+        let rekeyFuzzPercentageDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .rekeyFuzzPercentage)
         rekeyFuzzPercentage = rekeyFuzzPercentageDecoded
-        let rekeyMarginTimeSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .rekeyMarginTimeSeconds) ?? 0
+        let rekeyMarginTimeSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .rekeyMarginTimeSeconds)
         rekeyMarginTimeSeconds = rekeyMarginTimeSecondsDecoded
-        let replayWindowSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .replayWindowSize) ?? 0
+        let replayWindowSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .replayWindowSize)
         replayWindowSize = replayWindowSizeDecoded
         let tunnelInsideCidrDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tunnelInsideCidr)
         tunnelInsideCidr = tunnelInsideCidrDecoded
@@ -17521,7 +17521,7 @@ extension SecurityHubClientTypes {
     /// The VPN tunnel options.
     public struct AwsEc2VpnConnectionOptionsTunnelOptionsDetails: Swift.Equatable {
         /// The number of seconds after which a Dead Peer Detection (DPD) timeout occurs.
-        public var dpdTimeoutSeconds: Swift.Int
+        public var dpdTimeoutSeconds: Swift.Int?
         /// The Internet Key Exchange (IKE) versions that are permitted for the VPN tunnel.
         public var ikeVersions: [Swift.String]?
         /// The external IP address of the VPN tunnel.
@@ -17533,7 +17533,7 @@ extension SecurityHubClientTypes {
         /// The permitted integrity algorithms for the VPN tunnel for phase 1 IKE negotiations.
         public var phase1IntegrityAlgorithms: [Swift.String]?
         /// The lifetime for phase 1 of the IKE negotiation, in seconds.
-        public var phase1LifetimeSeconds: Swift.Int
+        public var phase1LifetimeSeconds: Swift.Int?
         /// The permitted Diffie-Hellman group numbers for the VPN tunnel for phase 2 IKE negotiations.
         public var phase2DhGroupNumbers: [Swift.Int]?
         /// The permitted encryption algorithms for the VPN tunnel for phase 2 IKE negotiations.
@@ -17541,34 +17541,34 @@ extension SecurityHubClientTypes {
         /// The permitted integrity algorithms for the VPN tunnel for phase 2 IKE negotiations.
         public var phase2IntegrityAlgorithms: [Swift.String]?
         /// The lifetime for phase 2 of the IKE negotiation, in seconds.
-        public var phase2LifetimeSeconds: Swift.Int
+        public var phase2LifetimeSeconds: Swift.Int?
         /// The preshared key to establish initial authentication between the virtual private gateway and the customer gateway.
         public var preSharedKey: Swift.String?
         /// The percentage of the rekey window, which is determined by RekeyMarginTimeSeconds during which the rekey time is randomly selected.
-        public var rekeyFuzzPercentage: Swift.Int
+        public var rekeyFuzzPercentage: Swift.Int?
         /// The margin time, in seconds, before the phase 2 lifetime expires, during which the Amazon Web Services side of the VPN connection performs an IKE rekey.
-        public var rekeyMarginTimeSeconds: Swift.Int
+        public var rekeyMarginTimeSeconds: Swift.Int?
         /// The number of packets in an IKE replay window.
-        public var replayWindowSize: Swift.Int
+        public var replayWindowSize: Swift.Int?
         /// The range of inside IPv4 addresses for the tunnel.
         public var tunnelInsideCidr: Swift.String?
 
         public init(
-            dpdTimeoutSeconds: Swift.Int = 0,
+            dpdTimeoutSeconds: Swift.Int? = nil,
             ikeVersions: [Swift.String]? = nil,
             outsideIpAddress: Swift.String? = nil,
             phase1DhGroupNumbers: [Swift.Int]? = nil,
             phase1EncryptionAlgorithms: [Swift.String]? = nil,
             phase1IntegrityAlgorithms: [Swift.String]? = nil,
-            phase1LifetimeSeconds: Swift.Int = 0,
+            phase1LifetimeSeconds: Swift.Int? = nil,
             phase2DhGroupNumbers: [Swift.Int]? = nil,
             phase2EncryptionAlgorithms: [Swift.String]? = nil,
             phase2IntegrityAlgorithms: [Swift.String]? = nil,
-            phase2LifetimeSeconds: Swift.Int = 0,
+            phase2LifetimeSeconds: Swift.Int? = nil,
             preSharedKey: Swift.String? = nil,
-            rekeyFuzzPercentage: Swift.Int = 0,
-            rekeyMarginTimeSeconds: Swift.Int = 0,
-            replayWindowSize: Swift.Int = 0,
+            rekeyFuzzPercentage: Swift.Int? = nil,
+            rekeyMarginTimeSeconds: Swift.Int? = nil,
+            replayWindowSize: Swift.Int? = nil,
             tunnelInsideCidr: Swift.String? = nil
         )
         {
@@ -17650,7 +17650,7 @@ extension SecurityHubClientTypes.AwsEc2VpnConnectionVgwTelemetryDetails: Swift.C
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if acceptedRouteCount != 0 {
+        if let acceptedRouteCount = self.acceptedRouteCount {
             try encodeContainer.encode(acceptedRouteCount, forKey: .acceptedRouteCount)
         }
         if let certificateArn = self.certificateArn {
@@ -17672,7 +17672,7 @@ extension SecurityHubClientTypes.AwsEc2VpnConnectionVgwTelemetryDetails: Swift.C
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let acceptedRouteCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .acceptedRouteCount) ?? 0
+        let acceptedRouteCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .acceptedRouteCount)
         acceptedRouteCount = acceptedRouteCountDecoded
         let certificateArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .certificateArn)
         certificateArn = certificateArnDecoded
@@ -17691,7 +17691,7 @@ extension SecurityHubClientTypes {
     /// Information about the VPN tunnel.
     public struct AwsEc2VpnConnectionVgwTelemetryDetails: Swift.Equatable {
         /// The number of accepted routes.
-        public var acceptedRouteCount: Swift.Int
+        public var acceptedRouteCount: Swift.Int?
         /// The ARN of the VPN tunnel endpoint certificate.
         public var certificateArn: Swift.String?
         /// The date and time of the last change in status. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
@@ -17704,7 +17704,7 @@ extension SecurityHubClientTypes {
         public var statusMessage: Swift.String?
 
         public init(
-            acceptedRouteCount: Swift.Int = 0,
+            acceptedRouteCount: Swift.Int? = nil,
             certificateArn: Swift.String? = nil,
             lastStatusChange: Swift.String? = nil,
             outsideIpAddress: Swift.String? = nil,
@@ -17918,14 +17918,14 @@ extension SecurityHubClientTypes.AwsEcrRepositoryImageScanningConfigurationDetai
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if scanOnPush != false {
+        if let scanOnPush = self.scanOnPush {
             try encodeContainer.encode(scanOnPush, forKey: .scanOnPush)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let scanOnPushDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .scanOnPush) ?? false
+        let scanOnPushDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .scanOnPush)
         scanOnPush = scanOnPushDecoded
     }
 }
@@ -17934,10 +17934,10 @@ extension SecurityHubClientTypes {
     /// The image scanning configuration for a repository.
     public struct AwsEcrRepositoryImageScanningConfigurationDetails: Swift.Equatable {
         /// Whether to scan images after they are pushed to a repository.
-        public var scanOnPush: Swift.Bool
+        public var scanOnPush: Swift.Bool?
 
         public init(
-            scanOnPush: Swift.Bool = false
+            scanOnPush: Swift.Bool? = nil
         )
         {
             self.scanOnPush = scanOnPush
@@ -18137,7 +18137,7 @@ extension SecurityHubClientTypes.AwsEcsClusterConfigurationExecuteCommandConfigu
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if cloudWatchEncryptionEnabled != false {
+        if let cloudWatchEncryptionEnabled = self.cloudWatchEncryptionEnabled {
             try encodeContainer.encode(cloudWatchEncryptionEnabled, forKey: .cloudWatchEncryptionEnabled)
         }
         if let cloudWatchLogGroupName = self.cloudWatchLogGroupName {
@@ -18146,7 +18146,7 @@ extension SecurityHubClientTypes.AwsEcsClusterConfigurationExecuteCommandConfigu
         if let s3BucketName = self.s3BucketName {
             try encodeContainer.encode(s3BucketName, forKey: .s3BucketName)
         }
-        if s3EncryptionEnabled != false {
+        if let s3EncryptionEnabled = self.s3EncryptionEnabled {
             try encodeContainer.encode(s3EncryptionEnabled, forKey: .s3EncryptionEnabled)
         }
         if let s3KeyPrefix = self.s3KeyPrefix {
@@ -18156,13 +18156,13 @@ extension SecurityHubClientTypes.AwsEcsClusterConfigurationExecuteCommandConfigu
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let cloudWatchEncryptionEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .cloudWatchEncryptionEnabled) ?? false
+        let cloudWatchEncryptionEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .cloudWatchEncryptionEnabled)
         cloudWatchEncryptionEnabled = cloudWatchEncryptionEnabledDecoded
         let cloudWatchLogGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cloudWatchLogGroupName)
         cloudWatchLogGroupName = cloudWatchLogGroupNameDecoded
         let s3BucketNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .s3BucketName)
         s3BucketName = s3BucketNameDecoded
-        let s3EncryptionEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .s3EncryptionEnabled) ?? false
+        let s3EncryptionEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .s3EncryptionEnabled)
         s3EncryptionEnabled = s3EncryptionEnabledDecoded
         let s3KeyPrefixDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .s3KeyPrefix)
         s3KeyPrefix = s3KeyPrefixDecoded
@@ -18173,21 +18173,21 @@ extension SecurityHubClientTypes {
     /// The log configuration for the results of the run command actions.
     public struct AwsEcsClusterConfigurationExecuteCommandConfigurationLogConfigurationDetails: Swift.Equatable {
         /// Whether to enable encryption on the CloudWatch logs.
-        public var cloudWatchEncryptionEnabled: Swift.Bool
+        public var cloudWatchEncryptionEnabled: Swift.Bool?
         /// The name of the CloudWatch log group to send the logs to.
         public var cloudWatchLogGroupName: Swift.String?
         /// The name of the S3 bucket to send logs to.
         public var s3BucketName: Swift.String?
         /// Whether to encrypt the logs that are sent to the S3 bucket.
-        public var s3EncryptionEnabled: Swift.Bool
+        public var s3EncryptionEnabled: Swift.Bool?
         /// Identifies the folder in the S3 bucket to send the logs to.
         public var s3KeyPrefix: Swift.String?
 
         public init(
-            cloudWatchEncryptionEnabled: Swift.Bool = false,
+            cloudWatchEncryptionEnabled: Swift.Bool? = nil,
             cloudWatchLogGroupName: Swift.String? = nil,
             s3BucketName: Swift.String? = nil,
-            s3EncryptionEnabled: Swift.Bool = false,
+            s3EncryptionEnabled: Swift.Bool? = nil,
             s3KeyPrefix: Swift.String? = nil
         )
         {
@@ -18210,24 +18210,24 @@ extension SecurityHubClientTypes.AwsEcsClusterDefaultCapacityProviderStrategyDet
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if base != 0 {
+        if let base = self.base {
             try encodeContainer.encode(base, forKey: .base)
         }
         if let capacityProvider = self.capacityProvider {
             try encodeContainer.encode(capacityProvider, forKey: .capacityProvider)
         }
-        if weight != 0 {
+        if let weight = self.weight {
             try encodeContainer.encode(weight, forKey: .weight)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let baseDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .base) ?? 0
+        let baseDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .base)
         base = baseDecoded
         let capacityProviderDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .capacityProvider)
         capacityProvider = capacityProviderDecoded
-        let weightDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .weight) ?? 0
+        let weightDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .weight)
         weight = weightDecoded
     }
 }
@@ -18236,16 +18236,16 @@ extension SecurityHubClientTypes {
     /// The default capacity provider strategy for the cluster. The default capacity provider strategy is used when services or tasks are run without a specified launch type or capacity provider strategy.
     public struct AwsEcsClusterDefaultCapacityProviderStrategyDetails: Swift.Equatable {
         /// The minimum number of tasks to run on the specified capacity provider.
-        public var base: Swift.Int
+        public var base: Swift.Int?
         /// The name of the capacity provider.
         public var capacityProvider: Swift.String?
         /// The relative percentage of the total number of tasks launched that should use the capacity provider.
-        public var weight: Swift.Int
+        public var weight: Swift.Int?
 
         public init(
-            base: Swift.Int = 0,
+            base: Swift.Int? = nil,
             capacityProvider: Swift.String? = nil,
-            weight: Swift.Int = 0
+            weight: Swift.Int? = nil
         )
         {
             self.base = base
@@ -18272,7 +18272,7 @@ extension SecurityHubClientTypes.AwsEcsClusterDetails: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if activeServicesCount != 0 {
+        if let activeServicesCount = self.activeServicesCount {
             try encodeContainer.encode(activeServicesCount, forKey: .activeServicesCount)
         }
         if let capacityProviders = capacityProviders {
@@ -18302,10 +18302,10 @@ extension SecurityHubClientTypes.AwsEcsClusterDetails: Swift.Codable {
                 try defaultCapacityProviderStrategyContainer.encode(awsecsclusterdefaultcapacityproviderstrategydetails0)
             }
         }
-        if registeredContainerInstancesCount != 0 {
+        if let registeredContainerInstancesCount = self.registeredContainerInstancesCount {
             try encodeContainer.encode(registeredContainerInstancesCount, forKey: .registeredContainerInstancesCount)
         }
-        if runningTasksCount != 0 {
+        if let runningTasksCount = self.runningTasksCount {
             try encodeContainer.encode(runningTasksCount, forKey: .runningTasksCount)
         }
         if let status = self.status {
@@ -18317,7 +18317,7 @@ extension SecurityHubClientTypes.AwsEcsClusterDetails: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let clusterArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clusterArn)
         clusterArn = clusterArnDecoded
-        let activeServicesCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .activeServicesCount) ?? 0
+        let activeServicesCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .activeServicesCount)
         activeServicesCount = activeServicesCountDecoded
         let capacityProvidersContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .capacityProviders)
         var capacityProvidersDecoded0:[Swift.String]? = nil
@@ -18356,9 +18356,9 @@ extension SecurityHubClientTypes.AwsEcsClusterDetails: Swift.Codable {
         defaultCapacityProviderStrategy = defaultCapacityProviderStrategyDecoded0
         let clusterNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clusterName)
         clusterName = clusterNameDecoded
-        let registeredContainerInstancesCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .registeredContainerInstancesCount) ?? 0
+        let registeredContainerInstancesCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .registeredContainerInstancesCount)
         registeredContainerInstancesCount = registeredContainerInstancesCountDecoded
-        let runningTasksCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .runningTasksCount) ?? 0
+        let runningTasksCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .runningTasksCount)
         runningTasksCount = runningTasksCountDecoded
         let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
         status = statusDecoded
@@ -18369,7 +18369,7 @@ extension SecurityHubClientTypes {
     /// Provides details about an Amazon ECS cluster.
     public struct AwsEcsClusterDetails: Swift.Equatable {
         /// The number of services that are running on the cluster in an ACTIVE state. You can view these services with the Amazon ECS [ListServices](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListServices.html) API operation.
-        public var activeServicesCount: Swift.Int
+        public var activeServicesCount: Swift.Int?
         /// The short name of one or more capacity providers to associate with the cluster.
         public var capacityProviders: [Swift.String]?
         /// The Amazon Resource Name (ARN) that identifies the cluster.
@@ -18383,22 +18383,22 @@ extension SecurityHubClientTypes {
         /// The default capacity provider strategy for the cluster. The default capacity provider strategy is used when services or tasks are run without a specified launch type or capacity provider strategy.
         public var defaultCapacityProviderStrategy: [SecurityHubClientTypes.AwsEcsClusterDefaultCapacityProviderStrategyDetails]?
         /// The number of container instances registered into the cluster. This includes container instances in both ACTIVE and DRAINING status.
-        public var registeredContainerInstancesCount: Swift.Int
+        public var registeredContainerInstancesCount: Swift.Int?
         /// The number of tasks in the cluster that are in the RUNNING state.
-        public var runningTasksCount: Swift.Int
+        public var runningTasksCount: Swift.Int?
         /// The status of the cluster.
         public var status: Swift.String?
 
         public init(
-            activeServicesCount: Swift.Int = 0,
+            activeServicesCount: Swift.Int? = nil,
             capacityProviders: [Swift.String]? = nil,
             clusterArn: Swift.String? = nil,
             clusterName: Swift.String? = nil,
             clusterSettings: [SecurityHubClientTypes.AwsEcsClusterClusterSettingsDetails]? = nil,
             configuration: SecurityHubClientTypes.AwsEcsClusterConfigurationDetails? = nil,
             defaultCapacityProviderStrategy: [SecurityHubClientTypes.AwsEcsClusterDefaultCapacityProviderStrategyDetails]? = nil,
-            registeredContainerInstancesCount: Swift.Int = 0,
-            runningTasksCount: Swift.Int = 0,
+            registeredContainerInstancesCount: Swift.Int? = nil,
+            runningTasksCount: Swift.Int? = nil,
             status: Swift.String? = nil
         )
         {
@@ -18439,7 +18439,7 @@ extension SecurityHubClientTypes.AwsEcsContainerDetails: Swift.Codable {
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
         }
-        if privileged != false {
+        if let privileged = self.privileged {
             try encodeContainer.encode(privileged, forKey: .privileged)
         }
     }
@@ -18461,7 +18461,7 @@ extension SecurityHubClientTypes.AwsEcsContainerDetails: Swift.Codable {
             }
         }
         mountPoints = mountPointsDecoded0
-        let privilegedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .privileged) ?? false
+        let privilegedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .privileged)
         privileged = privilegedDecoded
     }
 }
@@ -18476,13 +18476,13 @@ extension SecurityHubClientTypes {
         /// The name of the container.
         public var name: Swift.String?
         /// When this parameter is true, the container is given elevated privileges on the host container instance (similar to the root user).
-        public var privileged: Swift.Bool
+        public var privileged: Swift.Bool?
 
         public init(
             image: Swift.String? = nil,
             mountPoints: [SecurityHubClientTypes.AwsMountPoint]? = nil,
             name: Swift.String? = nil,
-            privileged: Swift.Bool = false
+            privileged: Swift.Bool? = nil
         )
         {
             self.image = image
@@ -18503,24 +18503,24 @@ extension SecurityHubClientTypes.AwsEcsServiceCapacityProviderStrategyDetails: S
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if base != 0 {
+        if let base = self.base {
             try encodeContainer.encode(base, forKey: .base)
         }
         if let capacityProvider = self.capacityProvider {
             try encodeContainer.encode(capacityProvider, forKey: .capacityProvider)
         }
-        if weight != 0 {
+        if let weight = self.weight {
             try encodeContainer.encode(weight, forKey: .weight)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let baseDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .base) ?? 0
+        let baseDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .base)
         base = baseDecoded
         let capacityProviderDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .capacityProvider)
         capacityProvider = capacityProviderDecoded
-        let weightDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .weight) ?? 0
+        let weightDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .weight)
         weight = weightDecoded
     }
 }
@@ -18529,16 +18529,16 @@ extension SecurityHubClientTypes {
     /// Strategy item for the capacity provider strategy that the service uses.
     public struct AwsEcsServiceCapacityProviderStrategyDetails: Swift.Equatable {
         /// The minimum number of tasks to run on the capacity provider. Only one strategy item can specify a value for Base. The value must be between 0 and 100000.
-        public var base: Swift.Int
+        public var base: Swift.Int?
         /// The short name of the capacity provider.
         public var capacityProvider: Swift.String?
         /// The relative percentage of the total number of tasks that should use the capacity provider. If no weight is specified, the default value is 0. At least one capacity provider must have a weight greater than 0. The value can be between 0 and 1000.
-        public var weight: Swift.Int
+        public var weight: Swift.Int?
 
         public init(
-            base: Swift.Int = 0,
+            base: Swift.Int? = nil,
             capacityProvider: Swift.String? = nil,
-            weight: Swift.Int = 0
+            weight: Swift.Int? = nil
         )
         {
             self.base = base
@@ -18557,19 +18557,19 @@ extension SecurityHubClientTypes.AwsEcsServiceDeploymentConfigurationDeploymentC
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if enable != false {
+        if let enable = self.enable {
             try encodeContainer.encode(enable, forKey: .enable)
         }
-        if rollback != false {
+        if let rollback = self.rollback {
             try encodeContainer.encode(rollback, forKey: .rollback)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let enableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enable) ?? false
+        let enableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enable)
         enable = enableDecoded
-        let rollbackDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .rollback) ?? false
+        let rollbackDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .rollback)
         rollback = rollbackDecoded
     }
 }
@@ -18578,13 +18578,13 @@ extension SecurityHubClientTypes {
     /// Determines whether a service deployment fails if a service cannot reach a steady state.
     public struct AwsEcsServiceDeploymentConfigurationDeploymentCircuitBreakerDetails: Swift.Equatable {
         /// Whether to enable the deployment circuit breaker logic for the service.
-        public var enable: Swift.Bool
+        public var enable: Swift.Bool?
         /// Whether to roll back the service if a service deployment fails. If rollback is enabled, when a service deployment fails, the service is rolled back to the last deployment that completed successfully.
-        public var rollback: Swift.Bool
+        public var rollback: Swift.Bool?
 
         public init(
-            enable: Swift.Bool = false,
-            rollback: Swift.Bool = false
+            enable: Swift.Bool? = nil,
+            rollback: Swift.Bool? = nil
         )
         {
             self.enable = enable
@@ -18606,10 +18606,10 @@ extension SecurityHubClientTypes.AwsEcsServiceDeploymentConfigurationDetails: Sw
         if let deploymentCircuitBreaker = self.deploymentCircuitBreaker {
             try encodeContainer.encode(deploymentCircuitBreaker, forKey: .deploymentCircuitBreaker)
         }
-        if maximumPercent != 0 {
+        if let maximumPercent = self.maximumPercent {
             try encodeContainer.encode(maximumPercent, forKey: .maximumPercent)
         }
-        if minimumHealthyPercent != 0 {
+        if let minimumHealthyPercent = self.minimumHealthyPercent {
             try encodeContainer.encode(minimumHealthyPercent, forKey: .minimumHealthyPercent)
         }
     }
@@ -18618,9 +18618,9 @@ extension SecurityHubClientTypes.AwsEcsServiceDeploymentConfigurationDetails: Sw
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let deploymentCircuitBreakerDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsEcsServiceDeploymentConfigurationDeploymentCircuitBreakerDetails.self, forKey: .deploymentCircuitBreaker)
         deploymentCircuitBreaker = deploymentCircuitBreakerDecoded
-        let maximumPercentDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maximumPercent) ?? 0
+        let maximumPercentDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maximumPercent)
         maximumPercent = maximumPercentDecoded
-        let minimumHealthyPercentDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .minimumHealthyPercent) ?? 0
+        let minimumHealthyPercentDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .minimumHealthyPercent)
         minimumHealthyPercent = minimumHealthyPercentDecoded
     }
 }
@@ -18631,14 +18631,14 @@ extension SecurityHubClientTypes {
         /// Determines whether a service deployment fails if a service cannot reach a steady state.
         public var deploymentCircuitBreaker: SecurityHubClientTypes.AwsEcsServiceDeploymentConfigurationDeploymentCircuitBreakerDetails?
         /// For a service that uses the rolling update (ECS) deployment type, the maximum number of tasks in a service that are allowed in the RUNNING or PENDING state during a deployment, and for tasks that use the EC2 launch type, when any container instances are in the DRAINING state. Provided as a percentage of the desired number of tasks. The default value is 200%. For a service that uses the blue/green (CODE_DEPLOY) or EXTERNAL deployment types, and tasks that use the EC2 launch type, the maximum number of tasks in the service that remain in the RUNNING state while the container instances are in the DRAINING state. For the Fargate launch type, the maximum percent value is not used.
-        public var maximumPercent: Swift.Int
+        public var maximumPercent: Swift.Int?
         /// For a service that uses the rolling update (ECS) deployment type, the minimum number of tasks in a service that must remain in the RUNNING state during a deployment, and while any container instances are in the DRAINING state if the service contains tasks using the EC2 launch type. Expressed as a percentage of the desired number of tasks. The default value is 100%. For a service that uses the blue/green (CODE_DEPLOY) or EXTERNAL deployment types and tasks that use the EC2 launch type, the minimum number of the tasks in the service that remain in the RUNNING state while the container instances are in the DRAINING state. For the Fargate launch type, the minimum healthy percent value is not used.
-        public var minimumHealthyPercent: Swift.Int
+        public var minimumHealthyPercent: Swift.Int?
 
         public init(
             deploymentCircuitBreaker: SecurityHubClientTypes.AwsEcsServiceDeploymentConfigurationDeploymentCircuitBreakerDetails? = nil,
-            maximumPercent: Swift.Int = 0,
-            minimumHealthyPercent: Swift.Int = 0
+            maximumPercent: Swift.Int? = nil,
+            minimumHealthyPercent: Swift.Int? = nil
         )
         {
             self.deploymentCircuitBreaker = deploymentCircuitBreaker
@@ -18727,16 +18727,16 @@ extension SecurityHubClientTypes.AwsEcsServiceDetails: Swift.Codable {
         if let deploymentController = self.deploymentController {
             try encodeContainer.encode(deploymentController, forKey: .deploymentController)
         }
-        if desiredCount != 0 {
+        if let desiredCount = self.desiredCount {
             try encodeContainer.encode(desiredCount, forKey: .desiredCount)
         }
-        if enableEcsManagedTags != false {
+        if let enableEcsManagedTags = self.enableEcsManagedTags {
             try encodeContainer.encode(enableEcsManagedTags, forKey: .enableEcsManagedTags)
         }
-        if enableExecuteCommand != false {
+        if let enableExecuteCommand = self.enableExecuteCommand {
             try encodeContainer.encode(enableExecuteCommand, forKey: .enableExecuteCommand)
         }
-        if healthCheckGracePeriodSeconds != 0 {
+        if let healthCheckGracePeriodSeconds = self.healthCheckGracePeriodSeconds {
             try encodeContainer.encode(healthCheckGracePeriodSeconds, forKey: .healthCheckGracePeriodSeconds)
         }
         if let launchType = self.launchType {
@@ -18814,13 +18814,13 @@ extension SecurityHubClientTypes.AwsEcsServiceDetails: Swift.Codable {
         deploymentConfiguration = deploymentConfigurationDecoded
         let deploymentControllerDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsEcsServiceDeploymentControllerDetails.self, forKey: .deploymentController)
         deploymentController = deploymentControllerDecoded
-        let desiredCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .desiredCount) ?? 0
+        let desiredCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .desiredCount)
         desiredCount = desiredCountDecoded
-        let enableEcsManagedTagsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enableEcsManagedTags) ?? false
+        let enableEcsManagedTagsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enableEcsManagedTags)
         enableEcsManagedTags = enableEcsManagedTagsDecoded
-        let enableExecuteCommandDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enableExecuteCommand) ?? false
+        let enableExecuteCommandDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enableExecuteCommand)
         enableExecuteCommand = enableExecuteCommandDecoded
-        let healthCheckGracePeriodSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .healthCheckGracePeriodSeconds) ?? 0
+        let healthCheckGracePeriodSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .healthCheckGracePeriodSeconds)
         healthCheckGracePeriodSeconds = healthCheckGracePeriodSecondsDecoded
         let launchTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .launchType)
         launchType = launchTypeDecoded
@@ -18901,13 +18901,13 @@ extension SecurityHubClientTypes {
         /// Contains the deployment controller type that the service uses.
         public var deploymentController: SecurityHubClientTypes.AwsEcsServiceDeploymentControllerDetails?
         /// The number of instantiations of the task definition to run on the service.
-        public var desiredCount: Swift.Int
+        public var desiredCount: Swift.Int?
         /// Whether to enable Amazon ECS managed tags for the tasks in the service.
-        public var enableEcsManagedTags: Swift.Bool
+        public var enableEcsManagedTags: Swift.Bool?
         /// Whether the execute command functionality is enabled for the service.
-        public var enableExecuteCommand: Swift.Bool
+        public var enableExecuteCommand: Swift.Bool?
         /// After a task starts, the amount of time in seconds that the Amazon ECS service scheduler ignores unhealthy Elastic Load Balancing target health checks.
-        public var healthCheckGracePeriodSeconds: Swift.Int
+        public var healthCheckGracePeriodSeconds: Swift.Int?
         /// The launch type that the service uses. Valid values: EC2 | FARGATE | EXTERNAL
         public var launchType: Swift.String?
         /// Information about the load balancers that the service uses.
@@ -18942,10 +18942,10 @@ extension SecurityHubClientTypes {
             cluster: Swift.String? = nil,
             deploymentConfiguration: SecurityHubClientTypes.AwsEcsServiceDeploymentConfigurationDetails? = nil,
             deploymentController: SecurityHubClientTypes.AwsEcsServiceDeploymentControllerDetails? = nil,
-            desiredCount: Swift.Int = 0,
-            enableEcsManagedTags: Swift.Bool = false,
-            enableExecuteCommand: Swift.Bool = false,
-            healthCheckGracePeriodSeconds: Swift.Int = 0,
+            desiredCount: Swift.Int? = nil,
+            enableEcsManagedTags: Swift.Bool? = nil,
+            enableExecuteCommand: Swift.Bool? = nil,
+            healthCheckGracePeriodSeconds: Swift.Int? = nil,
             launchType: Swift.String? = nil,
             loadBalancers: [SecurityHubClientTypes.AwsEcsServiceLoadBalancersDetails]? = nil,
             name: Swift.String? = nil,
@@ -19002,7 +19002,7 @@ extension SecurityHubClientTypes.AwsEcsServiceLoadBalancersDetails: Swift.Codabl
         if let containerName = self.containerName {
             try encodeContainer.encode(containerName, forKey: .containerName)
         }
-        if containerPort != 0 {
+        if let containerPort = self.containerPort {
             try encodeContainer.encode(containerPort, forKey: .containerPort)
         }
         if let loadBalancerName = self.loadBalancerName {
@@ -19017,7 +19017,7 @@ extension SecurityHubClientTypes.AwsEcsServiceLoadBalancersDetails: Swift.Codabl
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let containerNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .containerName)
         containerName = containerNameDecoded
-        let containerPortDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .containerPort) ?? 0
+        let containerPortDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .containerPort)
         containerPort = containerPortDecoded
         let loadBalancerNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .loadBalancerName)
         loadBalancerName = loadBalancerNameDecoded
@@ -19032,7 +19032,7 @@ extension SecurityHubClientTypes {
         /// The name of the container to associate with the load balancer.
         public var containerName: Swift.String?
         /// The port on the container to associate with the load balancer. This port must correspond to a containerPort in the task definition the tasks in the service are using. For tasks that use the EC2 launch type, the container instance they are launched on must allow ingress traffic on the hostPort of the port mapping.
-        public var containerPort: Swift.Int
+        public var containerPort: Swift.Int?
         /// The name of the load balancer to associate with the Amazon ECS service or task set. Only specified when using a Classic Load Balancer. For an Application Load Balancer or a Network Load Balancer, the load balancer name is omitted.
         public var loadBalancerName: Swift.String?
         /// The ARN of the Elastic Load Balancing target group or groups associated with a service or task set. Only specified when using an Application Load Balancer or a Network Load Balancer. For a Classic Load Balancer, the target group ARN is omitted.
@@ -19040,7 +19040,7 @@ extension SecurityHubClientTypes {
 
         public init(
             containerName: Swift.String? = nil,
-            containerPort: Swift.Int = 0,
+            containerPort: Swift.Int? = nil,
             loadBalancerName: Swift.String? = nil,
             targetGroupArn: Swift.String? = nil
         )
@@ -19271,10 +19271,10 @@ extension SecurityHubClientTypes.AwsEcsServiceServiceRegistriesDetails: Swift.Co
         if let containerName = self.containerName {
             try encodeContainer.encode(containerName, forKey: .containerName)
         }
-        if containerPort != 0 {
+        if let containerPort = self.containerPort {
             try encodeContainer.encode(containerPort, forKey: .containerPort)
         }
-        if port != 0 {
+        if let port = self.port {
             try encodeContainer.encode(port, forKey: .port)
         }
         if let registryArn = self.registryArn {
@@ -19286,9 +19286,9 @@ extension SecurityHubClientTypes.AwsEcsServiceServiceRegistriesDetails: Swift.Co
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let containerNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .containerName)
         containerName = containerNameDecoded
-        let containerPortDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .containerPort) ?? 0
+        let containerPortDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .containerPort)
         containerPort = containerPortDecoded
-        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port) ?? 0
+        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port)
         port = portDecoded
         let registryArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .registryArn)
         registryArn = registryArnDecoded
@@ -19301,16 +19301,16 @@ extension SecurityHubClientTypes {
         /// The container name value to use for the service discovery service. If the task definition uses the bridge or host network mode, you must specify ContainerName and ContainerPort. If the task definition uses the awsvpc network mode and a type SRV DNS record, you must specify either ContainerName and ContainerPort, or Port , but not both.
         public var containerName: Swift.String?
         /// The port value to use for the service discovery service. If the task definition uses the bridge or host network mode, you must specify ContainerName and ContainerPort. If the task definition uses the awsvpc network mode and a type SRV DNS record, you must specify either ContainerName and ContainerPort, or Port , but not both.
-        public var containerPort: Swift.Int
+        public var containerPort: Swift.Int?
         /// The port value to use for a service discovery service that specifies an SRV record. This field can be used if both the awsvpcawsvpc network mode and SRV records are used.
-        public var port: Swift.Int
+        public var port: Swift.Int?
         /// The ARN of the service registry.
         public var registryArn: Swift.String?
 
         public init(
             containerName: Swift.String? = nil,
-            containerPort: Swift.Int = 0,
-            port: Swift.Int = 0,
+            containerPort: Swift.Int? = nil,
+            port: Swift.Int? = nil,
             registryArn: Swift.String? = nil
         )
         {
@@ -19427,7 +19427,7 @@ extension SecurityHubClientTypes.AwsEcsTaskDefinitionContainerDefinitionsDetails
                 try commandContainer.encode(nonemptystring0)
             }
         }
-        if cpu != 0 {
+        if let cpu = self.cpu {
             try encodeContainer.encode(cpu, forKey: .cpu)
         }
         if let dependsOn = dependsOn {
@@ -19436,7 +19436,7 @@ extension SecurityHubClientTypes.AwsEcsTaskDefinitionContainerDefinitionsDetails
                 try dependsOnContainer.encode(awsecstaskdefinitioncontainerdefinitionsdependsondetails0)
             }
         }
-        if disableNetworking != false {
+        if let disableNetworking = self.disableNetworking {
             try encodeContainer.encode(disableNetworking, forKey: .disableNetworking)
         }
         if let dnsSearchDomains = dnsSearchDomains {
@@ -19481,7 +19481,7 @@ extension SecurityHubClientTypes.AwsEcsTaskDefinitionContainerDefinitionsDetails
                 try environmentFilesContainer.encode(awsecstaskdefinitioncontainerdefinitionsenvironmentfilesdetails0)
             }
         }
-        if essential != false {
+        if let essential = self.essential {
             try encodeContainer.encode(essential, forKey: .essential)
         }
         if let extraHosts = extraHosts {
@@ -19502,7 +19502,7 @@ extension SecurityHubClientTypes.AwsEcsTaskDefinitionContainerDefinitionsDetails
         if let image = self.image {
             try encodeContainer.encode(image, forKey: .image)
         }
-        if interactive != false {
+        if let interactive = self.interactive {
             try encodeContainer.encode(interactive, forKey: .interactive)
         }
         if let links = links {
@@ -19517,10 +19517,10 @@ extension SecurityHubClientTypes.AwsEcsTaskDefinitionContainerDefinitionsDetails
         if let logConfiguration = self.logConfiguration {
             try encodeContainer.encode(logConfiguration, forKey: .logConfiguration)
         }
-        if memory != 0 {
+        if let memory = self.memory {
             try encodeContainer.encode(memory, forKey: .memory)
         }
-        if memoryReservation != 0 {
+        if let memoryReservation = self.memoryReservation {
             try encodeContainer.encode(memoryReservation, forKey: .memoryReservation)
         }
         if let mountPoints = mountPoints {
@@ -19538,13 +19538,13 @@ extension SecurityHubClientTypes.AwsEcsTaskDefinitionContainerDefinitionsDetails
                 try portMappingsContainer.encode(awsecstaskdefinitioncontainerdefinitionsportmappingsdetails0)
             }
         }
-        if privileged != false {
+        if let privileged = self.privileged {
             try encodeContainer.encode(privileged, forKey: .privileged)
         }
-        if pseudoTerminal != false {
+        if let pseudoTerminal = self.pseudoTerminal {
             try encodeContainer.encode(pseudoTerminal, forKey: .pseudoTerminal)
         }
-        if readonlyRootFilesystem != false {
+        if let readonlyRootFilesystem = self.readonlyRootFilesystem {
             try encodeContainer.encode(readonlyRootFilesystem, forKey: .readonlyRootFilesystem)
         }
         if let repositoryCredentials = self.repositoryCredentials {
@@ -19562,10 +19562,10 @@ extension SecurityHubClientTypes.AwsEcsTaskDefinitionContainerDefinitionsDetails
                 try secretsContainer.encode(awsecstaskdefinitioncontainerdefinitionssecretsdetails0)
             }
         }
-        if startTimeout != 0 {
+        if let startTimeout = self.startTimeout {
             try encodeContainer.encode(startTimeout, forKey: .startTimeout)
         }
-        if stopTimeout != 0 {
+        if let stopTimeout = self.stopTimeout {
             try encodeContainer.encode(stopTimeout, forKey: .stopTimeout)
         }
         if let systemControls = systemControls {
@@ -19607,7 +19607,7 @@ extension SecurityHubClientTypes.AwsEcsTaskDefinitionContainerDefinitionsDetails
             }
         }
         command = commandDecoded0
-        let cpuDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .cpu) ?? 0
+        let cpuDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .cpu)
         cpu = cpuDecoded
         let dependsOnContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.AwsEcsTaskDefinitionContainerDefinitionsDependsOnDetails?].self, forKey: .dependsOn)
         var dependsOnDecoded0:[SecurityHubClientTypes.AwsEcsTaskDefinitionContainerDefinitionsDependsOnDetails]? = nil
@@ -19620,7 +19620,7 @@ extension SecurityHubClientTypes.AwsEcsTaskDefinitionContainerDefinitionsDetails
             }
         }
         dependsOn = dependsOnDecoded0
-        let disableNetworkingDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .disableNetworking) ?? false
+        let disableNetworkingDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .disableNetworking)
         disableNetworking = disableNetworkingDecoded
         let dnsSearchDomainsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .dnsSearchDomains)
         var dnsSearchDomainsDecoded0:[Swift.String]? = nil
@@ -19699,7 +19699,7 @@ extension SecurityHubClientTypes.AwsEcsTaskDefinitionContainerDefinitionsDetails
             }
         }
         environmentFiles = environmentFilesDecoded0
-        let essentialDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .essential) ?? false
+        let essentialDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .essential)
         essential = essentialDecoded
         let extraHostsContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.AwsEcsTaskDefinitionContainerDefinitionsExtraHostsDetails?].self, forKey: .extraHosts)
         var extraHostsDecoded0:[SecurityHubClientTypes.AwsEcsTaskDefinitionContainerDefinitionsExtraHostsDetails]? = nil
@@ -19720,7 +19720,7 @@ extension SecurityHubClientTypes.AwsEcsTaskDefinitionContainerDefinitionsDetails
         hostname = hostnameDecoded
         let imageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .image)
         image = imageDecoded
-        let interactiveDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .interactive) ?? false
+        let interactiveDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .interactive)
         interactive = interactiveDecoded
         let linksContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .links)
         var linksDecoded0:[Swift.String]? = nil
@@ -19737,9 +19737,9 @@ extension SecurityHubClientTypes.AwsEcsTaskDefinitionContainerDefinitionsDetails
         linuxParameters = linuxParametersDecoded
         let logConfigurationDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsEcsTaskDefinitionContainerDefinitionsLogConfigurationDetails.self, forKey: .logConfiguration)
         logConfiguration = logConfigurationDecoded
-        let memoryDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .memory) ?? 0
+        let memoryDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .memory)
         memory = memoryDecoded
-        let memoryReservationDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .memoryReservation) ?? 0
+        let memoryReservationDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .memoryReservation)
         memoryReservation = memoryReservationDecoded
         let mountPointsContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.AwsEcsTaskDefinitionContainerDefinitionsMountPointsDetails?].self, forKey: .mountPoints)
         var mountPointsDecoded0:[SecurityHubClientTypes.AwsEcsTaskDefinitionContainerDefinitionsMountPointsDetails]? = nil
@@ -19765,11 +19765,11 @@ extension SecurityHubClientTypes.AwsEcsTaskDefinitionContainerDefinitionsDetails
             }
         }
         portMappings = portMappingsDecoded0
-        let privilegedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .privileged) ?? false
+        let privilegedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .privileged)
         privileged = privilegedDecoded
-        let pseudoTerminalDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .pseudoTerminal) ?? false
+        let pseudoTerminalDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .pseudoTerminal)
         pseudoTerminal = pseudoTerminalDecoded
-        let readonlyRootFilesystemDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .readonlyRootFilesystem) ?? false
+        let readonlyRootFilesystemDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .readonlyRootFilesystem)
         readonlyRootFilesystem = readonlyRootFilesystemDecoded
         let repositoryCredentialsDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsEcsTaskDefinitionContainerDefinitionsRepositoryCredentialsDetails.self, forKey: .repositoryCredentials)
         repositoryCredentials = repositoryCredentialsDecoded
@@ -19795,9 +19795,9 @@ extension SecurityHubClientTypes.AwsEcsTaskDefinitionContainerDefinitionsDetails
             }
         }
         secrets = secretsDecoded0
-        let startTimeoutDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .startTimeout) ?? 0
+        let startTimeoutDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .startTimeout)
         startTimeout = startTimeoutDecoded
-        let stopTimeoutDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .stopTimeout) ?? 0
+        let stopTimeoutDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .stopTimeout)
         stopTimeout = stopTimeoutDecoded
         let systemControlsContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.AwsEcsTaskDefinitionContainerDefinitionsSystemControlsDetails?].self, forKey: .systemControls)
         var systemControlsDecoded0:[SecurityHubClientTypes.AwsEcsTaskDefinitionContainerDefinitionsSystemControlsDetails]? = nil
@@ -19845,11 +19845,11 @@ extension SecurityHubClientTypes {
         /// The command that is passed to the container.
         public var command: [Swift.String]?
         /// The number of CPU units reserved for the container.
-        public var cpu: Swift.Int
+        public var cpu: Swift.Int?
         /// The dependencies that are defined for container startup and shutdown.
         public var dependsOn: [SecurityHubClientTypes.AwsEcsTaskDefinitionContainerDefinitionsDependsOnDetails]?
         /// Whether to disable networking within the container.
-        public var disableNetworking: Swift.Bool
+        public var disableNetworking: Swift.Bool?
         /// A list of DNS search domains that are presented to the container.
         public var dnsSearchDomains: [Swift.String]?
         /// A list of DNS servers that are presented to the container.
@@ -19865,7 +19865,7 @@ extension SecurityHubClientTypes {
         /// A list of files containing the environment variables to pass to a container.
         public var environmentFiles: [SecurityHubClientTypes.AwsEcsTaskDefinitionContainerDefinitionsEnvironmentFilesDetails]?
         /// Whether the container is essential. All tasks must have at least one essential container.
-        public var essential: Swift.Bool
+        public var essential: Swift.Bool?
         /// A list of hostnames and IP address mappings to append to the /etc/hosts file on the container.
         public var extraHosts: [SecurityHubClientTypes.AwsEcsTaskDefinitionContainerDefinitionsExtraHostsDetails]?
         /// The FireLens configuration for the container. Specifies and configures a log router for container logs.
@@ -19877,7 +19877,7 @@ extension SecurityHubClientTypes {
         /// The image used to start the container.
         public var image: Swift.String?
         /// If set to true, then containerized applications can be deployed that require stdin or a tty to be allocated.
-        public var interactive: Swift.Bool
+        public var interactive: Swift.Bool?
         /// A list of links for the container in the form  container_name:alias . Allows containers to communicate with each other without the need for port mappings.
         public var links: [Swift.String]?
         /// Linux-specific modifications that are applied to the container, such as Linux kernel capabilities.
@@ -19885,9 +19885,9 @@ extension SecurityHubClientTypes {
         /// The log configuration specification for the container.
         public var logConfiguration: SecurityHubClientTypes.AwsEcsTaskDefinitionContainerDefinitionsLogConfigurationDetails?
         /// The amount (in MiB) of memory to present to the container. If the container attempts to exceed the memory specified here, the container is shut down. The total amount of memory reserved for all containers within a task must be lower than the task memory value, if one is specified.
-        public var memory: Swift.Int
+        public var memory: Swift.Int?
         /// The soft limit (in MiB) of memory to reserve for the container.
-        public var memoryReservation: Swift.Int
+        public var memoryReservation: Swift.Int?
         /// The mount points for the data volumes in the container.
         public var mountPoints: [SecurityHubClientTypes.AwsEcsTaskDefinitionContainerDefinitionsMountPointsDetails]?
         /// The name of the container.
@@ -19895,11 +19895,11 @@ extension SecurityHubClientTypes {
         /// The list of port mappings for the container.
         public var portMappings: [SecurityHubClientTypes.AwsEcsTaskDefinitionContainerDefinitionsPortMappingsDetails]?
         /// Whether the container is given elevated privileges on the host container instance. The elevated privileges are similar to the root user.
-        public var privileged: Swift.Bool
+        public var privileged: Swift.Bool?
         /// Whether to allocate a TTY to the container.
-        public var pseudoTerminal: Swift.Bool
+        public var pseudoTerminal: Swift.Bool?
         /// Whether the container is given read-only access to its root file system.
-        public var readonlyRootFilesystem: Swift.Bool
+        public var readonlyRootFilesystem: Swift.Bool?
         /// The private repository authentication credentials to use.
         public var repositoryCredentials: SecurityHubClientTypes.AwsEcsTaskDefinitionContainerDefinitionsRepositoryCredentialsDetails?
         /// The type and amount of a resource to assign to a container. The only supported resource is a GPU.
@@ -19907,9 +19907,9 @@ extension SecurityHubClientTypes {
         /// The secrets to pass to the container.
         public var secrets: [SecurityHubClientTypes.AwsEcsTaskDefinitionContainerDefinitionsSecretsDetails]?
         /// The number of seconds to wait before giving up on resolving dependencies for a container.
-        public var startTimeout: Swift.Int
+        public var startTimeout: Swift.Int?
         /// The number of seconds to wait before the container is stopped if it doesn't shut down normally on its own.
-        public var stopTimeout: Swift.Int
+        public var stopTimeout: Swift.Int?
         /// A list of namespaced kernel parameters to set in the container.
         public var systemControls: [SecurityHubClientTypes.AwsEcsTaskDefinitionContainerDefinitionsSystemControlsDetails]?
         /// A list of ulimits to set in the container.
@@ -19935,9 +19935,9 @@ extension SecurityHubClientTypes {
 
         public init(
             command: [Swift.String]? = nil,
-            cpu: Swift.Int = 0,
+            cpu: Swift.Int? = nil,
             dependsOn: [SecurityHubClientTypes.AwsEcsTaskDefinitionContainerDefinitionsDependsOnDetails]? = nil,
-            disableNetworking: Swift.Bool = false,
+            disableNetworking: Swift.Bool? = nil,
             dnsSearchDomains: [Swift.String]? = nil,
             dnsServers: [Swift.String]? = nil,
             dockerLabels: [Swift.String:Swift.String]? = nil,
@@ -19945,29 +19945,29 @@ extension SecurityHubClientTypes {
             entryPoint: [Swift.String]? = nil,
             environment: [SecurityHubClientTypes.AwsEcsTaskDefinitionContainerDefinitionsEnvironmentDetails]? = nil,
             environmentFiles: [SecurityHubClientTypes.AwsEcsTaskDefinitionContainerDefinitionsEnvironmentFilesDetails]? = nil,
-            essential: Swift.Bool = false,
+            essential: Swift.Bool? = nil,
             extraHosts: [SecurityHubClientTypes.AwsEcsTaskDefinitionContainerDefinitionsExtraHostsDetails]? = nil,
             firelensConfiguration: SecurityHubClientTypes.AwsEcsTaskDefinitionContainerDefinitionsFirelensConfigurationDetails? = nil,
             healthCheck: SecurityHubClientTypes.AwsEcsTaskDefinitionContainerDefinitionsHealthCheckDetails? = nil,
             hostname: Swift.String? = nil,
             image: Swift.String? = nil,
-            interactive: Swift.Bool = false,
+            interactive: Swift.Bool? = nil,
             links: [Swift.String]? = nil,
             linuxParameters: SecurityHubClientTypes.AwsEcsTaskDefinitionContainerDefinitionsLinuxParametersDetails? = nil,
             logConfiguration: SecurityHubClientTypes.AwsEcsTaskDefinitionContainerDefinitionsLogConfigurationDetails? = nil,
-            memory: Swift.Int = 0,
-            memoryReservation: Swift.Int = 0,
+            memory: Swift.Int? = nil,
+            memoryReservation: Swift.Int? = nil,
             mountPoints: [SecurityHubClientTypes.AwsEcsTaskDefinitionContainerDefinitionsMountPointsDetails]? = nil,
             name: Swift.String? = nil,
             portMappings: [SecurityHubClientTypes.AwsEcsTaskDefinitionContainerDefinitionsPortMappingsDetails]? = nil,
-            privileged: Swift.Bool = false,
-            pseudoTerminal: Swift.Bool = false,
-            readonlyRootFilesystem: Swift.Bool = false,
+            privileged: Swift.Bool? = nil,
+            pseudoTerminal: Swift.Bool? = nil,
+            readonlyRootFilesystem: Swift.Bool? = nil,
             repositoryCredentials: SecurityHubClientTypes.AwsEcsTaskDefinitionContainerDefinitionsRepositoryCredentialsDetails? = nil,
             resourceRequirements: [SecurityHubClientTypes.AwsEcsTaskDefinitionContainerDefinitionsResourceRequirementsDetails]? = nil,
             secrets: [SecurityHubClientTypes.AwsEcsTaskDefinitionContainerDefinitionsSecretsDetails]? = nil,
-            startTimeout: Swift.Int = 0,
-            stopTimeout: Swift.Int = 0,
+            startTimeout: Swift.Int? = nil,
+            stopTimeout: Swift.Int? = nil,
             systemControls: [SecurityHubClientTypes.AwsEcsTaskDefinitionContainerDefinitionsSystemControlsDetails]? = nil,
             ulimits: [SecurityHubClientTypes.AwsEcsTaskDefinitionContainerDefinitionsUlimitsDetails]? = nil,
             user: Swift.String? = nil,
@@ -20234,16 +20234,16 @@ extension SecurityHubClientTypes.AwsEcsTaskDefinitionContainerDefinitionsHealthC
                 try commandContainer.encode(nonemptystring0)
             }
         }
-        if interval != 0 {
+        if let interval = self.interval {
             try encodeContainer.encode(interval, forKey: .interval)
         }
-        if retries != 0 {
+        if let retries = self.retries {
             try encodeContainer.encode(retries, forKey: .retries)
         }
-        if startPeriod != 0 {
+        if let startPeriod = self.startPeriod {
             try encodeContainer.encode(startPeriod, forKey: .startPeriod)
         }
-        if timeout != 0 {
+        if let timeout = self.timeout {
             try encodeContainer.encode(timeout, forKey: .timeout)
         }
     }
@@ -20261,13 +20261,13 @@ extension SecurityHubClientTypes.AwsEcsTaskDefinitionContainerDefinitionsHealthC
             }
         }
         command = commandDecoded0
-        let intervalDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .interval) ?? 0
+        let intervalDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .interval)
         interval = intervalDecoded
-        let retriesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .retries) ?? 0
+        let retriesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .retries)
         retries = retriesDecoded
-        let startPeriodDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .startPeriod) ?? 0
+        let startPeriodDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .startPeriod)
         startPeriod = startPeriodDecoded
-        let timeoutDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .timeout) ?? 0
+        let timeoutDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .timeout)
         timeout = timeoutDecoded
     }
 }
@@ -20278,20 +20278,20 @@ extension SecurityHubClientTypes {
         /// The command that the container runs to determine whether it is healthy.
         public var command: [Swift.String]?
         /// The time period in seconds between each health check execution. The default value is 30 seconds.
-        public var interval: Swift.Int
+        public var interval: Swift.Int?
         /// The number of times to retry a failed health check before the container is considered unhealthy. The default value is 3.
-        public var retries: Swift.Int
+        public var retries: Swift.Int?
         /// The optional grace period in seconds that allows containers time to bootstrap before failed health checks count towards the maximum number of retries.
-        public var startPeriod: Swift.Int
+        public var startPeriod: Swift.Int?
         /// The time period in seconds to wait for a health check to succeed before it is considered a failure. The default value is 5.
-        public var timeout: Swift.Int
+        public var timeout: Swift.Int?
 
         public init(
             command: [Swift.String]? = nil,
-            interval: Swift.Int = 0,
-            retries: Swift.Int = 0,
-            startPeriod: Swift.Int = 0,
-            timeout: Swift.Int = 0
+            interval: Swift.Int? = nil,
+            retries: Swift.Int? = nil,
+            startPeriod: Swift.Int? = nil,
+            timeout: Swift.Int? = nil
         )
         {
             self.command = command
@@ -20395,16 +20395,16 @@ extension SecurityHubClientTypes.AwsEcsTaskDefinitionContainerDefinitionsLinuxPa
                 try devicesContainer.encode(awsecstaskdefinitioncontainerdefinitionslinuxparametersdevicesdetails0)
             }
         }
-        if initProcessEnabled != false {
+        if let initProcessEnabled = self.initProcessEnabled {
             try encodeContainer.encode(initProcessEnabled, forKey: .initProcessEnabled)
         }
-        if maxSwap != 0 {
+        if let maxSwap = self.maxSwap {
             try encodeContainer.encode(maxSwap, forKey: .maxSwap)
         }
-        if sharedMemorySize != 0 {
+        if let sharedMemorySize = self.sharedMemorySize {
             try encodeContainer.encode(sharedMemorySize, forKey: .sharedMemorySize)
         }
-        if swappiness != 0 {
+        if let swappiness = self.swappiness {
             try encodeContainer.encode(swappiness, forKey: .swappiness)
         }
         if let tmpfs = tmpfs {
@@ -20430,13 +20430,13 @@ extension SecurityHubClientTypes.AwsEcsTaskDefinitionContainerDefinitionsLinuxPa
             }
         }
         devices = devicesDecoded0
-        let initProcessEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .initProcessEnabled) ?? false
+        let initProcessEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .initProcessEnabled)
         initProcessEnabled = initProcessEnabledDecoded
-        let maxSwapDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxSwap) ?? 0
+        let maxSwapDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxSwap)
         maxSwap = maxSwapDecoded
-        let sharedMemorySizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .sharedMemorySize) ?? 0
+        let sharedMemorySizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .sharedMemorySize)
         sharedMemorySize = sharedMemorySizeDecoded
-        let swappinessDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .swappiness) ?? 0
+        let swappinessDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .swappiness)
         swappiness = swappinessDecoded
         let tmpfsContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.AwsEcsTaskDefinitionContainerDefinitionsLinuxParametersTmpfsDetails?].self, forKey: .tmpfs)
         var tmpfsDecoded0:[SecurityHubClientTypes.AwsEcsTaskDefinitionContainerDefinitionsLinuxParametersTmpfsDetails]? = nil
@@ -20460,23 +20460,23 @@ extension SecurityHubClientTypes {
         /// The host devices to expose to the container.
         public var devices: [SecurityHubClientTypes.AwsEcsTaskDefinitionContainerDefinitionsLinuxParametersDevicesDetails]?
         /// Whether to run an init process inside the container that forwards signals and reaps processes.
-        public var initProcessEnabled: Swift.Bool
+        public var initProcessEnabled: Swift.Bool?
         /// The total amount of swap memory (in MiB) that a container can use.
-        public var maxSwap: Swift.Int
+        public var maxSwap: Swift.Int?
         /// The value for the size (in MiB) of the /dev/shm volume.
-        public var sharedMemorySize: Swift.Int
+        public var sharedMemorySize: Swift.Int?
         /// Configures the container's memory swappiness behavior. Determines how aggressively pages are swapped. The higher the value, the more aggressive the swappiness. The default is 60.
-        public var swappiness: Swift.Int
+        public var swappiness: Swift.Int?
         /// The container path, mount options, and size (in MiB) of the tmpfs mount.
         public var tmpfs: [SecurityHubClientTypes.AwsEcsTaskDefinitionContainerDefinitionsLinuxParametersTmpfsDetails]?
 
         public init(
             capabilities: SecurityHubClientTypes.AwsEcsTaskDefinitionContainerDefinitionsLinuxParametersCapabilitiesDetails? = nil,
             devices: [SecurityHubClientTypes.AwsEcsTaskDefinitionContainerDefinitionsLinuxParametersDevicesDetails]? = nil,
-            initProcessEnabled: Swift.Bool = false,
-            maxSwap: Swift.Int = 0,
-            sharedMemorySize: Swift.Int = 0,
-            swappiness: Swift.Int = 0,
+            initProcessEnabled: Swift.Bool? = nil,
+            maxSwap: Swift.Int? = nil,
+            sharedMemorySize: Swift.Int? = nil,
+            swappiness: Swift.Int? = nil,
             tmpfs: [SecurityHubClientTypes.AwsEcsTaskDefinitionContainerDefinitionsLinuxParametersTmpfsDetails]? = nil
         )
         {
@@ -20577,7 +20577,7 @@ extension SecurityHubClientTypes.AwsEcsTaskDefinitionContainerDefinitionsLinuxPa
                 try mountOptionsContainer.encode(nonemptystring0)
             }
         }
-        if size != 0 {
+        if let size = self.size {
             try encodeContainer.encode(size, forKey: .size)
         }
     }
@@ -20597,7 +20597,7 @@ extension SecurityHubClientTypes.AwsEcsTaskDefinitionContainerDefinitionsLinuxPa
             }
         }
         mountOptions = mountOptionsDecoded0
-        let sizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .size) ?? 0
+        let sizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .size)
         size = sizeDecoded
     }
 }
@@ -20610,12 +20610,12 @@ extension SecurityHubClientTypes {
         /// The list of tmpfs volume mount options. Valid values: "defaults" | "ro" | "rw" | "suid" | "nosuid" | "dev" | "nodev" | "exec" | "noexec" | "sync" | "async" | "dirsync" | "remount" | "mand" | "nomand" | "atime" | "noatime" | "diratime" | "nodiratime" | "bind" | "rbind" | "unbindable" | "runbindable" | "private" | "rprivate" | "shared" | "rshared" | "slave" | "rslave" | "relatime" | "norelatime" | "strictatime" | "nostrictatime" | "mode" | "uid" | "gid" | "nr_inodes" | "nr_blocks" | "mpol"
         public var mountOptions: [Swift.String]?
         /// The maximum size (in MiB) of the tmpfs volume.
-        public var size: Swift.Int
+        public var size: Swift.Int?
 
         public init(
             containerPath: Swift.String? = nil,
             mountOptions: [Swift.String]? = nil,
-            size: Swift.Int = 0
+            size: Swift.Int? = nil
         )
         {
             self.containerPath = containerPath
@@ -20789,7 +20789,7 @@ extension SecurityHubClientTypes.AwsEcsTaskDefinitionContainerDefinitionsMountPo
         if let containerPath = self.containerPath {
             try encodeContainer.encode(containerPath, forKey: .containerPath)
         }
-        if readOnly != false {
+        if let readOnly = self.readOnly {
             try encodeContainer.encode(readOnly, forKey: .readOnly)
         }
         if let sourceVolume = self.sourceVolume {
@@ -20801,7 +20801,7 @@ extension SecurityHubClientTypes.AwsEcsTaskDefinitionContainerDefinitionsMountPo
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let containerPathDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .containerPath)
         containerPath = containerPathDecoded
-        let readOnlyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .readOnly) ?? false
+        let readOnlyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .readOnly)
         readOnly = readOnlyDecoded
         let sourceVolumeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceVolume)
         sourceVolume = sourceVolumeDecoded
@@ -20814,13 +20814,13 @@ extension SecurityHubClientTypes {
         /// The path on the container to mount the host volume at.
         public var containerPath: Swift.String?
         /// Whether the container has read-only access to the volume.
-        public var readOnly: Swift.Bool
+        public var readOnly: Swift.Bool?
         /// The name of the volume to mount. Must match the name of a volume listed in VolumeDetails for the task definition.
         public var sourceVolume: Swift.String?
 
         public init(
             containerPath: Swift.String? = nil,
-            readOnly: Swift.Bool = false,
+            readOnly: Swift.Bool? = nil,
             sourceVolume: Swift.String? = nil
         )
         {
@@ -20841,10 +20841,10 @@ extension SecurityHubClientTypes.AwsEcsTaskDefinitionContainerDefinitionsPortMap
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if containerPort != 0 {
+        if let containerPort = self.containerPort {
             try encodeContainer.encode(containerPort, forKey: .containerPort)
         }
-        if hostPort != 0 {
+        if let hostPort = self.hostPort {
             try encodeContainer.encode(hostPort, forKey: .hostPort)
         }
         if let `protocol` = self.`protocol` {
@@ -20854,9 +20854,9 @@ extension SecurityHubClientTypes.AwsEcsTaskDefinitionContainerDefinitionsPortMap
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let containerPortDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .containerPort) ?? 0
+        let containerPortDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .containerPort)
         containerPort = containerPortDecoded
-        let hostPortDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .hostPort) ?? 0
+        let hostPortDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .hostPort)
         hostPort = hostPortDecoded
         let protocolDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .protocol)
         `protocol` = protocolDecoded
@@ -20867,15 +20867,15 @@ extension SecurityHubClientTypes {
     /// A port mapping for the container.
     public struct AwsEcsTaskDefinitionContainerDefinitionsPortMappingsDetails: Swift.Equatable {
         /// The port number on the container that is bound to the user-specified or automatically assigned host port.
-        public var containerPort: Swift.Int
+        public var containerPort: Swift.Int?
         /// The port number on the container instance to reserve for the container.
-        public var hostPort: Swift.Int
+        public var hostPort: Swift.Int?
         /// The protocol used for the port mapping. The default is tcp.
         public var `protocol`: Swift.String?
 
         public init(
-            containerPort: Swift.Int = 0,
-            hostPort: Swift.Int = 0,
+            containerPort: Swift.Int? = nil,
+            hostPort: Swift.Int? = nil,
             `protocol`: Swift.String? = nil
         )
         {
@@ -21066,24 +21066,24 @@ extension SecurityHubClientTypes.AwsEcsTaskDefinitionContainerDefinitionsUlimits
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if hardLimit != 0 {
+        if let hardLimit = self.hardLimit {
             try encodeContainer.encode(hardLimit, forKey: .hardLimit)
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
         }
-        if softLimit != 0 {
+        if let softLimit = self.softLimit {
             try encodeContainer.encode(softLimit, forKey: .softLimit)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let hardLimitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .hardLimit) ?? 0
+        let hardLimitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .hardLimit)
         hardLimit = hardLimitDecoded
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
-        let softLimitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .softLimit) ?? 0
+        let softLimitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .softLimit)
         softLimit = softLimitDecoded
     }
 }
@@ -21092,7 +21092,7 @@ extension SecurityHubClientTypes {
     /// A ulimit to set in the container.
     public struct AwsEcsTaskDefinitionContainerDefinitionsUlimitsDetails: Swift.Equatable {
         /// The hard limit for the ulimit type.
-        public var hardLimit: Swift.Int
+        public var hardLimit: Swift.Int?
         /// The type of the ulimit. Valid values are as follows:
         ///
         /// * core
@@ -21126,12 +21126,12 @@ extension SecurityHubClientTypes {
         /// * stack
         public var name: Swift.String?
         /// The soft limit for the ulimit type.
-        public var softLimit: Swift.Int
+        public var softLimit: Swift.Int?
 
         public init(
-            hardLimit: Swift.Int = 0,
+            hardLimit: Swift.Int? = nil,
             name: Swift.String? = nil,
-            softLimit: Swift.Int = 0
+            softLimit: Swift.Int? = nil
         )
         {
             self.hardLimit = hardLimit
@@ -21150,7 +21150,7 @@ extension SecurityHubClientTypes.AwsEcsTaskDefinitionContainerDefinitionsVolumes
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if readOnly != false {
+        if let readOnly = self.readOnly {
             try encodeContainer.encode(readOnly, forKey: .readOnly)
         }
         if let sourceContainer = self.sourceContainer {
@@ -21160,7 +21160,7 @@ extension SecurityHubClientTypes.AwsEcsTaskDefinitionContainerDefinitionsVolumes
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let readOnlyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .readOnly) ?? false
+        let readOnlyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .readOnly)
         readOnly = readOnlyDecoded
         let sourceContainerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceContainer)
         sourceContainer = sourceContainerDecoded
@@ -21171,12 +21171,12 @@ extension SecurityHubClientTypes {
     /// A data volume to mount from another container.
     public struct AwsEcsTaskDefinitionContainerDefinitionsVolumesFromDetails: Swift.Equatable {
         /// Whether the container has read-only access to the volume.
-        public var readOnly: Swift.Bool
+        public var readOnly: Swift.Bool?
         /// The name of another container within the same task definition from which to mount volumes.
         public var sourceContainer: Swift.String?
 
         public init(
-            readOnly: Swift.Bool = false,
+            readOnly: Swift.Bool? = nil,
             sourceContainer: Swift.String? = nil
         )
         {
@@ -21724,7 +21724,7 @@ extension SecurityHubClientTypes.AwsEcsTaskDefinitionVolumesDockerVolumeConfigur
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if autoprovision != false {
+        if let autoprovision = self.autoprovision {
             try encodeContainer.encode(autoprovision, forKey: .autoprovision)
         }
         if let driver = self.driver {
@@ -21749,7 +21749,7 @@ extension SecurityHubClientTypes.AwsEcsTaskDefinitionVolumesDockerVolumeConfigur
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let autoprovisionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoprovision) ?? false
+        let autoprovisionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoprovision)
         autoprovision = autoprovisionDecoded
         let driverDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .driver)
         driver = driverDecoded
@@ -21784,7 +21784,7 @@ extension SecurityHubClientTypes {
     /// Information about a Docker volume.
     public struct AwsEcsTaskDefinitionVolumesDockerVolumeConfigurationDetails: Swift.Equatable {
         /// Whether to create the Docker volume automatically if it does not already exist.
-        public var autoprovision: Swift.Bool
+        public var autoprovision: Swift.Bool?
         /// The Docker volume driver to use.
         public var driver: Swift.String?
         /// A map of Docker driver-specific options that are passed through.
@@ -21795,7 +21795,7 @@ extension SecurityHubClientTypes {
         public var scope: Swift.String?
 
         public init(
-            autoprovision: Swift.Bool = false,
+            autoprovision: Swift.Bool? = nil,
             driver: Swift.String? = nil,
             driverOpts: [Swift.String:Swift.String]? = nil,
             labels: [Swift.String:Swift.String]? = nil,
@@ -21880,7 +21880,7 @@ extension SecurityHubClientTypes.AwsEcsTaskDefinitionVolumesEfsVolumeConfigurati
         if let transitEncryption = self.transitEncryption {
             try encodeContainer.encode(transitEncryption, forKey: .transitEncryption)
         }
-        if transitEncryptionPort != 0 {
+        if let transitEncryptionPort = self.transitEncryptionPort {
             try encodeContainer.encode(transitEncryptionPort, forKey: .transitEncryptionPort)
         }
     }
@@ -21895,7 +21895,7 @@ extension SecurityHubClientTypes.AwsEcsTaskDefinitionVolumesEfsVolumeConfigurati
         rootDirectory = rootDirectoryDecoded
         let transitEncryptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .transitEncryption)
         transitEncryption = transitEncryptionDecoded
-        let transitEncryptionPortDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .transitEncryptionPort) ?? 0
+        let transitEncryptionPortDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .transitEncryptionPort)
         transitEncryptionPort = transitEncryptionPortDecoded
     }
 }
@@ -21912,14 +21912,14 @@ extension SecurityHubClientTypes {
         /// Whether to enable encryption for Amazon EFS data in transit between the Amazon ECS host and the Amazon EFS server.
         public var transitEncryption: Swift.String?
         /// The port to use when sending encrypted data between the Amazon ECS host and the Amazon EFS server.
-        public var transitEncryptionPort: Swift.Int
+        public var transitEncryptionPort: Swift.Int?
 
         public init(
             authorizationConfig: SecurityHubClientTypes.AwsEcsTaskDefinitionVolumesEfsVolumeConfigurationAuthorizationConfigDetails? = nil,
             filesystemId: Swift.String? = nil,
             rootDirectory: Swift.String? = nil,
             transitEncryption: Swift.String? = nil,
-            transitEncryptionPort: Swift.Int = 0
+            transitEncryptionPort: Swift.Int? = nil
         )
         {
             self.authorizationConfig = authorizationConfig
@@ -22573,7 +22573,7 @@ extension SecurityHubClientTypes.AwsEksClusterLoggingClusterLoggingDetails: Swif
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if enabled != false {
+        if let enabled = self.enabled {
             try encodeContainer.encode(enabled, forKey: .enabled)
         }
         if let types = types {
@@ -22586,7 +22586,7 @@ extension SecurityHubClientTypes.AwsEksClusterLoggingClusterLoggingDetails: Swif
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled) ?? false
+        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled)
         enabled = enabledDecoded
         let typesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .types)
         var typesDecoded0:[Swift.String]? = nil
@@ -22606,7 +22606,7 @@ extension SecurityHubClientTypes {
     /// Details for a cluster logging configuration.
     public struct AwsEksClusterLoggingClusterLoggingDetails: Swift.Equatable {
         /// Whether the logging types that are listed in Types are enabled.
-        public var enabled: Swift.Bool
+        public var enabled: Swift.Bool?
         /// A list of logging types. Valid values are as follows:
         ///
         /// * api
@@ -22621,7 +22621,7 @@ extension SecurityHubClientTypes {
         public var types: [Swift.String]?
 
         public init(
-            enabled: Swift.Bool = false,
+            enabled: Swift.Bool? = nil,
             types: [Swift.String]? = nil
         )
         {
@@ -22688,7 +22688,7 @@ extension SecurityHubClientTypes.AwsEksClusterResourcesVpcConfigDetails: Swift.C
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if endpointPublicAccess != false {
+        if let endpointPublicAccess = self.endpointPublicAccess {
             try encodeContainer.encode(endpointPublicAccess, forKey: .endpointPublicAccess)
         }
         if let securityGroupIds = securityGroupIds {
@@ -22729,7 +22729,7 @@ extension SecurityHubClientTypes.AwsEksClusterResourcesVpcConfigDetails: Swift.C
             }
         }
         subnetIds = subnetIdsDecoded0
-        let endpointPublicAccessDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .endpointPublicAccess) ?? false
+        let endpointPublicAccessDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .endpointPublicAccess)
         endpointPublicAccess = endpointPublicAccessDecoded
     }
 }
@@ -22738,14 +22738,14 @@ extension SecurityHubClientTypes {
     /// Information about the VPC configuration used by the cluster control plane.
     public struct AwsEksClusterResourcesVpcConfigDetails: Swift.Equatable {
         /// Indicates whether the Amazon EKS public API server endpoint is turned on. If the Amazon EKS public API server endpoint is turned off, your cluster's Kubernetes API server can only receive requests that originate from within the cluster VPC.
-        public var endpointPublicAccess: Swift.Bool
+        public var endpointPublicAccess: Swift.Bool?
         /// The security groups that are associated with the cross-account elastic network interfaces that are used to allow communication between your nodes and the Amazon EKS control plane.
         public var securityGroupIds: [Swift.String]?
         /// The subnets that are associated with the cluster.
         public var subnetIds: [Swift.String]?
 
         public init(
-            endpointPublicAccess: Swift.Bool = false,
+            endpointPublicAccess: Swift.Bool? = nil,
             securityGroupIds: [Swift.String]? = nil,
             subnetIds: [Swift.String]? = nil
         )
@@ -23323,7 +23323,7 @@ extension SecurityHubClientTypes.AwsElasticsearchDomainDomainEndpointOptions: Sw
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if enforceHTTPS != false {
+        if let enforceHTTPS = self.enforceHTTPS {
             try encodeContainer.encode(enforceHTTPS, forKey: .enforceHTTPS)
         }
         if let tlsSecurityPolicy = self.tlsSecurityPolicy {
@@ -23333,7 +23333,7 @@ extension SecurityHubClientTypes.AwsElasticsearchDomainDomainEndpointOptions: Sw
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let enforceHTTPSDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enforceHTTPS) ?? false
+        let enforceHTTPSDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enforceHTTPS)
         enforceHTTPS = enforceHTTPSDecoded
         let tlsSecurityPolicyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tlsSecurityPolicy)
         tlsSecurityPolicy = tlsSecurityPolicyDecoded
@@ -23344,7 +23344,7 @@ extension SecurityHubClientTypes {
     /// Additional options for the domain endpoint, such as whether to require HTTPS for all traffic.
     public struct AwsElasticsearchDomainDomainEndpointOptions: Swift.Equatable {
         /// Whether to require that all traffic to the domain arrive over HTTPS.
-        public var enforceHTTPS: Swift.Bool
+        public var enforceHTTPS: Swift.Bool?
         /// The TLS security policy to apply to the HTTPS endpoint of the OpenSearch domain. Valid values:
         ///
         /// * Policy-Min-TLS-1-0-2019-07, which supports TLSv1.0 and higher
@@ -23353,7 +23353,7 @@ extension SecurityHubClientTypes {
         public var tlsSecurityPolicy: Swift.String?
 
         public init(
-            enforceHTTPS: Swift.Bool = false,
+            enforceHTTPS: Swift.Bool? = nil,
             tlsSecurityPolicy: Swift.String? = nil
         )
         {
@@ -23377,16 +23377,16 @@ extension SecurityHubClientTypes.AwsElasticsearchDomainElasticsearchClusterConfi
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if dedicatedMasterCount != 0 {
+        if let dedicatedMasterCount = self.dedicatedMasterCount {
             try encodeContainer.encode(dedicatedMasterCount, forKey: .dedicatedMasterCount)
         }
-        if dedicatedMasterEnabled != false {
+        if let dedicatedMasterEnabled = self.dedicatedMasterEnabled {
             try encodeContainer.encode(dedicatedMasterEnabled, forKey: .dedicatedMasterEnabled)
         }
         if let dedicatedMasterType = self.dedicatedMasterType {
             try encodeContainer.encode(dedicatedMasterType, forKey: .dedicatedMasterType)
         }
-        if instanceCount != 0 {
+        if let instanceCount = self.instanceCount {
             try encodeContainer.encode(instanceCount, forKey: .instanceCount)
         }
         if let instanceType = self.instanceType {
@@ -23395,26 +23395,26 @@ extension SecurityHubClientTypes.AwsElasticsearchDomainElasticsearchClusterConfi
         if let zoneAwarenessConfig = self.zoneAwarenessConfig {
             try encodeContainer.encode(zoneAwarenessConfig, forKey: .zoneAwarenessConfig)
         }
-        if zoneAwarenessEnabled != false {
+        if let zoneAwarenessEnabled = self.zoneAwarenessEnabled {
             try encodeContainer.encode(zoneAwarenessEnabled, forKey: .zoneAwarenessEnabled)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let dedicatedMasterCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .dedicatedMasterCount) ?? 0
+        let dedicatedMasterCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .dedicatedMasterCount)
         dedicatedMasterCount = dedicatedMasterCountDecoded
-        let dedicatedMasterEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dedicatedMasterEnabled) ?? false
+        let dedicatedMasterEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dedicatedMasterEnabled)
         dedicatedMasterEnabled = dedicatedMasterEnabledDecoded
         let dedicatedMasterTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dedicatedMasterType)
         dedicatedMasterType = dedicatedMasterTypeDecoded
-        let instanceCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .instanceCount) ?? 0
+        let instanceCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .instanceCount)
         instanceCount = instanceCountDecoded
         let instanceTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceType)
         instanceType = instanceTypeDecoded
         let zoneAwarenessConfigDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsElasticsearchDomainElasticsearchClusterConfigZoneAwarenessConfigDetails.self, forKey: .zoneAwarenessConfig)
         zoneAwarenessConfig = zoneAwarenessConfigDecoded
-        let zoneAwarenessEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .zoneAwarenessEnabled) ?? false
+        let zoneAwarenessEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .zoneAwarenessEnabled)
         zoneAwarenessEnabled = zoneAwarenessEnabledDecoded
     }
 }
@@ -23423,28 +23423,28 @@ extension SecurityHubClientTypes {
     /// details about the configuration of an OpenSearch cluster.
     public struct AwsElasticsearchDomainElasticsearchClusterConfigDetails: Swift.Equatable {
         /// The number of instances to use for the master node. If this attribute is specified, then DedicatedMasterEnabled must be true.
-        public var dedicatedMasterCount: Swift.Int
+        public var dedicatedMasterCount: Swift.Int?
         /// Whether to use a dedicated master node for the Elasticsearch domain. A dedicated master node performs cluster management tasks, but doesn't hold data or respond to data upload requests.
-        public var dedicatedMasterEnabled: Swift.Bool
+        public var dedicatedMasterEnabled: Swift.Bool?
         /// The hardware configuration of the computer that hosts the dedicated master node. A sample value is m3.medium.elasticsearch. If this attribute is specified, then DedicatedMasterEnabled must be true. For a list of valid values, see [Supported instance types in Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/supported-instance-types.html) in the Amazon OpenSearch Service Developer Guide.
         public var dedicatedMasterType: Swift.String?
         /// The number of data nodes to use in the Elasticsearch domain.
-        public var instanceCount: Swift.Int
+        public var instanceCount: Swift.Int?
         /// The instance type for your data nodes. For example, m3.medium.elasticsearch. For a list of valid values, see [Supported instance types in Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/supported-instance-types.html) in the Amazon OpenSearch Service Developer Guide.
         public var instanceType: Swift.String?
         /// Configuration options for zone awareness. Provided if ZoneAwarenessEnabled is true.
         public var zoneAwarenessConfig: SecurityHubClientTypes.AwsElasticsearchDomainElasticsearchClusterConfigZoneAwarenessConfigDetails?
         /// Whether to enable zone awareness for the Elasticsearch domain. When zone awareness is enabled, OpenSearch allocates the cluster's nodes and replica index shards across Availability Zones in the same Region. This prevents data loss and minimizes downtime if a node or data center fails.
-        public var zoneAwarenessEnabled: Swift.Bool
+        public var zoneAwarenessEnabled: Swift.Bool?
 
         public init(
-            dedicatedMasterCount: Swift.Int = 0,
-            dedicatedMasterEnabled: Swift.Bool = false,
+            dedicatedMasterCount: Swift.Int? = nil,
+            dedicatedMasterEnabled: Swift.Bool? = nil,
             dedicatedMasterType: Swift.String? = nil,
-            instanceCount: Swift.Int = 0,
+            instanceCount: Swift.Int? = nil,
             instanceType: Swift.String? = nil,
             zoneAwarenessConfig: SecurityHubClientTypes.AwsElasticsearchDomainElasticsearchClusterConfigZoneAwarenessConfigDetails? = nil,
-            zoneAwarenessEnabled: Swift.Bool = false
+            zoneAwarenessEnabled: Swift.Bool? = nil
         )
         {
             self.dedicatedMasterCount = dedicatedMasterCount
@@ -23466,14 +23466,14 @@ extension SecurityHubClientTypes.AwsElasticsearchDomainElasticsearchClusterConfi
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if availabilityZoneCount != 0 {
+        if let availabilityZoneCount = self.availabilityZoneCount {
             try encodeContainer.encode(availabilityZoneCount, forKey: .availabilityZoneCount)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let availabilityZoneCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .availabilityZoneCount) ?? 0
+        let availabilityZoneCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .availabilityZoneCount)
         availabilityZoneCount = availabilityZoneCountDecoded
     }
 }
@@ -23482,10 +23482,10 @@ extension SecurityHubClientTypes {
     /// Configuration options for zone awareness.
     public struct AwsElasticsearchDomainElasticsearchClusterConfigZoneAwarenessConfigDetails: Swift.Equatable {
         /// he number of Availability Zones that the domain uses. Valid values are 2 and 3. The default is 2.
-        public var availabilityZoneCount: Swift.Int
+        public var availabilityZoneCount: Swift.Int?
 
         public init(
-            availabilityZoneCount: Swift.Int = 0
+            availabilityZoneCount: Swift.Int? = nil
         )
         {
             self.availabilityZoneCount = availabilityZoneCount
@@ -23502,7 +23502,7 @@ extension SecurityHubClientTypes.AwsElasticsearchDomainEncryptionAtRestOptions: 
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if enabled != false {
+        if let enabled = self.enabled {
             try encodeContainer.encode(enabled, forKey: .enabled)
         }
         if let kmsKeyId = self.kmsKeyId {
@@ -23512,7 +23512,7 @@ extension SecurityHubClientTypes.AwsElasticsearchDomainEncryptionAtRestOptions: 
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled) ?? false
+        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled)
         enabled = enabledDecoded
         let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
         kmsKeyId = kmsKeyIdDecoded
@@ -23523,12 +23523,12 @@ extension SecurityHubClientTypes {
     /// Details about the configuration for encryption at rest.
     public struct AwsElasticsearchDomainEncryptionAtRestOptions: Swift.Equatable {
         /// Whether encryption at rest is enabled.
-        public var enabled: Swift.Bool
+        public var enabled: Swift.Bool?
         /// The KMS key ID. Takes the form 1a2a3a4-1a2a-3a4a-5a6a-1a2a3a4a5a6a.
         public var kmsKeyId: Swift.String?
 
         public init(
-            enabled: Swift.Bool = false,
+            enabled: Swift.Bool? = nil,
             kmsKeyId: Swift.String? = nil
         )
         {
@@ -23605,7 +23605,7 @@ extension SecurityHubClientTypes.AwsElasticsearchDomainLogPublishingOptionsLogCo
         if let cloudWatchLogsLogGroupArn = self.cloudWatchLogsLogGroupArn {
             try encodeContainer.encode(cloudWatchLogsLogGroupArn, forKey: .cloudWatchLogsLogGroupArn)
         }
-        if enabled != false {
+        if let enabled = self.enabled {
             try encodeContainer.encode(enabled, forKey: .enabled)
         }
     }
@@ -23614,7 +23614,7 @@ extension SecurityHubClientTypes.AwsElasticsearchDomainLogPublishingOptionsLogCo
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let cloudWatchLogsLogGroupArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cloudWatchLogsLogGroupArn)
         cloudWatchLogsLogGroupArn = cloudWatchLogsLogGroupArnDecoded
-        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled) ?? false
+        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled)
         enabled = enabledDecoded
     }
 }
@@ -23625,11 +23625,11 @@ extension SecurityHubClientTypes {
         /// The ARN of the CloudWatch Logs group to publish the logs to.
         public var cloudWatchLogsLogGroupArn: Swift.String?
         /// Whether the log publishing is enabled.
-        public var enabled: Swift.Bool
+        public var enabled: Swift.Bool?
 
         public init(
             cloudWatchLogsLogGroupArn: Swift.String? = nil,
-            enabled: Swift.Bool = false
+            enabled: Swift.Bool? = nil
         )
         {
             self.cloudWatchLogsLogGroupArn = cloudWatchLogsLogGroupArn
@@ -23646,14 +23646,14 @@ extension SecurityHubClientTypes.AwsElasticsearchDomainNodeToNodeEncryptionOptio
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if enabled != false {
+        if let enabled = self.enabled {
             try encodeContainer.encode(enabled, forKey: .enabled)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled) ?? false
+        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled)
         enabled = enabledDecoded
     }
 }
@@ -23662,10 +23662,10 @@ extension SecurityHubClientTypes {
     /// Details about the configuration for node-to-node encryption.
     public struct AwsElasticsearchDomainNodeToNodeEncryptionOptions: Swift.Equatable {
         /// Whether node-to-node encryption is enabled.
-        public var enabled: Swift.Bool
+        public var enabled: Swift.Bool?
 
         public init(
-            enabled: Swift.Bool = false
+            enabled: Swift.Bool? = nil
         )
         {
             self.enabled = enabled
@@ -23690,7 +23690,7 @@ extension SecurityHubClientTypes.AwsElasticsearchDomainServiceSoftwareOptions: S
         if let automatedUpdateDate = self.automatedUpdateDate {
             try encodeContainer.encode(automatedUpdateDate, forKey: .automatedUpdateDate)
         }
-        if cancellable != false {
+        if let cancellable = self.cancellable {
             try encodeContainer.encode(cancellable, forKey: .cancellable)
         }
         if let currentVersion = self.currentVersion {
@@ -23702,7 +23702,7 @@ extension SecurityHubClientTypes.AwsElasticsearchDomainServiceSoftwareOptions: S
         if let newVersion = self.newVersion {
             try encodeContainer.encode(newVersion, forKey: .newVersion)
         }
-        if updateAvailable != false {
+        if let updateAvailable = self.updateAvailable {
             try encodeContainer.encode(updateAvailable, forKey: .updateAvailable)
         }
         if let updateStatus = self.updateStatus {
@@ -23714,7 +23714,7 @@ extension SecurityHubClientTypes.AwsElasticsearchDomainServiceSoftwareOptions: S
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let automatedUpdateDateDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .automatedUpdateDate)
         automatedUpdateDate = automatedUpdateDateDecoded
-        let cancellableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .cancellable) ?? false
+        let cancellableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .cancellable)
         cancellable = cancellableDecoded
         let currentVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .currentVersion)
         currentVersion = currentVersionDecoded
@@ -23722,7 +23722,7 @@ extension SecurityHubClientTypes.AwsElasticsearchDomainServiceSoftwareOptions: S
         description = descriptionDecoded
         let newVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .newVersion)
         newVersion = newVersionDecoded
-        let updateAvailableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .updateAvailable) ?? false
+        let updateAvailableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .updateAvailable)
         updateAvailable = updateAvailableDecoded
         let updateStatusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .updateStatus)
         updateStatus = updateStatusDecoded
@@ -23735,7 +23735,7 @@ extension SecurityHubClientTypes {
         /// The epoch time when the deployment window closes for required updates. After this time, Amazon OpenSearch Service schedules the software upgrade automatically.
         public var automatedUpdateDate: Swift.String?
         /// Whether a request to update the domain can be canceled.
-        public var cancellable: Swift.Bool
+        public var cancellable: Swift.Bool?
         /// The version of the service software that is currently installed on the domain.
         public var currentVersion: Swift.String?
         /// A more detailed description of the service software status.
@@ -23743,7 +23743,7 @@ extension SecurityHubClientTypes {
         /// The most recent version of the service software.
         public var newVersion: Swift.String?
         /// Whether a service software update is available for the domain.
-        public var updateAvailable: Swift.Bool
+        public var updateAvailable: Swift.Bool?
         /// The status of the service software update. Valid values are as follows:
         ///
         /// * COMPLETED
@@ -23759,11 +23759,11 @@ extension SecurityHubClientTypes {
 
         public init(
             automatedUpdateDate: Swift.String? = nil,
-            cancellable: Swift.Bool = false,
+            cancellable: Swift.Bool? = nil,
             currentVersion: Swift.String? = nil,
             description: Swift.String? = nil,
             newVersion: Swift.String? = nil,
-            updateAvailable: Swift.Bool = false,
+            updateAvailable: Swift.Bool? = nil,
             updateStatus: Swift.String? = nil
         )
         {
@@ -23933,7 +23933,7 @@ extension SecurityHubClientTypes.AwsElbLbCookieStickinessPolicy: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if cookieExpirationPeriod != 0 {
+        if let cookieExpirationPeriod = self.cookieExpirationPeriod {
             try encodeContainer.encode(cookieExpirationPeriod, forKey: .cookieExpirationPeriod)
         }
         if let policyName = self.policyName {
@@ -23943,7 +23943,7 @@ extension SecurityHubClientTypes.AwsElbLbCookieStickinessPolicy: Swift.Codable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let cookieExpirationPeriodDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .cookieExpirationPeriod) ?? 0
+        let cookieExpirationPeriodDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .cookieExpirationPeriod)
         cookieExpirationPeriod = cookieExpirationPeriodDecoded
         let policyNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .policyName)
         policyName = policyNameDecoded
@@ -23954,12 +23954,12 @@ extension SecurityHubClientTypes {
     /// Contains information about a stickiness policy that was created using CreateLBCookieStickinessPolicy.
     public struct AwsElbLbCookieStickinessPolicy: Swift.Equatable {
         /// The amount of time, in seconds, after which the cookie is considered stale. If an expiration period is not specified, the stickiness session lasts for the duration of the browser session.
-        public var cookieExpirationPeriod: Swift.Int
+        public var cookieExpirationPeriod: Swift.Int?
         /// The name of the policy. The name must be unique within the set of policies for the load balancer.
         public var policyName: Swift.String?
 
         public init(
-            cookieExpirationPeriod: Swift.Int = 0,
+            cookieExpirationPeriod: Swift.Int? = nil,
             policyName: Swift.String? = nil
         )
         {
@@ -23980,10 +23980,10 @@ extension SecurityHubClientTypes.AwsElbLoadBalancerAccessLog: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if emitInterval != 0 {
+        if let emitInterval = self.emitInterval {
             try encodeContainer.encode(emitInterval, forKey: .emitInterval)
         }
-        if enabled != false {
+        if let enabled = self.enabled {
             try encodeContainer.encode(enabled, forKey: .enabled)
         }
         if let s3BucketName = self.s3BucketName {
@@ -23996,9 +23996,9 @@ extension SecurityHubClientTypes.AwsElbLoadBalancerAccessLog: Swift.Codable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let emitIntervalDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .emitInterval) ?? 0
+        let emitIntervalDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .emitInterval)
         emitInterval = emitIntervalDecoded
-        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled) ?? false
+        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled)
         enabled = enabledDecoded
         let s3BucketNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .s3BucketName)
         s3BucketName = s3BucketNameDecoded
@@ -24011,17 +24011,17 @@ extension SecurityHubClientTypes {
     /// Contains information about the access log configuration for the load balancer.
     public struct AwsElbLoadBalancerAccessLog: Swift.Equatable {
         /// The interval in minutes for publishing the access logs. You can publish access logs either every 5 minutes or every 60 minutes.
-        public var emitInterval: Swift.Int
+        public var emitInterval: Swift.Int?
         /// Indicates whether access logs are enabled for the load balancer.
-        public var enabled: Swift.Bool
+        public var enabled: Swift.Bool?
         /// The name of the S3 bucket where the access logs are stored.
         public var s3BucketName: Swift.String?
         /// The logical hierarchy that was created for the S3 bucket. If a prefix is not provided, the log is placed at the root level of the bucket.
         public var s3BucketPrefix: Swift.String?
 
         public init(
-            emitInterval: Swift.Int = 0,
-            enabled: Swift.Bool = false,
+            emitInterval: Swift.Int? = nil,
+            enabled: Swift.Bool? = nil,
             s3BucketName: Swift.String? = nil,
             s3BucketPrefix: Swift.String? = nil
         )
@@ -24175,7 +24175,7 @@ extension SecurityHubClientTypes.AwsElbLoadBalancerBackendServerDescription: Swi
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if instancePort != 0 {
+        if let instancePort = self.instancePort {
             try encodeContainer.encode(instancePort, forKey: .instancePort)
         }
         if let policyNames = policyNames {
@@ -24188,7 +24188,7 @@ extension SecurityHubClientTypes.AwsElbLoadBalancerBackendServerDescription: Swi
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let instancePortDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .instancePort) ?? 0
+        let instancePortDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .instancePort)
         instancePort = instancePortDecoded
         let policyNamesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .policyNames)
         var policyNamesDecoded0:[Swift.String]? = nil
@@ -24208,12 +24208,12 @@ extension SecurityHubClientTypes {
     /// Provides information about the configuration of an EC2 instance for the load balancer.
     public struct AwsElbLoadBalancerBackendServerDescription: Swift.Equatable {
         /// The port on which the EC2 instance is listening.
-        public var instancePort: Swift.Int
+        public var instancePort: Swift.Int?
         /// The names of the policies that are enabled for the EC2 instance.
         public var policyNames: [Swift.String]?
 
         public init(
-            instancePort: Swift.Int = 0,
+            instancePort: Swift.Int? = nil,
             policyNames: [Swift.String]? = nil
         )
         {
@@ -24232,19 +24232,19 @@ extension SecurityHubClientTypes.AwsElbLoadBalancerConnectionDraining: Swift.Cod
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if enabled != false {
+        if let enabled = self.enabled {
             try encodeContainer.encode(enabled, forKey: .enabled)
         }
-        if timeout != 0 {
+        if let timeout = self.timeout {
             try encodeContainer.encode(timeout, forKey: .timeout)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled) ?? false
+        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled)
         enabled = enabledDecoded
-        let timeoutDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .timeout) ?? 0
+        let timeoutDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .timeout)
         timeout = timeoutDecoded
     }
 }
@@ -24253,13 +24253,13 @@ extension SecurityHubClientTypes {
     /// Contains information about the connection draining configuration for the load balancer.
     public struct AwsElbLoadBalancerConnectionDraining: Swift.Equatable {
         /// Indicates whether connection draining is enabled for the load balancer.
-        public var enabled: Swift.Bool
+        public var enabled: Swift.Bool?
         /// The maximum time, in seconds, to keep the existing connections open before deregistering the instances.
-        public var timeout: Swift.Int
+        public var timeout: Swift.Int?
 
         public init(
-            enabled: Swift.Bool = false,
-            timeout: Swift.Int = 0
+            enabled: Swift.Bool? = nil,
+            timeout: Swift.Int? = nil
         )
         {
             self.enabled = enabled
@@ -24276,14 +24276,14 @@ extension SecurityHubClientTypes.AwsElbLoadBalancerConnectionSettings: Swift.Cod
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if idleTimeout != 0 {
+        if let idleTimeout = self.idleTimeout {
             try encodeContainer.encode(idleTimeout, forKey: .idleTimeout)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let idleTimeoutDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .idleTimeout) ?? 0
+        let idleTimeoutDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .idleTimeout)
         idleTimeout = idleTimeoutDecoded
     }
 }
@@ -24292,10 +24292,10 @@ extension SecurityHubClientTypes {
     /// Contains connection settings for the load balancer.
     public struct AwsElbLoadBalancerConnectionSettings: Swift.Equatable {
         /// The time, in seconds, that the connection can be idle (no data is sent over the connection) before it is closed by the load balancer.
-        public var idleTimeout: Swift.Int
+        public var idleTimeout: Swift.Int?
 
         public init(
-            idleTimeout: Swift.Int = 0
+            idleTimeout: Swift.Int? = nil
         )
         {
             self.idleTimeout = idleTimeout
@@ -24311,14 +24311,14 @@ extension SecurityHubClientTypes.AwsElbLoadBalancerCrossZoneLoadBalancing: Swift
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if enabled != false {
+        if let enabled = self.enabled {
             try encodeContainer.encode(enabled, forKey: .enabled)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled) ?? false
+        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled)
         enabled = enabledDecoded
     }
 }
@@ -24327,10 +24327,10 @@ extension SecurityHubClientTypes {
     /// Contains cross-zone load balancing settings for the load balancer.
     public struct AwsElbLoadBalancerCrossZoneLoadBalancing: Swift.Equatable {
         /// Indicates whether cross-zone load balancing is enabled for the load balancer.
-        public var enabled: Swift.Bool
+        public var enabled: Swift.Bool?
 
         public init(
-            enabled: Swift.Bool = false
+            enabled: Swift.Bool? = nil
         )
         {
             self.enabled = enabled
@@ -24617,34 +24617,34 @@ extension SecurityHubClientTypes.AwsElbLoadBalancerHealthCheck: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if healthyThreshold != 0 {
+        if let healthyThreshold = self.healthyThreshold {
             try encodeContainer.encode(healthyThreshold, forKey: .healthyThreshold)
         }
-        if interval != 0 {
+        if let interval = self.interval {
             try encodeContainer.encode(interval, forKey: .interval)
         }
         if let target = self.target {
             try encodeContainer.encode(target, forKey: .target)
         }
-        if timeout != 0 {
+        if let timeout = self.timeout {
             try encodeContainer.encode(timeout, forKey: .timeout)
         }
-        if unhealthyThreshold != 0 {
+        if let unhealthyThreshold = self.unhealthyThreshold {
             try encodeContainer.encode(unhealthyThreshold, forKey: .unhealthyThreshold)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let healthyThresholdDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .healthyThreshold) ?? 0
+        let healthyThresholdDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .healthyThreshold)
         healthyThreshold = healthyThresholdDecoded
-        let intervalDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .interval) ?? 0
+        let intervalDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .interval)
         interval = intervalDecoded
         let targetDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .target)
         target = targetDecoded
-        let timeoutDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .timeout) ?? 0
+        let timeoutDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .timeout)
         timeout = timeoutDecoded
-        let unhealthyThresholdDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .unhealthyThreshold) ?? 0
+        let unhealthyThresholdDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .unhealthyThreshold)
         unhealthyThreshold = unhealthyThresholdDecoded
     }
 }
@@ -24653,22 +24653,22 @@ extension SecurityHubClientTypes {
     /// Contains information about the health checks that are conducted on the load balancer.
     public struct AwsElbLoadBalancerHealthCheck: Swift.Equatable {
         /// The number of consecutive health check successes required before the instance is moved to the Healthy state.
-        public var healthyThreshold: Swift.Int
+        public var healthyThreshold: Swift.Int?
         /// The approximate interval, in seconds, between health checks of an individual instance.
-        public var interval: Swift.Int
+        public var interval: Swift.Int?
         /// The instance that is being checked. The target specifies the protocol and port. The available protocols are TCP, SSL, HTTP, and HTTPS. The range of valid ports is 1 through 65535. For the HTTP and HTTPS protocols, the target also specifies the ping path. For the TCP protocol, the target is specified as TCP: . For the SSL protocol, the target is specified as SSL. . For the HTTP and HTTPS protocols, the target is specified as  :/ .
         public var target: Swift.String?
         /// The amount of time, in seconds, during which no response means a failed health check.
-        public var timeout: Swift.Int
+        public var timeout: Swift.Int?
         /// The number of consecutive health check failures that must occur before the instance is moved to the Unhealthy state.
-        public var unhealthyThreshold: Swift.Int
+        public var unhealthyThreshold: Swift.Int?
 
         public init(
-            healthyThreshold: Swift.Int = 0,
-            interval: Swift.Int = 0,
+            healthyThreshold: Swift.Int? = nil,
+            interval: Swift.Int? = nil,
             target: Swift.String? = nil,
-            timeout: Swift.Int = 0,
-            unhealthyThreshold: Swift.Int = 0
+            timeout: Swift.Int? = nil,
+            unhealthyThreshold: Swift.Int? = nil
         )
         {
             self.healthyThreshold = healthyThreshold
@@ -24727,13 +24727,13 @@ extension SecurityHubClientTypes.AwsElbLoadBalancerListener: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if instancePort != 0 {
+        if let instancePort = self.instancePort {
             try encodeContainer.encode(instancePort, forKey: .instancePort)
         }
         if let instanceProtocol = self.instanceProtocol {
             try encodeContainer.encode(instanceProtocol, forKey: .instanceProtocol)
         }
-        if loadBalancerPort != 0 {
+        if let loadBalancerPort = self.loadBalancerPort {
             try encodeContainer.encode(loadBalancerPort, forKey: .loadBalancerPort)
         }
         if let `protocol` = self.`protocol` {
@@ -24746,11 +24746,11 @@ extension SecurityHubClientTypes.AwsElbLoadBalancerListener: Swift.Codable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let instancePortDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .instancePort) ?? 0
+        let instancePortDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .instancePort)
         instancePort = instancePortDecoded
         let instanceProtocolDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceProtocol)
         instanceProtocol = instanceProtocolDecoded
-        let loadBalancerPortDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .loadBalancerPort) ?? 0
+        let loadBalancerPortDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .loadBalancerPort)
         loadBalancerPort = loadBalancerPortDecoded
         let protocolDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .protocol)
         `protocol` = protocolDecoded
@@ -24763,20 +24763,20 @@ extension SecurityHubClientTypes {
     /// Information about a load balancer listener.
     public struct AwsElbLoadBalancerListener: Swift.Equatable {
         /// The port on which the instance is listening.
-        public var instancePort: Swift.Int
+        public var instancePort: Swift.Int?
         /// The protocol to use to route traffic to instances. Valid values: HTTP | HTTPS | TCP | SSL
         public var instanceProtocol: Swift.String?
         /// The port on which the load balancer is listening. On EC2-VPC, you can specify any port from the range 1-65535. On EC2-Classic, you can specify any port from the following list: 25, 80, 443, 465, 587, 1024-65535.
-        public var loadBalancerPort: Swift.Int
+        public var loadBalancerPort: Swift.Int?
         /// The load balancer transport protocol to use for routing. Valid values: HTTP | HTTPS | TCP | SSL
         public var `protocol`: Swift.String?
         /// The ARN of the server certificate.
         public var sslCertificateId: Swift.String?
 
         public init(
-            instancePort: Swift.Int = 0,
+            instancePort: Swift.Int? = nil,
             instanceProtocol: Swift.String? = nil,
-            loadBalancerPort: Swift.Int = 0,
+            loadBalancerPort: Swift.Int? = nil,
             `protocol`: Swift.String? = nil,
             sslCertificateId: Swift.String? = nil
         )
@@ -26401,14 +26401,14 @@ extension SecurityHubClientTypes.AwsIamAccessKeySessionContextAttributes: Swift.
         if let creationDate = self.creationDate {
             try encodeContainer.encode(creationDate, forKey: .creationDate)
         }
-        if mfaAuthenticated != false {
+        if let mfaAuthenticated = self.mfaAuthenticated {
             try encodeContainer.encode(mfaAuthenticated, forKey: .mfaAuthenticated)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let mfaAuthenticatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .mfaAuthenticated) ?? false
+        let mfaAuthenticatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .mfaAuthenticated)
         mfaAuthenticated = mfaAuthenticatedDecoded
         let creationDateDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .creationDate)
         creationDate = creationDateDecoded
@@ -26421,11 +26421,11 @@ extension SecurityHubClientTypes {
         /// Indicates when the session was created. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public var creationDate: Swift.String?
         /// Indicates whether the session used multi-factor authentication (MFA).
-        public var mfaAuthenticated: Swift.Bool
+        public var mfaAuthenticated: Swift.Bool?
 
         public init(
             creationDate: Swift.String? = nil,
-            mfaAuthenticated: Swift.Bool = false
+            mfaAuthenticated: Swift.Bool? = nil
         )
         {
             self.creationDate = creationDate
@@ -26975,7 +26975,7 @@ extension SecurityHubClientTypes.AwsIamPolicyDetails: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if attachmentCount != 0 {
+        if let attachmentCount = self.attachmentCount {
             try encodeContainer.encode(attachmentCount, forKey: .attachmentCount)
         }
         if let createDate = self.createDate {
@@ -26987,13 +26987,13 @@ extension SecurityHubClientTypes.AwsIamPolicyDetails: Swift.Codable {
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
         }
-        if isAttachable != false {
+        if let isAttachable = self.isAttachable {
             try encodeContainer.encode(isAttachable, forKey: .isAttachable)
         }
         if let path = self.path {
             try encodeContainer.encode(path, forKey: .path)
         }
-        if permissionsBoundaryUsageCount != 0 {
+        if let permissionsBoundaryUsageCount = self.permissionsBoundaryUsageCount {
             try encodeContainer.encode(permissionsBoundaryUsageCount, forKey: .permissionsBoundaryUsageCount)
         }
         if let policyId = self.policyId {
@@ -27015,7 +27015,7 @@ extension SecurityHubClientTypes.AwsIamPolicyDetails: Swift.Codable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let attachmentCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .attachmentCount) ?? 0
+        let attachmentCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .attachmentCount)
         attachmentCount = attachmentCountDecoded
         let createDateDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .createDate)
         createDate = createDateDecoded
@@ -27023,11 +27023,11 @@ extension SecurityHubClientTypes.AwsIamPolicyDetails: Swift.Codable {
         defaultVersionId = defaultVersionIdDecoded
         let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
         description = descriptionDecoded
-        let isAttachableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isAttachable) ?? false
+        let isAttachableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isAttachable)
         isAttachable = isAttachableDecoded
         let pathDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .path)
         path = pathDecoded
-        let permissionsBoundaryUsageCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .permissionsBoundaryUsageCount) ?? 0
+        let permissionsBoundaryUsageCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .permissionsBoundaryUsageCount)
         permissionsBoundaryUsageCount = permissionsBoundaryUsageCountDecoded
         let policyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .policyId)
         policyId = policyIdDecoded
@@ -27053,7 +27053,7 @@ extension SecurityHubClientTypes {
     /// Represents an IAM permissions policy.
     public struct AwsIamPolicyDetails: Swift.Equatable {
         /// The number of users, groups, and roles that the policy is attached to.
-        public var attachmentCount: Swift.Int
+        public var attachmentCount: Swift.Int?
         /// When the policy was created. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public var createDate: Swift.String?
         /// The identifier of the default version of the policy.
@@ -27061,11 +27061,11 @@ extension SecurityHubClientTypes {
         /// A description of the policy.
         public var description: Swift.String?
         /// Whether the policy can be attached to a user, group, or role.
-        public var isAttachable: Swift.Bool
+        public var isAttachable: Swift.Bool?
         /// The path to the policy.
         public var path: Swift.String?
         /// The number of users and roles that use the policy to set the permissions boundary.
-        public var permissionsBoundaryUsageCount: Swift.Int
+        public var permissionsBoundaryUsageCount: Swift.Int?
         /// The unique identifier of the policy.
         public var policyId: Swift.String?
         /// The name of the policy.
@@ -27076,13 +27076,13 @@ extension SecurityHubClientTypes {
         public var updateDate: Swift.String?
 
         public init(
-            attachmentCount: Swift.Int = 0,
+            attachmentCount: Swift.Int? = nil,
             createDate: Swift.String? = nil,
             defaultVersionId: Swift.String? = nil,
             description: Swift.String? = nil,
-            isAttachable: Swift.Bool = false,
+            isAttachable: Swift.Bool? = nil,
             path: Swift.String? = nil,
-            permissionsBoundaryUsageCount: Swift.Int = 0,
+            permissionsBoundaryUsageCount: Swift.Int? = nil,
             policyId: Swift.String? = nil,
             policyName: Swift.String? = nil,
             policyVersionList: [SecurityHubClientTypes.AwsIamPolicyVersion]? = nil,
@@ -27117,7 +27117,7 @@ extension SecurityHubClientTypes.AwsIamPolicyVersion: Swift.Codable {
         if let createDate = self.createDate {
             try encodeContainer.encode(createDate, forKey: .createDate)
         }
-        if isDefaultVersion != false {
+        if let isDefaultVersion = self.isDefaultVersion {
             try encodeContainer.encode(isDefaultVersion, forKey: .isDefaultVersion)
         }
         if let versionId = self.versionId {
@@ -27129,7 +27129,7 @@ extension SecurityHubClientTypes.AwsIamPolicyVersion: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let versionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .versionId)
         versionId = versionIdDecoded
-        let isDefaultVersionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isDefaultVersion) ?? false
+        let isDefaultVersionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isDefaultVersion)
         isDefaultVersion = isDefaultVersionDecoded
         let createDateDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .createDate)
         createDate = createDateDecoded
@@ -27142,13 +27142,13 @@ extension SecurityHubClientTypes {
         /// Indicates when the version was created. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public var createDate: Swift.String?
         /// Whether the version is the default version.
-        public var isDefaultVersion: Swift.Bool
+        public var isDefaultVersion: Swift.Bool?
         /// The identifier of the policy version.
         public var versionId: Swift.String?
 
         public init(
             createDate: Swift.String? = nil,
-            isDefaultVersion: Swift.Bool = false,
+            isDefaultVersion: Swift.Bool? = nil,
             versionId: Swift.String? = nil
         )
         {
@@ -27194,7 +27194,7 @@ extension SecurityHubClientTypes.AwsIamRoleDetails: Swift.Codable {
                 try instanceProfileListContainer.encode(awsiaminstanceprofile0)
             }
         }
-        if maxSessionDuration != 0 {
+        if let maxSessionDuration = self.maxSessionDuration {
             try encodeContainer.encode(maxSessionDuration, forKey: .maxSessionDuration)
         }
         if let path = self.path {
@@ -27262,7 +27262,7 @@ extension SecurityHubClientTypes.AwsIamRoleDetails: Swift.Codable {
             }
         }
         rolePolicyList = rolePolicyListDecoded0
-        let maxSessionDurationDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxSessionDuration) ?? 0
+        let maxSessionDurationDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxSessionDuration)
         maxSessionDuration = maxSessionDurationDecoded
         let pathDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .path)
         path = pathDecoded
@@ -27281,7 +27281,7 @@ extension SecurityHubClientTypes {
         /// The list of instance profiles that contain this role.
         public var instanceProfileList: [SecurityHubClientTypes.AwsIamInstanceProfile]?
         /// The maximum session duration (in seconds) that you want to set for the specified role.
-        public var maxSessionDuration: Swift.Int
+        public var maxSessionDuration: Swift.Int?
         /// The path to the role.
         public var path: Swift.String?
         /// Information about the policy used to set the permissions boundary for an IAM principal.
@@ -27298,7 +27298,7 @@ extension SecurityHubClientTypes {
             attachedManagedPolicies: [SecurityHubClientTypes.AwsIamAttachedManagedPolicy]? = nil,
             createDate: Swift.String? = nil,
             instanceProfileList: [SecurityHubClientTypes.AwsIamInstanceProfile]? = nil,
-            maxSessionDuration: Swift.Int = 0,
+            maxSessionDuration: Swift.Int? = nil,
             path: Swift.String? = nil,
             permissionsBoundary: SecurityHubClientTypes.AwsIamPermissionsBoundary? = nil,
             roleId: Swift.String? = nil,
@@ -27549,10 +27549,10 @@ extension SecurityHubClientTypes.AwsKinesisStreamDetails: Swift.Codable {
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
         }
-        if retentionPeriodHours != 0 {
+        if let retentionPeriodHours = self.retentionPeriodHours {
             try encodeContainer.encode(retentionPeriodHours, forKey: .retentionPeriodHours)
         }
-        if shardCount != 0 {
+        if let shardCount = self.shardCount {
             try encodeContainer.encode(shardCount, forKey: .shardCount)
         }
         if let streamEncryption = self.streamEncryption {
@@ -27568,9 +27568,9 @@ extension SecurityHubClientTypes.AwsKinesisStreamDetails: Swift.Codable {
         arn = arnDecoded
         let streamEncryptionDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsKinesisStreamStreamEncryptionDetails.self, forKey: .streamEncryption)
         streamEncryption = streamEncryptionDecoded
-        let shardCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .shardCount) ?? 0
+        let shardCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .shardCount)
         shardCount = shardCountDecoded
-        let retentionPeriodHoursDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .retentionPeriodHours) ?? 0
+        let retentionPeriodHoursDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .retentionPeriodHours)
         retentionPeriodHours = retentionPeriodHoursDecoded
     }
 }
@@ -27583,17 +27583,17 @@ extension SecurityHubClientTypes {
         /// The name of the Kinesis stream. If you don't specify a name, CloudFront generates a unique physical ID and uses that ID for the stream name.
         public var name: Swift.String?
         /// The number of hours for the data records that are stored in shards to remain accessible.
-        public var retentionPeriodHours: Swift.Int
+        public var retentionPeriodHours: Swift.Int?
         /// The number of shards that the stream uses.
-        public var shardCount: Swift.Int
+        public var shardCount: Swift.Int?
         /// When specified, enables or updates server-side encryption using an KMS key for a specified stream. Removing this property from your stack template and updating your stack disables encryption.
         public var streamEncryption: SecurityHubClientTypes.AwsKinesisStreamStreamEncryptionDetails?
 
         public init(
             arn: Swift.String? = nil,
             name: Swift.String? = nil,
-            retentionPeriodHours: Swift.Int = 0,
-            shardCount: Swift.Int = 0,
+            retentionPeriodHours: Swift.Int? = nil,
+            shardCount: Swift.Int? = nil,
             streamEncryption: SecurityHubClientTypes.AwsKinesisStreamStreamEncryptionDetails? = nil
         )
         {
@@ -27669,7 +27669,7 @@ extension SecurityHubClientTypes.AwsKmsKeyDetails: Swift.Codable {
         if let awsAccountId = self.awsAccountId {
             try encodeContainer.encode(awsAccountId, forKey: .awsAccountId)
         }
-        if creationDate != 0.0 {
+        if let creationDate = self.creationDate {
             try encodeContainer.encode(creationDate, forKey: .creationDate)
         }
         if let description = self.description {
@@ -27681,7 +27681,7 @@ extension SecurityHubClientTypes.AwsKmsKeyDetails: Swift.Codable {
         if let keyManager = self.keyManager {
             try encodeContainer.encode(keyManager, forKey: .keyManager)
         }
-        if keyRotationStatus != false {
+        if let keyRotationStatus = self.keyRotationStatus {
             try encodeContainer.encode(keyRotationStatus, forKey: .keyRotationStatus)
         }
         if let keyState = self.keyState {
@@ -27696,7 +27696,7 @@ extension SecurityHubClientTypes.AwsKmsKeyDetails: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let awsAccountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .awsAccountId)
         awsAccountId = awsAccountIdDecoded
-        let creationDateDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .creationDate) ?? 0.0
+        let creationDateDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .creationDate)
         creationDate = creationDateDecoded
         let keyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .keyId)
         keyId = keyIdDecoded
@@ -27708,7 +27708,7 @@ extension SecurityHubClientTypes.AwsKmsKeyDetails: Swift.Codable {
         origin = originDecoded
         let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
         description = descriptionDecoded
-        let keyRotationStatusDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .keyRotationStatus) ?? false
+        let keyRotationStatusDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .keyRotationStatus)
         keyRotationStatus = keyRotationStatusDecoded
     }
 }
@@ -27719,7 +27719,7 @@ extension SecurityHubClientTypes {
         /// The twelve-digit account ID of the Amazon Web Services account that owns the KMS key.
         public var awsAccountId: Swift.String?
         /// Indicates when the KMS key was created. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
-        public var creationDate: Swift.Double
+        public var creationDate: Swift.Double?
         /// A description of the KMS key.
         public var description: Swift.String?
         /// The globally unique identifier for the KMS key.
@@ -27727,7 +27727,7 @@ extension SecurityHubClientTypes {
         /// The manager of the KMS key. KMS keys in your Amazon Web Services account are either customer managed or Amazon Web Services managed.
         public var keyManager: Swift.String?
         /// Whether the key has key rotation enabled.
-        public var keyRotationStatus: Swift.Bool
+        public var keyRotationStatus: Swift.Bool?
         /// The state of the KMS key. Valid values are as follows:
         ///
         /// * Disabled
@@ -27745,11 +27745,11 @@ extension SecurityHubClientTypes {
 
         public init(
             awsAccountId: Swift.String? = nil,
-            creationDate: Swift.Double = 0.0,
+            creationDate: Swift.Double? = nil,
             description: Swift.String? = nil,
             keyId: Swift.String? = nil,
             keyManager: Swift.String? = nil,
-            keyRotationStatus: Swift.Bool = false,
+            keyRotationStatus: Swift.Bool? = nil,
             keyState: Swift.String? = nil,
             origin: Swift.String? = nil
         )
@@ -27932,7 +27932,7 @@ extension SecurityHubClientTypes.AwsLambdaFunctionDetails: Swift.Codable {
         if let masterArn = self.masterArn {
             try encodeContainer.encode(masterArn, forKey: .masterArn)
         }
-        if memorySize != 0 {
+        if let memorySize = self.memorySize {
             try encodeContainer.encode(memorySize, forKey: .memorySize)
         }
         if let packageType = self.packageType {
@@ -27947,7 +27947,7 @@ extension SecurityHubClientTypes.AwsLambdaFunctionDetails: Swift.Codable {
         if let runtime = self.runtime {
             try encodeContainer.encode(runtime, forKey: .runtime)
         }
-        if timeout != 0 {
+        if let timeout = self.timeout {
             try encodeContainer.encode(timeout, forKey: .timeout)
         }
         if let tracingConfig = self.tracingConfig {
@@ -27992,7 +27992,7 @@ extension SecurityHubClientTypes.AwsLambdaFunctionDetails: Swift.Codable {
         layers = layersDecoded0
         let masterArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .masterArn)
         masterArn = masterArnDecoded
-        let memorySizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .memorySize) ?? 0
+        let memorySizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .memorySize)
         memorySize = memorySizeDecoded
         let revisionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .revisionId)
         revisionId = revisionIdDecoded
@@ -28000,7 +28000,7 @@ extension SecurityHubClientTypes.AwsLambdaFunctionDetails: Swift.Codable {
         role = roleDecoded
         let runtimeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .runtime)
         runtime = runtimeDecoded
-        let timeoutDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .timeout) ?? 0
+        let timeoutDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .timeout)
         timeout = timeoutDecoded
         let tracingConfigDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsLambdaFunctionTracingConfig.self, forKey: .tracingConfig)
         tracingConfig = tracingConfigDecoded
@@ -28050,7 +28050,7 @@ extension SecurityHubClientTypes {
         /// For Lambda@Edge functions, the ARN of the master function.
         public var masterArn: Swift.String?
         /// The memory that is allocated to the function.
-        public var memorySize: Swift.Int
+        public var memorySize: Swift.Int?
         /// The type of deployment package that's used to deploy the function code to Lambda. Set to Image for a container image and Zip for a .zip file archive.
         public var packageType: Swift.String?
         /// The latest updated revision of the function or alias.
@@ -28060,7 +28060,7 @@ extension SecurityHubClientTypes {
         /// The runtime environment for the Lambda function.
         public var runtime: Swift.String?
         /// The amount of time that Lambda allows a function to run before stopping it.
-        public var timeout: Swift.Int
+        public var timeout: Swift.Int?
         /// The function's X-Ray tracing configuration.
         public var tracingConfig: SecurityHubClientTypes.AwsLambdaFunctionTracingConfig?
         /// The version of the Lambda function.
@@ -28080,12 +28080,12 @@ extension SecurityHubClientTypes {
             lastModified: Swift.String? = nil,
             layers: [SecurityHubClientTypes.AwsLambdaFunctionLayer]? = nil,
             masterArn: Swift.String? = nil,
-            memorySize: Swift.Int = 0,
+            memorySize: Swift.Int? = nil,
             packageType: Swift.String? = nil,
             revisionId: Swift.String? = nil,
             role: Swift.String? = nil,
             runtime: Swift.String? = nil,
-            timeout: Swift.Int = 0,
+            timeout: Swift.Int? = nil,
             tracingConfig: SecurityHubClientTypes.AwsLambdaFunctionTracingConfig? = nil,
             version: Swift.String? = nil,
             vpcConfig: SecurityHubClientTypes.AwsLambdaFunctionVpcConfig? = nil
@@ -28229,7 +28229,7 @@ extension SecurityHubClientTypes.AwsLambdaFunctionLayer: Swift.Codable {
         if let arn = self.arn {
             try encodeContainer.encode(arn, forKey: .arn)
         }
-        if codeSize != 0 {
+        if let codeSize = self.codeSize {
             try encodeContainer.encode(codeSize, forKey: .codeSize)
         }
     }
@@ -28238,7 +28238,7 @@ extension SecurityHubClientTypes.AwsLambdaFunctionLayer: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
-        let codeSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .codeSize) ?? 0
+        let codeSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .codeSize)
         codeSize = codeSizeDecoded
     }
 }
@@ -28249,11 +28249,11 @@ extension SecurityHubClientTypes {
         /// The ARN of the function layer.
         public var arn: Swift.String?
         /// The size of the layer archive in bytes.
-        public var codeSize: Swift.Int
+        public var codeSize: Swift.Int?
 
         public init(
             arn: Swift.String? = nil,
-            codeSize: Swift.Int = 0
+            codeSize: Swift.Int? = nil
         )
         {
             self.arn = arn
@@ -28395,14 +28395,14 @@ extension SecurityHubClientTypes.AwsLambdaLayerVersionDetails: Swift.Codable {
         if let createdDate = self.createdDate {
             try encodeContainer.encode(createdDate, forKey: .createdDate)
         }
-        if version != 0 {
+        if let version = self.version {
             try encodeContainer.encode(version, forKey: .version)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let versionDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .version) ?? 0
+        let versionDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .version)
         version = versionDecoded
         let compatibleRuntimesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .compatibleRuntimes)
         var compatibleRuntimesDecoded0:[Swift.String]? = nil
@@ -28428,12 +28428,12 @@ extension SecurityHubClientTypes {
         /// Indicates when the version was created. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public var createdDate: Swift.String?
         /// The version number.
-        public var version: Swift.Int
+        public var version: Swift.Int?
 
         public init(
             compatibleRuntimes: [Swift.String]? = nil,
             createdDate: Swift.String? = nil,
-            version: Swift.Int = 0
+            version: Swift.Int? = nil
         )
         {
             self.compatibleRuntimes = compatibleRuntimes
@@ -28596,14 +28596,14 @@ extension SecurityHubClientTypes.AwsMskClusterClusterInfoClientAuthenticationSas
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if enabled != false {
+        if let enabled = self.enabled {
             try encodeContainer.encode(enabled, forKey: .enabled)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled) ?? false
+        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled)
         enabled = enabledDecoded
     }
 }
@@ -28612,10 +28612,10 @@ extension SecurityHubClientTypes {
     /// Details for SASL/IAM client authentication.
     public struct AwsMskClusterClusterInfoClientAuthenticationSaslIamDetails: Swift.Equatable {
         /// Indicates whether SASL/IAM authentication is enabled or not.
-        public var enabled: Swift.Bool
+        public var enabled: Swift.Bool?
 
         public init(
-            enabled: Swift.Bool = false
+            enabled: Swift.Bool? = nil
         )
         {
             self.enabled = enabled
@@ -28631,14 +28631,14 @@ extension SecurityHubClientTypes.AwsMskClusterClusterInfoClientAuthenticationSas
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if enabled != false {
+        if let enabled = self.enabled {
             try encodeContainer.encode(enabled, forKey: .enabled)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled) ?? false
+        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled)
         enabled = enabledDecoded
     }
 }
@@ -28647,10 +28647,10 @@ extension SecurityHubClientTypes {
     /// Details for SASL/SCRAM client authentication.
     public struct AwsMskClusterClusterInfoClientAuthenticationSaslScramDetails: Swift.Equatable {
         /// Indicates whether SASL/SCRAM authentication is enabled or not.
-        public var enabled: Swift.Bool
+        public var enabled: Swift.Bool?
 
         public init(
-            enabled: Swift.Bool = false
+            enabled: Swift.Bool? = nil
         )
         {
             self.enabled = enabled
@@ -28673,7 +28673,7 @@ extension SecurityHubClientTypes.AwsMskClusterClusterInfoClientAuthenticationTls
                 try certificateAuthorityArnListContainer.encode(nonemptystring0)
             }
         }
-        if enabled != false {
+        if let enabled = self.enabled {
             try encodeContainer.encode(enabled, forKey: .enabled)
         }
     }
@@ -28691,7 +28691,7 @@ extension SecurityHubClientTypes.AwsMskClusterClusterInfoClientAuthenticationTls
             }
         }
         certificateAuthorityArnList = certificateAuthorityArnListDecoded0
-        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled) ?? false
+        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled)
         enabled = enabledDecoded
     }
 }
@@ -28702,11 +28702,11 @@ extension SecurityHubClientTypes {
         /// List of Amazon Web Services Private CA Amazon Resource Names (ARNs). Amazon Web Services Private CA enables creation of private certificate authority (CA) hierarchies, including root and subordinate CAs, without the investment and maintenance costs of operating an on-premises CA.
         public var certificateAuthorityArnList: [Swift.String]?
         /// Indicates whether TLS authentication is enabled or not.
-        public var enabled: Swift.Bool
+        public var enabled: Swift.Bool?
 
         public init(
             certificateAuthorityArnList: [Swift.String]? = nil,
-            enabled: Swift.Bool = false
+            enabled: Swift.Bool? = nil
         )
         {
             self.certificateAuthorityArnList = certificateAuthorityArnList
@@ -28723,14 +28723,14 @@ extension SecurityHubClientTypes.AwsMskClusterClusterInfoClientAuthenticationUna
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if enabled != false {
+        if let enabled = self.enabled {
             try encodeContainer.encode(enabled, forKey: .enabled)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled) ?? false
+        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled)
         enabled = enabledDecoded
     }
 }
@@ -28739,10 +28739,10 @@ extension SecurityHubClientTypes {
     /// Provides details for allowing no client authentication.
     public struct AwsMskClusterClusterInfoClientAuthenticationUnauthenticatedDetails: Swift.Equatable {
         /// Indicates whether unauthenticated is allowed or not.
-        public var enabled: Swift.Bool
+        public var enabled: Swift.Bool?
 
         public init(
-            enabled: Swift.Bool = false
+            enabled: Swift.Bool? = nil
         )
         {
             self.enabled = enabled
@@ -28774,7 +28774,7 @@ extension SecurityHubClientTypes.AwsMskClusterClusterInfoDetails: Swift.Codable 
         if let encryptionInfo = self.encryptionInfo {
             try encodeContainer.encode(encryptionInfo, forKey: .encryptionInfo)
         }
-        if numberOfBrokerNodes != 0 {
+        if let numberOfBrokerNodes = self.numberOfBrokerNodes {
             try encodeContainer.encode(numberOfBrokerNodes, forKey: .numberOfBrokerNodes)
         }
     }
@@ -28785,7 +28785,7 @@ extension SecurityHubClientTypes.AwsMskClusterClusterInfoDetails: Swift.Codable 
         encryptionInfo = encryptionInfoDecoded
         let currentVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .currentVersion)
         currentVersion = currentVersionDecoded
-        let numberOfBrokerNodesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .numberOfBrokerNodes) ?? 0
+        let numberOfBrokerNodesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .numberOfBrokerNodes)
         numberOfBrokerNodes = numberOfBrokerNodesDecoded
         let clusterNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clusterName)
         clusterName = clusterNameDecoded
@@ -28806,14 +28806,14 @@ extension SecurityHubClientTypes {
         /// Includes encryption-related information, such as the KMS key used for encrypting data at rest and whether you want Amazon MSK to encrypt your data in transit.
         public var encryptionInfo: SecurityHubClientTypes.AwsMskClusterClusterInfoEncryptionInfoDetails?
         /// The number of broker nodes in the cluster.
-        public var numberOfBrokerNodes: Swift.Int
+        public var numberOfBrokerNodes: Swift.Int?
 
         public init(
             clientAuthentication: SecurityHubClientTypes.AwsMskClusterClusterInfoClientAuthenticationDetails? = nil,
             clusterName: Swift.String? = nil,
             currentVersion: Swift.String? = nil,
             encryptionInfo: SecurityHubClientTypes.AwsMskClusterClusterInfoEncryptionInfoDetails? = nil,
-            numberOfBrokerNodes: Swift.Int = 0
+            numberOfBrokerNodes: Swift.Int? = nil
         )
         {
             self.clientAuthentication = clientAuthentication
@@ -28917,14 +28917,14 @@ extension SecurityHubClientTypes.AwsMskClusterClusterInfoEncryptionInfoEncryptio
         if let clientBroker = self.clientBroker {
             try encodeContainer.encode(clientBroker, forKey: .clientBroker)
         }
-        if inCluster != false {
+        if let inCluster = self.inCluster {
             try encodeContainer.encode(inCluster, forKey: .inCluster)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let inClusterDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .inCluster) ?? false
+        let inClusterDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .inCluster)
         inCluster = inClusterDecoded
         let clientBrokerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientBroker)
         clientBroker = clientBrokerDecoded
@@ -28937,11 +28937,11 @@ extension SecurityHubClientTypes {
         /// Indicates the encryption setting for data in transit between clients and brokers.
         public var clientBroker: Swift.String?
         /// When set to true, it indicates that data communication among the broker nodes of the cluster is encrypted. When set to false, the communication happens in plain text. The default value is true.
-        public var inCluster: Swift.Bool
+        public var inCluster: Swift.Bool?
 
         public init(
             clientBroker: Swift.String? = nil,
-            inCluster: Swift.Bool = false
+            inCluster: Swift.Bool? = nil
         )
         {
             self.clientBroker = clientBroker
@@ -29002,7 +29002,7 @@ extension SecurityHubClientTypes.AwsNetworkFirewallFirewallDetails: Swift.Codabl
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if deleteProtection != false {
+        if let deleteProtection = self.deleteProtection {
             try encodeContainer.encode(deleteProtection, forKey: .deleteProtection)
         }
         if let description = self.description {
@@ -29020,10 +29020,10 @@ extension SecurityHubClientTypes.AwsNetworkFirewallFirewallDetails: Swift.Codabl
         if let firewallPolicyArn = self.firewallPolicyArn {
             try encodeContainer.encode(firewallPolicyArn, forKey: .firewallPolicyArn)
         }
-        if firewallPolicyChangeProtection != false {
+        if let firewallPolicyChangeProtection = self.firewallPolicyChangeProtection {
             try encodeContainer.encode(firewallPolicyChangeProtection, forKey: .firewallPolicyChangeProtection)
         }
-        if subnetChangeProtection != false {
+        if let subnetChangeProtection = self.subnetChangeProtection {
             try encodeContainer.encode(subnetChangeProtection, forKey: .subnetChangeProtection)
         }
         if let subnetMappings = subnetMappings {
@@ -29039,7 +29039,7 @@ extension SecurityHubClientTypes.AwsNetworkFirewallFirewallDetails: Swift.Codabl
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let deleteProtectionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deleteProtection) ?? false
+        let deleteProtectionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deleteProtection)
         deleteProtection = deleteProtectionDecoded
         let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
         description = descriptionDecoded
@@ -29051,9 +29051,9 @@ extension SecurityHubClientTypes.AwsNetworkFirewallFirewallDetails: Swift.Codabl
         firewallName = firewallNameDecoded
         let firewallPolicyArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .firewallPolicyArn)
         firewallPolicyArn = firewallPolicyArnDecoded
-        let firewallPolicyChangeProtectionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .firewallPolicyChangeProtection) ?? false
+        let firewallPolicyChangeProtectionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .firewallPolicyChangeProtection)
         firewallPolicyChangeProtection = firewallPolicyChangeProtectionDecoded
-        let subnetChangeProtectionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .subnetChangeProtection) ?? false
+        let subnetChangeProtectionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .subnetChangeProtection)
         subnetChangeProtection = subnetChangeProtectionDecoded
         let subnetMappingsContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.AwsNetworkFirewallFirewallSubnetMappingsDetails?].self, forKey: .subnetMappings)
         var subnetMappingsDecoded0:[SecurityHubClientTypes.AwsNetworkFirewallFirewallSubnetMappingsDetails]? = nil
@@ -29075,7 +29075,7 @@ extension SecurityHubClientTypes {
     /// Details about an Network Firewall firewall.
     public struct AwsNetworkFirewallFirewallDetails: Swift.Equatable {
         /// Whether the firewall is protected from deletion. If set to true, then the firewall cannot be deleted.
-        public var deleteProtection: Swift.Bool
+        public var deleteProtection: Swift.Bool?
         /// A description of the firewall.
         public var description: Swift.String?
         /// The ARN of the firewall.
@@ -29087,23 +29087,23 @@ extension SecurityHubClientTypes {
         /// The ARN of the firewall policy.
         public var firewallPolicyArn: Swift.String?
         /// Whether the firewall is protected from a change to the firewall policy. If set to true, you cannot associate a different policy with the firewall.
-        public var firewallPolicyChangeProtection: Swift.Bool
+        public var firewallPolicyChangeProtection: Swift.Bool?
         /// Whether the firewall is protected from a change to the subnet associations. If set to true, you cannot map different subnets to the firewall.
-        public var subnetChangeProtection: Swift.Bool
+        public var subnetChangeProtection: Swift.Bool?
         /// The public subnets that Network Firewall uses for the firewall. Each subnet must belong to a different Availability Zone.
         public var subnetMappings: [SecurityHubClientTypes.AwsNetworkFirewallFirewallSubnetMappingsDetails]?
         /// The identifier of the VPC where the firewall is used.
         public var vpcId: Swift.String?
 
         public init(
-            deleteProtection: Swift.Bool = false,
+            deleteProtection: Swift.Bool? = nil,
             description: Swift.String? = nil,
             firewallArn: Swift.String? = nil,
             firewallId: Swift.String? = nil,
             firewallName: Swift.String? = nil,
             firewallPolicyArn: Swift.String? = nil,
-            firewallPolicyChangeProtection: Swift.Bool = false,
-            subnetChangeProtection: Swift.Bool = false,
+            firewallPolicyChangeProtection: Swift.Bool? = nil,
+            subnetChangeProtection: Swift.Bool? = nil,
             subnetMappings: [SecurityHubClientTypes.AwsNetworkFirewallFirewallSubnetMappingsDetails]? = nil,
             vpcId: Swift.String? = nil
         )
@@ -29246,7 +29246,7 @@ extension SecurityHubClientTypes.AwsNetworkFirewallRuleGroupDetails: Swift.Codab
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if capacity != 0 {
+        if let capacity = self.capacity {
             try encodeContainer.encode(capacity, forKey: .capacity)
         }
         if let description = self.description {
@@ -29271,7 +29271,7 @@ extension SecurityHubClientTypes.AwsNetworkFirewallRuleGroupDetails: Swift.Codab
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let capacityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .capacity) ?? 0
+        let capacityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .capacity)
         capacity = capacityDecoded
         let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
         description = descriptionDecoded
@@ -29292,7 +29292,7 @@ extension SecurityHubClientTypes {
     /// Details about an Network Firewall rule group. Rule groups are used to inspect and control network traffic. Stateless rule groups apply to individual packets. Stateful rule groups apply to packets in the context of their traffic flow. Rule groups are referenced in firewall policies.
     public struct AwsNetworkFirewallRuleGroupDetails: Swift.Equatable {
         /// The maximum number of operating resources that this rule group can use.
-        public var capacity: Swift.Int
+        public var capacity: Swift.Int?
         /// A description of the rule group.
         public var description: Swift.String?
         /// Details about the rule group.
@@ -29307,7 +29307,7 @@ extension SecurityHubClientTypes {
         public var type: Swift.String?
 
         public init(
-            capacity: Swift.Int = 0,
+            capacity: Swift.Int? = nil,
             description: Swift.String? = nil,
             ruleGroup: SecurityHubClientTypes.RuleGroupDetails? = nil,
             ruleGroupArn: Swift.String? = nil,
@@ -29337,10 +29337,10 @@ extension SecurityHubClientTypes.AwsOpenSearchServiceDomainAdvancedSecurityOptio
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if enabled != false {
+        if let enabled = self.enabled {
             try encodeContainer.encode(enabled, forKey: .enabled)
         }
-        if internalUserDatabaseEnabled != false {
+        if let internalUserDatabaseEnabled = self.internalUserDatabaseEnabled {
             try encodeContainer.encode(internalUserDatabaseEnabled, forKey: .internalUserDatabaseEnabled)
         }
         if let masterUserOptions = self.masterUserOptions {
@@ -29350,9 +29350,9 @@ extension SecurityHubClientTypes.AwsOpenSearchServiceDomainAdvancedSecurityOptio
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled) ?? false
+        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled)
         enabled = enabledDecoded
-        let internalUserDatabaseEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .internalUserDatabaseEnabled) ?? false
+        let internalUserDatabaseEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .internalUserDatabaseEnabled)
         internalUserDatabaseEnabled = internalUserDatabaseEnabledDecoded
         let masterUserOptionsDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsOpenSearchServiceDomainMasterUserOptionsDetails.self, forKey: .masterUserOptions)
         masterUserOptions = masterUserOptionsDecoded
@@ -29363,15 +29363,15 @@ extension SecurityHubClientTypes {
     /// Provides information about domain access control options.
     public struct AwsOpenSearchServiceDomainAdvancedSecurityOptionsDetails: Swift.Equatable {
         /// Enables fine-grained access control.
-        public var enabled: Swift.Bool
+        public var enabled: Swift.Bool?
         /// Enables the internal user database.
-        public var internalUserDatabaseEnabled: Swift.Bool
+        public var internalUserDatabaseEnabled: Swift.Bool?
         /// Specifies information about the master user of the domain.
         public var masterUserOptions: SecurityHubClientTypes.AwsOpenSearchServiceDomainMasterUserOptionsDetails?
 
         public init(
-            enabled: Swift.Bool = false,
-            internalUserDatabaseEnabled: Swift.Bool = false,
+            enabled: Swift.Bool? = nil,
+            internalUserDatabaseEnabled: Swift.Bool? = nil,
             masterUserOptions: SecurityHubClientTypes.AwsOpenSearchServiceDomainMasterUserOptionsDetails? = nil
         )
         {
@@ -29399,25 +29399,25 @@ extension SecurityHubClientTypes.AwsOpenSearchServiceDomainClusterConfigDetails:
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if dedicatedMasterCount != 0 {
+        if let dedicatedMasterCount = self.dedicatedMasterCount {
             try encodeContainer.encode(dedicatedMasterCount, forKey: .dedicatedMasterCount)
         }
-        if dedicatedMasterEnabled != false {
+        if let dedicatedMasterEnabled = self.dedicatedMasterEnabled {
             try encodeContainer.encode(dedicatedMasterEnabled, forKey: .dedicatedMasterEnabled)
         }
         if let dedicatedMasterType = self.dedicatedMasterType {
             try encodeContainer.encode(dedicatedMasterType, forKey: .dedicatedMasterType)
         }
-        if instanceCount != 0 {
+        if let instanceCount = self.instanceCount {
             try encodeContainer.encode(instanceCount, forKey: .instanceCount)
         }
         if let instanceType = self.instanceType {
             try encodeContainer.encode(instanceType, forKey: .instanceType)
         }
-        if warmCount != 0 {
+        if let warmCount = self.warmCount {
             try encodeContainer.encode(warmCount, forKey: .warmCount)
         }
-        if warmEnabled != false {
+        if let warmEnabled = self.warmEnabled {
             try encodeContainer.encode(warmEnabled, forKey: .warmEnabled)
         }
         if let warmType = self.warmType {
@@ -29426,30 +29426,30 @@ extension SecurityHubClientTypes.AwsOpenSearchServiceDomainClusterConfigDetails:
         if let zoneAwarenessConfig = self.zoneAwarenessConfig {
             try encodeContainer.encode(zoneAwarenessConfig, forKey: .zoneAwarenessConfig)
         }
-        if zoneAwarenessEnabled != false {
+        if let zoneAwarenessEnabled = self.zoneAwarenessEnabled {
             try encodeContainer.encode(zoneAwarenessEnabled, forKey: .zoneAwarenessEnabled)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let instanceCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .instanceCount) ?? 0
+        let instanceCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .instanceCount)
         instanceCount = instanceCountDecoded
-        let warmEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .warmEnabled) ?? false
+        let warmEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .warmEnabled)
         warmEnabled = warmEnabledDecoded
-        let warmCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .warmCount) ?? 0
+        let warmCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .warmCount)
         warmCount = warmCountDecoded
-        let dedicatedMasterEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dedicatedMasterEnabled) ?? false
+        let dedicatedMasterEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dedicatedMasterEnabled)
         dedicatedMasterEnabled = dedicatedMasterEnabledDecoded
         let zoneAwarenessConfigDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsOpenSearchServiceDomainClusterConfigZoneAwarenessConfigDetails.self, forKey: .zoneAwarenessConfig)
         zoneAwarenessConfig = zoneAwarenessConfigDecoded
-        let dedicatedMasterCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .dedicatedMasterCount) ?? 0
+        let dedicatedMasterCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .dedicatedMasterCount)
         dedicatedMasterCount = dedicatedMasterCountDecoded
         let instanceTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceType)
         instanceType = instanceTypeDecoded
         let warmTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .warmType)
         warmType = warmTypeDecoded
-        let zoneAwarenessEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .zoneAwarenessEnabled) ?? false
+        let zoneAwarenessEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .zoneAwarenessEnabled)
         zoneAwarenessEnabled = zoneAwarenessEnabledDecoded
         let dedicatedMasterTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dedicatedMasterType)
         dedicatedMasterType = dedicatedMasterTypeDecoded
@@ -29460,37 +29460,37 @@ extension SecurityHubClientTypes {
     /// Details about the configuration of an OpenSearch cluster.
     public struct AwsOpenSearchServiceDomainClusterConfigDetails: Swift.Equatable {
         /// The number of instances to use for the master node. If this attribute is specified, then DedicatedMasterEnabled must be true.
-        public var dedicatedMasterCount: Swift.Int
+        public var dedicatedMasterCount: Swift.Int?
         /// Whether to use a dedicated master node for the OpenSearch domain. A dedicated master node performs cluster management tasks, but does not hold data or respond to data upload requests.
-        public var dedicatedMasterEnabled: Swift.Bool
+        public var dedicatedMasterEnabled: Swift.Bool?
         /// The hardware configuration of the computer that hosts the dedicated master node. If this attribute is specified, then DedicatedMasterEnabled must be true.
         public var dedicatedMasterType: Swift.String?
         /// The number of data nodes to use in the OpenSearch domain.
-        public var instanceCount: Swift.Int
+        public var instanceCount: Swift.Int?
         /// The instance type for your data nodes. For a list of valid values, see [Supported instance types in Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/supported-instance-types.html) in the Amazon OpenSearch Service Developer Guide.
         public var instanceType: Swift.String?
         /// The number of UltraWarm instances.
-        public var warmCount: Swift.Int
+        public var warmCount: Swift.Int?
         /// Whether UltraWarm is enabled.
-        public var warmEnabled: Swift.Bool
+        public var warmEnabled: Swift.Bool?
         /// The type of UltraWarm instance.
         public var warmType: Swift.String?
         /// Configuration options for zone awareness. Provided if ZoneAwarenessEnabled is true.
         public var zoneAwarenessConfig: SecurityHubClientTypes.AwsOpenSearchServiceDomainClusterConfigZoneAwarenessConfigDetails?
         /// Whether to enable zone awareness for the OpenSearch domain. When zone awareness is enabled, OpenSearch Service allocates the cluster's nodes and replica index shards across Availability Zones (AZs) in the same Region. This prevents data loss and minimizes downtime if a node or data center fails.
-        public var zoneAwarenessEnabled: Swift.Bool
+        public var zoneAwarenessEnabled: Swift.Bool?
 
         public init(
-            dedicatedMasterCount: Swift.Int = 0,
-            dedicatedMasterEnabled: Swift.Bool = false,
+            dedicatedMasterCount: Swift.Int? = nil,
+            dedicatedMasterEnabled: Swift.Bool? = nil,
             dedicatedMasterType: Swift.String? = nil,
-            instanceCount: Swift.Int = 0,
+            instanceCount: Swift.Int? = nil,
             instanceType: Swift.String? = nil,
-            warmCount: Swift.Int = 0,
-            warmEnabled: Swift.Bool = false,
+            warmCount: Swift.Int? = nil,
+            warmEnabled: Swift.Bool? = nil,
             warmType: Swift.String? = nil,
             zoneAwarenessConfig: SecurityHubClientTypes.AwsOpenSearchServiceDomainClusterConfigZoneAwarenessConfigDetails? = nil,
-            zoneAwarenessEnabled: Swift.Bool = false
+            zoneAwarenessEnabled: Swift.Bool? = nil
         )
         {
             self.dedicatedMasterCount = dedicatedMasterCount
@@ -29515,14 +29515,14 @@ extension SecurityHubClientTypes.AwsOpenSearchServiceDomainClusterConfigZoneAwar
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if availabilityZoneCount != 0 {
+        if let availabilityZoneCount = self.availabilityZoneCount {
             try encodeContainer.encode(availabilityZoneCount, forKey: .availabilityZoneCount)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let availabilityZoneCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .availabilityZoneCount) ?? 0
+        let availabilityZoneCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .availabilityZoneCount)
         availabilityZoneCount = availabilityZoneCountDecoded
     }
 }
@@ -29531,10 +29531,10 @@ extension SecurityHubClientTypes {
     /// Configuration options for zone awareness.
     public struct AwsOpenSearchServiceDomainClusterConfigZoneAwarenessConfigDetails: Swift.Equatable {
         /// The number of Availability Zones that the domain uses. Valid values are 2 or 3. The default is 2.
-        public var availabilityZoneCount: Swift.Int
+        public var availabilityZoneCount: Swift.Int?
 
         public init(
-            availabilityZoneCount: Swift.Int = 0
+            availabilityZoneCount: Swift.Int? = nil
         )
         {
             self.availabilityZoneCount = availabilityZoneCount
@@ -29747,10 +29747,10 @@ extension SecurityHubClientTypes.AwsOpenSearchServiceDomainDomainEndpointOptions
         if let customEndpointCertificateArn = self.customEndpointCertificateArn {
             try encodeContainer.encode(customEndpointCertificateArn, forKey: .customEndpointCertificateArn)
         }
-        if customEndpointEnabled != false {
+        if let customEndpointEnabled = self.customEndpointEnabled {
             try encodeContainer.encode(customEndpointEnabled, forKey: .customEndpointEnabled)
         }
-        if enforceHTTPS != false {
+        if let enforceHTTPS = self.enforceHTTPS {
             try encodeContainer.encode(enforceHTTPS, forKey: .enforceHTTPS)
         }
         if let tlsSecurityPolicy = self.tlsSecurityPolicy {
@@ -29762,9 +29762,9 @@ extension SecurityHubClientTypes.AwsOpenSearchServiceDomainDomainEndpointOptions
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let customEndpointCertificateArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .customEndpointCertificateArn)
         customEndpointCertificateArn = customEndpointCertificateArnDecoded
-        let customEndpointEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .customEndpointEnabled) ?? false
+        let customEndpointEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .customEndpointEnabled)
         customEndpointEnabled = customEndpointEnabledDecoded
-        let enforceHTTPSDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enforceHTTPS) ?? false
+        let enforceHTTPSDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enforceHTTPS)
         enforceHTTPS = enforceHTTPSDecoded
         let customEndpointDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .customEndpoint)
         customEndpoint = customEndpointDecoded
@@ -29781,17 +29781,17 @@ extension SecurityHubClientTypes {
         /// The ARN for the security certificate. The certificate is managed in ACM.
         public var customEndpointCertificateArn: Swift.String?
         /// Whether to enable a custom endpoint for the domain.
-        public var customEndpointEnabled: Swift.Bool
+        public var customEndpointEnabled: Swift.Bool?
         /// Whether to require that all traffic to the domain arrive over HTTPS.
-        public var enforceHTTPS: Swift.Bool
+        public var enforceHTTPS: Swift.Bool?
         /// The TLS security policy to apply to the HTTPS endpoint of the OpenSearch domain.
         public var tlsSecurityPolicy: Swift.String?
 
         public init(
             customEndpoint: Swift.String? = nil,
             customEndpointCertificateArn: Swift.String? = nil,
-            customEndpointEnabled: Swift.Bool = false,
-            enforceHTTPS: Swift.Bool = false,
+            customEndpointEnabled: Swift.Bool? = nil,
+            enforceHTTPS: Swift.Bool? = nil,
             tlsSecurityPolicy: Swift.String? = nil
         )
         {
@@ -29813,7 +29813,7 @@ extension SecurityHubClientTypes.AwsOpenSearchServiceDomainEncryptionAtRestOptio
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if enabled != false {
+        if let enabled = self.enabled {
             try encodeContainer.encode(enabled, forKey: .enabled)
         }
         if let kmsKeyId = self.kmsKeyId {
@@ -29823,7 +29823,7 @@ extension SecurityHubClientTypes.AwsOpenSearchServiceDomainEncryptionAtRestOptio
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled) ?? false
+        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled)
         enabled = enabledDecoded
         let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
         kmsKeyId = kmsKeyIdDecoded
@@ -29834,12 +29834,12 @@ extension SecurityHubClientTypes {
     /// Details about the configuration for encryption at rest for the OpenSearch domain.
     public struct AwsOpenSearchServiceDomainEncryptionAtRestOptionsDetails: Swift.Equatable {
         /// Whether encryption at rest is enabled.
-        public var enabled: Swift.Bool
+        public var enabled: Swift.Bool?
         /// The KMS key ID.
         public var kmsKeyId: Swift.String?
 
         public init(
-            enabled: Swift.Bool = false,
+            enabled: Swift.Bool? = nil,
             kmsKeyId: Swift.String? = nil
         )
         {
@@ -29861,7 +29861,7 @@ extension SecurityHubClientTypes.AwsOpenSearchServiceDomainLogPublishingOption: 
         if let cloudWatchLogsLogGroupArn = self.cloudWatchLogsLogGroupArn {
             try encodeContainer.encode(cloudWatchLogsLogGroupArn, forKey: .cloudWatchLogsLogGroupArn)
         }
-        if enabled != false {
+        if let enabled = self.enabled {
             try encodeContainer.encode(enabled, forKey: .enabled)
         }
     }
@@ -29870,7 +29870,7 @@ extension SecurityHubClientTypes.AwsOpenSearchServiceDomainLogPublishingOption: 
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let cloudWatchLogsLogGroupArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cloudWatchLogsLogGroupArn)
         cloudWatchLogsLogGroupArn = cloudWatchLogsLogGroupArnDecoded
-        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled) ?? false
+        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled)
         enabled = enabledDecoded
     }
 }
@@ -29881,11 +29881,11 @@ extension SecurityHubClientTypes {
         /// The ARN of the CloudWatch Logs group to publish the logs to.
         public var cloudWatchLogsLogGroupArn: Swift.String?
         /// Whether the log publishing is enabled.
-        public var enabled: Swift.Bool
+        public var enabled: Swift.Bool?
 
         public init(
             cloudWatchLogsLogGroupArn: Swift.String? = nil,
-            enabled: Swift.Bool = false
+            enabled: Swift.Bool? = nil
         )
         {
             self.cloudWatchLogsLogGroupArn = cloudWatchLogsLogGroupArn
@@ -30012,14 +30012,14 @@ extension SecurityHubClientTypes.AwsOpenSearchServiceDomainNodeToNodeEncryptionO
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if enabled != false {
+        if let enabled = self.enabled {
             try encodeContainer.encode(enabled, forKey: .enabled)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled) ?? false
+        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled)
         enabled = enabledDecoded
     }
 }
@@ -30028,10 +30028,10 @@ extension SecurityHubClientTypes {
     /// Provides details about the configuration for node-to-node encryption.
     public struct AwsOpenSearchServiceDomainNodeToNodeEncryptionOptionsDetails: Swift.Equatable {
         /// Whether node-to-node encryption is enabled.
-        public var enabled: Swift.Bool
+        public var enabled: Swift.Bool?
 
         public init(
-            enabled: Swift.Bool = false
+            enabled: Swift.Bool? = nil
         )
         {
             self.enabled = enabled
@@ -30057,7 +30057,7 @@ extension SecurityHubClientTypes.AwsOpenSearchServiceDomainServiceSoftwareOption
         if let automatedUpdateDate = self.automatedUpdateDate {
             try encodeContainer.encode(automatedUpdateDate, forKey: .automatedUpdateDate)
         }
-        if cancellable != false {
+        if let cancellable = self.cancellable {
             try encodeContainer.encode(cancellable, forKey: .cancellable)
         }
         if let currentVersion = self.currentVersion {
@@ -30069,10 +30069,10 @@ extension SecurityHubClientTypes.AwsOpenSearchServiceDomainServiceSoftwareOption
         if let newVersion = self.newVersion {
             try encodeContainer.encode(newVersion, forKey: .newVersion)
         }
-        if optionalDeployment != false {
+        if let optionalDeployment = self.optionalDeployment {
             try encodeContainer.encode(optionalDeployment, forKey: .optionalDeployment)
         }
-        if updateAvailable != false {
+        if let updateAvailable = self.updateAvailable {
             try encodeContainer.encode(updateAvailable, forKey: .updateAvailable)
         }
         if let updateStatus = self.updateStatus {
@@ -30084,7 +30084,7 @@ extension SecurityHubClientTypes.AwsOpenSearchServiceDomainServiceSoftwareOption
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let automatedUpdateDateDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .automatedUpdateDate)
         automatedUpdateDate = automatedUpdateDateDecoded
-        let cancellableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .cancellable) ?? false
+        let cancellableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .cancellable)
         cancellable = cancellableDecoded
         let currentVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .currentVersion)
         currentVersion = currentVersionDecoded
@@ -30092,11 +30092,11 @@ extension SecurityHubClientTypes.AwsOpenSearchServiceDomainServiceSoftwareOption
         description = descriptionDecoded
         let newVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .newVersion)
         newVersion = newVersionDecoded
-        let updateAvailableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .updateAvailable) ?? false
+        let updateAvailableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .updateAvailable)
         updateAvailable = updateAvailableDecoded
         let updateStatusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .updateStatus)
         updateStatus = updateStatusDecoded
-        let optionalDeploymentDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .optionalDeployment) ?? false
+        let optionalDeploymentDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .optionalDeployment)
         optionalDeployment = optionalDeploymentDecoded
     }
 }
@@ -30107,7 +30107,7 @@ extension SecurityHubClientTypes {
         /// The epoch time when the deployment window closes for required updates. After this time, OpenSearch Service schedules the software upgrade automatically.
         public var automatedUpdateDate: Swift.String?
         /// Whether a request to update the domain can be canceled.
-        public var cancellable: Swift.Bool
+        public var cancellable: Swift.Bool?
         /// The version of the service software that is currently installed on the domain.
         public var currentVersion: Swift.String?
         /// A more detailed description of the service software status.
@@ -30115,9 +30115,9 @@ extension SecurityHubClientTypes {
         /// The most recent version of the service software.
         public var newVersion: Swift.String?
         /// Whether the service software update is optional.
-        public var optionalDeployment: Swift.Bool
+        public var optionalDeployment: Swift.Bool?
         /// Whether a service software update is available for the domain.
-        public var updateAvailable: Swift.Bool
+        public var updateAvailable: Swift.Bool?
         /// The status of the service software update. Valid values are as follows:
         ///
         /// * COMPLETED
@@ -30133,12 +30133,12 @@ extension SecurityHubClientTypes {
 
         public init(
             automatedUpdateDate: Swift.String? = nil,
-            cancellable: Swift.Bool = false,
+            cancellable: Swift.Bool? = nil,
             currentVersion: Swift.String? = nil,
             description: Swift.String? = nil,
             newVersion: Swift.String? = nil,
-            optionalDeployment: Swift.Bool = false,
-            updateAvailable: Swift.Bool = false,
+            optionalDeployment: Swift.Bool? = nil,
+            updateAvailable: Swift.Bool? = nil,
             updateStatus: Swift.String? = nil
         )
         {
@@ -30322,7 +30322,7 @@ extension SecurityHubClientTypes.AwsRdsDbClusterDetails: Swift.Codable {
         if let activityStreamStatus = self.activityStreamStatus {
             try encodeContainer.encode(activityStreamStatus, forKey: .activityStreamStatus)
         }
-        if allocatedStorage != 0 {
+        if let allocatedStorage = self.allocatedStorage {
             try encodeContainer.encode(allocatedStorage, forKey: .allocatedStorage)
         }
         if let associatedRoles = associatedRoles {
@@ -30331,7 +30331,7 @@ extension SecurityHubClientTypes.AwsRdsDbClusterDetails: Swift.Codable {
                 try associatedRolesContainer.encode(awsrdsdbclusterassociatedrole0)
             }
         }
-        if autoMinorVersionUpgrade != false {
+        if let autoMinorVersionUpgrade = self.autoMinorVersionUpgrade {
             try encodeContainer.encode(autoMinorVersionUpgrade, forKey: .autoMinorVersionUpgrade)
         }
         if let availabilityZones = availabilityZones {
@@ -30340,16 +30340,16 @@ extension SecurityHubClientTypes.AwsRdsDbClusterDetails: Swift.Codable {
                 try availabilityZonesContainer.encode(nonemptystring0)
             }
         }
-        if backupRetentionPeriod != 0 {
+        if let backupRetentionPeriod = self.backupRetentionPeriod {
             try encodeContainer.encode(backupRetentionPeriod, forKey: .backupRetentionPeriod)
         }
         if let clusterCreateTime = self.clusterCreateTime {
             try encodeContainer.encode(clusterCreateTime, forKey: .clusterCreateTime)
         }
-        if copyTagsToSnapshot != false {
+        if let copyTagsToSnapshot = self.copyTagsToSnapshot {
             try encodeContainer.encode(copyTagsToSnapshot, forKey: .copyTagsToSnapshot)
         }
-        if crossAccountClone != false {
+        if let crossAccountClone = self.crossAccountClone {
             try encodeContainer.encode(crossAccountClone, forKey: .crossAccountClone)
         }
         if let customEndpoints = customEndpoints {
@@ -30385,7 +30385,7 @@ extension SecurityHubClientTypes.AwsRdsDbClusterDetails: Swift.Codable {
         if let dbSubnetGroup = self.dbSubnetGroup {
             try encodeContainer.encode(dbSubnetGroup, forKey: .dbSubnetGroup)
         }
-        if deletionProtection != false {
+        if let deletionProtection = self.deletionProtection {
             try encodeContainer.encode(deletionProtection, forKey: .deletionProtection)
         }
         if let domainMemberships = domainMemberships {
@@ -30415,10 +30415,10 @@ extension SecurityHubClientTypes.AwsRdsDbClusterDetails: Swift.Codable {
         if let hostedZoneId = self.hostedZoneId {
             try encodeContainer.encode(hostedZoneId, forKey: .hostedZoneId)
         }
-        if httpEndpointEnabled != false {
+        if let httpEndpointEnabled = self.httpEndpointEnabled {
             try encodeContainer.encode(httpEndpointEnabled, forKey: .httpEndpointEnabled)
         }
-        if iamDatabaseAuthenticationEnabled != false {
+        if let iamDatabaseAuthenticationEnabled = self.iamDatabaseAuthenticationEnabled {
             try encodeContainer.encode(iamDatabaseAuthenticationEnabled, forKey: .iamDatabaseAuthenticationEnabled)
         }
         if let kmsKeyId = self.kmsKeyId {
@@ -30427,10 +30427,10 @@ extension SecurityHubClientTypes.AwsRdsDbClusterDetails: Swift.Codable {
         if let masterUsername = self.masterUsername {
             try encodeContainer.encode(masterUsername, forKey: .masterUsername)
         }
-        if multiAz != false {
+        if let multiAz = self.multiAz {
             try encodeContainer.encode(multiAz, forKey: .multiAz)
         }
-        if port != 0 {
+        if let port = self.port {
             try encodeContainer.encode(port, forKey: .port)
         }
         if let preferredBackupWindow = self.preferredBackupWindow {
@@ -30451,7 +30451,7 @@ extension SecurityHubClientTypes.AwsRdsDbClusterDetails: Swift.Codable {
         if let status = self.status {
             try encodeContainer.encode(status, forKey: .status)
         }
-        if storageEncrypted != false {
+        if let storageEncrypted = self.storageEncrypted {
             try encodeContainer.encode(storageEncrypted, forKey: .storageEncrypted)
         }
         if let vpcSecurityGroups = vpcSecurityGroups {
@@ -30464,7 +30464,7 @@ extension SecurityHubClientTypes.AwsRdsDbClusterDetails: Swift.Codable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let allocatedStorageDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .allocatedStorage) ?? 0
+        let allocatedStorageDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .allocatedStorage)
         allocatedStorage = allocatedStorageDecoded
         let availabilityZonesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .availabilityZones)
         var availabilityZonesDecoded0:[Swift.String]? = nil
@@ -30477,7 +30477,7 @@ extension SecurityHubClientTypes.AwsRdsDbClusterDetails: Swift.Codable {
             }
         }
         availabilityZones = availabilityZonesDecoded0
-        let backupRetentionPeriodDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .backupRetentionPeriod) ?? 0
+        let backupRetentionPeriodDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .backupRetentionPeriod)
         backupRetentionPeriod = backupRetentionPeriodDecoded
         let databaseNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .databaseName)
         databaseName = databaseNameDecoded
@@ -30498,13 +30498,13 @@ extension SecurityHubClientTypes.AwsRdsDbClusterDetails: Swift.Codable {
             }
         }
         customEndpoints = customEndpointsDecoded0
-        let multiAzDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .multiAz) ?? false
+        let multiAzDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .multiAz)
         multiAz = multiAzDecoded
         let engineDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .engine)
         engine = engineDecoded
         let engineVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .engineVersion)
         engineVersion = engineVersionDecoded
-        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port) ?? 0
+        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port)
         port = portDecoded
         let masterUsernameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .masterUsername)
         masterUsername = masterUsernameDecoded
@@ -30536,7 +30536,7 @@ extension SecurityHubClientTypes.AwsRdsDbClusterDetails: Swift.Codable {
         vpcSecurityGroups = vpcSecurityGroupsDecoded0
         let hostedZoneIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .hostedZoneId)
         hostedZoneId = hostedZoneIdDecoded
-        let storageEncryptedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .storageEncrypted) ?? false
+        let storageEncryptedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .storageEncrypted)
         storageEncrypted = storageEncryptedDecoded
         let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
         kmsKeyId = kmsKeyIdDecoded
@@ -30568,15 +30568,15 @@ extension SecurityHubClientTypes.AwsRdsDbClusterDetails: Swift.Codable {
         enabledCloudWatchLogsExports = enabledCloudWatchLogsExportsDecoded0
         let engineModeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .engineMode)
         engineMode = engineModeDecoded
-        let deletionProtectionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deletionProtection) ?? false
+        let deletionProtectionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deletionProtection)
         deletionProtection = deletionProtectionDecoded
-        let httpEndpointEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .httpEndpointEnabled) ?? false
+        let httpEndpointEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .httpEndpointEnabled)
         httpEndpointEnabled = httpEndpointEnabledDecoded
         let activityStreamStatusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .activityStreamStatus)
         activityStreamStatus = activityStreamStatusDecoded
-        let copyTagsToSnapshotDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .copyTagsToSnapshot) ?? false
+        let copyTagsToSnapshotDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .copyTagsToSnapshot)
         copyTagsToSnapshot = copyTagsToSnapshotDecoded
-        let crossAccountCloneDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .crossAccountClone) ?? false
+        let crossAccountCloneDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .crossAccountClone)
         crossAccountClone = crossAccountCloneDecoded
         let domainMembershipsContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.AwsRdsDbDomainMembership?].self, forKey: .domainMemberships)
         var domainMembershipsDecoded0:[SecurityHubClientTypes.AwsRdsDbDomainMembership]? = nil
@@ -30617,9 +30617,9 @@ extension SecurityHubClientTypes.AwsRdsDbClusterDetails: Swift.Codable {
             }
         }
         dbClusterMembers = dbClusterMembersDecoded0
-        let iamDatabaseAuthenticationEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .iamDatabaseAuthenticationEnabled) ?? false
+        let iamDatabaseAuthenticationEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .iamDatabaseAuthenticationEnabled)
         iamDatabaseAuthenticationEnabled = iamDatabaseAuthenticationEnabledDecoded
-        let autoMinorVersionUpgradeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoMinorVersionUpgrade) ?? false
+        let autoMinorVersionUpgradeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoMinorVersionUpgrade)
         autoMinorVersionUpgrade = autoMinorVersionUpgradeDecoded
     }
 }
@@ -30638,21 +30638,21 @@ extension SecurityHubClientTypes {
         /// * stopping
         public var activityStreamStatus: Swift.String?
         /// For all database engines except Aurora, specifies the allocated storage size in gibibytes (GiB).
-        public var allocatedStorage: Swift.Int
+        public var allocatedStorage: Swift.Int?
         /// A list of the IAM roles that are associated with the DB cluster.
         public var associatedRoles: [SecurityHubClientTypes.AwsRdsDbClusterAssociatedRole]?
         /// Indicates if minor version upgrades are automatically applied to the cluster.
-        public var autoMinorVersionUpgrade: Swift.Bool
+        public var autoMinorVersionUpgrade: Swift.Bool?
         /// A list of Availability Zones (AZs) where instances in the DB cluster can be created.
         public var availabilityZones: [Swift.String]?
         /// The number of days for which automated backups are retained.
-        public var backupRetentionPeriod: Swift.Int
+        public var backupRetentionPeriod: Swift.Int?
         /// Indicates when the DB cluster was created, in Universal Coordinated Time (UTC). Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public var clusterCreateTime: Swift.String?
         /// Whether tags are copied from the DB cluster to snapshots of the DB cluster.
-        public var copyTagsToSnapshot: Swift.Bool
+        public var copyTagsToSnapshot: Swift.Bool?
         /// Whether the DB cluster is a clone of a DB cluster owned by a different Amazon Web Services account.
-        public var crossAccountClone: Swift.Bool
+        public var crossAccountClone: Swift.Bool?
         /// A list of custom endpoints for the DB cluster.
         public var customEndpoints: [Swift.String]?
         /// The name of the database.
@@ -30670,7 +30670,7 @@ extension SecurityHubClientTypes {
         /// The subnet group that is associated with the DB cluster, including the name, description, and subnets in the subnet group.
         public var dbSubnetGroup: Swift.String?
         /// Whether the DB cluster has deletion protection enabled.
-        public var deletionProtection: Swift.Bool
+        public var deletionProtection: Swift.Bool?
         /// The Active Directory domain membership records that are associated with the DB cluster.
         public var domainMemberships: [SecurityHubClientTypes.AwsRdsDbDomainMembership]?
         /// A list of log types that this DB cluster is configured to export to CloudWatch Logs.
@@ -30702,17 +30702,17 @@ extension SecurityHubClientTypes {
         /// Specifies the identifier that Amazon Route 53 assigns when you create a hosted zone.
         public var hostedZoneId: Swift.String?
         /// Whether the HTTP endpoint for an Aurora Serverless DB cluster is enabled.
-        public var httpEndpointEnabled: Swift.Bool
+        public var httpEndpointEnabled: Swift.Bool?
         /// Whether the mapping of IAM accounts to database accounts is enabled.
-        public var iamDatabaseAuthenticationEnabled: Swift.Bool
+        public var iamDatabaseAuthenticationEnabled: Swift.Bool?
         /// The ARN of the KMS master key that is used to encrypt the database instances in the DB cluster.
         public var kmsKeyId: Swift.String?
         /// The name of the master user for the DB cluster.
         public var masterUsername: Swift.String?
         /// Whether the DB cluster has instances in multiple Availability Zones.
-        public var multiAz: Swift.Bool
+        public var multiAz: Swift.Bool?
         /// The port number on which the DB instances in the DB cluster accept connections.
-        public var port: Swift.Int
+        public var port: Swift.Int?
         /// The range of time each day when automated backups are created, if automated backups are enabled. Uses the format HH:MM-HH:MM. For example, 04:52-05:22.
         public var preferredBackupWindow: Swift.String?
         /// The weekly time range during which system maintenance can occur, in Universal Coordinated Time (UTC). Uses the format :HH:MM-:HH:MM. For the day values, use mon|tue|wed|thu|fri|sat|sun. For example, sun:09:32-sun:10:02.
@@ -30724,20 +30724,20 @@ extension SecurityHubClientTypes {
         /// The current status of this DB cluster.
         public var status: Swift.String?
         /// Whether the DB cluster is encrypted.
-        public var storageEncrypted: Swift.Bool
+        public var storageEncrypted: Swift.Bool?
         /// A list of VPC security groups that the DB cluster belongs to.
         public var vpcSecurityGroups: [SecurityHubClientTypes.AwsRdsDbInstanceVpcSecurityGroup]?
 
         public init(
             activityStreamStatus: Swift.String? = nil,
-            allocatedStorage: Swift.Int = 0,
+            allocatedStorage: Swift.Int? = nil,
             associatedRoles: [SecurityHubClientTypes.AwsRdsDbClusterAssociatedRole]? = nil,
-            autoMinorVersionUpgrade: Swift.Bool = false,
+            autoMinorVersionUpgrade: Swift.Bool? = nil,
             availabilityZones: [Swift.String]? = nil,
-            backupRetentionPeriod: Swift.Int = 0,
+            backupRetentionPeriod: Swift.Int? = nil,
             clusterCreateTime: Swift.String? = nil,
-            copyTagsToSnapshot: Swift.Bool = false,
-            crossAccountClone: Swift.Bool = false,
+            copyTagsToSnapshot: Swift.Bool? = nil,
+            crossAccountClone: Swift.Bool? = nil,
             customEndpoints: [Swift.String]? = nil,
             databaseName: Swift.String? = nil,
             dbClusterIdentifier: Swift.String? = nil,
@@ -30746,7 +30746,7 @@ extension SecurityHubClientTypes {
             dbClusterParameterGroup: Swift.String? = nil,
             dbClusterResourceId: Swift.String? = nil,
             dbSubnetGroup: Swift.String? = nil,
-            deletionProtection: Swift.Bool = false,
+            deletionProtection: Swift.Bool? = nil,
             domainMemberships: [SecurityHubClientTypes.AwsRdsDbDomainMembership]? = nil,
             enabledCloudWatchLogsExports: [Swift.String]? = nil,
             endpoint: Swift.String? = nil,
@@ -30754,18 +30754,18 @@ extension SecurityHubClientTypes {
             engineMode: Swift.String? = nil,
             engineVersion: Swift.String? = nil,
             hostedZoneId: Swift.String? = nil,
-            httpEndpointEnabled: Swift.Bool = false,
-            iamDatabaseAuthenticationEnabled: Swift.Bool = false,
+            httpEndpointEnabled: Swift.Bool? = nil,
+            iamDatabaseAuthenticationEnabled: Swift.Bool? = nil,
             kmsKeyId: Swift.String? = nil,
             masterUsername: Swift.String? = nil,
-            multiAz: Swift.Bool = false,
-            port: Swift.Int = 0,
+            multiAz: Swift.Bool? = nil,
+            port: Swift.Int? = nil,
             preferredBackupWindow: Swift.String? = nil,
             preferredMaintenanceWindow: Swift.String? = nil,
             readReplicaIdentifiers: [Swift.String]? = nil,
             readerEndpoint: Swift.String? = nil,
             status: Swift.String? = nil,
-            storageEncrypted: Swift.Bool = false,
+            storageEncrypted: Swift.Bool? = nil,
             vpcSecurityGroups: [SecurityHubClientTypes.AwsRdsDbInstanceVpcSecurityGroup]? = nil
         )
         {
@@ -30828,19 +30828,19 @@ extension SecurityHubClientTypes.AwsRdsDbClusterMember: Swift.Codable {
         if let dbInstanceIdentifier = self.dbInstanceIdentifier {
             try encodeContainer.encode(dbInstanceIdentifier, forKey: .dbInstanceIdentifier)
         }
-        if isClusterWriter != false {
+        if let isClusterWriter = self.isClusterWriter {
             try encodeContainer.encode(isClusterWriter, forKey: .isClusterWriter)
         }
-        if promotionTier != 0 {
+        if let promotionTier = self.promotionTier {
             try encodeContainer.encode(promotionTier, forKey: .promotionTier)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let isClusterWriterDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isClusterWriter) ?? false
+        let isClusterWriterDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isClusterWriter)
         isClusterWriter = isClusterWriterDecoded
-        let promotionTierDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .promotionTier) ?? 0
+        let promotionTierDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .promotionTier)
         promotionTier = promotionTierDecoded
         let dbInstanceIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbInstanceIdentifier)
         dbInstanceIdentifier = dbInstanceIdentifierDecoded
@@ -30857,15 +30857,15 @@ extension SecurityHubClientTypes {
         /// The instance identifier for this member of the DB cluster.
         public var dbInstanceIdentifier: Swift.String?
         /// Whether the cluster member is the primary instance for the DB cluster.
-        public var isClusterWriter: Swift.Bool
+        public var isClusterWriter: Swift.Bool?
         /// Specifies the order in which an Aurora replica is promoted to the primary instance when the existing primary instance fails.
-        public var promotionTier: Swift.Int
+        public var promotionTier: Swift.Int?
 
         public init(
             dbClusterParameterGroupStatus: Swift.String? = nil,
             dbInstanceIdentifier: Swift.String? = nil,
-            isClusterWriter: Swift.Bool = false,
-            promotionTier: Swift.Int = 0
+            isClusterWriter: Swift.Bool? = nil,
+            promotionTier: Swift.Int? = nil
         )
         {
             self.dbClusterParameterGroupStatus = dbClusterParameterGroupStatus
@@ -31004,7 +31004,7 @@ extension SecurityHubClientTypes.AwsRdsDbClusterSnapshotDetails: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if allocatedStorage != 0 {
+        if let allocatedStorage = self.allocatedStorage {
             try encodeContainer.encode(allocatedStorage, forKey: .allocatedStorage)
         }
         if let availabilityZones = availabilityZones {
@@ -31034,7 +31034,7 @@ extension SecurityHubClientTypes.AwsRdsDbClusterSnapshotDetails: Swift.Codable {
         if let engineVersion = self.engineVersion {
             try encodeContainer.encode(engineVersion, forKey: .engineVersion)
         }
-        if iamDatabaseAuthenticationEnabled != false {
+        if let iamDatabaseAuthenticationEnabled = self.iamDatabaseAuthenticationEnabled {
             try encodeContainer.encode(iamDatabaseAuthenticationEnabled, forKey: .iamDatabaseAuthenticationEnabled)
         }
         if let kmsKeyId = self.kmsKeyId {
@@ -31046,10 +31046,10 @@ extension SecurityHubClientTypes.AwsRdsDbClusterSnapshotDetails: Swift.Codable {
         if let masterUsername = self.masterUsername {
             try encodeContainer.encode(masterUsername, forKey: .masterUsername)
         }
-        if percentProgress != 0 {
+        if let percentProgress = self.percentProgress {
             try encodeContainer.encode(percentProgress, forKey: .percentProgress)
         }
-        if port != 0 {
+        if let port = self.port {
             try encodeContainer.encode(port, forKey: .port)
         }
         if let snapshotCreateTime = self.snapshotCreateTime {
@@ -31061,7 +31061,7 @@ extension SecurityHubClientTypes.AwsRdsDbClusterSnapshotDetails: Swift.Codable {
         if let status = self.status {
             try encodeContainer.encode(status, forKey: .status)
         }
-        if storageEncrypted != false {
+        if let storageEncrypted = self.storageEncrypted {
             try encodeContainer.encode(storageEncrypted, forKey: .storageEncrypted)
         }
         if let vpcId = self.vpcId {
@@ -31086,11 +31086,11 @@ extension SecurityHubClientTypes.AwsRdsDbClusterSnapshotDetails: Swift.Codable {
         snapshotCreateTime = snapshotCreateTimeDecoded
         let engineDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .engine)
         engine = engineDecoded
-        let allocatedStorageDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .allocatedStorage) ?? 0
+        let allocatedStorageDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .allocatedStorage)
         allocatedStorage = allocatedStorageDecoded
         let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
         status = statusDecoded
-        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port) ?? 0
+        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port)
         port = portDecoded
         let vpcIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vpcId)
         vpcId = vpcIdDecoded
@@ -31104,9 +31104,9 @@ extension SecurityHubClientTypes.AwsRdsDbClusterSnapshotDetails: Swift.Codable {
         licenseModel = licenseModelDecoded
         let snapshotTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .snapshotType)
         snapshotType = snapshotTypeDecoded
-        let percentProgressDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .percentProgress) ?? 0
+        let percentProgressDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .percentProgress)
         percentProgress = percentProgressDecoded
-        let storageEncryptedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .storageEncrypted) ?? false
+        let storageEncryptedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .storageEncrypted)
         storageEncrypted = storageEncryptedDecoded
         let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
         kmsKeyId = kmsKeyIdDecoded
@@ -31114,7 +31114,7 @@ extension SecurityHubClientTypes.AwsRdsDbClusterSnapshotDetails: Swift.Codable {
         dbClusterIdentifier = dbClusterIdentifierDecoded
         let dbClusterSnapshotIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbClusterSnapshotIdentifier)
         dbClusterSnapshotIdentifier = dbClusterSnapshotIdentifierDecoded
-        let iamDatabaseAuthenticationEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .iamDatabaseAuthenticationEnabled) ?? false
+        let iamDatabaseAuthenticationEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .iamDatabaseAuthenticationEnabled)
         iamDatabaseAuthenticationEnabled = iamDatabaseAuthenticationEnabledDecoded
         let dbClusterSnapshotAttributesContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.AwsRdsDbClusterSnapshotDbClusterSnapshotAttribute?].self, forKey: .dbClusterSnapshotAttributes)
         var dbClusterSnapshotAttributesDecoded0:[SecurityHubClientTypes.AwsRdsDbClusterSnapshotDbClusterSnapshotAttribute]? = nil
@@ -31134,7 +31134,7 @@ extension SecurityHubClientTypes {
     /// Information about an Amazon RDS DB cluster snapshot.
     public struct AwsRdsDbClusterSnapshotDetails: Swift.Equatable {
         /// Specifies the allocated storage size in gibibytes (GiB).
-        public var allocatedStorage: Swift.Int
+        public var allocatedStorage: Swift.Int?
         /// A list of Availability Zones where instances in the DB cluster can be created.
         public var availabilityZones: [Swift.String]?
         /// Indicates when the DB cluster was created, in Universal Coordinated Time (UTC). Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
@@ -31150,7 +31150,7 @@ extension SecurityHubClientTypes {
         /// The version of the database engine to use.
         public var engineVersion: Swift.String?
         /// Whether mapping of IAM accounts to database accounts is enabled.
-        public var iamDatabaseAuthenticationEnabled: Swift.Bool
+        public var iamDatabaseAuthenticationEnabled: Swift.Bool?
         /// The ARN of the KMS master key that is used to encrypt the database instances in the DB cluster.
         public var kmsKeyId: Swift.String?
         /// The license model information for this DB cluster snapshot.
@@ -31158,9 +31158,9 @@ extension SecurityHubClientTypes {
         /// The name of the master user for the DB cluster.
         public var masterUsername: Swift.String?
         /// Specifies the percentage of the estimated data that has been transferred.
-        public var percentProgress: Swift.Int
+        public var percentProgress: Swift.Int?
         /// The port number on which the DB instances in the DB cluster accept connections.
-        public var port: Swift.Int
+        public var port: Swift.Int?
         /// Indicates when the snapshot was taken. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public var snapshotCreateTime: Swift.String?
         /// The type of DB cluster snapshot.
@@ -31168,12 +31168,12 @@ extension SecurityHubClientTypes {
         /// The status of this DB cluster snapshot.
         public var status: Swift.String?
         /// Whether the DB cluster is encrypted.
-        public var storageEncrypted: Swift.Bool
+        public var storageEncrypted: Swift.Bool?
         /// The VPC ID that is associated with the DB cluster snapshot.
         public var vpcId: Swift.String?
 
         public init(
-            allocatedStorage: Swift.Int = 0,
+            allocatedStorage: Swift.Int? = nil,
             availabilityZones: [Swift.String]? = nil,
             clusterCreateTime: Swift.String? = nil,
             dbClusterIdentifier: Swift.String? = nil,
@@ -31181,16 +31181,16 @@ extension SecurityHubClientTypes {
             dbClusterSnapshotIdentifier: Swift.String? = nil,
             engine: Swift.String? = nil,
             engineVersion: Swift.String? = nil,
-            iamDatabaseAuthenticationEnabled: Swift.Bool = false,
+            iamDatabaseAuthenticationEnabled: Swift.Bool? = nil,
             kmsKeyId: Swift.String? = nil,
             licenseModel: Swift.String? = nil,
             masterUsername: Swift.String? = nil,
-            percentProgress: Swift.Int = 0,
-            port: Swift.Int = 0,
+            percentProgress: Swift.Int? = nil,
+            port: Swift.Int? = nil,
             snapshotCreateTime: Swift.String? = nil,
             snapshotType: Swift.String? = nil,
             status: Swift.String? = nil,
-            storageEncrypted: Swift.Bool = false,
+            storageEncrypted: Swift.Bool? = nil,
             vpcId: Swift.String? = nil
         )
         {
@@ -31407,7 +31407,7 @@ extension SecurityHubClientTypes.AwsRdsDbInstanceDetails: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if allocatedStorage != 0 {
+        if let allocatedStorage = self.allocatedStorage {
             try encodeContainer.encode(allocatedStorage, forKey: .allocatedStorage)
         }
         if let associatedRoles = associatedRoles {
@@ -31416,13 +31416,13 @@ extension SecurityHubClientTypes.AwsRdsDbInstanceDetails: Swift.Codable {
                 try associatedRolesContainer.encode(awsrdsdbinstanceassociatedrole0)
             }
         }
-        if autoMinorVersionUpgrade != false {
+        if let autoMinorVersionUpgrade = self.autoMinorVersionUpgrade {
             try encodeContainer.encode(autoMinorVersionUpgrade, forKey: .autoMinorVersionUpgrade)
         }
         if let availabilityZone = self.availabilityZone {
             try encodeContainer.encode(availabilityZone, forKey: .availabilityZone)
         }
-        if backupRetentionPeriod != 0 {
+        if let backupRetentionPeriod = self.backupRetentionPeriod {
             try encodeContainer.encode(backupRetentionPeriod, forKey: .backupRetentionPeriod)
         }
         if let caCertificateIdentifier = self.caCertificateIdentifier {
@@ -31431,7 +31431,7 @@ extension SecurityHubClientTypes.AwsRdsDbInstanceDetails: Swift.Codable {
         if let characterSetName = self.characterSetName {
             try encodeContainer.encode(characterSetName, forKey: .characterSetName)
         }
-        if copyTagsToSnapshot != false {
+        if let copyTagsToSnapshot = self.copyTagsToSnapshot {
             try encodeContainer.encode(copyTagsToSnapshot, forKey: .copyTagsToSnapshot)
         }
         if let dbClusterIdentifier = self.dbClusterIdentifier {
@@ -31446,7 +31446,7 @@ extension SecurityHubClientTypes.AwsRdsDbInstanceDetails: Swift.Codable {
         if let dbName = self.dbName {
             try encodeContainer.encode(dbName, forKey: .dbName)
         }
-        if dbInstancePort != 0 {
+        if let dbInstancePort = self.dbInstancePort {
             try encodeContainer.encode(dbInstancePort, forKey: .dbInstancePort)
         }
         if let dbInstanceStatus = self.dbInstanceStatus {
@@ -31470,7 +31470,7 @@ extension SecurityHubClientTypes.AwsRdsDbInstanceDetails: Swift.Codable {
         if let dbiResourceId = self.dbiResourceId {
             try encodeContainer.encode(dbiResourceId, forKey: .dbiResourceId)
         }
-        if deletionProtection != false {
+        if let deletionProtection = self.deletionProtection {
             try encodeContainer.encode(deletionProtection, forKey: .deletionProtection)
         }
         if let domainMemberships = domainMemberships {
@@ -31497,13 +31497,13 @@ extension SecurityHubClientTypes.AwsRdsDbInstanceDetails: Swift.Codable {
         if let enhancedMonitoringResourceArn = self.enhancedMonitoringResourceArn {
             try encodeContainer.encode(enhancedMonitoringResourceArn, forKey: .enhancedMonitoringResourceArn)
         }
-        if iamDatabaseAuthenticationEnabled != false {
+        if let iamDatabaseAuthenticationEnabled = self.iamDatabaseAuthenticationEnabled {
             try encodeContainer.encode(iamDatabaseAuthenticationEnabled, forKey: .iamDatabaseAuthenticationEnabled)
         }
         if let instanceCreateTime = self.instanceCreateTime {
             try encodeContainer.encode(instanceCreateTime, forKey: .instanceCreateTime)
         }
-        if iops != 0 {
+        if let iops = self.iops {
             try encodeContainer.encode(iops, forKey: .iops)
         }
         if let kmsKeyId = self.kmsKeyId {
@@ -31521,16 +31521,16 @@ extension SecurityHubClientTypes.AwsRdsDbInstanceDetails: Swift.Codable {
         if let masterUsername = self.masterUsername {
             try encodeContainer.encode(masterUsername, forKey: .masterUsername)
         }
-        if maxAllocatedStorage != 0 {
+        if let maxAllocatedStorage = self.maxAllocatedStorage {
             try encodeContainer.encode(maxAllocatedStorage, forKey: .maxAllocatedStorage)
         }
-        if monitoringInterval != 0 {
+        if let monitoringInterval = self.monitoringInterval {
             try encodeContainer.encode(monitoringInterval, forKey: .monitoringInterval)
         }
         if let monitoringRoleArn = self.monitoringRoleArn {
             try encodeContainer.encode(monitoringRoleArn, forKey: .monitoringRoleArn)
         }
-        if multiAz != false {
+        if let multiAz = self.multiAz {
             try encodeContainer.encode(multiAz, forKey: .multiAz)
         }
         if let optionGroupMemberships = optionGroupMemberships {
@@ -31542,13 +31542,13 @@ extension SecurityHubClientTypes.AwsRdsDbInstanceDetails: Swift.Codable {
         if let pendingModifiedValues = self.pendingModifiedValues {
             try encodeContainer.encode(pendingModifiedValues, forKey: .pendingModifiedValues)
         }
-        if performanceInsightsEnabled != false {
+        if let performanceInsightsEnabled = self.performanceInsightsEnabled {
             try encodeContainer.encode(performanceInsightsEnabled, forKey: .performanceInsightsEnabled)
         }
         if let performanceInsightsKmsKeyId = self.performanceInsightsKmsKeyId {
             try encodeContainer.encode(performanceInsightsKmsKeyId, forKey: .performanceInsightsKmsKeyId)
         }
-        if performanceInsightsRetentionPeriod != 0 {
+        if let performanceInsightsRetentionPeriod = self.performanceInsightsRetentionPeriod {
             try encodeContainer.encode(performanceInsightsRetentionPeriod, forKey: .performanceInsightsRetentionPeriod)
         }
         if let preferredBackupWindow = self.preferredBackupWindow {
@@ -31563,10 +31563,10 @@ extension SecurityHubClientTypes.AwsRdsDbInstanceDetails: Swift.Codable {
                 try processorFeaturesContainer.encode(awsrdsdbprocessorfeature0)
             }
         }
-        if promotionTier != 0 {
+        if let promotionTier = self.promotionTier {
             try encodeContainer.encode(promotionTier, forKey: .promotionTier)
         }
-        if publiclyAccessible != false {
+        if let publiclyAccessible = self.publiclyAccessible {
             try encodeContainer.encode(publiclyAccessible, forKey: .publiclyAccessible)
         }
         if let readReplicaDBClusterIdentifiers = readReplicaDBClusterIdentifiers {
@@ -31593,7 +31593,7 @@ extension SecurityHubClientTypes.AwsRdsDbInstanceDetails: Swift.Codable {
                 try statusInfosContainer.encode(awsrdsdbstatusinfo0)
             }
         }
-        if storageEncrypted != false {
+        if let storageEncrypted = self.storageEncrypted {
             try encodeContainer.encode(storageEncrypted, forKey: .storageEncrypted)
         }
         if let storageType = self.storageType {
@@ -31634,13 +31634,13 @@ extension SecurityHubClientTypes.AwsRdsDbInstanceDetails: Swift.Codable {
         dbInstanceIdentifier = dbInstanceIdentifierDecoded
         let dbInstanceClassDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbInstanceClass)
         dbInstanceClass = dbInstanceClassDecoded
-        let dbInstancePortDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .dbInstancePort) ?? 0
+        let dbInstancePortDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .dbInstancePort)
         dbInstancePort = dbInstancePortDecoded
         let dbiResourceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbiResourceId)
         dbiResourceId = dbiResourceIdDecoded
         let dbNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbName)
         dbName = dbNameDecoded
-        let deletionProtectionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deletionProtection) ?? false
+        let deletionProtectionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deletionProtection)
         deletionProtection = deletionProtectionDecoded
         let endpointDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsRdsDbInstanceEndpoint.self, forKey: .endpoint)
         endpoint = endpointDecoded
@@ -31648,15 +31648,15 @@ extension SecurityHubClientTypes.AwsRdsDbInstanceDetails: Swift.Codable {
         engine = engineDecoded
         let engineVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .engineVersion)
         engineVersion = engineVersionDecoded
-        let iamDatabaseAuthenticationEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .iamDatabaseAuthenticationEnabled) ?? false
+        let iamDatabaseAuthenticationEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .iamDatabaseAuthenticationEnabled)
         iamDatabaseAuthenticationEnabled = iamDatabaseAuthenticationEnabledDecoded
         let instanceCreateTimeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceCreateTime)
         instanceCreateTime = instanceCreateTimeDecoded
         let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
         kmsKeyId = kmsKeyIdDecoded
-        let publiclyAccessibleDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .publiclyAccessible) ?? false
+        let publiclyAccessibleDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .publiclyAccessible)
         publiclyAccessible = publiclyAccessibleDecoded
-        let storageEncryptedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .storageEncrypted) ?? false
+        let storageEncryptedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .storageEncrypted)
         storageEncrypted = storageEncryptedDecoded
         let tdeCredentialArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tdeCredentialArn)
         tdeCredentialArn = tdeCredentialArnDecoded
@@ -31671,7 +31671,7 @@ extension SecurityHubClientTypes.AwsRdsDbInstanceDetails: Swift.Codable {
             }
         }
         vpcSecurityGroups = vpcSecurityGroupsDecoded0
-        let multiAzDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .multiAz) ?? false
+        let multiAzDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .multiAz)
         multiAz = multiAzDecoded
         let enhancedMonitoringResourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .enhancedMonitoringResourceArn)
         enhancedMonitoringResourceArn = enhancedMonitoringResourceArnDecoded
@@ -31679,11 +31679,11 @@ extension SecurityHubClientTypes.AwsRdsDbInstanceDetails: Swift.Codable {
         dbInstanceStatus = dbInstanceStatusDecoded
         let masterUsernameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .masterUsername)
         masterUsername = masterUsernameDecoded
-        let allocatedStorageDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .allocatedStorage) ?? 0
+        let allocatedStorageDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .allocatedStorage)
         allocatedStorage = allocatedStorageDecoded
         let preferredBackupWindowDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .preferredBackupWindow)
         preferredBackupWindow = preferredBackupWindowDecoded
-        let backupRetentionPeriodDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .backupRetentionPeriod) ?? 0
+        let backupRetentionPeriodDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .backupRetentionPeriod)
         backupRetentionPeriod = backupRetentionPeriodDecoded
         let dbSecurityGroupsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .dbSecurityGroups)
         var dbSecurityGroupsDecoded0:[Swift.String]? = nil
@@ -31717,7 +31717,7 @@ extension SecurityHubClientTypes.AwsRdsDbInstanceDetails: Swift.Codable {
         pendingModifiedValues = pendingModifiedValuesDecoded
         let latestRestorableTimeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .latestRestorableTime)
         latestRestorableTime = latestRestorableTimeDecoded
-        let autoMinorVersionUpgradeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoMinorVersionUpgrade) ?? false
+        let autoMinorVersionUpgradeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoMinorVersionUpgrade)
         autoMinorVersionUpgrade = autoMinorVersionUpgradeDecoded
         let readReplicaSourceDBInstanceIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .readReplicaSourceDBInstanceIdentifier)
         readReplicaSourceDBInstanceIdentifier = readReplicaSourceDBInstanceIdentifierDecoded
@@ -31745,7 +31745,7 @@ extension SecurityHubClientTypes.AwsRdsDbInstanceDetails: Swift.Codable {
         readReplicaDBClusterIdentifiers = readReplicaDBClusterIdentifiersDecoded0
         let licenseModelDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .licenseModel)
         licenseModel = licenseModelDecoded
-        let iopsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .iops) ?? 0
+        let iopsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .iops)
         iops = iopsDecoded
         let optionGroupMembershipsContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.AwsRdsDbOptionGroupMembership?].self, forKey: .optionGroupMemberships)
         var optionGroupMembershipsDecoded0:[SecurityHubClientTypes.AwsRdsDbOptionGroupMembership]? = nil
@@ -31786,21 +31786,21 @@ extension SecurityHubClientTypes.AwsRdsDbInstanceDetails: Swift.Codable {
             }
         }
         domainMemberships = domainMembershipsDecoded0
-        let copyTagsToSnapshotDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .copyTagsToSnapshot) ?? false
+        let copyTagsToSnapshotDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .copyTagsToSnapshot)
         copyTagsToSnapshot = copyTagsToSnapshotDecoded
-        let monitoringIntervalDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .monitoringInterval) ?? 0
+        let monitoringIntervalDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .monitoringInterval)
         monitoringInterval = monitoringIntervalDecoded
         let monitoringRoleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .monitoringRoleArn)
         monitoringRoleArn = monitoringRoleArnDecoded
-        let promotionTierDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .promotionTier) ?? 0
+        let promotionTierDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .promotionTier)
         promotionTier = promotionTierDecoded
         let timezoneDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .timezone)
         timezone = timezoneDecoded
-        let performanceInsightsEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .performanceInsightsEnabled) ?? false
+        let performanceInsightsEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .performanceInsightsEnabled)
         performanceInsightsEnabled = performanceInsightsEnabledDecoded
         let performanceInsightsKmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .performanceInsightsKmsKeyId)
         performanceInsightsKmsKeyId = performanceInsightsKmsKeyIdDecoded
-        let performanceInsightsRetentionPeriodDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .performanceInsightsRetentionPeriod) ?? 0
+        let performanceInsightsRetentionPeriodDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .performanceInsightsRetentionPeriod)
         performanceInsightsRetentionPeriod = performanceInsightsRetentionPeriodDecoded
         let enabledCloudWatchLogsExportsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .enabledCloudWatchLogsExports)
         var enabledCloudWatchLogsExportsDecoded0:[Swift.String]? = nil
@@ -31826,7 +31826,7 @@ extension SecurityHubClientTypes.AwsRdsDbInstanceDetails: Swift.Codable {
         processorFeatures = processorFeaturesDecoded0
         let listenerEndpointDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsRdsDbInstanceEndpoint.self, forKey: .listenerEndpoint)
         listenerEndpoint = listenerEndpointDecoded
-        let maxAllocatedStorageDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxAllocatedStorage) ?? 0
+        let maxAllocatedStorageDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxAllocatedStorage)
         maxAllocatedStorage = maxAllocatedStorageDecoded
     }
 }
@@ -31835,21 +31835,21 @@ extension SecurityHubClientTypes {
     /// Contains the details of an Amazon RDS DB instance.
     public struct AwsRdsDbInstanceDetails: Swift.Equatable {
         /// The amount of storage (in gigabytes) to initially allocate for the DB instance.
-        public var allocatedStorage: Swift.Int
+        public var allocatedStorage: Swift.Int?
         /// The IAM roles associated with the DB instance.
         public var associatedRoles: [SecurityHubClientTypes.AwsRdsDbInstanceAssociatedRole]?
         /// Indicates whether minor version patches are applied automatically.
-        public var autoMinorVersionUpgrade: Swift.Bool
+        public var autoMinorVersionUpgrade: Swift.Bool?
         /// The Availability Zone where the DB instance will be created.
         public var availabilityZone: Swift.String?
         /// The number of days for which to retain automated backups.
-        public var backupRetentionPeriod: Swift.Int
+        public var backupRetentionPeriod: Swift.Int?
         /// The identifier of the CA certificate for this DB instance.
         public var caCertificateIdentifier: Swift.String?
         /// The name of the character set that this DB instance is associated with.
         public var characterSetName: Swift.String?
         /// Whether to copy resource tags to snapshots of the DB instance.
-        public var copyTagsToSnapshot: Swift.Bool
+        public var copyTagsToSnapshot: Swift.Bool?
         /// If the DB instance is a member of a DB cluster, contains the name of the DB cluster that the DB instance is a member of.
         public var dbClusterIdentifier: Swift.String?
         /// Contains the name of the compute and memory capacity class of the DB instance.
@@ -31857,7 +31857,7 @@ extension SecurityHubClientTypes {
         /// Contains a user-supplied database identifier. This identifier is the unique key that identifies a DB instance.
         public var dbInstanceIdentifier: Swift.String?
         /// Specifies the port that the DB instance listens on. If the DB instance is part of a DB cluster, this can be a different port than the DB cluster port.
-        public var dbInstancePort: Swift.Int
+        public var dbInstancePort: Swift.Int?
         /// The current status of the DB instance.
         public var dbInstanceStatus: Swift.String?
         /// The meaning of this parameter differs according to the database engine you use. MySQL, MariaDB, SQL Server, PostgreSQL Contains the name of the initial database of this instance that was provided at create time, if one was specified when the DB instance was created. This same name is returned for the life of the DB instance. Oracle Contains the Oracle System ID (SID) of the created DB instance. Not shown when the returned parameters do not apply to an Oracle DB instance.
@@ -31871,7 +31871,7 @@ extension SecurityHubClientTypes {
         /// The Amazon Web Services Region-unique, immutable identifier for the DB instance. This identifier is found in CloudTrail log entries whenever the KMS key for the DB instance is accessed.
         public var dbiResourceId: Swift.String?
         /// Indicates whether the DB instance has deletion protection enabled. When deletion protection is enabled, the database cannot be deleted.
-        public var deletionProtection: Swift.Bool
+        public var deletionProtection: Swift.Bool?
         /// The Active Directory domain membership records associated with the DB instance.
         public var domainMemberships: [SecurityHubClientTypes.AwsRdsDbDomainMembership]?
         /// A list of log types that this DB instance is configured to export to CloudWatch Logs.
@@ -31891,11 +31891,11 @@ extension SecurityHubClientTypes {
         /// * For MySQL 5.7, minor version 5.7.16 or higher
         ///
         /// * Aurora 5.6 or higher
-        public var iamDatabaseAuthenticationEnabled: Swift.Bool
+        public var iamDatabaseAuthenticationEnabled: Swift.Bool?
         /// Indicates when the DB instance was created. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public var instanceCreateTime: Swift.String?
         /// Specifies the provisioned IOPS (I/O operations per second) for this DB instance.
-        public var iops: Swift.Int
+        public var iops: Swift.Int?
         /// If StorageEncrypted is true, the KMS key identifier for the encrypted DB instance.
         public var kmsKeyId: Swift.String?
         /// Specifies the latest time to which a database can be restored with point-in-time restore. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
@@ -31907,23 +31907,23 @@ extension SecurityHubClientTypes {
         /// The master user name of the DB instance.
         public var masterUsername: Swift.String?
         /// The upper limit to which Amazon RDS can automatically scale the storage of the DB instance.
-        public var maxAllocatedStorage: Swift.Int
+        public var maxAllocatedStorage: Swift.Int?
         /// The interval, in seconds, between points when enhanced monitoring metrics are collected for the DB instance.
-        public var monitoringInterval: Swift.Int
+        public var monitoringInterval: Swift.Int?
         /// The ARN for the IAM role that permits Amazon RDS to send enhanced monitoring metrics to CloudWatch Logs.
         public var monitoringRoleArn: Swift.String?
         /// Whether the DB instance is a multiple Availability Zone deployment.
-        public var multiAz: Swift.Bool
+        public var multiAz: Swift.Bool?
         /// The list of option group memberships for this DB instance.
         public var optionGroupMemberships: [SecurityHubClientTypes.AwsRdsDbOptionGroupMembership]?
         /// Changes to the DB instance that are currently pending.
         public var pendingModifiedValues: SecurityHubClientTypes.AwsRdsDbPendingModifiedValues?
         /// Indicates whether Performance Insights is enabled for the DB instance.
-        public var performanceInsightsEnabled: Swift.Bool
+        public var performanceInsightsEnabled: Swift.Bool?
         /// The identifier of the KMS key used to encrypt the Performance Insights data.
         public var performanceInsightsKmsKeyId: Swift.String?
         /// The number of days to retain Performance Insights data.
-        public var performanceInsightsRetentionPeriod: Swift.Int
+        public var performanceInsightsRetentionPeriod: Swift.Int?
         /// The range of time each day when automated backups are created, if automated backups are enabled. Uses the format HH:MM-HH:MM. For example, 04:52-05:22.
         public var preferredBackupWindow: Swift.String?
         /// The weekly time range during which system maintenance can occur, in Universal Coordinated Time (UTC). Uses the format :HH:MM-:HH:MM. For the day values, use mon|tue|wed|thu|fri|sat|sun. For example, sun:09:32-sun:10:02.
@@ -31931,9 +31931,9 @@ extension SecurityHubClientTypes {
         /// The number of CPU cores and the number of threads per core for the DB instance class of the DB instance.
         public var processorFeatures: [SecurityHubClientTypes.AwsRdsDbProcessorFeature]?
         /// The order in which to promote an Aurora replica to the primary instance after a failure of the existing primary instance.
-        public var promotionTier: Swift.Int
+        public var promotionTier: Swift.Int?
         /// Specifies the accessibility options for the DB instance. A value of true specifies an Internet-facing instance with a publicly resolvable DNS name, which resolves to a public IP address. A value of false specifies an internal instance with a DNS name that resolves to a private IP address.
-        public var publiclyAccessible: Swift.Bool
+        public var publiclyAccessible: Swift.Bool?
         /// List of identifiers of Aurora DB clusters to which the RDS DB instance is replicated as a read replica.
         public var readReplicaDBClusterIdentifiers: [Swift.String]?
         /// List of identifiers of the read replicas associated with this DB instance.
@@ -31945,7 +31945,7 @@ extension SecurityHubClientTypes {
         /// The status of a read replica. If the instance isn't a read replica, this is empty.
         public var statusInfos: [SecurityHubClientTypes.AwsRdsDbStatusInfo]?
         /// Specifies whether the DB instance is encrypted.
-        public var storageEncrypted: Swift.Bool
+        public var storageEncrypted: Swift.Bool?
         /// The storage type for the DB instance.
         public var storageType: Swift.String?
         /// The ARN from the key store with which the instance is associated for TDE encryption.
@@ -31956,59 +31956,59 @@ extension SecurityHubClientTypes {
         public var vpcSecurityGroups: [SecurityHubClientTypes.AwsRdsDbInstanceVpcSecurityGroup]?
 
         public init(
-            allocatedStorage: Swift.Int = 0,
+            allocatedStorage: Swift.Int? = nil,
             associatedRoles: [SecurityHubClientTypes.AwsRdsDbInstanceAssociatedRole]? = nil,
-            autoMinorVersionUpgrade: Swift.Bool = false,
+            autoMinorVersionUpgrade: Swift.Bool? = nil,
             availabilityZone: Swift.String? = nil,
-            backupRetentionPeriod: Swift.Int = 0,
+            backupRetentionPeriod: Swift.Int? = nil,
             caCertificateIdentifier: Swift.String? = nil,
             characterSetName: Swift.String? = nil,
-            copyTagsToSnapshot: Swift.Bool = false,
+            copyTagsToSnapshot: Swift.Bool? = nil,
             dbClusterIdentifier: Swift.String? = nil,
             dbInstanceClass: Swift.String? = nil,
             dbInstanceIdentifier: Swift.String? = nil,
-            dbInstancePort: Swift.Int = 0,
+            dbInstancePort: Swift.Int? = nil,
             dbInstanceStatus: Swift.String? = nil,
             dbName: Swift.String? = nil,
             dbParameterGroups: [SecurityHubClientTypes.AwsRdsDbParameterGroup]? = nil,
             dbSecurityGroups: [Swift.String]? = nil,
             dbSubnetGroup: SecurityHubClientTypes.AwsRdsDbSubnetGroup? = nil,
             dbiResourceId: Swift.String? = nil,
-            deletionProtection: Swift.Bool = false,
+            deletionProtection: Swift.Bool? = nil,
             domainMemberships: [SecurityHubClientTypes.AwsRdsDbDomainMembership]? = nil,
             enabledCloudWatchLogsExports: [Swift.String]? = nil,
             endpoint: SecurityHubClientTypes.AwsRdsDbInstanceEndpoint? = nil,
             engine: Swift.String? = nil,
             engineVersion: Swift.String? = nil,
             enhancedMonitoringResourceArn: Swift.String? = nil,
-            iamDatabaseAuthenticationEnabled: Swift.Bool = false,
+            iamDatabaseAuthenticationEnabled: Swift.Bool? = nil,
             instanceCreateTime: Swift.String? = nil,
-            iops: Swift.Int = 0,
+            iops: Swift.Int? = nil,
             kmsKeyId: Swift.String? = nil,
             latestRestorableTime: Swift.String? = nil,
             licenseModel: Swift.String? = nil,
             listenerEndpoint: SecurityHubClientTypes.AwsRdsDbInstanceEndpoint? = nil,
             masterUsername: Swift.String? = nil,
-            maxAllocatedStorage: Swift.Int = 0,
-            monitoringInterval: Swift.Int = 0,
+            maxAllocatedStorage: Swift.Int? = nil,
+            monitoringInterval: Swift.Int? = nil,
             monitoringRoleArn: Swift.String? = nil,
-            multiAz: Swift.Bool = false,
+            multiAz: Swift.Bool? = nil,
             optionGroupMemberships: [SecurityHubClientTypes.AwsRdsDbOptionGroupMembership]? = nil,
             pendingModifiedValues: SecurityHubClientTypes.AwsRdsDbPendingModifiedValues? = nil,
-            performanceInsightsEnabled: Swift.Bool = false,
+            performanceInsightsEnabled: Swift.Bool? = nil,
             performanceInsightsKmsKeyId: Swift.String? = nil,
-            performanceInsightsRetentionPeriod: Swift.Int = 0,
+            performanceInsightsRetentionPeriod: Swift.Int? = nil,
             preferredBackupWindow: Swift.String? = nil,
             preferredMaintenanceWindow: Swift.String? = nil,
             processorFeatures: [SecurityHubClientTypes.AwsRdsDbProcessorFeature]? = nil,
-            promotionTier: Swift.Int = 0,
-            publiclyAccessible: Swift.Bool = false,
+            promotionTier: Swift.Int? = nil,
+            publiclyAccessible: Swift.Bool? = nil,
             readReplicaDBClusterIdentifiers: [Swift.String]? = nil,
             readReplicaDBInstanceIdentifiers: [Swift.String]? = nil,
             readReplicaSourceDBInstanceIdentifier: Swift.String? = nil,
             secondaryAvailabilityZone: Swift.String? = nil,
             statusInfos: [SecurityHubClientTypes.AwsRdsDbStatusInfo]? = nil,
-            storageEncrypted: Swift.Bool = false,
+            storageEncrypted: Swift.Bool? = nil,
             storageType: Swift.String? = nil,
             tdeCredentialArn: Swift.String? = nil,
             timezone: Swift.String? = nil,
@@ -32092,7 +32092,7 @@ extension SecurityHubClientTypes.AwsRdsDbInstanceEndpoint: Swift.Codable {
         if let hostedZoneId = self.hostedZoneId {
             try encodeContainer.encode(hostedZoneId, forKey: .hostedZoneId)
         }
-        if port != 0 {
+        if let port = self.port {
             try encodeContainer.encode(port, forKey: .port)
         }
     }
@@ -32101,7 +32101,7 @@ extension SecurityHubClientTypes.AwsRdsDbInstanceEndpoint: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let addressDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .address)
         address = addressDecoded
-        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port) ?? 0
+        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port)
         port = portDecoded
         let hostedZoneIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .hostedZoneId)
         hostedZoneId = hostedZoneIdDecoded
@@ -32116,12 +32116,12 @@ extension SecurityHubClientTypes {
         /// Specifies the ID that Amazon Route 53 assigns when you create a hosted zone.
         public var hostedZoneId: Swift.String?
         /// Specifies the port that the database engine is listening on.
-        public var port: Swift.Int
+        public var port: Swift.Int?
 
         public init(
             address: Swift.String? = nil,
             hostedZoneId: Swift.String? = nil,
-            port: Swift.Int = 0
+            port: Swift.Int? = nil
         )
         {
             self.address = address
@@ -32288,10 +32288,10 @@ extension SecurityHubClientTypes.AwsRdsDbPendingModifiedValues: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if allocatedStorage != 0 {
+        if let allocatedStorage = self.allocatedStorage {
             try encodeContainer.encode(allocatedStorage, forKey: .allocatedStorage)
         }
-        if backupRetentionPeriod != 0 {
+        if let backupRetentionPeriod = self.backupRetentionPeriod {
             try encodeContainer.encode(backupRetentionPeriod, forKey: .backupRetentionPeriod)
         }
         if let caCertificateIdentifier = self.caCertificateIdentifier {
@@ -32309,7 +32309,7 @@ extension SecurityHubClientTypes.AwsRdsDbPendingModifiedValues: Swift.Codable {
         if let engineVersion = self.engineVersion {
             try encodeContainer.encode(engineVersion, forKey: .engineVersion)
         }
-        if iops != 0 {
+        if let iops = self.iops {
             try encodeContainer.encode(iops, forKey: .iops)
         }
         if let licenseModel = self.licenseModel {
@@ -32318,13 +32318,13 @@ extension SecurityHubClientTypes.AwsRdsDbPendingModifiedValues: Swift.Codable {
         if let masterUserPassword = self.masterUserPassword {
             try encodeContainer.encode(masterUserPassword, forKey: .masterUserPassword)
         }
-        if multiAZ != false {
+        if let multiAZ = self.multiAZ {
             try encodeContainer.encode(multiAZ, forKey: .multiAZ)
         }
         if let pendingCloudWatchLogsExports = self.pendingCloudWatchLogsExports {
             try encodeContainer.encode(pendingCloudWatchLogsExports, forKey: .pendingCloudWatchLogsExports)
         }
-        if port != 0 {
+        if let port = self.port {
             try encodeContainer.encode(port, forKey: .port)
         }
         if let processorFeatures = processorFeatures {
@@ -32342,21 +32342,21 @@ extension SecurityHubClientTypes.AwsRdsDbPendingModifiedValues: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dbInstanceClassDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbInstanceClass)
         dbInstanceClass = dbInstanceClassDecoded
-        let allocatedStorageDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .allocatedStorage) ?? 0
+        let allocatedStorageDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .allocatedStorage)
         allocatedStorage = allocatedStorageDecoded
         let masterUserPasswordDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .masterUserPassword)
         masterUserPassword = masterUserPasswordDecoded
-        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port) ?? 0
+        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port)
         port = portDecoded
-        let backupRetentionPeriodDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .backupRetentionPeriod) ?? 0
+        let backupRetentionPeriodDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .backupRetentionPeriod)
         backupRetentionPeriod = backupRetentionPeriodDecoded
-        let multiAZDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .multiAZ) ?? false
+        let multiAZDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .multiAZ)
         multiAZ = multiAZDecoded
         let engineVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .engineVersion)
         engineVersion = engineVersionDecoded
         let licenseModelDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .licenseModel)
         licenseModel = licenseModelDecoded
-        let iopsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .iops) ?? 0
+        let iopsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .iops)
         iops = iopsDecoded
         let dbInstanceIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbInstanceIdentifier)
         dbInstanceIdentifier = dbInstanceIdentifierDecoded
@@ -32386,9 +32386,9 @@ extension SecurityHubClientTypes {
     /// Changes to a DB instance that are currently pending.
     public struct AwsRdsDbPendingModifiedValues: Swift.Equatable {
         /// The new value of the allocated storage for the DB instance.
-        public var allocatedStorage: Swift.Int
+        public var allocatedStorage: Swift.Int?
         /// The new backup retention period for the DB instance.
-        public var backupRetentionPeriod: Swift.Int
+        public var backupRetentionPeriod: Swift.Int?
         /// The new CA certificate identifier for the DB instance.
         public var caCertificateIdentifier: Swift.String?
         /// The new DB instance class for the DB instance.
@@ -32400,36 +32400,36 @@ extension SecurityHubClientTypes {
         /// The new engine version for the DB instance.
         public var engineVersion: Swift.String?
         /// The new provisioned IOPS value for the DB instance.
-        public var iops: Swift.Int
+        public var iops: Swift.Int?
         /// The new license model value for the DB instance.
         public var licenseModel: Swift.String?
         /// The new master user password for the DB instance.
         public var masterUserPassword: Swift.String?
         /// Indicates that a single Availability Zone DB instance is changing to a multiple Availability Zone deployment.
-        public var multiAZ: Swift.Bool
+        public var multiAZ: Swift.Bool?
         /// A list of log types that are being enabled or disabled.
         public var pendingCloudWatchLogsExports: SecurityHubClientTypes.AwsRdsPendingCloudWatchLogsExports?
         /// The new port for the DB instance.
-        public var port: Swift.Int
+        public var port: Swift.Int?
         /// Processor features that are being updated.
         public var processorFeatures: [SecurityHubClientTypes.AwsRdsDbProcessorFeature]?
         /// The new storage type for the DB instance.
         public var storageType: Swift.String?
 
         public init(
-            allocatedStorage: Swift.Int = 0,
-            backupRetentionPeriod: Swift.Int = 0,
+            allocatedStorage: Swift.Int? = nil,
+            backupRetentionPeriod: Swift.Int? = nil,
             caCertificateIdentifier: Swift.String? = nil,
             dbInstanceClass: Swift.String? = nil,
             dbInstanceIdentifier: Swift.String? = nil,
             dbSubnetGroupName: Swift.String? = nil,
             engineVersion: Swift.String? = nil,
-            iops: Swift.Int = 0,
+            iops: Swift.Int? = nil,
             licenseModel: Swift.String? = nil,
             masterUserPassword: Swift.String? = nil,
-            multiAZ: Swift.Bool = false,
+            multiAZ: Swift.Bool? = nil,
             pendingCloudWatchLogsExports: SecurityHubClientTypes.AwsRdsPendingCloudWatchLogsExports? = nil,
-            port: Swift.Int = 0,
+            port: Swift.Int? = nil,
             processorFeatures: [SecurityHubClientTypes.AwsRdsDbProcessorFeature]? = nil,
             storageType: Swift.String? = nil
         )
@@ -32761,7 +32761,7 @@ extension SecurityHubClientTypes.AwsRdsDbSnapshotDetails: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if allocatedStorage != 0 {
+        if let allocatedStorage = self.allocatedStorage {
             try encodeContainer.encode(allocatedStorage, forKey: .allocatedStorage)
         }
         if let availabilityZone = self.availabilityZone {
@@ -32776,7 +32776,7 @@ extension SecurityHubClientTypes.AwsRdsDbSnapshotDetails: Swift.Codable {
         if let dbiResourceId = self.dbiResourceId {
             try encodeContainer.encode(dbiResourceId, forKey: .dbiResourceId)
         }
-        if encrypted != false {
+        if let encrypted = self.encrypted {
             try encodeContainer.encode(encrypted, forKey: .encrypted)
         }
         if let engine = self.engine {
@@ -32785,13 +32785,13 @@ extension SecurityHubClientTypes.AwsRdsDbSnapshotDetails: Swift.Codable {
         if let engineVersion = self.engineVersion {
             try encodeContainer.encode(engineVersion, forKey: .engineVersion)
         }
-        if iamDatabaseAuthenticationEnabled != false {
+        if let iamDatabaseAuthenticationEnabled = self.iamDatabaseAuthenticationEnabled {
             try encodeContainer.encode(iamDatabaseAuthenticationEnabled, forKey: .iamDatabaseAuthenticationEnabled)
         }
         if let instanceCreateTime = self.instanceCreateTime {
             try encodeContainer.encode(instanceCreateTime, forKey: .instanceCreateTime)
         }
-        if iops != 0 {
+        if let iops = self.iops {
             try encodeContainer.encode(iops, forKey: .iops)
         }
         if let kmsKeyId = self.kmsKeyId {
@@ -32806,10 +32806,10 @@ extension SecurityHubClientTypes.AwsRdsDbSnapshotDetails: Swift.Codable {
         if let optionGroupName = self.optionGroupName {
             try encodeContainer.encode(optionGroupName, forKey: .optionGroupName)
         }
-        if percentProgress != 0 {
+        if let percentProgress = self.percentProgress {
             try encodeContainer.encode(percentProgress, forKey: .percentProgress)
         }
-        if port != 0 {
+        if let port = self.port {
             try encodeContainer.encode(port, forKey: .port)
         }
         if let processorFeatures = processorFeatures {
@@ -32857,11 +32857,11 @@ extension SecurityHubClientTypes.AwsRdsDbSnapshotDetails: Swift.Codable {
         snapshotCreateTime = snapshotCreateTimeDecoded
         let engineDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .engine)
         engine = engineDecoded
-        let allocatedStorageDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .allocatedStorage) ?? 0
+        let allocatedStorageDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .allocatedStorage)
         allocatedStorage = allocatedStorageDecoded
         let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
         status = statusDecoded
-        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port) ?? 0
+        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port)
         port = portDecoded
         let availabilityZoneDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .availabilityZone)
         availabilityZone = availabilityZoneDecoded
@@ -32877,11 +32877,11 @@ extension SecurityHubClientTypes.AwsRdsDbSnapshotDetails: Swift.Codable {
         licenseModel = licenseModelDecoded
         let snapshotTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .snapshotType)
         snapshotType = snapshotTypeDecoded
-        let iopsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .iops) ?? 0
+        let iopsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .iops)
         iops = iopsDecoded
         let optionGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .optionGroupName)
         optionGroupName = optionGroupNameDecoded
-        let percentProgressDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .percentProgress) ?? 0
+        let percentProgressDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .percentProgress)
         percentProgress = percentProgressDecoded
         let sourceRegionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceRegion)
         sourceRegion = sourceRegionDecoded
@@ -32891,13 +32891,13 @@ extension SecurityHubClientTypes.AwsRdsDbSnapshotDetails: Swift.Codable {
         storageType = storageTypeDecoded
         let tdeCredentialArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tdeCredentialArn)
         tdeCredentialArn = tdeCredentialArnDecoded
-        let encryptedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .encrypted) ?? false
+        let encryptedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .encrypted)
         encrypted = encryptedDecoded
         let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
         kmsKeyId = kmsKeyIdDecoded
         let timezoneDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .timezone)
         timezone = timezoneDecoded
-        let iamDatabaseAuthenticationEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .iamDatabaseAuthenticationEnabled) ?? false
+        let iamDatabaseAuthenticationEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .iamDatabaseAuthenticationEnabled)
         iamDatabaseAuthenticationEnabled = iamDatabaseAuthenticationEnabledDecoded
         let processorFeaturesContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.AwsRdsDbProcessorFeature?].self, forKey: .processorFeatures)
         var processorFeaturesDecoded0:[SecurityHubClientTypes.AwsRdsDbProcessorFeature]? = nil
@@ -32919,7 +32919,7 @@ extension SecurityHubClientTypes {
     /// Provides details about an Amazon RDS DB cluster snapshot.
     public struct AwsRdsDbSnapshotDetails: Swift.Equatable {
         /// The amount of storage (in gigabytes) to be initially allocated for the database instance.
-        public var allocatedStorage: Swift.Int
+        public var allocatedStorage: Swift.Int?
         /// Specifies the name of the Availability Zone in which the DB instance was located at the time of the DB snapshot.
         public var availabilityZone: Swift.String?
         /// A name for the DB instance.
@@ -32929,7 +32929,7 @@ extension SecurityHubClientTypes {
         /// The identifier for the source DB instance.
         public var dbiResourceId: Swift.String?
         /// Whether the DB snapshot is encrypted.
-        public var encrypted: Swift.Bool
+        public var encrypted: Swift.Bool?
         /// The name of the database engine to use for this DB instance. Valid values are as follows:
         ///
         /// * aurora
@@ -32963,11 +32963,11 @@ extension SecurityHubClientTypes {
         /// The version of the database engine.
         public var engineVersion: Swift.String?
         /// Whether mapping of IAM accounts to database accounts is enabled.
-        public var iamDatabaseAuthenticationEnabled: Swift.Bool
+        public var iamDatabaseAuthenticationEnabled: Swift.Bool?
         /// Specifies the time in Coordinated Universal Time (UTC) when the DB instance, from which the snapshot was taken, was created.
         public var instanceCreateTime: Swift.String?
         /// The provisioned IOPS (I/O operations per second) value of the DB instance at the time of the snapshot.
-        public var iops: Swift.Int
+        public var iops: Swift.Int?
         /// If Encrypted is true, the KMS key identifier for the encrypted DB snapshot.
         public var kmsKeyId: Swift.String?
         /// License model information for the restored DB instance.
@@ -32977,9 +32977,9 @@ extension SecurityHubClientTypes {
         /// The option group name for the DB snapshot.
         public var optionGroupName: Swift.String?
         /// The percentage of the estimated data that has been transferred.
-        public var percentProgress: Swift.Int
+        public var percentProgress: Swift.Int?
         /// The port that the database engine was listening on at the time of the snapshot.
-        public var port: Swift.Int
+        public var port: Swift.Int?
         /// The number of CPU cores and the number of threads per core for the DB instance class of the DB instance.
         public var processorFeatures: [SecurityHubClientTypes.AwsRdsDbProcessorFeature]?
         /// When the snapshot was taken in Coordinated Universal Time (UTC).
@@ -33008,23 +33008,23 @@ extension SecurityHubClientTypes {
         public var vpcId: Swift.String?
 
         public init(
-            allocatedStorage: Swift.Int = 0,
+            allocatedStorage: Swift.Int? = nil,
             availabilityZone: Swift.String? = nil,
             dbInstanceIdentifier: Swift.String? = nil,
             dbSnapshotIdentifier: Swift.String? = nil,
             dbiResourceId: Swift.String? = nil,
-            encrypted: Swift.Bool = false,
+            encrypted: Swift.Bool? = nil,
             engine: Swift.String? = nil,
             engineVersion: Swift.String? = nil,
-            iamDatabaseAuthenticationEnabled: Swift.Bool = false,
+            iamDatabaseAuthenticationEnabled: Swift.Bool? = nil,
             instanceCreateTime: Swift.String? = nil,
-            iops: Swift.Int = 0,
+            iops: Swift.Int? = nil,
             kmsKeyId: Swift.String? = nil,
             licenseModel: Swift.String? = nil,
             masterUsername: Swift.String? = nil,
             optionGroupName: Swift.String? = nil,
-            percentProgress: Swift.Int = 0,
-            port: Swift.Int = 0,
+            percentProgress: Swift.Int? = nil,
+            port: Swift.Int? = nil,
             processorFeatures: [SecurityHubClientTypes.AwsRdsDbProcessorFeature]? = nil,
             snapshotCreateTime: Swift.String? = nil,
             snapshotType: Swift.String? = nil,
@@ -33082,7 +33082,7 @@ extension SecurityHubClientTypes.AwsRdsDbStatusInfo: Swift.Codable {
         if let message = self.message {
             try encodeContainer.encode(message, forKey: .message)
         }
-        if normal != false {
+        if let normal = self.normal {
             try encodeContainer.encode(normal, forKey: .normal)
         }
         if let status = self.status {
@@ -33097,7 +33097,7 @@ extension SecurityHubClientTypes.AwsRdsDbStatusInfo: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let statusTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .statusType)
         statusType = statusTypeDecoded
-        let normalDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .normal) ?? false
+        let normalDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .normal)
         normal = normalDecoded
         let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
         status = statusDecoded
@@ -33112,7 +33112,7 @@ extension SecurityHubClientTypes {
         /// If the read replica is currently in an error state, provides the error details.
         public var message: Swift.String?
         /// Whether the read replica instance is operating normally.
-        public var normal: Swift.Bool
+        public var normal: Swift.Bool?
         /// The status of the read replica instance.
         public var status: Swift.String?
         /// The type of status. For a read replica, the status type is read replication.
@@ -33120,7 +33120,7 @@ extension SecurityHubClientTypes {
 
         public init(
             message: Swift.String? = nil,
-            normal: Swift.Bool = false,
+            normal: Swift.Bool? = nil,
             status: Swift.String? = nil,
             statusType: Swift.String? = nil
         )
@@ -33343,7 +33343,7 @@ extension SecurityHubClientTypes.AwsRdsEventSubscriptionDetails: Swift.Codable {
         if let customerAwsId = self.customerAwsId {
             try encodeContainer.encode(customerAwsId, forKey: .customerAwsId)
         }
-        if enabled != false {
+        if let enabled = self.enabled {
             try encodeContainer.encode(enabled, forKey: .enabled)
         }
         if let eventCategoriesList = eventCategoriesList {
@@ -33381,7 +33381,7 @@ extension SecurityHubClientTypes.AwsRdsEventSubscriptionDetails: Swift.Codable {
         custSubscriptionId = custSubscriptionIdDecoded
         let customerAwsIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .customerAwsId)
         customerAwsId = customerAwsIdDecoded
-        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled) ?? false
+        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled)
         enabled = enabledDecoded
         let eventCategoriesListContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .eventCategoriesList)
         var eventCategoriesListDecoded0:[Swift.String]? = nil
@@ -33426,7 +33426,7 @@ extension SecurityHubClientTypes {
         /// The identifier of the event notification subscription.
         public var customerAwsId: Swift.String?
         /// Whether the event notification subscription is enabled.
-        public var enabled: Swift.Bool
+        public var enabled: Swift.Bool?
         /// The list of event categories for the event notification subscription.
         public var eventCategoriesList: [Swift.String]?
         /// The ARN of the event notification subscription.
@@ -33445,7 +33445,7 @@ extension SecurityHubClientTypes {
         public init(
             custSubscriptionId: Swift.String? = nil,
             customerAwsId: Swift.String? = nil,
-            enabled: Swift.Bool = false,
+            enabled: Swift.Bool? = nil,
             eventCategoriesList: [Swift.String]? = nil,
             eventSubscriptionArn: Swift.String? = nil,
             snsTopicArn: Swift.String? = nil,
@@ -33774,10 +33774,10 @@ extension SecurityHubClientTypes.AwsRedshiftClusterClusterSnapshotCopyStatus: Sw
         if let destinationRegion = self.destinationRegion {
             try encodeContainer.encode(destinationRegion, forKey: .destinationRegion)
         }
-        if manualSnapshotRetentionPeriod != 0 {
+        if let manualSnapshotRetentionPeriod = self.manualSnapshotRetentionPeriod {
             try encodeContainer.encode(manualSnapshotRetentionPeriod, forKey: .manualSnapshotRetentionPeriod)
         }
-        if retentionPeriod != 0 {
+        if let retentionPeriod = self.retentionPeriod {
             try encodeContainer.encode(retentionPeriod, forKey: .retentionPeriod)
         }
         if let snapshotCopyGrantName = self.snapshotCopyGrantName {
@@ -33789,9 +33789,9 @@ extension SecurityHubClientTypes.AwsRedshiftClusterClusterSnapshotCopyStatus: Sw
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let destinationRegionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .destinationRegion)
         destinationRegion = destinationRegionDecoded
-        let manualSnapshotRetentionPeriodDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .manualSnapshotRetentionPeriod) ?? 0
+        let manualSnapshotRetentionPeriodDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .manualSnapshotRetentionPeriod)
         manualSnapshotRetentionPeriod = manualSnapshotRetentionPeriodDecoded
-        let retentionPeriodDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .retentionPeriod) ?? 0
+        let retentionPeriodDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .retentionPeriod)
         retentionPeriod = retentionPeriodDecoded
         let snapshotCopyGrantNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .snapshotCopyGrantName)
         snapshotCopyGrantName = snapshotCopyGrantNameDecoded
@@ -33804,16 +33804,16 @@ extension SecurityHubClientTypes {
         /// The destination Region that snapshots are automatically copied to when cross-Region snapshot copy is enabled.
         public var destinationRegion: Swift.String?
         /// The number of days that manual snapshots are retained in the destination Region after they are copied from a source Region. If the value is -1, then the manual snapshot is retained indefinitely. Valid values: Either -1 or an integer between 1 and 3,653
-        public var manualSnapshotRetentionPeriod: Swift.Int
+        public var manualSnapshotRetentionPeriod: Swift.Int?
         /// The number of days to retain automated snapshots in the destination Region after they are copied from a source Region.
-        public var retentionPeriod: Swift.Int
+        public var retentionPeriod: Swift.Int?
         /// The name of the snapshot copy grant.
         public var snapshotCopyGrantName: Swift.String?
 
         public init(
             destinationRegion: Swift.String? = nil,
-            manualSnapshotRetentionPeriod: Swift.Int = 0,
-            retentionPeriod: Swift.Int = 0,
+            manualSnapshotRetentionPeriod: Swift.Int? = nil,
+            retentionPeriod: Swift.Int? = nil,
             snapshotCopyGrantName: Swift.String? = nil
         )
         {
@@ -33931,10 +33931,10 @@ extension SecurityHubClientTypes.AwsRedshiftClusterDetails: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if allowVersionUpgrade != false {
+        if let allowVersionUpgrade = self.allowVersionUpgrade {
             try encodeContainer.encode(allowVersionUpgrade, forKey: .allowVersionUpgrade)
         }
-        if automatedSnapshotRetentionPeriod != 0 {
+        if let automatedSnapshotRetentionPeriod = self.automatedSnapshotRetentionPeriod {
             try encodeContainer.encode(automatedSnapshotRetentionPeriod, forKey: .automatedSnapshotRetentionPeriod)
         }
         if let availabilityZone = self.availabilityZone {
@@ -34000,13 +34000,13 @@ extension SecurityHubClientTypes.AwsRedshiftClusterDetails: Swift.Codable {
         if let elasticResizeNumberOfNodeOptions = self.elasticResizeNumberOfNodeOptions {
             try encodeContainer.encode(elasticResizeNumberOfNodeOptions, forKey: .elasticResizeNumberOfNodeOptions)
         }
-        if encrypted != false {
+        if let encrypted = self.encrypted {
             try encodeContainer.encode(encrypted, forKey: .encrypted)
         }
         if let endpoint = self.endpoint {
             try encodeContainer.encode(endpoint, forKey: .endpoint)
         }
-        if enhancedVpcRouting != false {
+        if let enhancedVpcRouting = self.enhancedVpcRouting {
             try encodeContainer.encode(enhancedVpcRouting, forKey: .enhancedVpcRouting)
         }
         if let expectedNextSnapshotScheduleTime = self.expectedNextSnapshotScheduleTime {
@@ -34033,7 +34033,7 @@ extension SecurityHubClientTypes.AwsRedshiftClusterDetails: Swift.Codable {
         if let maintenanceTrackName = self.maintenanceTrackName {
             try encodeContainer.encode(maintenanceTrackName, forKey: .maintenanceTrackName)
         }
-        if manualSnapshotRetentionPeriod != 0 {
+        if let manualSnapshotRetentionPeriod = self.manualSnapshotRetentionPeriod {
             try encodeContainer.encode(manualSnapshotRetentionPeriod, forKey: .manualSnapshotRetentionPeriod)
         }
         if let masterUsername = self.masterUsername {
@@ -34045,7 +34045,7 @@ extension SecurityHubClientTypes.AwsRedshiftClusterDetails: Swift.Codable {
         if let nodeType = self.nodeType {
             try encodeContainer.encode(nodeType, forKey: .nodeType)
         }
-        if numberOfNodes != 0 {
+        if let numberOfNodes = self.numberOfNodes {
             try encodeContainer.encode(numberOfNodes, forKey: .numberOfNodes)
         }
         if let pendingActions = pendingActions {
@@ -34060,7 +34060,7 @@ extension SecurityHubClientTypes.AwsRedshiftClusterDetails: Swift.Codable {
         if let preferredMaintenanceWindow = self.preferredMaintenanceWindow {
             try encodeContainer.encode(preferredMaintenanceWindow, forKey: .preferredMaintenanceWindow)
         }
-        if publiclyAccessible != false {
+        if let publiclyAccessible = self.publiclyAccessible {
             try encodeContainer.encode(publiclyAccessible, forKey: .publiclyAccessible)
         }
         if let resizeInfo = self.resizeInfo {
@@ -34088,9 +34088,9 @@ extension SecurityHubClientTypes.AwsRedshiftClusterDetails: Swift.Codable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let allowVersionUpgradeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowVersionUpgrade) ?? false
+        let allowVersionUpgradeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowVersionUpgrade)
         allowVersionUpgrade = allowVersionUpgradeDecoded
-        let automatedSnapshotRetentionPeriodDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .automatedSnapshotRetentionPeriod) ?? 0
+        let automatedSnapshotRetentionPeriodDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .automatedSnapshotRetentionPeriod)
         automatedSnapshotRetentionPeriod = automatedSnapshotRetentionPeriodDecoded
         let availabilityZoneDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .availabilityZone)
         availabilityZone = availabilityZoneDecoded
@@ -34162,11 +34162,11 @@ extension SecurityHubClientTypes.AwsRedshiftClusterDetails: Swift.Codable {
         elasticIpStatus = elasticIpStatusDecoded
         let elasticResizeNumberOfNodeOptionsDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .elasticResizeNumberOfNodeOptions)
         elasticResizeNumberOfNodeOptions = elasticResizeNumberOfNodeOptionsDecoded
-        let encryptedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .encrypted) ?? false
+        let encryptedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .encrypted)
         encrypted = encryptedDecoded
         let endpointDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsRedshiftClusterEndpoint.self, forKey: .endpoint)
         endpoint = endpointDecoded
-        let enhancedVpcRoutingDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enhancedVpcRouting) ?? false
+        let enhancedVpcRoutingDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enhancedVpcRouting)
         enhancedVpcRouting = enhancedVpcRoutingDecoded
         let expectedNextSnapshotScheduleTimeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .expectedNextSnapshotScheduleTime)
         expectedNextSnapshotScheduleTime = expectedNextSnapshotScheduleTimeDecoded
@@ -34189,7 +34189,7 @@ extension SecurityHubClientTypes.AwsRedshiftClusterDetails: Swift.Codable {
         kmsKeyId = kmsKeyIdDecoded
         let maintenanceTrackNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .maintenanceTrackName)
         maintenanceTrackName = maintenanceTrackNameDecoded
-        let manualSnapshotRetentionPeriodDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .manualSnapshotRetentionPeriod) ?? 0
+        let manualSnapshotRetentionPeriodDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .manualSnapshotRetentionPeriod)
         manualSnapshotRetentionPeriod = manualSnapshotRetentionPeriodDecoded
         let masterUsernameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .masterUsername)
         masterUsername = masterUsernameDecoded
@@ -34197,7 +34197,7 @@ extension SecurityHubClientTypes.AwsRedshiftClusterDetails: Swift.Codable {
         nextMaintenanceWindowStartTime = nextMaintenanceWindowStartTimeDecoded
         let nodeTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nodeType)
         nodeType = nodeTypeDecoded
-        let numberOfNodesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .numberOfNodes) ?? 0
+        let numberOfNodesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .numberOfNodes)
         numberOfNodes = numberOfNodesDecoded
         let pendingActionsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .pendingActions)
         var pendingActionsDecoded0:[Swift.String]? = nil
@@ -34214,7 +34214,7 @@ extension SecurityHubClientTypes.AwsRedshiftClusterDetails: Swift.Codable {
         pendingModifiedValues = pendingModifiedValuesDecoded
         let preferredMaintenanceWindowDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .preferredMaintenanceWindow)
         preferredMaintenanceWindow = preferredMaintenanceWindowDecoded
-        let publiclyAccessibleDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .publiclyAccessible) ?? false
+        let publiclyAccessibleDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .publiclyAccessible)
         publiclyAccessible = publiclyAccessibleDecoded
         let resizeInfoDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsRedshiftClusterResizeInfo.self, forKey: .resizeInfo)
         resizeInfo = resizeInfoDecoded
@@ -34246,9 +34246,9 @@ extension SecurityHubClientTypes {
     /// Details about an Amazon Redshift cluster.
     public struct AwsRedshiftClusterDetails: Swift.Equatable {
         /// Indicates whether major version upgrades are applied automatically to the cluster during the maintenance window.
-        public var allowVersionUpgrade: Swift.Bool
+        public var allowVersionUpgrade: Swift.Bool?
         /// The number of days that automatic cluster snapshots are retained.
-        public var automatedSnapshotRetentionPeriod: Swift.Int
+        public var automatedSnapshotRetentionPeriod: Swift.Int?
         /// The name of the Availability Zone in which the cluster is located.
         public var availabilityZone: Swift.String?
         /// The availability status of the cluster for queries. Possible values are the following:
@@ -34294,11 +34294,11 @@ extension SecurityHubClientTypes {
         /// The number of nodes that you can use the elastic resize method to resize the cluster to.
         public var elasticResizeNumberOfNodeOptions: Swift.String?
         /// Indicates whether the data in the cluster is encrypted at rest.
-        public var encrypted: Swift.Bool
+        public var encrypted: Swift.Bool?
         /// The connection endpoint.
         public var endpoint: SecurityHubClientTypes.AwsRedshiftClusterEndpoint?
         /// Indicates whether to create the cluster with enhanced VPC routing enabled.
-        public var enhancedVpcRouting: Swift.Bool
+        public var enhancedVpcRouting: Swift.Bool?
         /// Indicates when the next snapshot is expected to be taken. The cluster must have a valid snapshot schedule and have backups enabled. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public var expectedNextSnapshotScheduleTime: Swift.String?
         /// The status of the next expected snapshot. Valid values: OnTrack | Pending
@@ -34314,7 +34314,7 @@ extension SecurityHubClientTypes {
         /// The name of the maintenance track for the cluster.
         public var maintenanceTrackName: Swift.String?
         /// The default number of days to retain a manual snapshot. If the value is -1, the snapshot is retained indefinitely. This setting doesn't change the retention period of existing snapshots. Valid values: Either -1 or an integer between 1 and 3,653
-        public var manualSnapshotRetentionPeriod: Swift.Int
+        public var manualSnapshotRetentionPeriod: Swift.Int?
         /// The master user name for the cluster. This name is used to connect to the database that is specified in as the value of DBName.
         public var masterUsername: Swift.String?
         /// Indicates the start of the next maintenance window. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
@@ -34322,7 +34322,7 @@ extension SecurityHubClientTypes {
         /// The node type for the nodes in the cluster.
         public var nodeType: Swift.String?
         /// The number of compute nodes in the cluster.
-        public var numberOfNodes: Swift.Int
+        public var numberOfNodes: Swift.Int?
         /// A list of cluster operations that are waiting to start.
         public var pendingActions: [Swift.String]?
         /// A list of changes to the cluster that are currently pending.
@@ -34330,7 +34330,7 @@ extension SecurityHubClientTypes {
         /// The weekly time range, in Universal Coordinated Time (UTC), during which system maintenance can occur. Format:  :HH:MM-:HH:MM For the day values, use mon | tue | wed | thu | fri | sat | sun For example, sun:09:32-sun:10:02
         public var preferredMaintenanceWindow: Swift.String?
         /// Whether the cluster can be accessed from a public network.
-        public var publiclyAccessible: Swift.Bool
+        public var publiclyAccessible: Swift.Bool?
         /// Information about the resize operation for the cluster.
         public var resizeInfo: SecurityHubClientTypes.AwsRedshiftClusterResizeInfo?
         /// Information about the status of a cluster restore action. Only applies to a cluster that was created by restoring a snapshot.
@@ -34345,8 +34345,8 @@ extension SecurityHubClientTypes {
         public var vpcSecurityGroups: [SecurityHubClientTypes.AwsRedshiftClusterVpcSecurityGroup]?
 
         public init(
-            allowVersionUpgrade: Swift.Bool = false,
-            automatedSnapshotRetentionPeriod: Swift.Int = 0,
+            allowVersionUpgrade: Swift.Bool? = nil,
+            automatedSnapshotRetentionPeriod: Swift.Int? = nil,
             availabilityZone: Swift.String? = nil,
             clusterAvailabilityStatus: Swift.String? = nil,
             clusterCreateTime: Swift.String? = nil,
@@ -34364,9 +34364,9 @@ extension SecurityHubClientTypes {
             deferredMaintenanceWindows: [SecurityHubClientTypes.AwsRedshiftClusterDeferredMaintenanceWindow]? = nil,
             elasticIpStatus: SecurityHubClientTypes.AwsRedshiftClusterElasticIpStatus? = nil,
             elasticResizeNumberOfNodeOptions: Swift.String? = nil,
-            encrypted: Swift.Bool = false,
+            encrypted: Swift.Bool? = nil,
             endpoint: SecurityHubClientTypes.AwsRedshiftClusterEndpoint? = nil,
-            enhancedVpcRouting: Swift.Bool = false,
+            enhancedVpcRouting: Swift.Bool? = nil,
             expectedNextSnapshotScheduleTime: Swift.String? = nil,
             expectedNextSnapshotScheduleTimeStatus: Swift.String? = nil,
             hsmStatus: SecurityHubClientTypes.AwsRedshiftClusterHsmStatus? = nil,
@@ -34374,15 +34374,15 @@ extension SecurityHubClientTypes {
             kmsKeyId: Swift.String? = nil,
             loggingStatus: SecurityHubClientTypes.AwsRedshiftClusterLoggingStatus? = nil,
             maintenanceTrackName: Swift.String? = nil,
-            manualSnapshotRetentionPeriod: Swift.Int = 0,
+            manualSnapshotRetentionPeriod: Swift.Int? = nil,
             masterUsername: Swift.String? = nil,
             nextMaintenanceWindowStartTime: Swift.String? = nil,
             nodeType: Swift.String? = nil,
-            numberOfNodes: Swift.Int = 0,
+            numberOfNodes: Swift.Int? = nil,
             pendingActions: [Swift.String]? = nil,
             pendingModifiedValues: SecurityHubClientTypes.AwsRedshiftClusterPendingModifiedValues? = nil,
             preferredMaintenanceWindow: Swift.String? = nil,
-            publiclyAccessible: Swift.Bool = false,
+            publiclyAccessible: Swift.Bool? = nil,
             resizeInfo: SecurityHubClientTypes.AwsRedshiftClusterResizeInfo? = nil,
             restoreStatus: SecurityHubClientTypes.AwsRedshiftClusterRestoreStatus? = nil,
             snapshotScheduleIdentifier: Swift.String? = nil,
@@ -34496,7 +34496,7 @@ extension SecurityHubClientTypes.AwsRedshiftClusterEndpoint: Swift.Codable {
         if let address = self.address {
             try encodeContainer.encode(address, forKey: .address)
         }
-        if port != 0 {
+        if let port = self.port {
             try encodeContainer.encode(port, forKey: .port)
         }
     }
@@ -34505,7 +34505,7 @@ extension SecurityHubClientTypes.AwsRedshiftClusterEndpoint: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let addressDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .address)
         address = addressDecoded
-        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port) ?? 0
+        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port)
         port = portDecoded
     }
 }
@@ -34516,11 +34516,11 @@ extension SecurityHubClientTypes {
         /// The DNS address of the cluster.
         public var address: Swift.String?
         /// The port that the database engine listens on.
-        public var port: Swift.Int
+        public var port: Swift.Int?
 
         public init(
             address: Swift.String? = nil,
-            port: Swift.Int = 0
+            port: Swift.Int? = nil
         )
         {
             self.address = address
@@ -34654,7 +34654,7 @@ extension SecurityHubClientTypes.AwsRedshiftClusterLoggingStatus: Swift.Codable 
         if let lastSuccessfulDeliveryTime = self.lastSuccessfulDeliveryTime {
             try encodeContainer.encode(lastSuccessfulDeliveryTime, forKey: .lastSuccessfulDeliveryTime)
         }
-        if loggingEnabled != false {
+        if let loggingEnabled = self.loggingEnabled {
             try encodeContainer.encode(loggingEnabled, forKey: .loggingEnabled)
         }
         if let s3KeyPrefix = self.s3KeyPrefix {
@@ -34672,7 +34672,7 @@ extension SecurityHubClientTypes.AwsRedshiftClusterLoggingStatus: Swift.Codable 
         lastFailureTime = lastFailureTimeDecoded
         let lastSuccessfulDeliveryTimeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastSuccessfulDeliveryTime)
         lastSuccessfulDeliveryTime = lastSuccessfulDeliveryTimeDecoded
-        let loggingEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .loggingEnabled) ?? false
+        let loggingEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .loggingEnabled)
         loggingEnabled = loggingEnabledDecoded
         let s3KeyPrefixDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .s3KeyPrefix)
         s3KeyPrefix = s3KeyPrefixDecoded
@@ -34691,7 +34691,7 @@ extension SecurityHubClientTypes {
         /// The last time that logs were delivered successfully. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public var lastSuccessfulDeliveryTime: Swift.String?
         /// Indicates whether logging is enabled.
-        public var loggingEnabled: Swift.Bool
+        public var loggingEnabled: Swift.Bool?
         /// Provides the prefix applied to the log file names.
         public var s3KeyPrefix: Swift.String?
 
@@ -34700,7 +34700,7 @@ extension SecurityHubClientTypes {
             lastFailureMessage: Swift.String? = nil,
             lastFailureTime: Swift.String? = nil,
             lastSuccessfulDeliveryTime: Swift.String? = nil,
-            loggingEnabled: Swift.Bool = false,
+            loggingEnabled: Swift.Bool? = nil,
             s3KeyPrefix: Swift.String? = nil
         )
         {
@@ -34732,7 +34732,7 @@ extension SecurityHubClientTypes.AwsRedshiftClusterPendingModifiedValues: Swift.
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if automatedSnapshotRetentionPeriod != 0 {
+        if let automatedSnapshotRetentionPeriod = self.automatedSnapshotRetentionPeriod {
             try encodeContainer.encode(automatedSnapshotRetentionPeriod, forKey: .automatedSnapshotRetentionPeriod)
         }
         if let clusterIdentifier = self.clusterIdentifier {
@@ -34747,7 +34747,7 @@ extension SecurityHubClientTypes.AwsRedshiftClusterPendingModifiedValues: Swift.
         if let encryptionType = self.encryptionType {
             try encodeContainer.encode(encryptionType, forKey: .encryptionType)
         }
-        if enhancedVpcRouting != false {
+        if let enhancedVpcRouting = self.enhancedVpcRouting {
             try encodeContainer.encode(enhancedVpcRouting, forKey: .enhancedVpcRouting)
         }
         if let maintenanceTrackName = self.maintenanceTrackName {
@@ -34759,17 +34759,17 @@ extension SecurityHubClientTypes.AwsRedshiftClusterPendingModifiedValues: Swift.
         if let nodeType = self.nodeType {
             try encodeContainer.encode(nodeType, forKey: .nodeType)
         }
-        if numberOfNodes != 0 {
+        if let numberOfNodes = self.numberOfNodes {
             try encodeContainer.encode(numberOfNodes, forKey: .numberOfNodes)
         }
-        if publiclyAccessible != false {
+        if let publiclyAccessible = self.publiclyAccessible {
             try encodeContainer.encode(publiclyAccessible, forKey: .publiclyAccessible)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let automatedSnapshotRetentionPeriodDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .automatedSnapshotRetentionPeriod) ?? 0
+        let automatedSnapshotRetentionPeriodDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .automatedSnapshotRetentionPeriod)
         automatedSnapshotRetentionPeriod = automatedSnapshotRetentionPeriodDecoded
         let clusterIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clusterIdentifier)
         clusterIdentifier = clusterIdentifierDecoded
@@ -34779,7 +34779,7 @@ extension SecurityHubClientTypes.AwsRedshiftClusterPendingModifiedValues: Swift.
         clusterVersion = clusterVersionDecoded
         let encryptionTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .encryptionType)
         encryptionType = encryptionTypeDecoded
-        let enhancedVpcRoutingDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enhancedVpcRouting) ?? false
+        let enhancedVpcRoutingDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enhancedVpcRouting)
         enhancedVpcRouting = enhancedVpcRoutingDecoded
         let maintenanceTrackNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .maintenanceTrackName)
         maintenanceTrackName = maintenanceTrackNameDecoded
@@ -34787,9 +34787,9 @@ extension SecurityHubClientTypes.AwsRedshiftClusterPendingModifiedValues: Swift.
         masterUserPassword = masterUserPasswordDecoded
         let nodeTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nodeType)
         nodeType = nodeTypeDecoded
-        let numberOfNodesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .numberOfNodes) ?? 0
+        let numberOfNodesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .numberOfNodes)
         numberOfNodes = numberOfNodesDecoded
-        let publiclyAccessibleDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .publiclyAccessible) ?? false
+        let publiclyAccessibleDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .publiclyAccessible)
         publiclyAccessible = publiclyAccessibleDecoded
     }
 }
@@ -34798,7 +34798,7 @@ extension SecurityHubClientTypes {
     /// Changes to the Amazon Redshift cluster that are currently pending.
     public struct AwsRedshiftClusterPendingModifiedValues: Swift.Equatable {
         /// The pending or in-progress change to the automated snapshot retention period.
-        public var automatedSnapshotRetentionPeriod: Swift.Int
+        public var automatedSnapshotRetentionPeriod: Swift.Int?
         /// The pending or in-progress change to the identifier for the cluster.
         public var clusterIdentifier: Swift.String?
         /// The pending or in-progress change to the cluster type.
@@ -34808,7 +34808,7 @@ extension SecurityHubClientTypes {
         /// The encryption type for a cluster.
         public var encryptionType: Swift.String?
         /// Indicates whether to create the cluster with enhanced VPC routing enabled.
-        public var enhancedVpcRouting: Swift.Bool
+        public var enhancedVpcRouting: Swift.Bool?
         /// The name of the maintenance track that the cluster changes to during the next maintenance window.
         public var maintenanceTrackName: Swift.String?
         /// The pending or in-progress change to the master user password for the cluster.
@@ -34816,22 +34816,22 @@ extension SecurityHubClientTypes {
         /// The pending or in-progress change to the cluster's node type.
         public var nodeType: Swift.String?
         /// The pending or in-progress change to the number of nodes in the cluster.
-        public var numberOfNodes: Swift.Int
+        public var numberOfNodes: Swift.Int?
         /// The pending or in-progress change to whether the cluster can be connected to from the public network.
-        public var publiclyAccessible: Swift.Bool
+        public var publiclyAccessible: Swift.Bool?
 
         public init(
-            automatedSnapshotRetentionPeriod: Swift.Int = 0,
+            automatedSnapshotRetentionPeriod: Swift.Int? = nil,
             clusterIdentifier: Swift.String? = nil,
             clusterType: Swift.String? = nil,
             clusterVersion: Swift.String? = nil,
             encryptionType: Swift.String? = nil,
-            enhancedVpcRouting: Swift.Bool = false,
+            enhancedVpcRouting: Swift.Bool? = nil,
             maintenanceTrackName: Swift.String? = nil,
             masterUserPassword: Swift.String? = nil,
             nodeType: Swift.String? = nil,
-            numberOfNodes: Swift.Int = 0,
-            publiclyAccessible: Swift.Bool = false
+            numberOfNodes: Swift.Int? = nil,
+            publiclyAccessible: Swift.Bool? = nil
         )
         {
             self.automatedSnapshotRetentionPeriod = automatedSnapshotRetentionPeriod
@@ -34858,7 +34858,7 @@ extension SecurityHubClientTypes.AwsRedshiftClusterResizeInfo: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if allowCancelResize != false {
+        if let allowCancelResize = self.allowCancelResize {
             try encodeContainer.encode(allowCancelResize, forKey: .allowCancelResize)
         }
         if let resizeType = self.resizeType {
@@ -34868,7 +34868,7 @@ extension SecurityHubClientTypes.AwsRedshiftClusterResizeInfo: Swift.Codable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let allowCancelResizeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowCancelResize) ?? false
+        let allowCancelResizeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowCancelResize)
         allowCancelResize = allowCancelResizeDecoded
         let resizeTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resizeType)
         resizeType = resizeTypeDecoded
@@ -34879,12 +34879,12 @@ extension SecurityHubClientTypes {
     /// Information about the resize operation for the cluster.
     public struct AwsRedshiftClusterResizeInfo: Swift.Equatable {
         /// Indicates whether the resize operation can be canceled.
-        public var allowCancelResize: Swift.Bool
+        public var allowCancelResize: Swift.Bool?
         /// The type of resize operation. Valid values: ClassicResize
         public var resizeType: Swift.String?
 
         public init(
-            allowCancelResize: Swift.Bool = false,
+            allowCancelResize: Swift.Bool? = nil,
             resizeType: Swift.String? = nil
         )
         {
@@ -34907,19 +34907,19 @@ extension SecurityHubClientTypes.AwsRedshiftClusterRestoreStatus: Swift.Codable 
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if currentRestoreRateInMegaBytesPerSecond != 0.0 {
+        if let currentRestoreRateInMegaBytesPerSecond = self.currentRestoreRateInMegaBytesPerSecond {
             try encodeContainer.encode(currentRestoreRateInMegaBytesPerSecond, forKey: .currentRestoreRateInMegaBytesPerSecond)
         }
-        if elapsedTimeInSeconds != 0 {
+        if let elapsedTimeInSeconds = self.elapsedTimeInSeconds {
             try encodeContainer.encode(elapsedTimeInSeconds, forKey: .elapsedTimeInSeconds)
         }
-        if estimatedTimeToCompletionInSeconds != 0 {
+        if let estimatedTimeToCompletionInSeconds = self.estimatedTimeToCompletionInSeconds {
             try encodeContainer.encode(estimatedTimeToCompletionInSeconds, forKey: .estimatedTimeToCompletionInSeconds)
         }
-        if progressInMegaBytes != 0 {
+        if let progressInMegaBytes = self.progressInMegaBytes {
             try encodeContainer.encode(progressInMegaBytes, forKey: .progressInMegaBytes)
         }
-        if snapshotSizeInMegaBytes != 0 {
+        if let snapshotSizeInMegaBytes = self.snapshotSizeInMegaBytes {
             try encodeContainer.encode(snapshotSizeInMegaBytes, forKey: .snapshotSizeInMegaBytes)
         }
         if let status = self.status {
@@ -34929,15 +34929,15 @@ extension SecurityHubClientTypes.AwsRedshiftClusterRestoreStatus: Swift.Codable 
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let currentRestoreRateInMegaBytesPerSecondDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .currentRestoreRateInMegaBytesPerSecond) ?? 0.0
+        let currentRestoreRateInMegaBytesPerSecondDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .currentRestoreRateInMegaBytesPerSecond)
         currentRestoreRateInMegaBytesPerSecond = currentRestoreRateInMegaBytesPerSecondDecoded
-        let elapsedTimeInSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .elapsedTimeInSeconds) ?? 0
+        let elapsedTimeInSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .elapsedTimeInSeconds)
         elapsedTimeInSeconds = elapsedTimeInSecondsDecoded
-        let estimatedTimeToCompletionInSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .estimatedTimeToCompletionInSeconds) ?? 0
+        let estimatedTimeToCompletionInSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .estimatedTimeToCompletionInSeconds)
         estimatedTimeToCompletionInSeconds = estimatedTimeToCompletionInSecondsDecoded
-        let progressInMegaBytesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .progressInMegaBytes) ?? 0
+        let progressInMegaBytesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .progressInMegaBytes)
         progressInMegaBytes = progressInMegaBytesDecoded
-        let snapshotSizeInMegaBytesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .snapshotSizeInMegaBytes) ?? 0
+        let snapshotSizeInMegaBytesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .snapshotSizeInMegaBytes)
         snapshotSizeInMegaBytes = snapshotSizeInMegaBytesDecoded
         let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
         status = statusDecoded
@@ -34948,24 +34948,24 @@ extension SecurityHubClientTypes {
     /// Information about the status of a cluster restore action. It only applies if the cluster was created by restoring a snapshot.
     public struct AwsRedshiftClusterRestoreStatus: Swift.Equatable {
         /// The number of megabytes per second being transferred from the backup storage. Returns the average rate for a completed backup. This field is only updated when you restore to DC2 and DS2 node types.
-        public var currentRestoreRateInMegaBytesPerSecond: Swift.Double
+        public var currentRestoreRateInMegaBytesPerSecond: Swift.Double?
         /// The amount of time an in-progress restore has been running, or the amount of time it took a completed restore to finish. This field is only updated when you restore to DC2 and DS2 node types.
-        public var elapsedTimeInSeconds: Swift.Int
+        public var elapsedTimeInSeconds: Swift.Int?
         /// The estimate of the time remaining before the restore is complete. Returns 0 for a completed restore. This field is only updated when you restore to DC2 and DS2 node types.
-        public var estimatedTimeToCompletionInSeconds: Swift.Int
+        public var estimatedTimeToCompletionInSeconds: Swift.Int?
         /// The number of megabytes that were transferred from snapshot storage. This field is only updated when you restore to DC2 and DS2 node types.
-        public var progressInMegaBytes: Swift.Int
+        public var progressInMegaBytes: Swift.Int?
         /// The size of the set of snapshot data that was used to restore the cluster. This field is only updated when you restore to DC2 and DS2 node types.
-        public var snapshotSizeInMegaBytes: Swift.Int
+        public var snapshotSizeInMegaBytes: Swift.Int?
         /// The status of the restore action. Valid values: starting | restoring | completed | failed
         public var status: Swift.String?
 
         public init(
-            currentRestoreRateInMegaBytesPerSecond: Swift.Double = 0.0,
-            elapsedTimeInSeconds: Swift.Int = 0,
-            estimatedTimeToCompletionInSeconds: Swift.Int = 0,
-            progressInMegaBytes: Swift.Int = 0,
-            snapshotSizeInMegaBytes: Swift.Int = 0,
+            currentRestoreRateInMegaBytesPerSecond: Swift.Double? = nil,
+            elapsedTimeInSeconds: Swift.Int? = nil,
+            estimatedTimeToCompletionInSeconds: Swift.Int? = nil,
+            progressInMegaBytes: Swift.Int? = nil,
+            snapshotSizeInMegaBytes: Swift.Int? = nil,
             status: Swift.String? = nil
         )
         {
@@ -35294,29 +35294,29 @@ extension SecurityHubClientTypes.AwsS3AccountPublicAccessBlockDetails: Swift.Cod
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if blockPublicAcls != false {
+        if let blockPublicAcls = self.blockPublicAcls {
             try encodeContainer.encode(blockPublicAcls, forKey: .blockPublicAcls)
         }
-        if blockPublicPolicy != false {
+        if let blockPublicPolicy = self.blockPublicPolicy {
             try encodeContainer.encode(blockPublicPolicy, forKey: .blockPublicPolicy)
         }
-        if ignorePublicAcls != false {
+        if let ignorePublicAcls = self.ignorePublicAcls {
             try encodeContainer.encode(ignorePublicAcls, forKey: .ignorePublicAcls)
         }
-        if restrictPublicBuckets != false {
+        if let restrictPublicBuckets = self.restrictPublicBuckets {
             try encodeContainer.encode(restrictPublicBuckets, forKey: .restrictPublicBuckets)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let blockPublicAclsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .blockPublicAcls) ?? false
+        let blockPublicAclsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .blockPublicAcls)
         blockPublicAcls = blockPublicAclsDecoded
-        let blockPublicPolicyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .blockPublicPolicy) ?? false
+        let blockPublicPolicyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .blockPublicPolicy)
         blockPublicPolicy = blockPublicPolicyDecoded
-        let ignorePublicAclsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .ignorePublicAcls) ?? false
+        let ignorePublicAclsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .ignorePublicAcls)
         ignorePublicAcls = ignorePublicAclsDecoded
-        let restrictPublicBucketsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .restrictPublicBuckets) ?? false
+        let restrictPublicBucketsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .restrictPublicBuckets)
         restrictPublicBuckets = restrictPublicBucketsDecoded
     }
 }
@@ -35325,19 +35325,19 @@ extension SecurityHubClientTypes {
     /// provides information about the Amazon S3 Public Access Block configuration for accounts.
     public struct AwsS3AccountPublicAccessBlockDetails: Swift.Equatable {
         /// Indicates whether to reject calls to update an S3 bucket if the calls include a public access control list (ACL).
-        public var blockPublicAcls: Swift.Bool
+        public var blockPublicAcls: Swift.Bool?
         /// Indicates whether to reject calls to update the access policy for an S3 bucket or access point if the policy allows public access.
-        public var blockPublicPolicy: Swift.Bool
+        public var blockPublicPolicy: Swift.Bool?
         /// Indicates whether Amazon S3 ignores public ACLs that are associated with an S3 bucket.
-        public var ignorePublicAcls: Swift.Bool
+        public var ignorePublicAcls: Swift.Bool?
         /// Indicates whether to restrict access to an access point or S3 bucket that has a public policy to only Amazon Web Services service principals and authorized users within the S3 bucket owner's account.
-        public var restrictPublicBuckets: Swift.Bool
+        public var restrictPublicBuckets: Swift.Bool?
 
         public init(
-            blockPublicAcls: Swift.Bool = false,
-            blockPublicPolicy: Swift.Bool = false,
-            ignorePublicAcls: Swift.Bool = false,
-            restrictPublicBuckets: Swift.Bool = false
+            blockPublicAcls: Swift.Bool? = nil,
+            blockPublicPolicy: Swift.Bool? = nil,
+            ignorePublicAcls: Swift.Bool? = nil,
+            restrictPublicBuckets: Swift.Bool? = nil
         )
         {
             self.blockPublicAcls = blockPublicAcls
@@ -35403,14 +35403,14 @@ extension SecurityHubClientTypes.AwsS3BucketBucketLifecycleConfigurationRulesAbo
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if daysAfterInitiation != 0 {
+        if let daysAfterInitiation = self.daysAfterInitiation {
             try encodeContainer.encode(daysAfterInitiation, forKey: .daysAfterInitiation)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let daysAfterInitiationDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .daysAfterInitiation) ?? 0
+        let daysAfterInitiationDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .daysAfterInitiation)
         daysAfterInitiation = daysAfterInitiationDecoded
     }
 }
@@ -35419,10 +35419,10 @@ extension SecurityHubClientTypes {
     /// Information about what Amazon S3 does when a multipart upload is incomplete.
     public struct AwsS3BucketBucketLifecycleConfigurationRulesAbortIncompleteMultipartUploadDetails: Swift.Equatable {
         /// The number of days after which Amazon S3 cancels an incomplete multipart upload.
-        public var daysAfterInitiation: Swift.Int
+        public var daysAfterInitiation: Swift.Int?
 
         public init(
-            daysAfterInitiation: Swift.Int = 0
+            daysAfterInitiation: Swift.Int? = nil
         )
         {
             self.daysAfterInitiation = daysAfterInitiation
@@ -35454,10 +35454,10 @@ extension SecurityHubClientTypes.AwsS3BucketBucketLifecycleConfigurationRulesDet
         if let expirationDate = self.expirationDate {
             try encodeContainer.encode(expirationDate, forKey: .expirationDate)
         }
-        if expirationInDays != 0 {
+        if let expirationInDays = self.expirationInDays {
             try encodeContainer.encode(expirationInDays, forKey: .expirationInDays)
         }
-        if expiredObjectDeleteMarker != false {
+        if let expiredObjectDeleteMarker = self.expiredObjectDeleteMarker {
             try encodeContainer.encode(expiredObjectDeleteMarker, forKey: .expiredObjectDeleteMarker)
         }
         if let filter = self.filter {
@@ -35466,7 +35466,7 @@ extension SecurityHubClientTypes.AwsS3BucketBucketLifecycleConfigurationRulesDet
         if let id = self.id {
             try encodeContainer.encode(id, forKey: .id)
         }
-        if noncurrentVersionExpirationInDays != 0 {
+        if let noncurrentVersionExpirationInDays = self.noncurrentVersionExpirationInDays {
             try encodeContainer.encode(noncurrentVersionExpirationInDays, forKey: .noncurrentVersionExpirationInDays)
         }
         if let noncurrentVersionTransitions = noncurrentVersionTransitions {
@@ -35495,15 +35495,15 @@ extension SecurityHubClientTypes.AwsS3BucketBucketLifecycleConfigurationRulesDet
         abortIncompleteMultipartUpload = abortIncompleteMultipartUploadDecoded
         let expirationDateDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .expirationDate)
         expirationDate = expirationDateDecoded
-        let expirationInDaysDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .expirationInDays) ?? 0
+        let expirationInDaysDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .expirationInDays)
         expirationInDays = expirationInDaysDecoded
-        let expiredObjectDeleteMarkerDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .expiredObjectDeleteMarker) ?? false
+        let expiredObjectDeleteMarkerDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .expiredObjectDeleteMarker)
         expiredObjectDeleteMarker = expiredObjectDeleteMarkerDecoded
         let filterDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsS3BucketBucketLifecycleConfigurationRulesFilterDetails.self, forKey: .filter)
         filter = filterDecoded
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
-        let noncurrentVersionExpirationInDaysDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .noncurrentVersionExpirationInDays) ?? 0
+        let noncurrentVersionExpirationInDaysDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .noncurrentVersionExpirationInDays)
         noncurrentVersionExpirationInDays = noncurrentVersionExpirationInDaysDecoded
         let noncurrentVersionTransitionsContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.AwsS3BucketBucketLifecycleConfigurationRulesNoncurrentVersionTransitionsDetails?].self, forKey: .noncurrentVersionTransitions)
         var noncurrentVersionTransitionsDecoded0:[SecurityHubClientTypes.AwsS3BucketBucketLifecycleConfigurationRulesNoncurrentVersionTransitionsDetails]? = nil
@@ -35542,15 +35542,15 @@ extension SecurityHubClientTypes {
         /// The date when objects are moved or deleted. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public var expirationDate: Swift.String?
         /// The length in days of the lifetime for objects that are subject to the rule.
-        public var expirationInDays: Swift.Int
+        public var expirationInDays: Swift.Int?
         /// Whether Amazon S3 removes a delete marker that has no noncurrent versions. If set to true, the delete marker is expired. If set to false, the policy takes no action. If you provide ExpiredObjectDeleteMarker, you cannot provide ExpirationInDays or ExpirationDate.
-        public var expiredObjectDeleteMarker: Swift.Bool
+        public var expiredObjectDeleteMarker: Swift.Bool?
         /// Identifies the objects that a rule applies to.
         public var filter: SecurityHubClientTypes.AwsS3BucketBucketLifecycleConfigurationRulesFilterDetails?
         /// The unique identifier of the rule.
         public var id: Swift.String?
         /// The number of days that an object is noncurrent before Amazon S3 can perform the associated action.
-        public var noncurrentVersionExpirationInDays: Swift.Int
+        public var noncurrentVersionExpirationInDays: Swift.Int?
         /// Transition rules that describe when noncurrent objects transition to a specified storage class.
         public var noncurrentVersionTransitions: [SecurityHubClientTypes.AwsS3BucketBucketLifecycleConfigurationRulesNoncurrentVersionTransitionsDetails]?
         /// A prefix that identifies one or more objects that the rule applies to.
@@ -35563,11 +35563,11 @@ extension SecurityHubClientTypes {
         public init(
             abortIncompleteMultipartUpload: SecurityHubClientTypes.AwsS3BucketBucketLifecycleConfigurationRulesAbortIncompleteMultipartUploadDetails? = nil,
             expirationDate: Swift.String? = nil,
-            expirationInDays: Swift.Int = 0,
-            expiredObjectDeleteMarker: Swift.Bool = false,
+            expirationInDays: Swift.Int? = nil,
+            expiredObjectDeleteMarker: Swift.Bool? = nil,
             filter: SecurityHubClientTypes.AwsS3BucketBucketLifecycleConfigurationRulesFilterDetails? = nil,
             id: Swift.String? = nil,
-            noncurrentVersionExpirationInDays: Swift.Int = 0,
+            noncurrentVersionExpirationInDays: Swift.Int? = nil,
             noncurrentVersionTransitions: [SecurityHubClientTypes.AwsS3BucketBucketLifecycleConfigurationRulesNoncurrentVersionTransitionsDetails]? = nil,
             `prefix`: Swift.String? = nil,
             status: Swift.String? = nil,
@@ -35855,7 +35855,7 @@ extension SecurityHubClientTypes.AwsS3BucketBucketLifecycleConfigurationRulesNon
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if days != 0 {
+        if let days = self.days {
             try encodeContainer.encode(days, forKey: .days)
         }
         if let storageClass = self.storageClass {
@@ -35865,7 +35865,7 @@ extension SecurityHubClientTypes.AwsS3BucketBucketLifecycleConfigurationRulesNon
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let daysDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .days) ?? 0
+        let daysDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .days)
         days = daysDecoded
         let storageClassDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .storageClass)
         storageClass = storageClassDecoded
@@ -35876,12 +35876,12 @@ extension SecurityHubClientTypes {
     /// A transition rule that describes when noncurrent objects transition to a specified storage class.
     public struct AwsS3BucketBucketLifecycleConfigurationRulesNoncurrentVersionTransitionsDetails: Swift.Equatable {
         /// The number of days that an object is noncurrent before Amazon S3 can perform the associated action.
-        public var days: Swift.Int
+        public var days: Swift.Int?
         /// The class of storage to change the object to after the object is noncurrent for the specified number of days.
         public var storageClass: Swift.String?
 
         public init(
-            days: Swift.Int = 0,
+            days: Swift.Int? = nil,
             storageClass: Swift.String? = nil
         )
         {
@@ -35904,7 +35904,7 @@ extension SecurityHubClientTypes.AwsS3BucketBucketLifecycleConfigurationRulesTra
         if let date = self.date {
             try encodeContainer.encode(date, forKey: .date)
         }
-        if days != 0 {
+        if let days = self.days {
             try encodeContainer.encode(days, forKey: .days)
         }
         if let storageClass = self.storageClass {
@@ -35916,7 +35916,7 @@ extension SecurityHubClientTypes.AwsS3BucketBucketLifecycleConfigurationRulesTra
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dateDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .date)
         date = dateDecoded
-        let daysDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .days) ?? 0
+        let daysDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .days)
         days = daysDecoded
         let storageClassDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .storageClass)
         storageClass = storageClassDecoded
@@ -35929,7 +35929,7 @@ extension SecurityHubClientTypes {
         /// A date on which to transition objects to the specified storage class. If you provide Date, you cannot provide Days. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public var date: Swift.String?
         /// The number of days after which to transition the object to the specified storage class. If you provide Days, you cannot provide Date.
-        public var days: Swift.Int
+        public var days: Swift.Int?
         /// The storage class to transition the object to. Valid values are as follows:
         ///
         /// * DEEP_ARCHIVE
@@ -35945,7 +35945,7 @@ extension SecurityHubClientTypes {
 
         public init(
             date: Swift.String? = nil,
-            days: Swift.Int = 0,
+            days: Swift.Int? = nil,
             storageClass: Swift.String? = nil
         )
         {
@@ -35965,7 +35965,7 @@ extension SecurityHubClientTypes.AwsS3BucketBucketVersioningConfiguration: Swift
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if isMfaDeleteEnabled != false {
+        if let isMfaDeleteEnabled = self.isMfaDeleteEnabled {
             try encodeContainer.encode(isMfaDeleteEnabled, forKey: .isMfaDeleteEnabled)
         }
         if let status = self.status {
@@ -35975,7 +35975,7 @@ extension SecurityHubClientTypes.AwsS3BucketBucketVersioningConfiguration: Swift
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let isMfaDeleteEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isMfaDeleteEnabled) ?? false
+        let isMfaDeleteEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isMfaDeleteEnabled)
         isMfaDeleteEnabled = isMfaDeleteEnabledDecoded
         let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
         status = statusDecoded
@@ -35986,12 +35986,12 @@ extension SecurityHubClientTypes {
     /// Describes the versioning state of an S3 bucket.
     public struct AwsS3BucketBucketVersioningConfiguration: Swift.Equatable {
         /// Specifies whether MFA delete is currently enabled in the S3 bucket versioning configuration. If the S3 bucket was never configured with MFA delete, then this attribute is not included.
-        public var isMfaDeleteEnabled: Swift.Bool
+        public var isMfaDeleteEnabled: Swift.Bool?
         /// The versioning status of the S3 bucket. Valid values are Enabled or Suspended.
         public var status: Swift.String?
 
         public init(
-            isMfaDeleteEnabled: Swift.Bool = false,
+            isMfaDeleteEnabled: Swift.Bool? = nil,
             status: Swift.String? = nil
         )
         {
@@ -36545,24 +36545,24 @@ extension SecurityHubClientTypes.AwsS3BucketObjectLockConfigurationRuleDefaultRe
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if days != 0 {
+        if let days = self.days {
             try encodeContainer.encode(days, forKey: .days)
         }
         if let mode = self.mode {
             try encodeContainer.encode(mode, forKey: .mode)
         }
-        if years != 0 {
+        if let years = self.years {
             try encodeContainer.encode(years, forKey: .years)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let daysDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .days) ?? 0
+        let daysDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .days)
         days = daysDecoded
         let modeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .mode)
         mode = modeDecoded
-        let yearsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .years) ?? 0
+        let yearsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .years)
         years = yearsDecoded
     }
 }
@@ -36571,16 +36571,16 @@ extension SecurityHubClientTypes {
     /// The default S3 Object Lock retention mode and period that you want to apply to new objects placed in the specified Amazon S3 bucket.
     public struct AwsS3BucketObjectLockConfigurationRuleDefaultRetentionDetails: Swift.Equatable {
         /// The number of days that you want to specify for the default retention period.
-        public var days: Swift.Int
+        public var days: Swift.Int?
         /// The default Object Lock retention mode you want to apply to new objects placed in the specified bucket.
         public var mode: Swift.String?
         /// The number of years that you want to specify for the default retention period.
-        public var years: Swift.Int
+        public var years: Swift.Int?
 
         public init(
-            days: Swift.Int = 0,
+            days: Swift.Int? = nil,
             mode: Swift.String? = nil,
-            years: Swift.Int = 0
+            years: Swift.Int? = nil
         )
         {
             self.days = days
@@ -37217,7 +37217,7 @@ extension SecurityHubClientTypes.AwsSageMakerNotebookInstanceDetails: Swift.Coda
         if let url = self.url {
             try encodeContainer.encode(url, forKey: .url)
         }
-        if volumeSizeInGB != 0 {
+        if let volumeSizeInGB = self.volumeSizeInGB {
             try encodeContainer.encode(volumeSizeInGB, forKey: .volumeSizeInGB)
         }
     }
@@ -37289,7 +37289,7 @@ extension SecurityHubClientTypes.AwsSageMakerNotebookInstanceDetails: Swift.Coda
         subnetId = subnetIdDecoded
         let urlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .url)
         url = urlDecoded
-        let volumeSizeInGBDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .volumeSizeInGB) ?? 0
+        let volumeSizeInGBDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .volumeSizeInGB)
         volumeSizeInGB = volumeSizeInGBDecoded
     }
 }
@@ -37336,7 +37336,7 @@ extension SecurityHubClientTypes {
         /// The URL that you use to connect to the Jupyter notebook that is running in your notebook instance.
         public var url: Swift.String?
         /// The size, in GB, of the ML storage volume to attach to the notebook instance.
-        public var volumeSizeInGB: Swift.Int
+        public var volumeSizeInGB: Swift.Int?
 
         public init(
             acceleratorTypes: [Swift.String]? = nil,
@@ -37358,7 +37358,7 @@ extension SecurityHubClientTypes {
             securityGroups: [Swift.String]? = nil,
             subnetId: Swift.String? = nil,
             url: Swift.String? = nil,
-            volumeSizeInGB: Swift.Int = 0
+            volumeSizeInGB: Swift.Int? = nil
         )
         {
             self.acceleratorTypes = acceleratorTypes
@@ -37435,7 +37435,7 @@ extension SecurityHubClientTypes.AwsSecretsManagerSecretDetails: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if deleted != false {
+        if let deleted = self.deleted {
             try encodeContainer.encode(deleted, forKey: .deleted)
         }
         if let description = self.description {
@@ -37447,13 +37447,13 @@ extension SecurityHubClientTypes.AwsSecretsManagerSecretDetails: Swift.Codable {
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
         }
-        if rotationEnabled != false {
+        if let rotationEnabled = self.rotationEnabled {
             try encodeContainer.encode(rotationEnabled, forKey: .rotationEnabled)
         }
         if let rotationLambdaArn = self.rotationLambdaArn {
             try encodeContainer.encode(rotationLambdaArn, forKey: .rotationLambdaArn)
         }
-        if rotationOccurredWithinFrequency != false {
+        if let rotationOccurredWithinFrequency = self.rotationOccurredWithinFrequency {
             try encodeContainer.encode(rotationOccurredWithinFrequency, forKey: .rotationOccurredWithinFrequency)
         }
         if let rotationRules = self.rotationRules {
@@ -37465,15 +37465,15 @@ extension SecurityHubClientTypes.AwsSecretsManagerSecretDetails: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let rotationRulesDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsSecretsManagerSecretRotationRules.self, forKey: .rotationRules)
         rotationRules = rotationRulesDecoded
-        let rotationOccurredWithinFrequencyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .rotationOccurredWithinFrequency) ?? false
+        let rotationOccurredWithinFrequencyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .rotationOccurredWithinFrequency)
         rotationOccurredWithinFrequency = rotationOccurredWithinFrequencyDecoded
         let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
         kmsKeyId = kmsKeyIdDecoded
-        let rotationEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .rotationEnabled) ?? false
+        let rotationEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .rotationEnabled)
         rotationEnabled = rotationEnabledDecoded
         let rotationLambdaArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .rotationLambdaArn)
         rotationLambdaArn = rotationLambdaArnDecoded
-        let deletedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deleted) ?? false
+        let deletedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deleted)
         deleted = deletedDecoded
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -37486,7 +37486,7 @@ extension SecurityHubClientTypes {
     /// Details about an Secrets Manager secret.
     public struct AwsSecretsManagerSecretDetails: Swift.Equatable {
         /// Whether the secret is deleted.
-        public var deleted: Swift.Bool
+        public var deleted: Swift.Bool?
         /// The user-provided description of the secret.
         public var description: Swift.String?
         /// The ARN, Key ID, or alias of the KMS key used to encrypt the SecretString or SecretBinary values for versions of this secret.
@@ -37494,22 +37494,22 @@ extension SecurityHubClientTypes {
         /// The name of the secret.
         public var name: Swift.String?
         /// Whether rotation is enabled.
-        public var rotationEnabled: Swift.Bool
+        public var rotationEnabled: Swift.Bool?
         /// The ARN of the Lambda function that rotates the secret.
         public var rotationLambdaArn: Swift.String?
         /// Whether the rotation occurred within the specified rotation frequency.
-        public var rotationOccurredWithinFrequency: Swift.Bool
+        public var rotationOccurredWithinFrequency: Swift.Bool?
         /// Defines the rotation schedule for the secret.
         public var rotationRules: SecurityHubClientTypes.AwsSecretsManagerSecretRotationRules?
 
         public init(
-            deleted: Swift.Bool = false,
+            deleted: Swift.Bool? = nil,
             description: Swift.String? = nil,
             kmsKeyId: Swift.String? = nil,
             name: Swift.String? = nil,
-            rotationEnabled: Swift.Bool = false,
+            rotationEnabled: Swift.Bool? = nil,
             rotationLambdaArn: Swift.String? = nil,
-            rotationOccurredWithinFrequency: Swift.Bool = false,
+            rotationOccurredWithinFrequency: Swift.Bool? = nil,
             rotationRules: SecurityHubClientTypes.AwsSecretsManagerSecretRotationRules? = nil
         )
         {
@@ -37533,14 +37533,14 @@ extension SecurityHubClientTypes.AwsSecretsManagerSecretRotationRules: Swift.Cod
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if automaticallyAfterDays != 0 {
+        if let automaticallyAfterDays = self.automaticallyAfterDays {
             try encodeContainer.encode(automaticallyAfterDays, forKey: .automaticallyAfterDays)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let automaticallyAfterDaysDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .automaticallyAfterDays) ?? 0
+        let automaticallyAfterDaysDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .automaticallyAfterDays)
         automaticallyAfterDays = automaticallyAfterDaysDecoded
     }
 }
@@ -37549,10 +37549,10 @@ extension SecurityHubClientTypes {
     /// Defines the rotation schedule for the secret.
     public struct AwsSecretsManagerSecretRotationRules: Swift.Equatable {
         /// The number of days after the previous rotation to rotate the secret.
-        public var automaticallyAfterDays: Swift.Int
+        public var automaticallyAfterDays: Swift.Int?
 
         public init(
-            automaticallyAfterDays: Swift.Int = 0
+            automaticallyAfterDays: Swift.Int? = nil
         )
         {
             self.automaticallyAfterDays = automaticallyAfterDays
@@ -37621,13 +37621,13 @@ extension SecurityHubClientTypes.AwsSecurityFinding: Swift.Codable {
         if let compliance = self.compliance {
             try encodeContainer.encode(compliance, forKey: .compliance)
         }
-        if confidence != 0 {
+        if let confidence = self.confidence {
             try encodeContainer.encode(confidence, forKey: .confidence)
         }
         if let createdAt = self.createdAt {
             try encodeContainer.encode(createdAt, forKey: .createdAt)
         }
-        if criticality != 0 {
+        if let criticality = self.criticality {
             try encodeContainer.encode(criticality, forKey: .criticality)
         }
         if let description = self.description {
@@ -37708,7 +37708,7 @@ extension SecurityHubClientTypes.AwsSecurityFinding: Swift.Codable {
                 try resourcesContainer.encode(resource0)
             }
         }
-        if sample != false {
+        if let sample = self.sample {
             try encodeContainer.encode(sample, forKey: .sample)
         }
         if let schemaVersion = self.schemaVersion {
@@ -37806,9 +37806,9 @@ extension SecurityHubClientTypes.AwsSecurityFinding: Swift.Codable {
         updatedAt = updatedAtDecoded
         let severityDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.Severity.self, forKey: .severity)
         severity = severityDecoded
-        let confidenceDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .confidence) ?? 0
+        let confidenceDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .confidence)
         confidence = confidenceDecoded
-        let criticalityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .criticality) ?? 0
+        let criticalityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .criticality)
         criticality = criticalityDecoded
         let titleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .title)
         title = titleDecoded
@@ -37939,7 +37939,7 @@ extension SecurityHubClientTypes.AwsSecurityFinding: Swift.Codable {
         action = actionDecoded
         let findingProviderFieldsDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.FindingProviderFields.self, forKey: .findingProviderFields)
         findingProviderFields = findingProviderFieldsDecoded
-        let sampleDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .sample) ?? false
+        let sampleDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .sample)
         sample = sampleDecoded
         let generatorDetailsDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.GeneratorDetails.self, forKey: .generatorDetails)
         generatorDetails = generatorDetailsDecoded
@@ -37959,12 +37959,12 @@ extension SecurityHubClientTypes {
         /// This data type is exclusive to findings that are generated as the result of a check run against a specific rule in a supported security standard, such as CIS Amazon Web Services Foundations. Contains security standard-related finding details.
         public var compliance: SecurityHubClientTypes.Compliance?
         /// A finding's confidence. Confidence is defined as the likelihood that a finding accurately identifies the behavior or issue that it was intended to identify. Confidence is scored on a 0-100 basis using a ratio scale, where 0 means zero percent confidence and 100 means 100 percent confidence.
-        public var confidence: Swift.Int
+        public var confidence: Swift.Int?
         /// Indicates when the security findings provider created the potential security issue that a finding captured. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         /// This member is required.
         public var createdAt: Swift.String?
         /// The level of importance assigned to the resources associated with the finding. A score of 0 means that the underlying resources have no criticality, and a score of 100 is reserved for the most critical resources.
-        public var criticality: Swift.Int
+        public var criticality: Swift.Int?
         /// A finding's description. In this release, Description is a required property.
         /// This member is required.
         public var description: Swift.String?
@@ -38013,7 +38013,7 @@ extension SecurityHubClientTypes {
         /// This member is required.
         public var resources: [SecurityHubClientTypes.Resource]?
         /// Indicates whether the finding is a sample finding.
-        public var sample: Swift.Bool
+        public var sample: Swift.Bool?
         /// The schema version that a finding is formatted for.
         /// This member is required.
         public var schemaVersion: Swift.String?
@@ -38050,9 +38050,9 @@ extension SecurityHubClientTypes {
             awsAccountId: Swift.String? = nil,
             companyName: Swift.String? = nil,
             compliance: SecurityHubClientTypes.Compliance? = nil,
-            confidence: Swift.Int = 0,
+            confidence: Swift.Int? = nil,
             createdAt: Swift.String? = nil,
-            criticality: Swift.Int = 0,
+            criticality: Swift.Int? = nil,
             description: Swift.String? = nil,
             findingProviderFields: SecurityHubClientTypes.FindingProviderFields? = nil,
             firstObservedAt: Swift.String? = nil,
@@ -38074,7 +38074,7 @@ extension SecurityHubClientTypes {
             relatedFindings: [SecurityHubClientTypes.RelatedFinding]? = nil,
             remediation: SecurityHubClientTypes.Remediation? = nil,
             resources: [SecurityHubClientTypes.Resource]? = nil,
-            sample: Swift.Bool = false,
+            sample: Swift.Bool? = nil,
             schemaVersion: Swift.String? = nil,
             severity: SecurityHubClientTypes.Severity? = nil,
             sourceUrl: Swift.String? = nil,
@@ -40581,7 +40581,7 @@ extension SecurityHubClientTypes.AwsSqsQueueDetails: Swift.Codable {
         if let deadLetterTargetArn = self.deadLetterTargetArn {
             try encodeContainer.encode(deadLetterTargetArn, forKey: .deadLetterTargetArn)
         }
-        if kmsDataKeyReusePeriodSeconds != 0 {
+        if let kmsDataKeyReusePeriodSeconds = self.kmsDataKeyReusePeriodSeconds {
             try encodeContainer.encode(kmsDataKeyReusePeriodSeconds, forKey: .kmsDataKeyReusePeriodSeconds)
         }
         if let kmsMasterKeyId = self.kmsMasterKeyId {
@@ -40594,7 +40594,7 @@ extension SecurityHubClientTypes.AwsSqsQueueDetails: Swift.Codable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let kmsDataKeyReusePeriodSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .kmsDataKeyReusePeriodSeconds) ?? 0
+        let kmsDataKeyReusePeriodSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .kmsDataKeyReusePeriodSeconds)
         kmsDataKeyReusePeriodSeconds = kmsDataKeyReusePeriodSecondsDecoded
         let kmsMasterKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsMasterKeyId)
         kmsMasterKeyId = kmsMasterKeyIdDecoded
@@ -40611,7 +40611,7 @@ extension SecurityHubClientTypes {
         /// The ARN of the dead-letter queue to which Amazon SQS moves messages after the value of maxReceiveCount is exceeded.
         public var deadLetterTargetArn: Swift.String?
         /// The length of time, in seconds, for which Amazon SQS can reuse a data key to encrypt or decrypt messages before calling KMS again.
-        public var kmsDataKeyReusePeriodSeconds: Swift.Int
+        public var kmsDataKeyReusePeriodSeconds: Swift.Int?
         /// The ID of an Amazon Web Services managed key for Amazon SQS or a custom KMS key.
         public var kmsMasterKeyId: Swift.String?
         /// The name of the new queue.
@@ -40619,7 +40619,7 @@ extension SecurityHubClientTypes {
 
         public init(
             deadLetterTargetArn: Swift.String? = nil,
-            kmsDataKeyReusePeriodSeconds: Swift.Int = 0,
+            kmsDataKeyReusePeriodSeconds: Swift.Int? = nil,
             kmsMasterKeyId: Swift.String? = nil,
             queueName: Swift.String? = nil
         )
@@ -40660,43 +40660,43 @@ extension SecurityHubClientTypes.AwsSsmComplianceSummary: Swift.Codable {
         if let complianceType = self.complianceType {
             try encodeContainer.encode(complianceType, forKey: .complianceType)
         }
-        if compliantCriticalCount != 0 {
+        if let compliantCriticalCount = self.compliantCriticalCount {
             try encodeContainer.encode(compliantCriticalCount, forKey: .compliantCriticalCount)
         }
-        if compliantHighCount != 0 {
+        if let compliantHighCount = self.compliantHighCount {
             try encodeContainer.encode(compliantHighCount, forKey: .compliantHighCount)
         }
-        if compliantInformationalCount != 0 {
+        if let compliantInformationalCount = self.compliantInformationalCount {
             try encodeContainer.encode(compliantInformationalCount, forKey: .compliantInformationalCount)
         }
-        if compliantLowCount != 0 {
+        if let compliantLowCount = self.compliantLowCount {
             try encodeContainer.encode(compliantLowCount, forKey: .compliantLowCount)
         }
-        if compliantMediumCount != 0 {
+        if let compliantMediumCount = self.compliantMediumCount {
             try encodeContainer.encode(compliantMediumCount, forKey: .compliantMediumCount)
         }
-        if compliantUnspecifiedCount != 0 {
+        if let compliantUnspecifiedCount = self.compliantUnspecifiedCount {
             try encodeContainer.encode(compliantUnspecifiedCount, forKey: .compliantUnspecifiedCount)
         }
         if let executionType = self.executionType {
             try encodeContainer.encode(executionType, forKey: .executionType)
         }
-        if nonCompliantCriticalCount != 0 {
+        if let nonCompliantCriticalCount = self.nonCompliantCriticalCount {
             try encodeContainer.encode(nonCompliantCriticalCount, forKey: .nonCompliantCriticalCount)
         }
-        if nonCompliantHighCount != 0 {
+        if let nonCompliantHighCount = self.nonCompliantHighCount {
             try encodeContainer.encode(nonCompliantHighCount, forKey: .nonCompliantHighCount)
         }
-        if nonCompliantInformationalCount != 0 {
+        if let nonCompliantInformationalCount = self.nonCompliantInformationalCount {
             try encodeContainer.encode(nonCompliantInformationalCount, forKey: .nonCompliantInformationalCount)
         }
-        if nonCompliantLowCount != 0 {
+        if let nonCompliantLowCount = self.nonCompliantLowCount {
             try encodeContainer.encode(nonCompliantLowCount, forKey: .nonCompliantLowCount)
         }
-        if nonCompliantMediumCount != 0 {
+        if let nonCompliantMediumCount = self.nonCompliantMediumCount {
             try encodeContainer.encode(nonCompliantMediumCount, forKey: .nonCompliantMediumCount)
         }
-        if nonCompliantUnspecifiedCount != 0 {
+        if let nonCompliantUnspecifiedCount = self.nonCompliantUnspecifiedCount {
             try encodeContainer.encode(nonCompliantUnspecifiedCount, forKey: .nonCompliantUnspecifiedCount)
         }
         if let overallSeverity = self.overallSeverity {
@@ -40717,27 +40717,27 @@ extension SecurityHubClientTypes.AwsSsmComplianceSummary: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
         status = statusDecoded
-        let compliantCriticalCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .compliantCriticalCount) ?? 0
+        let compliantCriticalCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .compliantCriticalCount)
         compliantCriticalCount = compliantCriticalCountDecoded
-        let compliantHighCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .compliantHighCount) ?? 0
+        let compliantHighCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .compliantHighCount)
         compliantHighCount = compliantHighCountDecoded
-        let compliantMediumCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .compliantMediumCount) ?? 0
+        let compliantMediumCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .compliantMediumCount)
         compliantMediumCount = compliantMediumCountDecoded
         let executionTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .executionType)
         executionType = executionTypeDecoded
-        let nonCompliantCriticalCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .nonCompliantCriticalCount) ?? 0
+        let nonCompliantCriticalCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .nonCompliantCriticalCount)
         nonCompliantCriticalCount = nonCompliantCriticalCountDecoded
-        let compliantInformationalCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .compliantInformationalCount) ?? 0
+        let compliantInformationalCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .compliantInformationalCount)
         compliantInformationalCount = compliantInformationalCountDecoded
-        let nonCompliantInformationalCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .nonCompliantInformationalCount) ?? 0
+        let nonCompliantInformationalCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .nonCompliantInformationalCount)
         nonCompliantInformationalCount = nonCompliantInformationalCountDecoded
-        let compliantUnspecifiedCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .compliantUnspecifiedCount) ?? 0
+        let compliantUnspecifiedCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .compliantUnspecifiedCount)
         compliantUnspecifiedCount = compliantUnspecifiedCountDecoded
-        let nonCompliantLowCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .nonCompliantLowCount) ?? 0
+        let nonCompliantLowCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .nonCompliantLowCount)
         nonCompliantLowCount = nonCompliantLowCountDecoded
-        let nonCompliantHighCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .nonCompliantHighCount) ?? 0
+        let nonCompliantHighCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .nonCompliantHighCount)
         nonCompliantHighCount = nonCompliantHighCountDecoded
-        let compliantLowCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .compliantLowCount) ?? 0
+        let compliantLowCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .compliantLowCount)
         compliantLowCount = compliantLowCountDecoded
         let complianceTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .complianceType)
         complianceType = complianceTypeDecoded
@@ -40745,9 +40745,9 @@ extension SecurityHubClientTypes.AwsSsmComplianceSummary: Swift.Codable {
         patchBaselineId = patchBaselineIdDecoded
         let overallSeverityDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .overallSeverity)
         overallSeverity = overallSeverityDecoded
-        let nonCompliantMediumCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .nonCompliantMediumCount) ?? 0
+        let nonCompliantMediumCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .nonCompliantMediumCount)
         nonCompliantMediumCount = nonCompliantMediumCountDecoded
-        let nonCompliantUnspecifiedCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .nonCompliantUnspecifiedCount) ?? 0
+        let nonCompliantUnspecifiedCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .nonCompliantUnspecifiedCount)
         nonCompliantUnspecifiedCount = nonCompliantUnspecifiedCountDecoded
         let patchGroupDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .patchGroup)
         patchGroup = patchGroupDecoded
@@ -40760,31 +40760,31 @@ extension SecurityHubClientTypes {
         /// The type of resource for which the compliance was determined. For AwsSsmPatchCompliance, ComplianceType is Patch.
         public var complianceType: Swift.String?
         /// For the patches that are compliant, the number that have a severity of CRITICAL.
-        public var compliantCriticalCount: Swift.Int
+        public var compliantCriticalCount: Swift.Int?
         /// For the patches that are compliant, the number that have a severity of HIGH.
-        public var compliantHighCount: Swift.Int
+        public var compliantHighCount: Swift.Int?
         /// For the patches that are compliant, the number that have a severity of INFORMATIONAL.
-        public var compliantInformationalCount: Swift.Int
+        public var compliantInformationalCount: Swift.Int?
         /// For the patches that are compliant, the number that have a severity of LOW.
-        public var compliantLowCount: Swift.Int
+        public var compliantLowCount: Swift.Int?
         /// For the patches that are compliant, the number that have a severity of MEDIUM.
-        public var compliantMediumCount: Swift.Int
+        public var compliantMediumCount: Swift.Int?
         /// For the patches that are compliant, the number that have a severity of UNSPECIFIED.
-        public var compliantUnspecifiedCount: Swift.Int
+        public var compliantUnspecifiedCount: Swift.Int?
         /// The type of execution that was used determine compliance.
         public var executionType: Swift.String?
         /// For the patch items that are noncompliant, the number of items that have a severity of CRITICAL.
-        public var nonCompliantCriticalCount: Swift.Int
+        public var nonCompliantCriticalCount: Swift.Int?
         /// For the patches that are noncompliant, the number that have a severity of HIGH.
-        public var nonCompliantHighCount: Swift.Int
+        public var nonCompliantHighCount: Swift.Int?
         /// For the patches that are noncompliant, the number that have a severity of INFORMATIONAL.
-        public var nonCompliantInformationalCount: Swift.Int
+        public var nonCompliantInformationalCount: Swift.Int?
         /// For the patches that are noncompliant, the number that have a severity of LOW.
-        public var nonCompliantLowCount: Swift.Int
+        public var nonCompliantLowCount: Swift.Int?
         /// For the patches that are noncompliant, the number that have a severity of MEDIUM.
-        public var nonCompliantMediumCount: Swift.Int
+        public var nonCompliantMediumCount: Swift.Int?
         /// For the patches that are noncompliant, the number that have a severity of UNSPECIFIED.
-        public var nonCompliantUnspecifiedCount: Swift.Int
+        public var nonCompliantUnspecifiedCount: Swift.Int?
         /// The highest severity for the patches. Valid values are as follows:
         ///
         /// * CRITICAL
@@ -40814,19 +40814,19 @@ extension SecurityHubClientTypes {
 
         public init(
             complianceType: Swift.String? = nil,
-            compliantCriticalCount: Swift.Int = 0,
-            compliantHighCount: Swift.Int = 0,
-            compliantInformationalCount: Swift.Int = 0,
-            compliantLowCount: Swift.Int = 0,
-            compliantMediumCount: Swift.Int = 0,
-            compliantUnspecifiedCount: Swift.Int = 0,
+            compliantCriticalCount: Swift.Int? = nil,
+            compliantHighCount: Swift.Int? = nil,
+            compliantInformationalCount: Swift.Int? = nil,
+            compliantLowCount: Swift.Int? = nil,
+            compliantMediumCount: Swift.Int? = nil,
+            compliantUnspecifiedCount: Swift.Int? = nil,
             executionType: Swift.String? = nil,
-            nonCompliantCriticalCount: Swift.Int = 0,
-            nonCompliantHighCount: Swift.Int = 0,
-            nonCompliantInformationalCount: Swift.Int = 0,
-            nonCompliantLowCount: Swift.Int = 0,
-            nonCompliantMediumCount: Swift.Int = 0,
-            nonCompliantUnspecifiedCount: Swift.Int = 0,
+            nonCompliantCriticalCount: Swift.Int? = nil,
+            nonCompliantHighCount: Swift.Int? = nil,
+            nonCompliantInformationalCount: Swift.Int? = nil,
+            nonCompliantLowCount: Swift.Int? = nil,
+            nonCompliantMediumCount: Swift.Int? = nil,
+            nonCompliantUnspecifiedCount: Swift.Int? = nil,
             overallSeverity: Swift.String? = nil,
             patchBaselineId: Swift.String? = nil,
             patchGroup: Swift.String? = nil,
@@ -41116,7 +41116,7 @@ extension SecurityHubClientTypes.AwsStepFunctionStateMachineLoggingConfiguration
                 try destinationsContainer.encode(awsstepfunctionstatemachineloggingconfigurationdestinationsdetails0)
             }
         }
-        if includeExecutionData != false {
+        if let includeExecutionData = self.includeExecutionData {
             try encodeContainer.encode(includeExecutionData, forKey: .includeExecutionData)
         }
         if let level = self.level {
@@ -41137,7 +41137,7 @@ extension SecurityHubClientTypes.AwsStepFunctionStateMachineLoggingConfiguration
             }
         }
         destinations = destinationsDecoded0
-        let includeExecutionDataDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .includeExecutionData) ?? false
+        let includeExecutionDataDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .includeExecutionData)
         includeExecutionData = includeExecutionDataDecoded
         let levelDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .level)
         level = levelDecoded
@@ -41150,13 +41150,13 @@ extension SecurityHubClientTypes {
         /// An array of objects that describes where your execution history events will be logged.
         public var destinations: [SecurityHubClientTypes.AwsStepFunctionStateMachineLoggingConfigurationDestinationsDetails]?
         /// Determines whether execution data is included in your log. When set to false, data is excluded.
-        public var includeExecutionData: Swift.Bool
+        public var includeExecutionData: Swift.Bool?
         /// Defines which category of execution history events are logged.
         public var level: Swift.String?
 
         public init(
             destinations: [SecurityHubClientTypes.AwsStepFunctionStateMachineLoggingConfigurationDestinationsDetails]? = nil,
-            includeExecutionData: Swift.Bool = false,
+            includeExecutionData: Swift.Bool? = nil,
             level: Swift.String? = nil
         )
         {
@@ -41175,14 +41175,14 @@ extension SecurityHubClientTypes.AwsStepFunctionStateMachineTracingConfiguration
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if enabled != false {
+        if let enabled = self.enabled {
             try encodeContainer.encode(enabled, forKey: .enabled)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled) ?? false
+        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled)
         enabled = enabledDecoded
     }
 }
@@ -41191,10 +41191,10 @@ extension SecurityHubClientTypes {
     /// Specifies whether X-Ray tracing is enabled.
     public struct AwsStepFunctionStateMachineTracingConfigurationDetails: Swift.Equatable {
         /// When set to true, X-Ray tracing is enabled.
-        public var enabled: Swift.Bool
+        public var enabled: Swift.Bool?
 
         public init(
-            enabled: Swift.Bool = false
+            enabled: Swift.Bool? = nil
         )
         {
             self.enabled = enabled
@@ -41230,7 +41230,7 @@ extension SecurityHubClientTypes.AwsWafRateBasedRuleDetails: Swift.Codable {
         if let rateKey = self.rateKey {
             try encodeContainer.encode(rateKey, forKey: .rateKey)
         }
-        if rateLimit != 0 {
+        if let rateLimit = self.rateLimit {
             try encodeContainer.encode(rateLimit, forKey: .rateLimit)
         }
         if let ruleId = self.ruleId {
@@ -41246,7 +41246,7 @@ extension SecurityHubClientTypes.AwsWafRateBasedRuleDetails: Swift.Codable {
         name = nameDecoded
         let rateKeyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .rateKey)
         rateKey = rateKeyDecoded
-        let rateLimitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .rateLimit) ?? 0
+        let rateLimitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .rateLimit)
         rateLimit = rateLimitDecoded
         let ruleIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ruleId)
         ruleId = ruleIdDecoded
@@ -41276,7 +41276,7 @@ extension SecurityHubClientTypes {
         /// The field that WAF uses to determine whether requests are likely arriving from single source and are subject to rate monitoring.
         public var rateKey: Swift.String?
         /// The maximum number of requests that have an identical value for the field specified in RateKey that are allowed within a five-minute period. If the number of requests exceeds RateLimit and the other predicates specified in the rule are met, WAF triggers the action for the rule.
-        public var rateLimit: Swift.Int
+        public var rateLimit: Swift.Int?
         /// The unique identifier for the rate-based rule.
         public var ruleId: Swift.String?
 
@@ -41285,7 +41285,7 @@ extension SecurityHubClientTypes {
             metricName: Swift.String? = nil,
             name: Swift.String? = nil,
             rateKey: Swift.String? = nil,
-            rateLimit: Swift.Int = 0,
+            rateLimit: Swift.Int? = nil,
             ruleId: Swift.String? = nil
         )
         {
@@ -41312,7 +41312,7 @@ extension SecurityHubClientTypes.AwsWafRateBasedRuleMatchPredicate: Swift.Codabl
         if let dataId = self.dataId {
             try encodeContainer.encode(dataId, forKey: .dataId)
         }
-        if negated != false {
+        if let negated = self.negated {
             try encodeContainer.encode(negated, forKey: .negated)
         }
         if let type = self.type {
@@ -41324,7 +41324,7 @@ extension SecurityHubClientTypes.AwsWafRateBasedRuleMatchPredicate: Swift.Codabl
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dataIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dataId)
         dataId = dataIdDecoded
-        let negatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .negated) ?? false
+        let negatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .negated)
         negated = negatedDecoded
         let typeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .type)
         type = typeDecoded
@@ -41337,7 +41337,7 @@ extension SecurityHubClientTypes {
         /// The unique identifier for the predicate.
         public var dataId: Swift.String?
         /// If set to true, then the rule actions are performed on requests that match the predicate settings. If set to false, then the rule actions are performed on all requests except those that match the predicate settings.
-        public var negated: Swift.Bool
+        public var negated: Swift.Bool?
         /// The type of predicate. Valid values are as follows:
         ///
         /// * ByteMatch
@@ -41357,7 +41357,7 @@ extension SecurityHubClientTypes {
 
         public init(
             dataId: Swift.String? = nil,
-            negated: Swift.Bool = false,
+            negated: Swift.Bool? = nil,
             type: Swift.String? = nil
         )
         {
@@ -41396,7 +41396,7 @@ extension SecurityHubClientTypes.AwsWafRegionalRateBasedRuleDetails: Swift.Codab
         if let rateKey = self.rateKey {
             try encodeContainer.encode(rateKey, forKey: .rateKey)
         }
-        if rateLimit != 0 {
+        if let rateLimit = self.rateLimit {
             try encodeContainer.encode(rateLimit, forKey: .rateLimit)
         }
         if let ruleId = self.ruleId {
@@ -41412,7 +41412,7 @@ extension SecurityHubClientTypes.AwsWafRegionalRateBasedRuleDetails: Swift.Codab
         name = nameDecoded
         let rateKeyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .rateKey)
         rateKey = rateKeyDecoded
-        let rateLimitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .rateLimit) ?? 0
+        let rateLimitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .rateLimit)
         rateLimit = rateLimitDecoded
         let ruleIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ruleId)
         ruleId = ruleIdDecoded
@@ -41442,7 +41442,7 @@ extension SecurityHubClientTypes {
         /// The field that WAF uses to determine whether requests are likely arriving from single source and are subject to rate monitoring.
         public var rateKey: Swift.String?
         /// The maximum number of requests that have an identical value for the field specified in RateKey that are allowed within a five-minute period. If the number of requests exceeds RateLimit and the other predicates specified in the rule are met, WAF triggers the action for the rule.
-        public var rateLimit: Swift.Int
+        public var rateLimit: Swift.Int?
         /// The unique identifier for the rate-based rule.
         public var ruleId: Swift.String?
 
@@ -41451,7 +41451,7 @@ extension SecurityHubClientTypes {
             metricName: Swift.String? = nil,
             name: Swift.String? = nil,
             rateKey: Swift.String? = nil,
-            rateLimit: Swift.Int = 0,
+            rateLimit: Swift.Int? = nil,
             ruleId: Swift.String? = nil
         )
         {
@@ -41478,7 +41478,7 @@ extension SecurityHubClientTypes.AwsWafRegionalRateBasedRuleMatchPredicate: Swif
         if let dataId = self.dataId {
             try encodeContainer.encode(dataId, forKey: .dataId)
         }
-        if negated != false {
+        if let negated = self.negated {
             try encodeContainer.encode(negated, forKey: .negated)
         }
         if let type = self.type {
@@ -41490,7 +41490,7 @@ extension SecurityHubClientTypes.AwsWafRegionalRateBasedRuleMatchPredicate: Swif
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dataIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dataId)
         dataId = dataIdDecoded
-        let negatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .negated) ?? false
+        let negatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .negated)
         negated = negatedDecoded
         let typeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .type)
         type = typeDecoded
@@ -41503,7 +41503,7 @@ extension SecurityHubClientTypes {
         /// The unique identifier for the predicate.
         public var dataId: Swift.String?
         /// If set to true, then the rule actions are performed on requests that match the predicate settings. If set to false, then the rule actions are performed on all requests except those that match the predicate settings.
-        public var negated: Swift.Bool
+        public var negated: Swift.Bool?
         /// The type of predicate. Valid values are as follows:
         ///
         /// * ByteMatch
@@ -41523,7 +41523,7 @@ extension SecurityHubClientTypes {
 
         public init(
             dataId: Swift.String? = nil,
-            negated: Swift.Bool = false,
+            negated: Swift.Bool? = nil,
             type: Swift.String? = nil
         )
         {
@@ -41737,7 +41737,7 @@ extension SecurityHubClientTypes.AwsWafRegionalRuleGroupRulesDetails: Swift.Coda
         if let action = self.action {
             try encodeContainer.encode(action, forKey: .action)
         }
-        if priority != 0 {
+        if let priority = self.priority {
             try encodeContainer.encode(priority, forKey: .priority)
         }
         if let ruleId = self.ruleId {
@@ -41752,7 +41752,7 @@ extension SecurityHubClientTypes.AwsWafRegionalRuleGroupRulesDetails: Swift.Coda
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let actionDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsWafRegionalRuleGroupRulesActionDetails.self, forKey: .action)
         action = actionDecoded
-        let priorityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .priority) ?? 0
+        let priorityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .priority)
         priority = priorityDecoded
         let ruleIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ruleId)
         ruleId = ruleIdDecoded
@@ -41767,7 +41767,7 @@ extension SecurityHubClientTypes {
         /// The action that WAF should take on a web request when it matches the criteria defined in the rule.
         public var action: SecurityHubClientTypes.AwsWafRegionalRuleGroupRulesActionDetails?
         /// If you define more than one rule in a web ACL, WAF evaluates each request against the rules in order based on the value of Priority.
-        public var priority: Swift.Int
+        public var priority: Swift.Int?
         /// The ID for a rule.
         public var ruleId: Swift.String?
         /// The type of rule in the rule group.
@@ -41775,7 +41775,7 @@ extension SecurityHubClientTypes {
 
         public init(
             action: SecurityHubClientTypes.AwsWafRegionalRuleGroupRulesActionDetails? = nil,
-            priority: Swift.Int = 0,
+            priority: Swift.Int? = nil,
             ruleId: Swift.String? = nil,
             type: Swift.String? = nil
         )
@@ -41801,7 +41801,7 @@ extension SecurityHubClientTypes.AwsWafRegionalRulePredicateListDetails: Swift.C
         if let dataId = self.dataId {
             try encodeContainer.encode(dataId, forKey: .dataId)
         }
-        if negated != false {
+        if let negated = self.negated {
             try encodeContainer.encode(negated, forKey: .negated)
         }
         if let type = self.type {
@@ -41813,7 +41813,7 @@ extension SecurityHubClientTypes.AwsWafRegionalRulePredicateListDetails: Swift.C
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dataIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dataId)
         dataId = dataIdDecoded
-        let negatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .negated) ?? false
+        let negatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .negated)
         negated = negatedDecoded
         let typeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .type)
         type = typeDecoded
@@ -41826,13 +41826,13 @@ extension SecurityHubClientTypes {
         /// A unique identifier for a predicate in a rule, such as ByteMatchSetId or IPSetId.
         public var dataId: Swift.String?
         /// Specifies if you want WAF to allow, block, or count requests based on the settings in the ByteMatchSet, IPSet, SqlInjectionMatchSet, XssMatchSet, RegexMatchSet, GeoMatchSet, or SizeConstraintSet.
-        public var negated: Swift.Bool
+        public var negated: Swift.Bool?
         /// The type of predicate in a rule, such as ByteMatch or IPSet.
         public var type: Swift.String?
 
         public init(
             dataId: Swift.String? = nil,
-            negated: Swift.Bool = false,
+            negated: Swift.Bool? = nil,
             type: Swift.String? = nil
         )
         {
@@ -41983,7 +41983,7 @@ extension SecurityHubClientTypes.AwsWafRegionalWebAclRulesListDetails: Swift.Cod
         if let overrideAction = self.overrideAction {
             try encodeContainer.encode(overrideAction, forKey: .overrideAction)
         }
-        if priority != 0 {
+        if let priority = self.priority {
             try encodeContainer.encode(priority, forKey: .priority)
         }
         if let ruleId = self.ruleId {
@@ -42000,7 +42000,7 @@ extension SecurityHubClientTypes.AwsWafRegionalWebAclRulesListDetails: Swift.Cod
         action = actionDecoded
         let overrideActionDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsWafRegionalWebAclRulesListOverrideActionDetails.self, forKey: .overrideAction)
         overrideAction = overrideActionDecoded
-        let priorityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .priority) ?? 0
+        let priorityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .priority)
         priority = priorityDecoded
         let ruleIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ruleId)
         ruleId = ruleIdDecoded
@@ -42017,7 +42017,7 @@ extension SecurityHubClientTypes {
         /// Overrides the rule evaluation result in the rule group.
         public var overrideAction: SecurityHubClientTypes.AwsWafRegionalWebAclRulesListOverrideActionDetails?
         /// The order in which WAF evaluates the rules in a web ACL.
-        public var priority: Swift.Int
+        public var priority: Swift.Int?
         /// The ID of an WAF Regional rule to associate with a web ACL.
         public var ruleId: Swift.String?
         /// For actions that are associated with a rule, the action that WAF takes when a web request matches all conditions in a rule.
@@ -42026,7 +42026,7 @@ extension SecurityHubClientTypes {
         public init(
             action: SecurityHubClientTypes.AwsWafRegionalWebAclRulesListActionDetails? = nil,
             overrideAction: SecurityHubClientTypes.AwsWafRegionalWebAclRulesListOverrideActionDetails? = nil,
-            priority: Swift.Int = 0,
+            priority: Swift.Int? = nil,
             ruleId: Swift.String? = nil,
             type: Swift.String? = nil
         )
@@ -42278,7 +42278,7 @@ extension SecurityHubClientTypes.AwsWafRuleGroupRulesDetails: Swift.Codable {
         if let action = self.action {
             try encodeContainer.encode(action, forKey: .action)
         }
-        if priority != 0 {
+        if let priority = self.priority {
             try encodeContainer.encode(priority, forKey: .priority)
         }
         if let ruleId = self.ruleId {
@@ -42293,7 +42293,7 @@ extension SecurityHubClientTypes.AwsWafRuleGroupRulesDetails: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let actionDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsWafRuleGroupRulesActionDetails.self, forKey: .action)
         action = actionDecoded
-        let priorityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .priority) ?? 0
+        let priorityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .priority)
         priority = priorityDecoded
         let ruleIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ruleId)
         ruleId = ruleIdDecoded
@@ -42308,7 +42308,7 @@ extension SecurityHubClientTypes {
         /// Provides information about what action WAF should take on a web request when it matches the criteria defined in the rule.
         public var action: SecurityHubClientTypes.AwsWafRuleGroupRulesActionDetails?
         /// If you define more than one rule in a web ACL, WAF evaluates each request against the rules in order based on the value of Priority.
-        public var priority: Swift.Int
+        public var priority: Swift.Int?
         /// The rule ID for a rule.
         public var ruleId: Swift.String?
         /// The type of rule.
@@ -42316,7 +42316,7 @@ extension SecurityHubClientTypes {
 
         public init(
             action: SecurityHubClientTypes.AwsWafRuleGroupRulesActionDetails? = nil,
-            priority: Swift.Int = 0,
+            priority: Swift.Int? = nil,
             ruleId: Swift.String? = nil,
             type: Swift.String? = nil
         )
@@ -42342,7 +42342,7 @@ extension SecurityHubClientTypes.AwsWafRulePredicateListDetails: Swift.Codable {
         if let dataId = self.dataId {
             try encodeContainer.encode(dataId, forKey: .dataId)
         }
-        if negated != false {
+        if let negated = self.negated {
             try encodeContainer.encode(negated, forKey: .negated)
         }
         if let type = self.type {
@@ -42354,7 +42354,7 @@ extension SecurityHubClientTypes.AwsWafRulePredicateListDetails: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dataIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dataId)
         dataId = dataIdDecoded
-        let negatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .negated) ?? false
+        let negatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .negated)
         negated = negatedDecoded
         let typeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .type)
         type = typeDecoded
@@ -42367,13 +42367,13 @@ extension SecurityHubClientTypes {
         /// A unique identifier for a predicate in a rule, such as ByteMatchSetId or IPSetId.
         public var dataId: Swift.String?
         /// Specifies if you want WAF to allow, block, or count requests based on the settings in the ByteMatchSet, IPSet, SqlInjectionMatchSet, XssMatchSet, RegexMatchSet, GeoMatchSet, or SizeConstraintSet.
-        public var negated: Swift.Bool
+        public var negated: Swift.Bool?
         /// The type of predicate in a rule, such as ByteMatch or IPSet.
         public var type: Swift.String?
 
         public init(
             dataId: Swift.String? = nil,
-            negated: Swift.Bool = false,
+            negated: Swift.Bool? = nil,
             type: Swift.String? = nil
         )
         {
@@ -42486,7 +42486,7 @@ extension SecurityHubClientTypes.AwsWafWebAclRule: Swift.Codable {
         if let overrideAction = self.overrideAction {
             try encodeContainer.encode(overrideAction, forKey: .overrideAction)
         }
-        if priority != 0 {
+        if let priority = self.priority {
             try encodeContainer.encode(priority, forKey: .priority)
         }
         if let ruleId = self.ruleId {
@@ -42514,7 +42514,7 @@ extension SecurityHubClientTypes.AwsWafWebAclRule: Swift.Codable {
         excludedRules = excludedRulesDecoded0
         let overrideActionDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.WafOverrideAction.self, forKey: .overrideAction)
         overrideAction = overrideActionDecoded
-        let priorityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .priority) ?? 0
+        let priorityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .priority)
         priority = priorityDecoded
         let ruleIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ruleId)
         ruleId = ruleIdDecoded
@@ -42533,7 +42533,7 @@ extension SecurityHubClientTypes {
         /// Use the OverrideAction to test your RuleGroup. Any rule in a RuleGroup can potentially block a request. If you set the OverrideAction to None, the RuleGroup blocks a request if any individual rule in the RuleGroup matches the request and is configured to block that request. However, if you first want to test the RuleGroup, set the OverrideAction to Count. The RuleGroup then overrides any block action specified by individual rules contained within the group. Instead of blocking matching requests, those requests are counted. ActivatedRule|OverrideAction applies only when updating or adding a RuleGroup to a web ACL. In this case you do not use ActivatedRuleAction. For all other update requests, ActivatedRuleAction is used instead of ActivatedRuleOverrideAction.
         public var overrideAction: SecurityHubClientTypes.WafOverrideAction?
         /// Specifies the order in which the rules in a web ACL are evaluated. Rules with a lower value for Priority are evaluated before rules with a higher value. The value must be a unique integer. If you add multiple rules to a web ACL, the values do not need to be consecutive.
-        public var priority: Swift.Int
+        public var priority: Swift.Int?
         /// The identifier for a rule.
         public var ruleId: Swift.String?
         /// The rule type. Valid values: REGULAR | RATE_BASED | GROUP The default is REGULAR.
@@ -42543,7 +42543,7 @@ extension SecurityHubClientTypes {
             action: SecurityHubClientTypes.WafAction? = nil,
             excludedRules: [SecurityHubClientTypes.WafExcludedRule]? = nil,
             overrideAction: SecurityHubClientTypes.WafOverrideAction? = nil,
-            priority: Swift.Int = 0,
+            priority: Swift.Int? = nil,
             ruleId: Swift.String? = nil,
             type: Swift.String? = nil
         )
@@ -42733,7 +42733,7 @@ extension SecurityHubClientTypes.AwsWafv2CustomResponseDetails: Swift.Codable {
         if let customResponseBodyKey = self.customResponseBodyKey {
             try encodeContainer.encode(customResponseBodyKey, forKey: .customResponseBodyKey)
         }
-        if responseCode != 0 {
+        if let responseCode = self.responseCode {
             try encodeContainer.encode(responseCode, forKey: .responseCode)
         }
         if let responseHeaders = responseHeaders {
@@ -42748,7 +42748,7 @@ extension SecurityHubClientTypes.AwsWafv2CustomResponseDetails: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let customResponseBodyKeyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .customResponseBodyKey)
         customResponseBodyKey = customResponseBodyKeyDecoded
-        let responseCodeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .responseCode) ?? 0
+        let responseCodeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .responseCode)
         responseCode = responseCodeDecoded
         let responseHeadersContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.AwsWafv2CustomHttpHeader?].self, forKey: .responseHeaders)
         var responseHeadersDecoded0:[SecurityHubClientTypes.AwsWafv2CustomHttpHeader]? = nil
@@ -42770,13 +42770,13 @@ extension SecurityHubClientTypes {
         /// References the response body that you want WAF to return to the web request client. You can define a custom response for a rule action or a default web ACL action that is set to block.
         public var customResponseBodyKey: Swift.String?
         /// The HTTP status code to return to the client. For a list of status codes that you can use in your custom responses, see [Supported status codes for custom response](https://docs.aws.amazon.com/waf/latest/developerguide/customizing-the-response-status-codes.html) in the WAF Developer Guide.
-        public var responseCode: Swift.Int
+        public var responseCode: Swift.Int?
         /// The HTTP headers to use in the response.
         public var responseHeaders: [SecurityHubClientTypes.AwsWafv2CustomHttpHeader]?
 
         public init(
             customResponseBodyKey: Swift.String? = nil,
-            responseCode: Swift.Int = 0,
+            responseCode: Swift.Int? = nil,
             responseHeaders: [SecurityHubClientTypes.AwsWafv2CustomHttpHeader]? = nil
         )
         {
@@ -42805,7 +42805,7 @@ extension SecurityHubClientTypes.AwsWafv2RuleGroupDetails: Swift.Codable {
         if let arn = self.arn {
             try encodeContainer.encode(arn, forKey: .arn)
         }
-        if capacity != 0 {
+        if let capacity = self.capacity {
             try encodeContainer.encode(capacity, forKey: .capacity)
         }
         if let description = self.description {
@@ -42833,7 +42833,7 @@ extension SecurityHubClientTypes.AwsWafv2RuleGroupDetails: Swift.Codable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let capacityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .capacity) ?? 0
+        let capacityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .capacity)
         capacity = capacityDecoded
         let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
         description = descriptionDecoded
@@ -42867,7 +42867,7 @@ extension SecurityHubClientTypes {
         /// The Amazon Resource Name (ARN) of the entity.
         public var arn: Swift.String?
         /// The web ACL capacity units (WCUs) required for this rule group.
-        public var capacity: Swift.Int
+        public var capacity: Swift.Int?
         /// A description of the rule group that helps with identification.
         public var description: Swift.String?
         /// A unique identifier for the rule group.
@@ -42883,7 +42883,7 @@ extension SecurityHubClientTypes {
 
         public init(
             arn: Swift.String? = nil,
-            capacity: Swift.Int = 0,
+            capacity: Swift.Int? = nil,
             description: Swift.String? = nil,
             id: Swift.String? = nil,
             name: Swift.String? = nil,
@@ -43060,7 +43060,7 @@ extension SecurityHubClientTypes.AwsWafv2RulesDetails: Swift.Codable {
         if let overrideAction = self.overrideAction {
             try encodeContainer.encode(overrideAction, forKey: .overrideAction)
         }
-        if priority != 0 {
+        if let priority = self.priority {
             try encodeContainer.encode(priority, forKey: .priority)
         }
         if let visibilityConfig = self.visibilityConfig {
@@ -43076,7 +43076,7 @@ extension SecurityHubClientTypes.AwsWafv2RulesDetails: Swift.Codable {
         name = nameDecoded
         let overrideActionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .overrideAction)
         overrideAction = overrideActionDecoded
-        let priorityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .priority) ?? 0
+        let priorityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .priority)
         priority = priorityDecoded
         let visibilityConfigDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsWafv2VisibilityConfigDetails.self, forKey: .visibilityConfig)
         visibilityConfig = visibilityConfigDecoded
@@ -43093,7 +43093,7 @@ extension SecurityHubClientTypes {
         /// The action to use in the place of the action that results from the rule group evaluation.
         public var overrideAction: Swift.String?
         /// If you define more than one Rule in a WebACL, WAF evaluates each request against the Rules in order based on the value of Priority. WAF processes rules with lower priority first. The priorities don't need to be consecutive, but they must all be different.
-        public var priority: Swift.Int
+        public var priority: Swift.Int?
         /// Defines and enables Amazon CloudWatch metrics and web request sample collection.
         public var visibilityConfig: SecurityHubClientTypes.AwsWafv2VisibilityConfigDetails?
 
@@ -43101,7 +43101,7 @@ extension SecurityHubClientTypes {
             action: SecurityHubClientTypes.AwsWafv2RulesActionDetails? = nil,
             name: Swift.String? = nil,
             overrideAction: Swift.String? = nil,
-            priority: Swift.Int = 0,
+            priority: Swift.Int? = nil,
             visibilityConfig: SecurityHubClientTypes.AwsWafv2VisibilityConfigDetails? = nil
         )
         {
@@ -43124,24 +43124,24 @@ extension SecurityHubClientTypes.AwsWafv2VisibilityConfigDetails: Swift.Codable 
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if cloudWatchMetricsEnabled != false {
+        if let cloudWatchMetricsEnabled = self.cloudWatchMetricsEnabled {
             try encodeContainer.encode(cloudWatchMetricsEnabled, forKey: .cloudWatchMetricsEnabled)
         }
         if let metricName = self.metricName {
             try encodeContainer.encode(metricName, forKey: .metricName)
         }
-        if sampledRequestsEnabled != false {
+        if let sampledRequestsEnabled = self.sampledRequestsEnabled {
             try encodeContainer.encode(sampledRequestsEnabled, forKey: .sampledRequestsEnabled)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let cloudWatchMetricsEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .cloudWatchMetricsEnabled) ?? false
+        let cloudWatchMetricsEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .cloudWatchMetricsEnabled)
         cloudWatchMetricsEnabled = cloudWatchMetricsEnabledDecoded
         let metricNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .metricName)
         metricName = metricNameDecoded
-        let sampledRequestsEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .sampledRequestsEnabled) ?? false
+        let sampledRequestsEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .sampledRequestsEnabled)
         sampledRequestsEnabled = sampledRequestsEnabledDecoded
     }
 }
@@ -43150,16 +43150,16 @@ extension SecurityHubClientTypes {
     /// Defines and enables Amazon CloudWatch metrics and web request sample collection.
     public struct AwsWafv2VisibilityConfigDetails: Swift.Equatable {
         /// A boolean indicating whether the associated resource sends metrics to Amazon CloudWatch. For the list of available metrics, see [WAF metrics and dimensions](https://docs.aws.amazon.com/waf/latest/developerguide/monitoring-cloudwatch.html#waf-metrics) in the WAF Developer Guide.
-        public var cloudWatchMetricsEnabled: Swift.Bool
+        public var cloudWatchMetricsEnabled: Swift.Bool?
         /// A name of the Amazon CloudWatch metric.
         public var metricName: Swift.String?
         /// A boolean indicating whether WAF should store a sampling of the web requests that match the rules. You can view the sampled requests through the WAF console.
-        public var sampledRequestsEnabled: Swift.Bool
+        public var sampledRequestsEnabled: Swift.Bool?
 
         public init(
-            cloudWatchMetricsEnabled: Swift.Bool = false,
+            cloudWatchMetricsEnabled: Swift.Bool? = nil,
             metricName: Swift.String? = nil,
-            sampledRequestsEnabled: Swift.Bool = false
+            sampledRequestsEnabled: Swift.Bool? = nil
         )
         {
             self.cloudWatchMetricsEnabled = cloudWatchMetricsEnabled
@@ -43257,14 +43257,14 @@ extension SecurityHubClientTypes.AwsWafv2WebAclCaptchaConfigImmunityTimeProperty
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if immunityTime != 0 {
+        if let immunityTime = self.immunityTime {
             try encodeContainer.encode(immunityTime, forKey: .immunityTime)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let immunityTimeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .immunityTime) ?? 0
+        let immunityTimeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .immunityTime)
         immunityTime = immunityTimeDecoded
     }
 }
@@ -43273,10 +43273,10 @@ extension SecurityHubClientTypes {
     /// Used for CAPTCHA and challenge token settings. Determines how long a CAPTCHA or challenge timestamp remains valid after WAF updates it for a successful CAPTCHA or challenge response.
     public struct AwsWafv2WebAclCaptchaConfigImmunityTimePropertyDetails: Swift.Equatable {
         /// The amount of time, in seconds, that a CAPTCHA or challenge timestamp is considered valid by WAF.
-        public var immunityTime: Swift.Int
+        public var immunityTime: Swift.Int?
 
         public init(
-            immunityTime: Swift.Int = 0
+            immunityTime: Swift.Int? = nil
         )
         {
             self.immunityTime = immunityTime
@@ -43304,7 +43304,7 @@ extension SecurityHubClientTypes.AwsWafv2WebAclDetails: Swift.Codable {
         if let arn = self.arn {
             try encodeContainer.encode(arn, forKey: .arn)
         }
-        if capacity != 0 {
+        if let capacity = self.capacity {
             try encodeContainer.encode(capacity, forKey: .capacity)
         }
         if let captchaConfig = self.captchaConfig {
@@ -43319,7 +43319,7 @@ extension SecurityHubClientTypes.AwsWafv2WebAclDetails: Swift.Codable {
         if let id = self.id {
             try encodeContainer.encode(id, forKey: .id)
         }
-        if managedbyFirewallManager != false {
+        if let managedbyFirewallManager = self.managedbyFirewallManager {
             try encodeContainer.encode(managedbyFirewallManager, forKey: .managedbyFirewallManager)
         }
         if let name = self.name {
@@ -43342,11 +43342,11 @@ extension SecurityHubClientTypes.AwsWafv2WebAclDetails: Swift.Codable {
         name = nameDecoded
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
-        let managedbyFirewallManagerDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .managedbyFirewallManager) ?? false
+        let managedbyFirewallManagerDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .managedbyFirewallManager)
         managedbyFirewallManager = managedbyFirewallManagerDecoded
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
-        let capacityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .capacity) ?? 0
+        let capacityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .capacity)
         capacity = capacityDecoded
         let captchaConfigDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsWafv2WebAclCaptchaConfigDetails.self, forKey: .captchaConfig)
         captchaConfig = captchaConfigDecoded
@@ -43376,7 +43376,7 @@ extension SecurityHubClientTypes {
         /// The Amazon Resource Name (ARN) of the web ACL that you want to associate with the resource.
         public var arn: Swift.String?
         /// The web ACL capacity units (WCUs) currently being used by this web ACL.
-        public var capacity: Swift.Int
+        public var capacity: Swift.Int?
         /// Specifies how WAF should handle CAPTCHA evaluations for rules that don't have their own CaptchaConfig settings.
         public var captchaConfig: SecurityHubClientTypes.AwsWafv2WebAclCaptchaConfigDetails?
         /// The action to perform if none of the Rules contained in the web ACL match.
@@ -43386,7 +43386,7 @@ extension SecurityHubClientTypes {
         /// A unique identifier for the web ACL.
         public var id: Swift.String?
         /// Indicates whether this web ACL is managed by Firewall Manager.
-        public var managedbyFirewallManager: Swift.Bool
+        public var managedbyFirewallManager: Swift.Bool?
         /// The name of the web ACL.
         public var name: Swift.String?
         /// The Rule statements used to identify the web requests that you want to allow, block, or count. Each rule includes one top-level statement that WAF uses to identify matching web requests, and parameters that govern how WAF handles them.
@@ -43396,12 +43396,12 @@ extension SecurityHubClientTypes {
 
         public init(
             arn: Swift.String? = nil,
-            capacity: Swift.Int = 0,
+            capacity: Swift.Int? = nil,
             captchaConfig: SecurityHubClientTypes.AwsWafv2WebAclCaptchaConfigDetails? = nil,
             defaultAction: SecurityHubClientTypes.AwsWafv2WebAclActionDetails? = nil,
             description: Swift.String? = nil,
             id: Swift.String? = nil,
-            managedbyFirewallManager: Swift.Bool = false,
+            managedbyFirewallManager: Swift.Bool? = nil,
             name: Swift.String? = nil,
             rules: [SecurityHubClientTypes.AwsWafv2RulesDetails]? = nil,
             visibilityConfig: SecurityHubClientTypes.AwsWafv2VisibilityConfigDetails? = nil
@@ -44365,9 +44365,9 @@ extension BatchImportFindingsOutput: ClientRuntime.HttpResponseBinding {
             self.failedFindings = output.failedFindings
             self.successCount = output.successCount
         } else {
-            self.failedCount = 0
+            self.failedCount = nil
             self.failedFindings = nil
-            self.successCount = 0
+            self.successCount = nil
         }
     }
 }
@@ -44375,17 +44375,17 @@ extension BatchImportFindingsOutput: ClientRuntime.HttpResponseBinding {
 public struct BatchImportFindingsOutput: Swift.Equatable {
     /// The number of findings that failed to import.
     /// This member is required.
-    public var failedCount: Swift.Int
+    public var failedCount: Swift.Int?
     /// The list of findings that failed to import.
     public var failedFindings: [SecurityHubClientTypes.ImportFindingsError]?
     /// The number of findings that were successfully imported.
     /// This member is required.
-    public var successCount: Swift.Int
+    public var successCount: Swift.Int?
 
     public init(
-        failedCount: Swift.Int = 0,
+        failedCount: Swift.Int? = nil,
         failedFindings: [SecurityHubClientTypes.ImportFindingsError]? = nil,
-        successCount: Swift.Int = 0
+        successCount: Swift.Int? = nil
     )
     {
         self.failedCount = failedCount
@@ -44395,8 +44395,8 @@ public struct BatchImportFindingsOutput: Swift.Equatable {
 }
 
 struct BatchImportFindingsOutputBody: Swift.Equatable {
-    let failedCount: Swift.Int
-    let successCount: Swift.Int
+    let failedCount: Swift.Int?
+    let successCount: Swift.Int?
     let failedFindings: [SecurityHubClientTypes.ImportFindingsError]?
 }
 
@@ -44409,9 +44409,9 @@ extension BatchImportFindingsOutputBody: Swift.Decodable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let failedCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .failedCount) ?? 0
+        let failedCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .failedCount)
         failedCount = failedCountDecoded
-        let successCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .successCount) ?? 0
+        let successCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .successCount)
         successCount = successCountDecoded
         let failedFindingsContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.ImportFindingsError?].self, forKey: .failedFindings)
         var failedFindingsDecoded0:[SecurityHubClientTypes.ImportFindingsError]? = nil
@@ -45102,14 +45102,14 @@ extension SecurityHubClientTypes.BooleanFilter: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if value != false {
+        if let value = self.value {
             try encodeContainer.encode(value, forKey: .value)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let valueDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .value) ?? false
+        let valueDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .value)
         value = valueDecoded
     }
 }
@@ -45118,10 +45118,10 @@ extension SecurityHubClientTypes {
     /// Boolean filter for querying findings.
     public struct BooleanFilter: Swift.Equatable {
         /// The value of the boolean.
-        public var value: Swift.Bool
+        public var value: Swift.Bool?
 
         public init(
-            value: Swift.Bool = false
+            value: Swift.Bool? = nil
         )
         {
             self.value = value
@@ -45143,22 +45143,22 @@ extension SecurityHubClientTypes.Cell: Swift.Codable {
         if let cellReference = self.cellReference {
             try encodeContainer.encode(cellReference, forKey: .cellReference)
         }
-        if column != 0 {
+        if let column = self.column {
             try encodeContainer.encode(column, forKey: .column)
         }
         if let columnName = self.columnName {
             try encodeContainer.encode(columnName, forKey: .columnName)
         }
-        if row != 0 {
+        if let row = self.row {
             try encodeContainer.encode(row, forKey: .row)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let columnDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .column) ?? 0
+        let columnDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .column)
         column = columnDecoded
-        let rowDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .row) ?? 0
+        let rowDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .row)
         row = rowDecoded
         let columnNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .columnName)
         columnName = columnNameDecoded
@@ -45173,17 +45173,17 @@ extension SecurityHubClientTypes {
         /// For a Microsoft Excel workbook, provides the location of the cell, as an absolute cell reference, that contains the data. For example, Sheet2!C5 for cell C5 on Sheet2.
         public var cellReference: Swift.String?
         /// The column number of the column that contains the data. For a Microsoft Excel workbook, the column number corresponds to the alphabetical column identifiers. For example, a value of 1 for Column corresponds to the A column in the workbook.
-        public var column: Swift.Int
+        public var column: Swift.Int?
         /// The name of the column that contains the data.
         public var columnName: Swift.String?
         /// The row number of the row that contains the data.
-        public var row: Swift.Int
+        public var row: Swift.Int?
 
         public init(
             cellReference: Swift.String? = nil,
-            column: Swift.Int = 0,
+            column: Swift.Int? = nil,
             columnName: Swift.String? = nil,
-            row: Swift.Int = 0
+            row: Swift.Int? = nil
         )
         {
             self.cellReference = cellReference
@@ -45297,7 +45297,7 @@ extension SecurityHubClientTypes.ClassificationResult: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if additionalOccurrences != false {
+        if let additionalOccurrences = self.additionalOccurrences {
             try encodeContainer.encode(additionalOccurrences, forKey: .additionalOccurrences)
         }
         if let customDataIdentifiers = self.customDataIdentifiers {
@@ -45312,7 +45312,7 @@ extension SecurityHubClientTypes.ClassificationResult: Swift.Codable {
                 try sensitiveDataContainer.encode(sensitivedataresult0)
             }
         }
-        if sizeClassified != 0 {
+        if let sizeClassified = self.sizeClassified {
             try encodeContainer.encode(sizeClassified, forKey: .sizeClassified)
         }
         if let status = self.status {
@@ -45324,9 +45324,9 @@ extension SecurityHubClientTypes.ClassificationResult: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let mimeTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .mimeType)
         mimeType = mimeTypeDecoded
-        let sizeClassifiedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .sizeClassified) ?? 0
+        let sizeClassifiedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .sizeClassified)
         sizeClassified = sizeClassifiedDecoded
-        let additionalOccurrencesDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .additionalOccurrences) ?? false
+        let additionalOccurrencesDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .additionalOccurrences)
         additionalOccurrences = additionalOccurrencesDecoded
         let statusDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.ClassificationStatus.self, forKey: .status)
         status = statusDecoded
@@ -45350,7 +45350,7 @@ extension SecurityHubClientTypes {
     /// Details about the sensitive data that was detected on the resource.
     public struct ClassificationResult: Swift.Equatable {
         /// Indicates whether there are additional occurrences of sensitive data that are not included in the finding. This occurs when the number of occurrences exceeds the maximum that can be included.
-        public var additionalOccurrences: Swift.Bool
+        public var additionalOccurrences: Swift.Bool?
         /// Provides details about sensitive data that was identified based on customer-defined configuration.
         public var customDataIdentifiers: SecurityHubClientTypes.CustomDataIdentifiersResult?
         /// The type of content that the finding applies to.
@@ -45358,16 +45358,16 @@ extension SecurityHubClientTypes {
         /// Provides details about sensitive data that was identified based on built-in configuration.
         public var sensitiveData: [SecurityHubClientTypes.SensitiveDataResult]?
         /// The total size in bytes of the affected data.
-        public var sizeClassified: Swift.Int
+        public var sizeClassified: Swift.Int?
         /// The current status of the sensitive data detection.
         public var status: SecurityHubClientTypes.ClassificationStatus?
 
         public init(
-            additionalOccurrences: Swift.Bool = false,
+            additionalOccurrences: Swift.Bool? = nil,
             customDataIdentifiers: SecurityHubClientTypes.CustomDataIdentifiersResult? = nil,
             mimeType: Swift.String? = nil,
             sensitiveData: [SecurityHubClientTypes.SensitiveDataResult]? = nil,
-            sizeClassified: Swift.Int = 0,
+            sizeClassified: Swift.Int? = nil,
             status: SecurityHubClientTypes.ClassificationStatus? = nil
         )
         {
@@ -45492,7 +45492,7 @@ extension SecurityHubClientTypes.CodeVulnerabilitiesFilePath: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if endLine != 0 {
+        if let endLine = self.endLine {
             try encodeContainer.encode(endLine, forKey: .endLine)
         }
         if let fileName = self.fileName {
@@ -45501,20 +45501,20 @@ extension SecurityHubClientTypes.CodeVulnerabilitiesFilePath: Swift.Codable {
         if let filePath = self.filePath {
             try encodeContainer.encode(filePath, forKey: .filePath)
         }
-        if startLine != 0 {
+        if let startLine = self.startLine {
             try encodeContainer.encode(startLine, forKey: .startLine)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let endLineDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .endLine) ?? 0
+        let endLineDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .endLine)
         endLine = endLineDecoded
         let fileNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fileName)
         fileName = fileNameDecoded
         let filePathDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .filePath)
         filePath = filePathDecoded
-        let startLineDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .startLine) ?? 0
+        let startLineDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .startLine)
         startLine = startLineDecoded
     }
 }
@@ -45523,19 +45523,19 @@ extension SecurityHubClientTypes {
     /// Provides details about where a code vulnerability is located in your Lambda function.
     public struct CodeVulnerabilitiesFilePath: Swift.Equatable {
         /// The line number of the last line of code in which the vulnerability is located.
-        public var endLine: Swift.Int
+        public var endLine: Swift.Int?
         /// The name of the file in which the code vulnerability is located.
         public var fileName: Swift.String?
         /// The file path to the code in which the vulnerability is located.
         public var filePath: Swift.String?
         /// The line number of the first line of code in which the vulnerability is located.
-        public var startLine: Swift.Int
+        public var startLine: Swift.Int?
 
         public init(
-            endLine: Swift.Int = 0,
+            endLine: Swift.Int? = nil,
             fileName: Swift.String? = nil,
             filePath: Swift.String? = nil,
-            startLine: Swift.Int = 0
+            startLine: Swift.Int? = nil
         )
         {
             self.endLine = endLine
@@ -45733,7 +45733,7 @@ extension SecurityHubClientTypes.ContainerDetails: Swift.Codable {
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
         }
-        if privileged != false {
+        if let privileged = self.privileged {
             try encodeContainer.encode(privileged, forKey: .privileged)
         }
         if let volumeMounts = volumeMounts {
@@ -45767,7 +45767,7 @@ extension SecurityHubClientTypes.ContainerDetails: Swift.Codable {
             }
         }
         volumeMounts = volumeMountsDecoded0
-        let privilegedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .privileged) ?? false
+        let privilegedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .privileged)
         privileged = privilegedDecoded
     }
 }
@@ -45786,7 +45786,7 @@ extension SecurityHubClientTypes {
         /// The name of the container related to a finding.
         public var name: Swift.String?
         /// When this parameter is true, the container is given elevated privileges on the host container instance (similar to the root user).
-        public var privileged: Swift.Bool
+        public var privileged: Swift.Bool?
         /// Provides information about the mounting of a volume in a container.
         public var volumeMounts: [SecurityHubClientTypes.VolumeMount]?
 
@@ -45796,7 +45796,7 @@ extension SecurityHubClientTypes {
             imageName: Swift.String? = nil,
             launchedAt: Swift.String? = nil,
             name: Swift.String? = nil,
-            privileged: Swift.Bool = false,
+            privileged: Swift.Bool? = nil,
             volumeMounts: [SecurityHubClientTypes.VolumeMount]? = nil
         )
         {
@@ -46705,7 +46705,7 @@ extension SecurityHubClientTypes.CustomDataIdentifiersDetections: Swift.Codable 
         if let arn = self.arn {
             try encodeContainer.encode(arn, forKey: .arn)
         }
-        if count != 0 {
+        if let count = self.count {
             try encodeContainer.encode(count, forKey: .count)
         }
         if let name = self.name {
@@ -46718,7 +46718,7 @@ extension SecurityHubClientTypes.CustomDataIdentifiersDetections: Swift.Codable 
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let countDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .count) ?? 0
+        let countDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .count)
         count = countDecoded
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
@@ -46735,7 +46735,7 @@ extension SecurityHubClientTypes {
         /// The ARN of the custom identifier that was used to detect the sensitive data.
         public var arn: Swift.String?
         /// The total number of occurrences of sensitive data that were detected.
-        public var count: Swift.Int
+        public var count: Swift.Int?
         /// he name of the custom identifier that detected the sensitive data.
         public var name: Swift.String?
         /// Details about the sensitive data that was detected.
@@ -46743,7 +46743,7 @@ extension SecurityHubClientTypes {
 
         public init(
             arn: Swift.String? = nil,
-            count: Swift.Int = 0,
+            count: Swift.Int? = nil,
             name: Swift.String? = nil,
             occurrences: SecurityHubClientTypes.Occurrences? = nil
         )
@@ -46771,7 +46771,7 @@ extension SecurityHubClientTypes.CustomDataIdentifiersResult: Swift.Codable {
                 try detectionsContainer.encode(customdataidentifiersdetections0)
             }
         }
-        if totalCount != 0 {
+        if let totalCount = self.totalCount {
             try encodeContainer.encode(totalCount, forKey: .totalCount)
         }
     }
@@ -46789,7 +46789,7 @@ extension SecurityHubClientTypes.CustomDataIdentifiersResult: Swift.Codable {
             }
         }
         detections = detectionsDecoded0
-        let totalCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalCount) ?? 0
+        let totalCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalCount)
         totalCount = totalCountDecoded
     }
 }
@@ -46800,11 +46800,11 @@ extension SecurityHubClientTypes {
         /// The list of detected instances of sensitive data.
         public var detections: [SecurityHubClientTypes.CustomDataIdentifiersDetections]?
         /// The total number of occurrences of sensitive data.
-        public var totalCount: Swift.Int
+        public var totalCount: Swift.Int?
 
         public init(
             detections: [SecurityHubClientTypes.CustomDataIdentifiersDetections]? = nil,
-            totalCount: Swift.Int = 0
+            totalCount: Swift.Int? = nil
         )
         {
             self.detections = detections
@@ -46831,7 +46831,7 @@ extension SecurityHubClientTypes.Cvss: Swift.Codable {
                 try adjustmentsContainer.encode(adjustment0)
             }
         }
-        if baseScore != 0.0 {
+        if let baseScore = self.baseScore {
             try encodeContainer.encode(baseScore, forKey: .baseScore)
         }
         if let baseVector = self.baseVector {
@@ -46849,7 +46849,7 @@ extension SecurityHubClientTypes.Cvss: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let versionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .version)
         version = versionDecoded
-        let baseScoreDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .baseScore) ?? 0.0
+        let baseScoreDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .baseScore)
         baseScore = baseScoreDecoded
         let baseVectorDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .baseVector)
         baseVector = baseVectorDecoded
@@ -46875,7 +46875,7 @@ extension SecurityHubClientTypes {
         /// Adjustments to the CVSS metrics.
         public var adjustments: [SecurityHubClientTypes.Adjustment]?
         /// The base CVSS score.
-        public var baseScore: Swift.Double
+        public var baseScore: Swift.Double?
         /// The base scoring vector for the CVSS score.
         public var baseVector: Swift.String?
         /// The origin of the original CVSS score and vector.
@@ -46885,7 +46885,7 @@ extension SecurityHubClientTypes {
 
         public init(
             adjustments: [SecurityHubClientTypes.Adjustment]? = nil,
-            baseScore: Swift.Double = 0.0,
+            baseScore: Swift.Double? = nil,
             baseVector: Swift.String? = nil,
             source: Swift.String? = nil,
             version: Swift.String? = nil
@@ -47012,14 +47012,14 @@ extension SecurityHubClientTypes.DateRange: Swift.Codable {
         if let unit = self.unit {
             try encodeContainer.encode(unit.rawValue, forKey: .unit)
         }
-        if value != 0 {
+        if let value = self.value {
             try encodeContainer.encode(value, forKey: .value)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let valueDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .value) ?? 0
+        let valueDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .value)
         value = valueDecoded
         let unitDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.DateRangeUnit.self, forKey: .unit)
         unit = unitDecoded
@@ -47032,11 +47032,11 @@ extension SecurityHubClientTypes {
         /// A date range unit for the date filter.
         public var unit: SecurityHubClientTypes.DateRangeUnit?
         /// A date range value for the date filter.
-        public var value: Swift.Int
+        public var value: Swift.Int?
 
         public init(
             unit: SecurityHubClientTypes.DateRangeUnit? = nil,
-            value: Swift.Int = 0
+            value: Swift.Int? = nil
         )
         {
             self.unit = unit
@@ -47883,7 +47883,7 @@ extension DescribeHubOutput: ClientRuntime.HttpResponseBinding {
             self.hubArn = output.hubArn
             self.subscribedAt = output.subscribedAt
         } else {
-            self.autoEnableControls = false
+            self.autoEnableControls = nil
             self.controlFindingGenerator = nil
             self.hubArn = nil
             self.subscribedAt = nil
@@ -47893,7 +47893,7 @@ extension DescribeHubOutput: ClientRuntime.HttpResponseBinding {
 
 public struct DescribeHubOutput: Swift.Equatable {
     /// Whether to automatically enable new controls when they are added to standards that are enabled. If set to true, then new controls for enabled standards are enabled automatically. If set to false, then new controls are not enabled.
-    public var autoEnableControls: Swift.Bool
+    public var autoEnableControls: Swift.Bool?
     /// Specifies whether the calling account has consolidated control findings turned on. If the value for this field is set to SECURITY_CONTROL, Security Hub generates a single finding for a control check even when the check applies to multiple enabled standards. If the value for this field is set to STANDARD_CONTROL, Security Hub generates separate findings for a control check when the check applies to multiple enabled standards. The value for this field in a member account matches the value in the administrator account. For accounts that aren't part of an organization, the default value of this field is SECURITY_CONTROL if you enabled Security Hub on or after February 23, 2023.
     public var controlFindingGenerator: SecurityHubClientTypes.ControlFindingGenerator?
     /// The ARN of the Hub resource that was retrieved.
@@ -47902,7 +47902,7 @@ public struct DescribeHubOutput: Swift.Equatable {
     public var subscribedAt: Swift.String?
 
     public init(
-        autoEnableControls: Swift.Bool = false,
+        autoEnableControls: Swift.Bool? = nil,
         controlFindingGenerator: SecurityHubClientTypes.ControlFindingGenerator? = nil,
         hubArn: Swift.String? = nil,
         subscribedAt: Swift.String? = nil
@@ -47918,7 +47918,7 @@ public struct DescribeHubOutput: Swift.Equatable {
 struct DescribeHubOutputBody: Swift.Equatable {
     let hubArn: Swift.String?
     let subscribedAt: Swift.String?
-    let autoEnableControls: Swift.Bool
+    let autoEnableControls: Swift.Bool?
     let controlFindingGenerator: SecurityHubClientTypes.ControlFindingGenerator?
 }
 
@@ -47936,7 +47936,7 @@ extension DescribeHubOutputBody: Swift.Decodable {
         hubArn = hubArnDecoded
         let subscribedAtDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .subscribedAt)
         subscribedAt = subscribedAtDecoded
-        let autoEnableControlsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoEnableControls) ?? false
+        let autoEnableControlsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoEnableControls)
         autoEnableControls = autoEnableControlsDecoded
         let controlFindingGeneratorDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.ControlFindingGenerator.self, forKey: .controlFindingGenerator)
         controlFindingGenerator = controlFindingGeneratorDecoded
@@ -47987,25 +47987,25 @@ extension DescribeOrganizationConfigurationOutput: ClientRuntime.HttpResponseBin
             self.autoEnableStandards = output.autoEnableStandards
             self.memberAccountLimitReached = output.memberAccountLimitReached
         } else {
-            self.autoEnable = false
+            self.autoEnable = nil
             self.autoEnableStandards = nil
-            self.memberAccountLimitReached = false
+            self.memberAccountLimitReached = nil
         }
     }
 }
 
 public struct DescribeOrganizationConfigurationOutput: Swift.Equatable {
     /// Whether to automatically enable Security Hub for new accounts in the organization. If set to true, then Security Hub is enabled for new accounts. If set to false, then new accounts are not added automatically.
-    public var autoEnable: Swift.Bool
+    public var autoEnable: Swift.Bool?
     /// Whether to automatically enable Security Hub [default standards](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards-enable-disable.html) for new member accounts in the organization. The default value of this parameter is equal to DEFAULT. If equal to DEFAULT, then Security Hub default standards are automatically enabled for new member accounts. If equal to NONE, then default standards are not automatically enabled for new member accounts.
     public var autoEnableStandards: SecurityHubClientTypes.AutoEnableStandards?
     /// Whether the maximum number of allowed member accounts are already associated with the Security Hub administrator account.
-    public var memberAccountLimitReached: Swift.Bool
+    public var memberAccountLimitReached: Swift.Bool?
 
     public init(
-        autoEnable: Swift.Bool = false,
+        autoEnable: Swift.Bool? = nil,
         autoEnableStandards: SecurityHubClientTypes.AutoEnableStandards? = nil,
-        memberAccountLimitReached: Swift.Bool = false
+        memberAccountLimitReached: Swift.Bool? = nil
     )
     {
         self.autoEnable = autoEnable
@@ -48015,8 +48015,8 @@ public struct DescribeOrganizationConfigurationOutput: Swift.Equatable {
 }
 
 struct DescribeOrganizationConfigurationOutputBody: Swift.Equatable {
-    let autoEnable: Swift.Bool
-    let memberAccountLimitReached: Swift.Bool
+    let autoEnable: Swift.Bool?
+    let memberAccountLimitReached: Swift.Bool?
     let autoEnableStandards: SecurityHubClientTypes.AutoEnableStandards?
 }
 
@@ -48029,9 +48029,9 @@ extension DescribeOrganizationConfigurationOutputBody: Swift.Decodable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let autoEnableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoEnable) ?? false
+        let autoEnableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoEnable)
         autoEnable = autoEnableDecoded
-        let memberAccountLimitReachedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .memberAccountLimitReached) ?? false
+        let memberAccountLimitReachedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .memberAccountLimitReached)
         memberAccountLimitReached = memberAccountLimitReachedDecoded
         let autoEnableStandardsDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AutoEnableStandards.self, forKey: .autoEnableStandards)
         autoEnableStandards = autoEnableStandardsDecoded
@@ -48787,7 +48787,7 @@ extension SecurityHubClientTypes.DnsRequestAction: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if blocked != false {
+        if let blocked = self.blocked {
             try encodeContainer.encode(blocked, forKey: .blocked)
         }
         if let domain = self.domain {
@@ -48804,7 +48804,7 @@ extension SecurityHubClientTypes.DnsRequestAction: Swift.Codable {
         domain = domainDecoded
         let protocolDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .protocol)
         `protocol` = protocolDecoded
-        let blockedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .blocked) ?? false
+        let blockedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .blocked)
         blocked = blockedDecoded
     }
 }
@@ -48813,14 +48813,14 @@ extension SecurityHubClientTypes {
     /// Provided if ActionType is DNS_REQUEST. It provides details about the DNS request that was detected.
     public struct DnsRequestAction: Swift.Equatable {
         /// Indicates whether the DNS request was blocked.
-        public var blocked: Swift.Bool
+        public var blocked: Swift.Bool?
         /// The DNS domain that is associated with the DNS request.
         public var domain: Swift.String?
         /// The protocol that was used for the DNS request.
         public var `protocol`: Swift.String?
 
         public init(
-            blocked: Swift.Bool = false,
+            blocked: Swift.Bool? = nil,
             domain: Swift.String? = nil,
             `protocol`: Swift.String? = nil
         )
@@ -49228,7 +49228,7 @@ extension SecurityHubClientTypes.FindingHistoryRecord: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if findingCreated != false {
+        if let findingCreated = self.findingCreated {
             try encodeContainer.encode(findingCreated, forKey: .findingCreated)
         }
         if let findingIdentifier = self.findingIdentifier {
@@ -49257,7 +49257,7 @@ extension SecurityHubClientTypes.FindingHistoryRecord: Swift.Codable {
         findingIdentifier = findingIdentifierDecoded
         let updateTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .updateTime)
         updateTime = updateTimeDecoded
-        let findingCreatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .findingCreated) ?? false
+        let findingCreatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .findingCreated)
         findingCreated = findingCreatedDecoded
         let updateSourceDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.FindingHistoryUpdateSource.self, forKey: .updateSource)
         updateSource = updateSourceDecoded
@@ -49281,7 +49281,7 @@ extension SecurityHubClientTypes {
     /// A list of events that changed the specified finding during the specified time period. Each record represents a single finding change event.
     public struct FindingHistoryRecord: Swift.Equatable {
         /// Identifies whether the event marks the creation of a new finding. A value of True means that the finding is newly created. A value of False means that the finding isn’t newly created.
-        public var findingCreated: Swift.Bool
+        public var findingCreated: Swift.Bool?
         /// Identifies which finding to get the finding history for.
         public var findingIdentifier: SecurityHubClientTypes.AwsSecurityFindingIdentifier?
         /// A token for pagination purposes. Provide this token in the subsequent request to [GetFindingsHistory](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_GetFindingsHistory.html) to get up to an additional 100 results of history for the same finding that you specified in your initial request.
@@ -49294,7 +49294,7 @@ extension SecurityHubClientTypes {
         public var updates: [SecurityHubClientTypes.FindingHistoryUpdate]?
 
         public init(
-            findingCreated: Swift.Bool = false,
+            findingCreated: Swift.Bool? = nil,
             findingIdentifier: SecurityHubClientTypes.AwsSecurityFindingIdentifier? = nil,
             nextToken: Swift.String? = nil,
             updateSource: SecurityHubClientTypes.FindingHistoryUpdateSource? = nil,
@@ -49456,10 +49456,10 @@ extension SecurityHubClientTypes.FindingProviderFields: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if confidence != 0 {
+        if let confidence = self.confidence {
             try encodeContainer.encode(confidence, forKey: .confidence)
         }
-        if criticality != 0 {
+        if let criticality = self.criticality {
             try encodeContainer.encode(criticality, forKey: .criticality)
         }
         if let relatedFindings = relatedFindings {
@@ -49481,9 +49481,9 @@ extension SecurityHubClientTypes.FindingProviderFields: Swift.Codable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let confidenceDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .confidence) ?? 0
+        let confidenceDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .confidence)
         confidence = confidenceDecoded
-        let criticalityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .criticality) ?? 0
+        let criticalityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .criticality)
         criticality = criticalityDecoded
         let relatedFindingsContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.RelatedFinding?].self, forKey: .relatedFindings)
         var relatedFindingsDecoded0:[SecurityHubClientTypes.RelatedFinding]? = nil
@@ -49516,9 +49516,9 @@ extension SecurityHubClientTypes {
     /// In a BatchImportFindings request, finding providers use FindingProviderFields to provide and update values for confidence, criticality, related findings, severity, and types.
     public struct FindingProviderFields: Swift.Equatable {
         /// A finding's confidence. Confidence is defined as the likelihood that a finding accurately identifies the behavior or issue that it was intended to identify. Confidence is scored on a 0-100 basis using a ratio scale, where 0 means zero percent confidence and 100 means 100 percent confidence.
-        public var confidence: Swift.Int
+        public var confidence: Swift.Int?
         /// The level of importance assigned to the resources associated with the finding. A score of 0 means that the underlying resources have no criticality, and a score of 100 is reserved for the most critical resources.
-        public var criticality: Swift.Int
+        public var criticality: Swift.Int?
         /// A list of findings that are related to the current finding.
         public var relatedFindings: [SecurityHubClientTypes.RelatedFinding]?
         /// The severity of a finding.
@@ -49527,8 +49527,8 @@ extension SecurityHubClientTypes {
         public var types: [Swift.String]?
 
         public init(
-            confidence: Swift.Int = 0,
-            criticality: Swift.Int = 0,
+            confidence: Swift.Int? = nil,
+            criticality: Swift.Int? = nil,
             relatedFindings: [SecurityHubClientTypes.RelatedFinding]? = nil,
             severity: SecurityHubClientTypes.FindingProviderSeverity? = nil,
             types: [Swift.String]? = nil
@@ -49812,7 +49812,7 @@ extension SecurityHubClientTypes.FirewallPolicyStatelessRuleGroupReferencesDetai
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if priority != 0 {
+        if let priority = self.priority {
             try encodeContainer.encode(priority, forKey: .priority)
         }
         if let resourceArn = self.resourceArn {
@@ -49822,7 +49822,7 @@ extension SecurityHubClientTypes.FirewallPolicyStatelessRuleGroupReferencesDetai
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let priorityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .priority) ?? 0
+        let priorityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .priority)
         priority = priorityDecoded
         let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
         resourceArn = resourceArnDecoded
@@ -49833,12 +49833,12 @@ extension SecurityHubClientTypes {
     /// A stateless rule group that is used by the firewall policy.
     public struct FirewallPolicyStatelessRuleGroupReferencesDetails: Swift.Equatable {
         /// The order in which to run the stateless rule group.
-        public var priority: Swift.Int
+        public var priority: Swift.Int?
         /// The ARN of the stateless rule group.
         public var resourceArn: Swift.String?
 
         public init(
-            priority: Swift.Int = 0,
+            priority: Swift.Int? = nil,
             resourceArn: Swift.String? = nil
         )
         {
@@ -49924,19 +49924,19 @@ extension SecurityHubClientTypes.GeoLocation: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if lat != 0.0 {
+        if let lat = self.lat {
             try encodeContainer.encode(lat, forKey: .lat)
         }
-        if lon != 0.0 {
+        if let lon = self.lon {
             try encodeContainer.encode(lon, forKey: .lon)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let lonDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .lon) ?? 0.0
+        let lonDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .lon)
         lon = lonDecoded
-        let latDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .lat) ?? 0.0
+        let latDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .lat)
         lat = latDecoded
     }
 }
@@ -49945,13 +49945,13 @@ extension SecurityHubClientTypes {
     /// Provides the latitude and longitude coordinates of a location.
     public struct GeoLocation: Swift.Equatable {
         /// The latitude of the location.
-        public var lat: Swift.Double
+        public var lat: Swift.Double?
         /// The longitude of the location.
-        public var lon: Swift.Double
+        public var lon: Swift.Double?
 
         public init(
-            lat: Swift.Double = 0.0,
-            lon: Swift.Double = 0.0
+            lat: Swift.Double? = nil,
+            lon: Swift.Double? = nil
         )
         {
             self.lat = lat
@@ -50928,17 +50928,17 @@ extension GetInvitationsCountOutput: ClientRuntime.HttpResponseBinding {
             let output: GetInvitationsCountOutputBody = try responseDecoder.decode(responseBody: data)
             self.invitationsCount = output.invitationsCount
         } else {
-            self.invitationsCount = 0
+            self.invitationsCount = nil
         }
     }
 }
 
 public struct GetInvitationsCountOutput: Swift.Equatable {
     /// The number of all membership invitations sent to this Security Hub member account, not including the currently accepted invitation.
-    public var invitationsCount: Swift.Int
+    public var invitationsCount: Swift.Int?
 
     public init(
-        invitationsCount: Swift.Int = 0
+        invitationsCount: Swift.Int? = nil
     )
     {
         self.invitationsCount = invitationsCount
@@ -50946,7 +50946,7 @@ public struct GetInvitationsCountOutput: Swift.Equatable {
 }
 
 struct GetInvitationsCountOutputBody: Swift.Equatable {
-    let invitationsCount: Swift.Int
+    let invitationsCount: Swift.Int?
 }
 
 extension GetInvitationsCountOutputBody: Swift.Decodable {
@@ -50956,7 +50956,7 @@ extension GetInvitationsCountOutputBody: Swift.Decodable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let invitationsCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .invitationsCount) ?? 0
+        let invitationsCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .invitationsCount)
         invitationsCount = invitationsCountDecoded
     }
 }
@@ -51201,19 +51201,19 @@ extension SecurityHubClientTypes.IcmpTypeCode: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if code != 0 {
+        if let code = self.code {
             try encodeContainer.encode(code, forKey: .code)
         }
-        if type != 0 {
+        if let type = self.type {
             try encodeContainer.encode(type, forKey: .type)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let codeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .code) ?? 0
+        let codeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .code)
         code = codeDecoded
-        let typeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .type) ?? 0
+        let typeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .type)
         type = typeDecoded
     }
 }
@@ -51222,13 +51222,13 @@ extension SecurityHubClientTypes {
     /// An Internet Control Message Protocol (ICMP) type and code.
     public struct IcmpTypeCode: Swift.Equatable {
         /// The ICMP code for which to deny or allow access. To deny or allow all codes, use the value -1.
-        public var code: Swift.Int
+        public var code: Swift.Int?
         /// The ICMP type for which to deny or allow access. To deny or allow all types, use the value -1.
-        public var type: Swift.Int
+        public var type: Swift.Int?
 
         public init(
-            code: Swift.Int = 0,
-            type: Swift.Int = 0
+            code: Swift.Int? = nil,
+            type: Swift.Int? = nil
         )
         {
             self.code = code
@@ -51373,7 +51373,7 @@ extension SecurityHubClientTypes.InsightResultValue: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if count != 0 {
+        if let count = self.count {
             try encodeContainer.encode(count, forKey: .count)
         }
         if let groupByAttributeValue = self.groupByAttributeValue {
@@ -51385,7 +51385,7 @@ extension SecurityHubClientTypes.InsightResultValue: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let groupByAttributeValueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .groupByAttributeValue)
         groupByAttributeValue = groupByAttributeValueDecoded
-        let countDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .count) ?? 0
+        let countDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .count)
         count = countDecoded
     }
 }
@@ -51395,13 +51395,13 @@ extension SecurityHubClientTypes {
     public struct InsightResultValue: Swift.Equatable {
         /// The number of findings returned for each GroupByAttributeValue.
         /// This member is required.
-        public var count: Swift.Int
+        public var count: Swift.Int?
         /// The value of the attribute that the findings are grouped by for the insight whose results are returned by the GetInsightResults operation.
         /// This member is required.
         public var groupByAttributeValue: Swift.String?
 
         public init(
-            count: Swift.Int = 0,
+            count: Swift.Int? = nil,
             groupByAttributeValue: Swift.String? = nil
         )
         {
@@ -51943,7 +51943,7 @@ extension SecurityHubClientTypes.IpOrganizationDetails: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if asn != 0 {
+        if let asn = self.asn {
             try encodeContainer.encode(asn, forKey: .asn)
         }
         if let asnOrg = self.asnOrg {
@@ -51959,7 +51959,7 @@ extension SecurityHubClientTypes.IpOrganizationDetails: Swift.Codable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let asnDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .asn) ?? 0
+        let asnDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .asn)
         asn = asnDecoded
         let asnOrgDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .asnOrg)
         asnOrg = asnOrgDecoded
@@ -51974,7 +51974,7 @@ extension SecurityHubClientTypes {
     /// Provides information about an internet provider.
     public struct IpOrganizationDetails: Swift.Equatable {
         /// The Autonomous System Number (ASN) of the internet provider
-        public var asn: Swift.Int
+        public var asn: Swift.Int?
         /// The name of the organization that registered the ASN.
         public var asnOrg: Swift.String?
         /// The ISP information for the internet provider.
@@ -51983,7 +51983,7 @@ extension SecurityHubClientTypes {
         public var org: Swift.String?
 
         public init(
-            asn: Swift.Int = 0,
+            asn: Swift.Int? = nil,
             asnOrg: Swift.String? = nil,
             isp: Swift.String? = nil,
             org: Swift.String? = nil
@@ -53716,7 +53716,7 @@ extension SecurityHubClientTypes.Network: Swift.Codable {
         if let destinationIpV6 = self.destinationIpV6 {
             try encodeContainer.encode(destinationIpV6, forKey: .destinationIpV6)
         }
-        if destinationPort != 0 {
+        if let destinationPort = self.destinationPort {
             try encodeContainer.encode(destinationPort, forKey: .destinationPort)
         }
         if let direction = self.direction {
@@ -53740,7 +53740,7 @@ extension SecurityHubClientTypes.Network: Swift.Codable {
         if let sourceMac = self.sourceMac {
             try encodeContainer.encode(sourceMac, forKey: .sourceMac)
         }
-        if sourcePort != 0 {
+        if let sourcePort = self.sourcePort {
             try encodeContainer.encode(sourcePort, forKey: .sourcePort)
         }
     }
@@ -53757,7 +53757,7 @@ extension SecurityHubClientTypes.Network: Swift.Codable {
         sourceIpV4 = sourceIpV4Decoded
         let sourceIpV6Decoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceIpV6)
         sourceIpV6 = sourceIpV6Decoded
-        let sourcePortDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .sourcePort) ?? 0
+        let sourcePortDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .sourcePort)
         sourcePort = sourcePortDecoded
         let sourceDomainDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceDomain)
         sourceDomain = sourceDomainDecoded
@@ -53767,7 +53767,7 @@ extension SecurityHubClientTypes.Network: Swift.Codable {
         destinationIpV4 = destinationIpV4Decoded
         let destinationIpV6Decoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .destinationIpV6)
         destinationIpV6 = destinationIpV6Decoded
-        let destinationPortDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .destinationPort) ?? 0
+        let destinationPortDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .destinationPort)
         destinationPort = destinationPortDecoded
         let destinationDomainDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .destinationDomain)
         destinationDomain = destinationDomainDecoded
@@ -53784,7 +53784,7 @@ extension SecurityHubClientTypes {
         /// The destination IPv6 address of network-related information about a finding.
         public var destinationIpV6: Swift.String?
         /// The destination port of network-related information about a finding.
-        public var destinationPort: Swift.Int
+        public var destinationPort: Swift.Int?
         /// The direction of network traffic associated with a finding.
         public var direction: SecurityHubClientTypes.NetworkDirection?
         /// The range of open ports that is present on the network.
@@ -53800,13 +53800,13 @@ extension SecurityHubClientTypes {
         /// The source media access control (MAC) address of network-related information about a finding.
         public var sourceMac: Swift.String?
         /// The source port of network-related information about a finding.
-        public var sourcePort: Swift.Int
+        public var sourcePort: Swift.Int?
 
         public init(
             destinationDomain: Swift.String? = nil,
             destinationIpV4: Swift.String? = nil,
             destinationIpV6: Swift.String? = nil,
-            destinationPort: Swift.Int = 0,
+            destinationPort: Swift.Int? = nil,
             direction: SecurityHubClientTypes.NetworkDirection? = nil,
             openPortRange: SecurityHubClientTypes.PortRange? = nil,
             `protocol`: Swift.String? = nil,
@@ -53814,7 +53814,7 @@ extension SecurityHubClientTypes {
             sourceIpV4: Swift.String? = nil,
             sourceIpV6: Swift.String? = nil,
             sourceMac: Swift.String? = nil,
-            sourcePort: Swift.Int = 0
+            sourcePort: Swift.Int? = nil
         )
         {
             self.destinationDomain = destinationDomain
@@ -53846,7 +53846,7 @@ extension SecurityHubClientTypes.NetworkConnectionAction: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if blocked != false {
+        if let blocked = self.blocked {
             try encodeContainer.encode(blocked, forKey: .blocked)
         }
         if let connectionDirection = self.connectionDirection {
@@ -53878,7 +53878,7 @@ extension SecurityHubClientTypes.NetworkConnectionAction: Swift.Codable {
         localPortDetails = localPortDetailsDecoded
         let protocolDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .protocol)
         `protocol` = protocolDecoded
-        let blockedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .blocked) ?? false
+        let blockedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .blocked)
         blocked = blockedDecoded
     }
 }
@@ -53887,7 +53887,7 @@ extension SecurityHubClientTypes {
     /// Provided if ActionType is NETWORK_CONNECTION. It provides details about the attempted network connection that was detected.
     public struct NetworkConnectionAction: Swift.Equatable {
         /// Indicates whether the network connection attempt was blocked.
-        public var blocked: Swift.Bool
+        public var blocked: Swift.Bool?
         /// The direction of the network connection request (IN or OUT).
         public var connectionDirection: Swift.String?
         /// Information about the port on the EC2 instance.
@@ -53900,7 +53900,7 @@ extension SecurityHubClientTypes {
         public var remotePortDetails: SecurityHubClientTypes.ActionRemotePortDetails?
 
         public init(
-            blocked: Swift.Bool = false,
+            blocked: Swift.Bool? = nil,
             connectionDirection: Swift.String? = nil,
             localPortDetails: SecurityHubClientTypes.ActionLocalPortDetails? = nil,
             `protocol`: Swift.String? = nil,
@@ -54254,24 +54254,24 @@ extension SecurityHubClientTypes.NumberFilter: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if eq != 0.0 {
+        if let eq = self.eq {
             try encodeContainer.encode(eq, forKey: .eq)
         }
-        if gte != 0.0 {
+        if let gte = self.gte {
             try encodeContainer.encode(gte, forKey: .gte)
         }
-        if lte != 0.0 {
+        if let lte = self.lte {
             try encodeContainer.encode(lte, forKey: .lte)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let gteDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .gte) ?? 0.0
+        let gteDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .gte)
         gte = gteDecoded
-        let lteDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .lte) ?? 0.0
+        let lteDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .lte)
         lte = lteDecoded
-        let eqDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .eq) ?? 0.0
+        let eqDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .eq)
         eq = eqDecoded
     }
 }
@@ -54280,16 +54280,16 @@ extension SecurityHubClientTypes {
     /// A number filter for querying findings.
     public struct NumberFilter: Swift.Equatable {
         /// The equal-to condition to be applied to a single field when querying for findings.
-        public var eq: Swift.Double
+        public var eq: Swift.Double?
         /// The greater-than-equal condition to be applied to a single field when querying for findings.
-        public var gte: Swift.Double
+        public var gte: Swift.Double?
         /// The less-than-equal condition to be applied to a single field when querying for findings.
-        public var lte: Swift.Double
+        public var lte: Swift.Double?
 
         public init(
-            eq: Swift.Double = 0.0,
-            gte: Swift.Double = 0.0,
-            lte: Swift.Double = 0.0
+            eq: Swift.Double? = nil,
+            gte: Swift.Double? = nil,
+            lte: Swift.Double? = nil
         )
         {
             self.eq = eq
@@ -54450,14 +54450,14 @@ extension SecurityHubClientTypes.Page: Swift.Codable {
         if let offsetRange = self.offsetRange {
             try encodeContainer.encode(offsetRange, forKey: .offsetRange)
         }
-        if pageNumber != 0 {
+        if let pageNumber = self.pageNumber {
             try encodeContainer.encode(pageNumber, forKey: .pageNumber)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let pageNumberDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pageNumber) ?? 0
+        let pageNumberDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pageNumber)
         pageNumber = pageNumberDecoded
         let lineRangeDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.Range.self, forKey: .lineRange)
         lineRange = lineRangeDecoded
@@ -54474,12 +54474,12 @@ extension SecurityHubClientTypes {
         /// An occurrence of sensitive data detected in a binary text file.
         public var offsetRange: SecurityHubClientTypes.Range?
         /// The page number of the page that contains the sensitive data.
-        public var pageNumber: Swift.Int
+        public var pageNumber: Swift.Int?
 
         public init(
             lineRange: SecurityHubClientTypes.Range? = nil,
             offsetRange: SecurityHubClientTypes.Range? = nil,
-            pageNumber: Swift.Int = 0
+            pageNumber: Swift.Int? = nil
         )
         {
             self.lineRange = lineRange
@@ -54542,25 +54542,25 @@ extension SecurityHubClientTypes.PatchSummary: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if failedCount != 0 {
+        if let failedCount = self.failedCount {
             try encodeContainer.encode(failedCount, forKey: .failedCount)
         }
         if let id = self.id {
             try encodeContainer.encode(id, forKey: .id)
         }
-        if installedCount != 0 {
+        if let installedCount = self.installedCount {
             try encodeContainer.encode(installedCount, forKey: .installedCount)
         }
-        if installedOtherCount != 0 {
+        if let installedOtherCount = self.installedOtherCount {
             try encodeContainer.encode(installedOtherCount, forKey: .installedOtherCount)
         }
-        if installedPendingReboot != 0 {
+        if let installedPendingReboot = self.installedPendingReboot {
             try encodeContainer.encode(installedPendingReboot, forKey: .installedPendingReboot)
         }
-        if installedRejectedCount != 0 {
+        if let installedRejectedCount = self.installedRejectedCount {
             try encodeContainer.encode(installedRejectedCount, forKey: .installedRejectedCount)
         }
-        if missingCount != 0 {
+        if let missingCount = self.missingCount {
             try encodeContainer.encode(missingCount, forKey: .missingCount)
         }
         if let operation = self.operation {
@@ -54581,17 +54581,17 @@ extension SecurityHubClientTypes.PatchSummary: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
-        let installedCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .installedCount) ?? 0
+        let installedCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .installedCount)
         installedCount = installedCountDecoded
-        let missingCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .missingCount) ?? 0
+        let missingCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .missingCount)
         missingCount = missingCountDecoded
-        let failedCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .failedCount) ?? 0
+        let failedCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .failedCount)
         failedCount = failedCountDecoded
-        let installedOtherCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .installedOtherCount) ?? 0
+        let installedOtherCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .installedOtherCount)
         installedOtherCount = installedOtherCountDecoded
-        let installedRejectedCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .installedRejectedCount) ?? 0
+        let installedRejectedCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .installedRejectedCount)
         installedRejectedCount = installedRejectedCountDecoded
-        let installedPendingRebootDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .installedPendingReboot) ?? 0
+        let installedPendingRebootDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .installedPendingReboot)
         installedPendingReboot = installedPendingRebootDecoded
         let operationStartTimeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .operationStartTime)
         operationStartTime = operationStartTimeDecoded
@@ -54608,20 +54608,20 @@ extension SecurityHubClientTypes {
     /// Provides an overview of the patch compliance status for an instance against a selected compliance standard.
     public struct PatchSummary: Swift.Equatable {
         /// The number of patches from the compliance standard that failed to install.
-        public var failedCount: Swift.Int
+        public var failedCount: Swift.Int?
         /// The identifier of the compliance standard that was used to determine the patch compliance status.
         /// This member is required.
         public var id: Swift.String?
         /// The number of patches from the compliance standard that were installed successfully.
-        public var installedCount: Swift.Int
+        public var installedCount: Swift.Int?
         /// The number of installed patches that are not part of the compliance standard.
-        public var installedOtherCount: Swift.Int
+        public var installedOtherCount: Swift.Int?
         /// The number of patches that were applied, but that require the instance to be rebooted in order to be marked as installed.
-        public var installedPendingReboot: Swift.Int
+        public var installedPendingReboot: Swift.Int?
         /// The number of patches that are installed but are also on a list of patches that the customer rejected.
-        public var installedRejectedCount: Swift.Int
+        public var installedRejectedCount: Swift.Int?
         /// The number of patches that are part of the compliance standard but are not installed. The count includes patches that failed to install.
-        public var missingCount: Swift.Int
+        public var missingCount: Swift.Int?
         /// The type of patch operation performed. For Patch Manager, the values are SCAN and INSTALL.
         public var operation: Swift.String?
         /// Indicates when the operation completed. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
@@ -54632,13 +54632,13 @@ extension SecurityHubClientTypes {
         public var rebootOption: Swift.String?
 
         public init(
-            failedCount: Swift.Int = 0,
+            failedCount: Swift.Int? = nil,
             id: Swift.String? = nil,
-            installedCount: Swift.Int = 0,
-            installedOtherCount: Swift.Int = 0,
-            installedPendingReboot: Swift.Int = 0,
-            installedRejectedCount: Swift.Int = 0,
-            missingCount: Swift.Int = 0,
+            installedCount: Swift.Int? = nil,
+            installedOtherCount: Swift.Int? = nil,
+            installedPendingReboot: Swift.Int? = nil,
+            installedRejectedCount: Swift.Int? = nil,
+            missingCount: Swift.Int? = nil,
             operation: Swift.String? = nil,
             operationEndTime: Swift.String? = nil,
             operationStartTime: Swift.String? = nil,
@@ -54669,7 +54669,7 @@ extension SecurityHubClientTypes.PortProbeAction: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if blocked != false {
+        if let blocked = self.blocked {
             try encodeContainer.encode(blocked, forKey: .blocked)
         }
         if let portProbeDetails = portProbeDetails {
@@ -54693,7 +54693,7 @@ extension SecurityHubClientTypes.PortProbeAction: Swift.Codable {
             }
         }
         portProbeDetails = portProbeDetailsDecoded0
-        let blockedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .blocked) ?? false
+        let blockedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .blocked)
         blocked = blockedDecoded
     }
 }
@@ -54702,12 +54702,12 @@ extension SecurityHubClientTypes {
     /// Provided if ActionType is PORT_PROBE. It provides details about the attempted port probe that was detected.
     public struct PortProbeAction: Swift.Equatable {
         /// Indicates whether the port probe was blocked.
-        public var blocked: Swift.Bool
+        public var blocked: Swift.Bool?
         /// Information about the ports affected by the port probe.
         public var portProbeDetails: [SecurityHubClientTypes.PortProbeDetail]?
 
         public init(
-            blocked: Swift.Bool = false,
+            blocked: Swift.Bool? = nil,
             portProbeDetails: [SecurityHubClientTypes.PortProbeDetail]? = nil
         )
         {
@@ -54781,19 +54781,19 @@ extension SecurityHubClientTypes.PortRange: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if begin != 0 {
+        if let begin = self.begin {
             try encodeContainer.encode(begin, forKey: .begin)
         }
-        if end != 0 {
+        if let end = self.end {
             try encodeContainer.encode(end, forKey: .end)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let beginDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .begin) ?? 0
+        let beginDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .begin)
         begin = beginDecoded
-        let endDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .end) ?? 0
+        let endDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .end)
         end = endDecoded
     }
 }
@@ -54802,13 +54802,13 @@ extension SecurityHubClientTypes {
     /// A range of ports.
     public struct PortRange: Swift.Equatable {
         /// The first port in the port range.
-        public var begin: Swift.Int
+        public var begin: Swift.Int?
         /// The last port in the port range.
-        public var end: Swift.Int
+        public var end: Swift.Int?
 
         public init(
-            begin: Swift.Int = 0,
-            end: Swift.Int = 0
+            begin: Swift.Int? = nil,
+            end: Swift.Int? = nil
         )
         {
             self.begin = begin
@@ -54826,19 +54826,19 @@ extension SecurityHubClientTypes.PortRangeFromTo: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if from != 0 {
+        if let from = self.from {
             try encodeContainer.encode(from, forKey: .from)
         }
-        if to != 0 {
+        if let to = self.to {
             try encodeContainer.encode(to, forKey: .to)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let fromDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .from) ?? 0
+        let fromDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .from)
         from = fromDecoded
-        let toDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .to) ?? 0
+        let toDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .to)
         to = toDecoded
     }
 }
@@ -54847,13 +54847,13 @@ extension SecurityHubClientTypes {
     /// A range of ports.
     public struct PortRangeFromTo: Swift.Equatable {
         /// The first port in the port range.
-        public var from: Swift.Int
+        public var from: Swift.Int?
         /// The last port in the port range.
-        public var to: Swift.Int
+        public var to: Swift.Int?
 
         public init(
-            from: Swift.Int = 0,
-            to: Swift.Int = 0
+            from: Swift.Int? = nil,
+            to: Swift.Int? = nil
         )
         {
             self.from = from
@@ -54881,13 +54881,13 @@ extension SecurityHubClientTypes.ProcessDetails: Swift.Codable {
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
         }
-        if parentPid != 0 {
+        if let parentPid = self.parentPid {
             try encodeContainer.encode(parentPid, forKey: .parentPid)
         }
         if let path = self.path {
             try encodeContainer.encode(path, forKey: .path)
         }
-        if pid != 0 {
+        if let pid = self.pid {
             try encodeContainer.encode(pid, forKey: .pid)
         }
         if let terminatedAt = self.terminatedAt {
@@ -54901,9 +54901,9 @@ extension SecurityHubClientTypes.ProcessDetails: Swift.Codable {
         name = nameDecoded
         let pathDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .path)
         path = pathDecoded
-        let pidDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pid) ?? 0
+        let pidDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pid)
         pid = pidDecoded
-        let parentPidDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .parentPid) ?? 0
+        let parentPidDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .parentPid)
         parentPid = parentPidDecoded
         let launchedAtDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .launchedAt)
         launchedAt = launchedAtDecoded
@@ -54920,20 +54920,20 @@ extension SecurityHubClientTypes {
         /// The name of the process.
         public var name: Swift.String?
         /// The parent process ID. This field accepts positive integers between O and 2147483647.
-        public var parentPid: Swift.Int
+        public var parentPid: Swift.Int?
         /// The path to the process executable.
         public var path: Swift.String?
         /// The process ID.
-        public var pid: Swift.Int
+        public var pid: Swift.Int?
         /// Indicates when the process was terminated. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public var terminatedAt: Swift.String?
 
         public init(
             launchedAt: Swift.String? = nil,
             name: Swift.String? = nil,
-            parentPid: Swift.Int = 0,
+            parentPid: Swift.Int? = nil,
             path: Swift.String? = nil,
-            pid: Swift.Int = 0,
+            pid: Swift.Int? = nil,
             terminatedAt: Swift.String? = nil
         )
         {
@@ -55138,24 +55138,24 @@ extension SecurityHubClientTypes.Range: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if end != 0 {
+        if let end = self.end {
             try encodeContainer.encode(end, forKey: .end)
         }
-        if start != 0 {
+        if let start = self.start {
             try encodeContainer.encode(start, forKey: .start)
         }
-        if startColumn != 0 {
+        if let startColumn = self.startColumn {
             try encodeContainer.encode(startColumn, forKey: .startColumn)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let startDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .start) ?? 0
+        let startDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .start)
         start = startDecoded
-        let endDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .end) ?? 0
+        let endDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .end)
         end = endDecoded
-        let startColumnDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .startColumn) ?? 0
+        let startColumnDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .startColumn)
         startColumn = startColumnDecoded
     }
 }
@@ -55164,16 +55164,16 @@ extension SecurityHubClientTypes {
     /// Identifies where the sensitive data begins and ends.
     public struct Range: Swift.Equatable {
         /// The number of lines (for a line range) or characters (for an offset range) from the beginning of the file to the end of the sensitive data.
-        public var end: Swift.Int
+        public var end: Swift.Int?
         /// The number of lines (for a line range) or characters (for an offset range) from the beginning of the file to the end of the sensitive data.
-        public var start: Swift.Int
+        public var start: Swift.Int?
         /// In the line where the sensitive data starts, the column within the line where the sensitive data starts.
-        public var startColumn: Swift.Int
+        public var startColumn: Swift.Int?
 
         public init(
-            end: Swift.Int = 0,
-            start: Swift.Int = 0,
-            startColumn: Swift.Int = 0
+            end: Swift.Int? = nil,
+            start: Swift.Int? = nil,
+            startColumn: Swift.Int? = nil
         )
         {
             self.end = end
@@ -55240,7 +55240,7 @@ extension SecurityHubClientTypes.Record: Swift.Codable {
         if let jsonPath = self.jsonPath {
             try encodeContainer.encode(jsonPath, forKey: .jsonPath)
         }
-        if recordIndex != 0 {
+        if let recordIndex = self.recordIndex {
             try encodeContainer.encode(recordIndex, forKey: .recordIndex)
         }
     }
@@ -55249,7 +55249,7 @@ extension SecurityHubClientTypes.Record: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let jsonPathDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jsonPath)
         jsonPath = jsonPathDecoded
-        let recordIndexDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .recordIndex) ?? 0
+        let recordIndexDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .recordIndex)
         recordIndex = recordIndexDecoded
     }
 }
@@ -55260,11 +55260,11 @@ extension SecurityHubClientTypes {
         /// The path, as a JSONPath expression, to the field in the record that contains the data. If the field name is longer than 20 characters, it is truncated. If the path is longer than 250 characters, it is truncated.
         public var jsonPath: Swift.String?
         /// The record index, starting from 0, for the record that contains the data.
-        public var recordIndex: Swift.Int
+        public var recordIndex: Swift.Int?
 
         public init(
             jsonPath: Swift.String? = nil,
-            recordIndex: Swift.Int = 0
+            recordIndex: Swift.Int? = nil
         )
         {
             self.jsonPath = jsonPath
@@ -57585,19 +57585,19 @@ extension SecurityHubClientTypes.RuleGroupSourceStatelessRuleMatchAttributesDest
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if fromPort != 0 {
+        if let fromPort = self.fromPort {
             try encodeContainer.encode(fromPort, forKey: .fromPort)
         }
-        if toPort != 0 {
+        if let toPort = self.toPort {
             try encodeContainer.encode(toPort, forKey: .toPort)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let fromPortDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .fromPort) ?? 0
+        let fromPortDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .fromPort)
         fromPort = fromPortDecoded
-        let toPortDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .toPort) ?? 0
+        let toPortDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .toPort)
         toPort = toPortDecoded
     }
 }
@@ -57606,13 +57606,13 @@ extension SecurityHubClientTypes {
     /// A port range to specify the destination ports to inspect for.
     public struct RuleGroupSourceStatelessRuleMatchAttributesDestinationPorts: Swift.Equatable {
         /// The starting port value for the port range.
-        public var fromPort: Swift.Int
+        public var fromPort: Swift.Int?
         /// The ending port value for the port range.
-        public var toPort: Swift.Int
+        public var toPort: Swift.Int?
 
         public init(
-            fromPort: Swift.Int = 0,
-            toPort: Swift.Int = 0
+            fromPort: Swift.Int? = nil,
+            toPort: Swift.Int? = nil
         )
         {
             self.fromPort = fromPort
@@ -57665,19 +57665,19 @@ extension SecurityHubClientTypes.RuleGroupSourceStatelessRuleMatchAttributesSour
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if fromPort != 0 {
+        if let fromPort = self.fromPort {
             try encodeContainer.encode(fromPort, forKey: .fromPort)
         }
-        if toPort != 0 {
+        if let toPort = self.toPort {
             try encodeContainer.encode(toPort, forKey: .toPort)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let fromPortDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .fromPort) ?? 0
+        let fromPortDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .fromPort)
         fromPort = fromPortDecoded
-        let toPortDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .toPort) ?? 0
+        let toPortDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .toPort)
         toPort = toPortDecoded
     }
 }
@@ -57686,13 +57686,13 @@ extension SecurityHubClientTypes {
     /// A port range to specify the source ports to inspect for.
     public struct RuleGroupSourceStatelessRuleMatchAttributesSourcePorts: Swift.Equatable {
         /// The starting port value for the port range.
-        public var fromPort: Swift.Int
+        public var fromPort: Swift.Int?
         /// The ending port value for the port range.
-        public var toPort: Swift.Int
+        public var toPort: Swift.Int?
 
         public init(
-            fromPort: Swift.Int = 0,
-            toPort: Swift.Int = 0
+            fromPort: Swift.Int? = nil,
+            toPort: Swift.Int? = nil
         )
         {
             self.fromPort = fromPort
@@ -57883,7 +57883,7 @@ extension SecurityHubClientTypes.RuleGroupSourceStatelessRulesDetails: Swift.Cod
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if priority != 0 {
+        if let priority = self.priority {
             try encodeContainer.encode(priority, forKey: .priority)
         }
         if let ruleDefinition = self.ruleDefinition {
@@ -57893,7 +57893,7 @@ extension SecurityHubClientTypes.RuleGroupSourceStatelessRulesDetails: Swift.Cod
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let priorityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .priority) ?? 0
+        let priorityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .priority)
         priority = priorityDecoded
         let ruleDefinitionDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.RuleGroupSourceStatelessRuleDefinition.self, forKey: .ruleDefinition)
         ruleDefinition = ruleDefinitionDecoded
@@ -57904,12 +57904,12 @@ extension SecurityHubClientTypes {
     /// A stateless rule in the rule group.
     public struct RuleGroupSourceStatelessRulesDetails: Swift.Equatable {
         /// Indicates the order in which to run this rule relative to all of the rules in the stateless rule group.
-        public var priority: Swift.Int
+        public var priority: Swift.Int?
         /// Provides the definition of the stateless rule.
         public var ruleDefinition: SecurityHubClientTypes.RuleGroupSourceStatelessRuleDefinition?
 
         public init(
-            priority: Swift.Int = 0,
+            priority: Swift.Int? = nil,
             ruleDefinition: SecurityHubClientTypes.RuleGroupSourceStatelessRuleDefinition? = nil
         )
         {
@@ -58293,7 +58293,7 @@ extension SecurityHubClientTypes.SensitiveDataDetections: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if count != 0 {
+        if let count = self.count {
             try encodeContainer.encode(count, forKey: .count)
         }
         if let occurrences = self.occurrences {
@@ -58306,7 +58306,7 @@ extension SecurityHubClientTypes.SensitiveDataDetections: Swift.Codable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let countDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .count) ?? 0
+        let countDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .count)
         count = countDecoded
         let typeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .type)
         type = typeDecoded
@@ -58319,14 +58319,14 @@ extension SecurityHubClientTypes {
     /// The list of detected instances of sensitive data.
     public struct SensitiveDataDetections: Swift.Equatable {
         /// The total number of occurrences of sensitive data that were detected.
-        public var count: Swift.Int
+        public var count: Swift.Int?
         /// Details about the sensitive data that was detected.
         public var occurrences: SecurityHubClientTypes.Occurrences?
         /// The type of sensitive data that was detected. For example, the type might indicate that the data is an email address.
         public var type: Swift.String?
 
         public init(
-            count: Swift.Int = 0,
+            count: Swift.Int? = nil,
             occurrences: SecurityHubClientTypes.Occurrences? = nil,
             type: Swift.String? = nil
         )
@@ -58357,7 +58357,7 @@ extension SecurityHubClientTypes.SensitiveDataResult: Swift.Codable {
                 try detectionsContainer.encode(sensitivedatadetections0)
             }
         }
-        if totalCount != 0 {
+        if let totalCount = self.totalCount {
             try encodeContainer.encode(totalCount, forKey: .totalCount)
         }
     }
@@ -58377,7 +58377,7 @@ extension SecurityHubClientTypes.SensitiveDataResult: Swift.Codable {
             }
         }
         detections = detectionsDecoded0
-        let totalCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalCount) ?? 0
+        let totalCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalCount)
         totalCount = totalCountDecoded
     }
 }
@@ -58390,12 +58390,12 @@ extension SecurityHubClientTypes {
         /// The list of detected instances of sensitive data.
         public var detections: [SecurityHubClientTypes.SensitiveDataDetections]?
         /// The total number of occurrences of sensitive data.
-        public var totalCount: Swift.Int
+        public var totalCount: Swift.Int?
 
         public init(
             category: Swift.String? = nil,
             detections: [SecurityHubClientTypes.SensitiveDataDetections]? = nil,
-            totalCount: Swift.Int = 0
+            totalCount: Swift.Int? = nil
         )
         {
             self.category = category
@@ -58419,24 +58419,24 @@ extension SecurityHubClientTypes.Severity: Swift.Codable {
         if let label = self.label {
             try encodeContainer.encode(label.rawValue, forKey: .label)
         }
-        if normalized != 0 {
+        if let normalized = self.normalized {
             try encodeContainer.encode(normalized, forKey: .normalized)
         }
         if let original = self.original {
             try encodeContainer.encode(original, forKey: .original)
         }
-        if product != 0.0 {
+        if let product = self.product {
             try encodeContainer.encode(product, forKey: .product)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let productDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .product) ?? 0.0
+        let productDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .product)
         product = productDecoded
         let labelDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.SeverityLabel.self, forKey: .label)
         label = labelDecoded
-        let normalizedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .normalized) ?? 0
+        let normalizedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .normalized)
         normalized = normalizedDecoded
         let originalDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .original)
         original = originalDecoded
@@ -58482,17 +58482,17 @@ extension SecurityHubClientTypes {
         /// * HIGH - 70
         ///
         /// * CRITICAL - 90
-        public var normalized: Swift.Int
+        public var normalized: Swift.Int?
         /// The native severity from the finding product that generated the finding.
         public var original: Swift.String?
         /// Deprecated. This attribute is being deprecated. Instead of providing Product, provide Original. The native severity as defined by the Amazon Web Services service or integrated partner product that generated the finding.
-        public var product: Swift.Double
+        public var product: Swift.Double?
 
         public init(
             label: SecurityHubClientTypes.SeverityLabel? = nil,
-            normalized: Swift.Int = 0,
+            normalized: Swift.Int? = nil,
             original: Swift.String? = nil,
-            product: Swift.Double = 0.0
+            product: Swift.Double? = nil
         )
         {
             self.label = label
@@ -58595,19 +58595,19 @@ extension SecurityHubClientTypes.SeverityUpdate: Swift.Codable {
         if let label = self.label {
             try encodeContainer.encode(label.rawValue, forKey: .label)
         }
-        if normalized != 0 {
+        if let normalized = self.normalized {
             try encodeContainer.encode(normalized, forKey: .normalized)
         }
-        if product != 0.0 {
+        if let product = self.product {
             try encodeContainer.encode(product, forKey: .product)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let normalizedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .normalized) ?? 0
+        let normalizedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .normalized)
         normalized = normalizedDecoded
-        let productDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .product) ?? 0.0
+        let productDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .product)
         product = productDecoded
         let labelDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.SeverityLabel.self, forKey: .label)
         label = labelDecoded
@@ -58640,14 +58640,14 @@ extension SecurityHubClientTypes {
         /// * 70–89 - HIGH
         ///
         /// * 90–100 - CRITICAL
-        public var normalized: Swift.Int
+        public var normalized: Swift.Int?
         /// The native severity as defined by the Amazon Web Services service or integrated partner product that generated the finding.
-        public var product: Swift.Double
+        public var product: Swift.Double?
 
         public init(
             label: SecurityHubClientTypes.SeverityLabel? = nil,
-            normalized: Swift.Int = 0,
-            product: Swift.Double = 0.0
+            normalized: Swift.Int? = nil,
+            product: Swift.Double? = nil
         )
         {
             self.label = label
@@ -58884,7 +58884,7 @@ extension SecurityHubClientTypes.Standard: Swift.Codable {
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
         }
-        if enabledByDefault != false {
+        if let enabledByDefault = self.enabledByDefault {
             try encodeContainer.encode(enabledByDefault, forKey: .enabledByDefault)
         }
         if let name = self.name {
@@ -58906,7 +58906,7 @@ extension SecurityHubClientTypes.Standard: Swift.Codable {
         name = nameDecoded
         let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
         description = descriptionDecoded
-        let enabledByDefaultDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabledByDefault) ?? false
+        let enabledByDefaultDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabledByDefault)
         enabledByDefault = enabledByDefaultDecoded
         let standardsManagedByDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.StandardsManagedBy.self, forKey: .standardsManagedBy)
         standardsManagedBy = standardsManagedByDecoded
@@ -58919,7 +58919,7 @@ extension SecurityHubClientTypes {
         /// A description of the standard.
         public var description: Swift.String?
         /// Whether the standard is enabled by default. When Security Hub is enabled from the console, if a standard is enabled by default, the check box for that standard is selected by default. When Security Hub is enabled using the EnableSecurityHub API operation, the standard is enabled by default unless EnableDefaultStandards is set to false.
-        public var enabledByDefault: Swift.Bool
+        public var enabledByDefault: Swift.Bool?
         /// The name of the standard.
         public var name: Swift.String?
         /// The ARN of a standard.
@@ -58929,7 +58929,7 @@ extension SecurityHubClientTypes {
 
         public init(
             description: Swift.String? = nil,
-            enabledByDefault: Swift.Bool = false,
+            enabledByDefault: Swift.Bool? = nil,
             name: Swift.String? = nil,
             standardsArn: Swift.String? = nil,
             standardsManagedBy: SecurityHubClientTypes.StandardsManagedBy? = nil
@@ -60182,7 +60182,7 @@ extension SecurityHubClientTypes.Threat: Swift.Codable {
                 try filePathsContainer.encode(filepaths0)
             }
         }
-        if itemCount != 0 {
+        if let itemCount = self.itemCount {
             try encodeContainer.encode(itemCount, forKey: .itemCount)
         }
         if let name = self.name {
@@ -60199,7 +60199,7 @@ extension SecurityHubClientTypes.Threat: Swift.Codable {
         name = nameDecoded
         let severityDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .severity)
         severity = severityDecoded
-        let itemCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .itemCount) ?? 0
+        let itemCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .itemCount)
         itemCount = itemCountDecoded
         let filePathsContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.FilePaths?].self, forKey: .filePaths)
         var filePathsDecoded0:[SecurityHubClientTypes.FilePaths]? = nil
@@ -60221,7 +60221,7 @@ extension SecurityHubClientTypes {
         /// Provides information about the file paths that were affected by the threat.
         public var filePaths: [SecurityHubClientTypes.FilePaths]?
         /// This total number of items in which the threat has been detected.
-        public var itemCount: Swift.Int
+        public var itemCount: Swift.Int?
         /// The name of the threat.
         public var name: Swift.String?
         /// The severity of the threat.
@@ -60229,7 +60229,7 @@ extension SecurityHubClientTypes {
 
         public init(
             filePaths: [SecurityHubClientTypes.FilePaths]? = nil,
-            itemCount: Swift.Int = 0,
+            itemCount: Swift.Int? = nil,
             name: Swift.String? = nil,
             severity: Swift.String? = nil
         )
@@ -60440,7 +60440,7 @@ extension SecurityHubClientTypes.UnprocessedAutomationRule: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if errorCode != 0 {
+        if let errorCode = self.errorCode {
             try encodeContainer.encode(errorCode, forKey: .errorCode)
         }
         if let errorMessage = self.errorMessage {
@@ -60455,7 +60455,7 @@ extension SecurityHubClientTypes.UnprocessedAutomationRule: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let ruleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ruleArn)
         ruleArn = ruleArnDecoded
-        let errorCodeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .errorCode) ?? 0
+        let errorCodeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .errorCode)
         errorCode = errorCodeDecoded
         let errorMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorMessage)
         errorMessage = errorMessageDecoded
@@ -60466,14 +60466,14 @@ extension SecurityHubClientTypes {
     /// A list of objects containing RuleArn, ErrorCode, and ErrorMessage. This parameter tells you which automation rules the request didn't process and why.
     public struct UnprocessedAutomationRule: Swift.Equatable {
         /// The error code associated with the unprocessed automation rule.
-        public var errorCode: Swift.Int
+        public var errorCode: Swift.Int?
         /// An error message describing why a request didn't process a specific rule.
         public var errorMessage: Swift.String?
         /// The Amazon Resource Name (ARN) for the unprocessed automation rule.
         public var ruleArn: Swift.String?
 
         public init(
-            errorCode: Swift.Int = 0,
+            errorCode: Swift.Int? = nil,
             errorMessage: Swift.String? = nil,
             ruleArn: Swift.String? = nil
         )
@@ -60888,7 +60888,7 @@ extension SecurityHubClientTypes.UpdateAutomationRulesRequestItem: Swift.Codable
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
         }
-        if isTerminal != false {
+        if let isTerminal = self.isTerminal {
             try encodeContainer.encode(isTerminal, forKey: .isTerminal)
         }
         if let ruleArn = self.ruleArn {
@@ -60897,7 +60897,7 @@ extension SecurityHubClientTypes.UpdateAutomationRulesRequestItem: Swift.Codable
         if let ruleName = self.ruleName {
             try encodeContainer.encode(ruleName, forKey: .ruleName)
         }
-        if ruleOrder != 0 {
+        if let ruleOrder = self.ruleOrder {
             try encodeContainer.encode(ruleOrder, forKey: .ruleOrder)
         }
         if let ruleStatus = self.ruleStatus {
@@ -60911,13 +60911,13 @@ extension SecurityHubClientTypes.UpdateAutomationRulesRequestItem: Swift.Codable
         ruleArn = ruleArnDecoded
         let ruleStatusDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.RuleStatus.self, forKey: .ruleStatus)
         ruleStatus = ruleStatusDecoded
-        let ruleOrderDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .ruleOrder) ?? 0
+        let ruleOrderDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .ruleOrder)
         ruleOrder = ruleOrderDecoded
         let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
         description = descriptionDecoded
         let ruleNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ruleName)
         ruleName = ruleNameDecoded
-        let isTerminalDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isTerminal) ?? false
+        let isTerminalDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isTerminal)
         isTerminal = isTerminalDecoded
         let criteriaDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AutomationRulesFindingFilters.self, forKey: .criteria)
         criteria = criteriaDecoded
@@ -60945,14 +60945,14 @@ extension SecurityHubClientTypes {
         /// A description of the rule.
         public var description: Swift.String?
         /// Specifies whether a rule is the last to be applied with respect to a finding that matches the rule criteria. This is useful when a finding matches the criteria for multiple rules, and each rule has different actions. If a rule is terminal, Security Hub applies the rule action to a finding that matches the rule criteria and doesn't evaluate other rules for the finding. By default, a rule isn't terminal.
-        public var isTerminal: Swift.Bool
+        public var isTerminal: Swift.Bool?
         /// The Amazon Resource Name (ARN) for the rule.
         /// This member is required.
         public var ruleArn: Swift.String?
         /// The name of the rule.
         public var ruleName: Swift.String?
         /// An integer ranging from 1 to 1000 that represents the order in which the rule action is applied to findings. Security Hub applies rules with lower values for this parameter first.
-        public var ruleOrder: Swift.Int
+        public var ruleOrder: Swift.Int?
         /// Whether the rule is active after it is created. If this parameter is equal to ENABLED, Security Hub starts applying the rule to findings and finding updates after the rule is created. To change the value of this parameter after creating a rule, use [BatchUpdateAutomationRules](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_BatchUpdateAutomationRules.html).
         public var ruleStatus: SecurityHubClientTypes.RuleStatus?
 
@@ -60960,10 +60960,10 @@ extension SecurityHubClientTypes {
             actions: [SecurityHubClientTypes.AutomationRulesAction]? = nil,
             criteria: SecurityHubClientTypes.AutomationRulesFindingFilters? = nil,
             description: Swift.String? = nil,
-            isTerminal: Swift.Bool = false,
+            isTerminal: Swift.Bool? = nil,
             ruleArn: Swift.String? = nil,
             ruleName: Swift.String? = nil,
-            ruleOrder: Swift.Int = 0,
+            ruleOrder: Swift.Int? = nil,
             ruleStatus: SecurityHubClientTypes.RuleStatus? = nil
         )
         {
@@ -61788,24 +61788,24 @@ extension SecurityHubClientTypes.VpcInfoPeeringOptionsDetails: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if allowDnsResolutionFromRemoteVpc != false {
+        if let allowDnsResolutionFromRemoteVpc = self.allowDnsResolutionFromRemoteVpc {
             try encodeContainer.encode(allowDnsResolutionFromRemoteVpc, forKey: .allowDnsResolutionFromRemoteVpc)
         }
-        if allowEgressFromLocalClassicLinkToRemoteVpc != false {
+        if let allowEgressFromLocalClassicLinkToRemoteVpc = self.allowEgressFromLocalClassicLinkToRemoteVpc {
             try encodeContainer.encode(allowEgressFromLocalClassicLinkToRemoteVpc, forKey: .allowEgressFromLocalClassicLinkToRemoteVpc)
         }
-        if allowEgressFromLocalVpcToRemoteClassicLink != false {
+        if let allowEgressFromLocalVpcToRemoteClassicLink = self.allowEgressFromLocalVpcToRemoteClassicLink {
             try encodeContainer.encode(allowEgressFromLocalVpcToRemoteClassicLink, forKey: .allowEgressFromLocalVpcToRemoteClassicLink)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let allowDnsResolutionFromRemoteVpcDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowDnsResolutionFromRemoteVpc) ?? false
+        let allowDnsResolutionFromRemoteVpcDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowDnsResolutionFromRemoteVpc)
         allowDnsResolutionFromRemoteVpc = allowDnsResolutionFromRemoteVpcDecoded
-        let allowEgressFromLocalClassicLinkToRemoteVpcDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowEgressFromLocalClassicLinkToRemoteVpc) ?? false
+        let allowEgressFromLocalClassicLinkToRemoteVpcDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowEgressFromLocalClassicLinkToRemoteVpc)
         allowEgressFromLocalClassicLinkToRemoteVpc = allowEgressFromLocalClassicLinkToRemoteVpcDecoded
-        let allowEgressFromLocalVpcToRemoteClassicLinkDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowEgressFromLocalVpcToRemoteClassicLink) ?? false
+        let allowEgressFromLocalVpcToRemoteClassicLinkDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowEgressFromLocalVpcToRemoteClassicLink)
         allowEgressFromLocalVpcToRemoteClassicLink = allowEgressFromLocalVpcToRemoteClassicLinkDecoded
     }
 }
@@ -61814,16 +61814,16 @@ extension SecurityHubClientTypes {
     /// Provides information about the VPC peering connection options for the accepter or requester VPC.
     public struct VpcInfoPeeringOptionsDetails: Swift.Equatable {
         /// Indicates whether a local VPC can resolve public DNS hostnames to private IP addresses when queried from instances in a peer VPC.
-        public var allowDnsResolutionFromRemoteVpc: Swift.Bool
+        public var allowDnsResolutionFromRemoteVpc: Swift.Bool?
         /// Indicates whether a local ClassicLink connection can communicate with the peer VPC over the VPC peering connection.
-        public var allowEgressFromLocalClassicLinkToRemoteVpc: Swift.Bool
+        public var allowEgressFromLocalClassicLinkToRemoteVpc: Swift.Bool?
         /// Indicates whether a local VPC can communicate with a ClassicLink connection in the peer VPC over the VPC peering connection.
-        public var allowEgressFromLocalVpcToRemoteClassicLink: Swift.Bool
+        public var allowEgressFromLocalVpcToRemoteClassicLink: Swift.Bool?
 
         public init(
-            allowDnsResolutionFromRemoteVpc: Swift.Bool = false,
-            allowEgressFromLocalClassicLinkToRemoteVpc: Swift.Bool = false,
-            allowEgressFromLocalVpcToRemoteClassicLink: Swift.Bool = false
+            allowDnsResolutionFromRemoteVpc: Swift.Bool? = nil,
+            allowEgressFromLocalClassicLinkToRemoteVpc: Swift.Bool? = nil,
+            allowEgressFromLocalVpcToRemoteClassicLink: Swift.Bool? = nil
         )
         {
             self.allowDnsResolutionFromRemoteVpc = allowDnsResolutionFromRemoteVpc
@@ -61862,7 +61862,7 @@ extension SecurityHubClientTypes.Vulnerability: Swift.Codable {
                 try cvssContainer.encode(cvss0)
             }
         }
-        if epssScore != 0.0 {
+        if let epssScore = self.epssScore {
             try encodeContainer.encode(epssScore, forKey: .epssScore)
         }
         if let exploitAvailable = self.exploitAvailable {
@@ -61949,7 +61949,7 @@ extension SecurityHubClientTypes.Vulnerability: Swift.Codable {
         referenceUrls = referenceUrlsDecoded0
         let fixAvailableDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.VulnerabilityFixAvailable.self, forKey: .fixAvailable)
         fixAvailable = fixAvailableDecoded
-        let epssScoreDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .epssScore) ?? 0.0
+        let epssScoreDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .epssScore)
         epssScore = epssScoreDecoded
         let exploitAvailableDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.VulnerabilityExploitAvailable.self, forKey: .exploitAvailable)
         exploitAvailable = exploitAvailableDecoded
@@ -61975,7 +61975,7 @@ extension SecurityHubClientTypes {
         /// CVSS scores from the advisory related to the vulnerability.
         public var cvss: [SecurityHubClientTypes.Cvss]?
         /// The Exploit Prediction Scoring System (EPSS) score for a finding.
-        public var epssScore: Swift.Double
+        public var epssScore: Swift.Double?
         /// Whether an exploit is available for a finding.
         public var exploitAvailable: SecurityHubClientTypes.VulnerabilityExploitAvailable?
         /// Specifies if all vulnerable packages in a finding have a value for FixedInVersion and Remediation. This field is evaluated for each vulnerability Id based on the number of vulnerable packages that have a value for both FixedInVersion and Remediation. Valid values are as follows:
@@ -62001,7 +62001,7 @@ extension SecurityHubClientTypes {
         public init(
             codeVulnerabilities: [SecurityHubClientTypes.VulnerabilityCodeVulnerabilities]? = nil,
             cvss: [SecurityHubClientTypes.Cvss]? = nil,
-            epssScore: Swift.Double = 0.0,
+            epssScore: Swift.Double? = nil,
             exploitAvailable: SecurityHubClientTypes.VulnerabilityExploitAvailable? = nil,
             fixAvailable: SecurityHubClientTypes.VulnerabilityFixAvailable? = nil,
             id: Swift.String? = nil,

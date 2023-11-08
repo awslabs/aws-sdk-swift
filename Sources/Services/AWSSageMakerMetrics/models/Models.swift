@@ -13,7 +13,7 @@ extension SageMakerMetricsClientTypes.BatchPutMetricsError: Swift.Codable {
         if let code = self.code {
             try encodeContainer.encode(code.rawValue, forKey: .code)
         }
-        if metricIndex != 0 {
+        if let metricIndex = self.metricIndex {
             try encodeContainer.encode(metricIndex, forKey: .metricIndex)
         }
     }
@@ -22,7 +22,7 @@ extension SageMakerMetricsClientTypes.BatchPutMetricsError: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let codeDecoded = try containerValues.decodeIfPresent(SageMakerMetricsClientTypes.PutMetricsErrorCode.self, forKey: .code)
         code = codeDecoded
-        let metricIndexDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .metricIndex) ?? 0
+        let metricIndexDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .metricIndex)
         metricIndex = metricIndexDecoded
     }
 }
@@ -41,11 +41,11 @@ extension SageMakerMetricsClientTypes {
         /// * CONFLICT_ERROR: Multiple requests attempted to modify the same data simultaneously.
         public var code: SageMakerMetricsClientTypes.PutMetricsErrorCode?
         /// An index that corresponds to the metric in the request.
-        public var metricIndex: Swift.Int
+        public var metricIndex: Swift.Int?
 
         public init(
             code: SageMakerMetricsClientTypes.PutMetricsErrorCode? = nil,
-            metricIndex: Swift.Int = 0
+            metricIndex: Swift.Int? = nil
         )
         {
             self.code = code
@@ -244,7 +244,7 @@ extension SageMakerMetricsClientTypes.RawMetricData: Swift.Codable {
         if let timestamp = self.timestamp {
             try encodeContainer.encodeTimestamp(timestamp, format: .epochSeconds, forKey: .timestamp)
         }
-        if value != 0.0 {
+        if let value = self.value {
             try encodeContainer.encode(value, forKey: .value)
         }
     }
@@ -257,7 +257,7 @@ extension SageMakerMetricsClientTypes.RawMetricData: Swift.Codable {
         timestamp = timestampDecoded
         let stepDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .step)
         step = stepDecoded
-        let valueDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .value) ?? 0.0
+        let valueDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .value)
         value = valueDecoded
     }
 }
@@ -275,13 +275,13 @@ extension SageMakerMetricsClientTypes {
         public var timestamp: ClientRuntime.Date?
         /// The metric value.
         /// This member is required.
-        public var value: Swift.Double
+        public var value: Swift.Double?
 
         public init(
             metricName: Swift.String? = nil,
             step: Swift.Int? = nil,
             timestamp: ClientRuntime.Date? = nil,
-            value: Swift.Double = 0.0
+            value: Swift.Double? = nil
         )
         {
             self.metricName = metricName

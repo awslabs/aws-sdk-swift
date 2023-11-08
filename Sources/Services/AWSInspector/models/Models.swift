@@ -719,7 +719,7 @@ extension InspectorClientTypes.AssessmentRun: Swift.Codable {
         if let dataCollected = self.dataCollected {
             try encodeContainer.encode(dataCollected, forKey: .dataCollected)
         }
-        if durationInSeconds != 0 {
+        if let durationInSeconds = self.durationInSeconds {
             try encodeContainer.encode(durationInSeconds, forKey: .durationInSeconds)
         }
         if let findingCounts = findingCounts {
@@ -776,7 +776,7 @@ extension InspectorClientTypes.AssessmentRun: Swift.Codable {
         assessmentTemplateArn = assessmentTemplateArnDecoded
         let stateDecoded = try containerValues.decodeIfPresent(InspectorClientTypes.AssessmentRunState.self, forKey: .state)
         state = stateDecoded
-        let durationInSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .durationInSeconds) ?? 0
+        let durationInSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .durationInSeconds)
         durationInSeconds = durationInSecondsDecoded
         let rulesPackageArnsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .rulesPackageArns)
         var rulesPackageArnsDecoded0:[Swift.String]? = nil
@@ -865,7 +865,7 @@ extension InspectorClientTypes {
         public var dataCollected: Swift.Bool?
         /// The duration of the assessment run.
         /// This member is required.
-        public var durationInSeconds: Swift.Int
+        public var durationInSeconds: Swift.Int?
         /// Provides a total count of generated findings per severity.
         /// This member is required.
         public var findingCounts: [Swift.String:Swift.Int]?
@@ -899,7 +899,7 @@ extension InspectorClientTypes {
             completedAt: ClientRuntime.Date? = nil,
             createdAt: ClientRuntime.Date? = nil,
             dataCollected: Swift.Bool? = nil,
-            durationInSeconds: Swift.Int = 0,
+            durationInSeconds: Swift.Int? = nil,
             findingCounts: [Swift.String:Swift.Int]? = nil,
             name: Swift.String? = nil,
             notifications: [InspectorClientTypes.AssessmentRunNotification]? = nil,
@@ -1640,7 +1640,7 @@ extension InspectorClientTypes.AssessmentTemplate: Swift.Codable {
         if let createdAt = self.createdAt {
             try encodeContainer.encodeTimestamp(createdAt, format: .epochSeconds, forKey: .createdAt)
         }
-        if durationInSeconds != 0 {
+        if let durationInSeconds = self.durationInSeconds {
             try encodeContainer.encode(durationInSeconds, forKey: .durationInSeconds)
         }
         if let lastAssessmentRunArn = self.lastAssessmentRunArn {
@@ -1671,7 +1671,7 @@ extension InspectorClientTypes.AssessmentTemplate: Swift.Codable {
         name = nameDecoded
         let assessmentTargetArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .assessmentTargetArn)
         assessmentTargetArn = assessmentTargetArnDecoded
-        let durationInSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .durationInSeconds) ?? 0
+        let durationInSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .durationInSeconds)
         durationInSeconds = durationInSecondsDecoded
         let rulesPackageArnsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .rulesPackageArns)
         var rulesPackageArnsDecoded0:[Swift.String]? = nil
@@ -1721,7 +1721,7 @@ extension InspectorClientTypes {
         public var createdAt: ClientRuntime.Date?
         /// The duration in seconds specified for this assessment template. The default value is 3600 seconds (one hour). The maximum value is 86400 seconds (one day).
         /// This member is required.
-        public var durationInSeconds: Swift.Int
+        public var durationInSeconds: Swift.Int?
         /// The Amazon Resource Name (ARN) of the most recent assessment run associated with this assessment template. This value exists only when the value of assessmentRunCount is greaterpa than zero.
         public var lastAssessmentRunArn: Swift.String?
         /// The name of the assessment template.
@@ -1739,7 +1739,7 @@ extension InspectorClientTypes {
             assessmentRunCount: Swift.Int? = nil,
             assessmentTargetArn: Swift.String? = nil,
             createdAt: ClientRuntime.Date? = nil,
-            durationInSeconds: Swift.Int = 0,
+            durationInSeconds: Swift.Int? = nil,
             lastAssessmentRunArn: Swift.String? = nil,
             name: Swift.String? = nil,
             rulesPackageArns: [Swift.String]? = nil,
@@ -3924,19 +3924,19 @@ extension InspectorClientTypes.DurationRange: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if maxSeconds != 0 {
+        if let maxSeconds = self.maxSeconds {
             try encodeContainer.encode(maxSeconds, forKey: .maxSeconds)
         }
-        if minSeconds != 0 {
+        if let minSeconds = self.minSeconds {
             try encodeContainer.encode(minSeconds, forKey: .minSeconds)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let minSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .minSeconds) ?? 0
+        let minSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .minSeconds)
         minSeconds = minSecondsDecoded
-        let maxSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxSeconds) ?? 0
+        let maxSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxSeconds)
         maxSeconds = maxSecondsDecoded
     }
 }
@@ -3945,13 +3945,13 @@ extension InspectorClientTypes {
     /// This data type is used in the [AssessmentTemplateFilter] data type.
     public struct DurationRange: Swift.Equatable {
         /// The maximum value of the duration range. Must be less than or equal to 604800 seconds (1 week).
-        public var maxSeconds: Swift.Int
+        public var maxSeconds: Swift.Int?
         /// The minimum value of the duration range. Must be greater than zero.
-        public var minSeconds: Swift.Int
+        public var minSeconds: Swift.Int?
 
         public init(
-            maxSeconds: Swift.Int = 0,
-            minSeconds: Swift.Int = 0
+            maxSeconds: Swift.Int? = nil,
+            minSeconds: Swift.Int? = nil
         )
         {
             self.maxSeconds = maxSeconds

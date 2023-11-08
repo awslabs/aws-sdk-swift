@@ -23,12 +23,11 @@ import software.amazon.smithy.swift.codegen.middleware.MiddlewareExecutionGenera
 import software.amazon.smithy.swift.codegen.middleware.MiddlewareStep
 import software.amazon.smithy.swift.codegen.middleware.OperationMiddleware
 import software.amazon.smithy.swift.codegen.model.expectShape
+import software.amazon.smithy.swift.codegen.model.toUpperCamelCase
 
 data class PresignableOperation(
     val serviceId: String,
     val operationId: String,
-    // TODO ~ Implementation of embedded presigned URLs is TBD
-    // val presignedParameterId: String?
 )
 
 class PresignerGenerator : SwiftIntegration {
@@ -49,6 +48,19 @@ class PresignerGenerator : SwiftIntegration {
             delegator.useFileWriter("${ctx.settings.moduleName}/models/$inputType+Presigner.swift") { writer ->
                 var serviceConfig = AWSServiceConfig(writer, protoCtx)
                 renderPresigner(writer, ctx, delegator, op, inputType, serviceConfig)
+            }
+            // Expose presign-request as a method for service client object
+            val symbol = protoCtx.symbolProvider.toSymbol(protoCtx.service)
+            protoCtx.delegator.useFileWriter("./${ctx.settings.moduleName}/${symbol.name}.swift") { writer ->
+                renderPresignAPIInServiceClient(writer, symbol.name, op, inputType)
+            }
+        }
+        // Import FoundationeNetworking statement with preprocessor commands
+        if (presignOperations.isNotEmpty()) {
+            val symbol = protoCtx.symbolProvider.toSymbol(protoCtx.service)
+            protoCtx.delegator.useFileWriter("./${ctx.settings.moduleName}/${symbol.name}.swift") { writer ->
+                // In Linux, Foundation.URLRequest is moved to FoundationNetworking.
+                writer.addImport(packageName = "FoundationNetworking", importOnlyIfCanImport = true)
             }
         }
     }
@@ -102,6 +114,43 @@ class PresignerGenerator : SwiftIntegration {
                 }
                 writer.write("return $builtRequestName")
             }
+        }
+    }
+
+    private fun renderPresignAPIInServiceClient(
+        writer: SwiftWriter,
+        clientName: String,
+        op: OperationShape,
+        inputType: String
+    ) {
+        writer.apply {
+            openBlock("extension $clientName {", "}") {
+                val params = listOf("input: $inputType", "expiration: Foundation.TimeInterval")
+                val returnType = "URLRequest"
+                renderDocForPresignAPI(this, op, inputType)
+                openBlock("public func presignedRequestFor${op.toUpperCamelCase()}(${params.joinToString()}) async throws -> $returnType {", "}") {
+                    write("let presignedRequest = try await input.presign(config: config, expiration: expiration)")
+                    openBlock("guard let presignedRequest else {", "}") {
+                        write("throw ClientError.unknownError(\"Could not presign the request for the operation ${op.toUpperCamelCase()}.\")")
+                    }
+                    write("return try await URLRequest(sdkRequest: presignedRequest)")
+                }
+            }
+        }
+    }
+
+    private fun renderDocForPresignAPI(writer: SwiftWriter, op: OperationShape, inputType: String) {
+        writer.apply {
+            write("/// Presigns the request for ${op.toUpperCamelCase()} operation with the given input object $inputType.")
+            write("/// The presigned request will be valid for the given expiration, in seconds.")
+            write("///")
+            write("/// Below is the documentation for ${op.toUpperCamelCase()} operation:")
+            writeShapeDocs(op)
+            write("///")
+            write("/// - Parameter input: The input object for ${op.toUpperCamelCase()} operation used to construct request.")
+            write("/// - Parameter expiration: The duration (in seconds) the presigned request will be valid for.")
+            write("///")
+            write("/// - Returns: `URLRequest`: The presigned request for ${op.toUpperCamelCase()} operation.")
         }
     }
 

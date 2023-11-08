@@ -3321,7 +3321,7 @@ extension AthenaClientTypes.EngineConfiguration: Swift.Codable {
         if let defaultExecutorDpuSize = self.defaultExecutorDpuSize {
             try encodeContainer.encode(defaultExecutorDpuSize, forKey: .defaultExecutorDpuSize)
         }
-        if maxConcurrentDpus != 0 {
+        if let maxConcurrentDpus = self.maxConcurrentDpus {
             try encodeContainer.encode(maxConcurrentDpus, forKey: .maxConcurrentDpus)
         }
         if let sparkProperties = sparkProperties {
@@ -3336,7 +3336,7 @@ extension AthenaClientTypes.EngineConfiguration: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let coordinatorDpuSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .coordinatorDpuSize)
         coordinatorDpuSize = coordinatorDpuSizeDecoded
-        let maxConcurrentDpusDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxConcurrentDpus) ?? 0
+        let maxConcurrentDpusDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxConcurrentDpus)
         maxConcurrentDpus = maxConcurrentDpusDecoded
         let defaultExecutorDpuSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .defaultExecutorDpuSize)
         defaultExecutorDpuSize = defaultExecutorDpuSizeDecoded
@@ -3376,7 +3376,7 @@ extension AthenaClientTypes {
         public var defaultExecutorDpuSize: Swift.Int?
         /// The maximum number of DPUs that can run concurrently.
         /// This member is required.
-        public var maxConcurrentDpus: Swift.Int
+        public var maxConcurrentDpus: Swift.Int?
         /// Specifies custom jar files and Spark properties for use cases like cluster encryption, table formats, and general Spark tuning.
         public var sparkProperties: [Swift.String:Swift.String]?
 
@@ -3384,7 +3384,7 @@ extension AthenaClientTypes {
             additionalConfigs: [Swift.String:Swift.String]? = nil,
             coordinatorDpuSize: Swift.Int? = nil,
             defaultExecutorDpuSize: Swift.Int? = nil,
-            maxConcurrentDpus: Swift.Int = 0,
+            maxConcurrentDpus: Swift.Int? = nil,
             sparkProperties: [Swift.String:Swift.String]? = nil
         )
         {

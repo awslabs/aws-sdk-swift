@@ -659,7 +659,7 @@ public struct CreateDatastoreInput: Swift.Equatable {
     public var clientToken: Swift.String?
     /// The data store name.
     public var datastoreName: Swift.String?
-    /// The Amazon Resource Name (ARN) assigned to the AWS Key Management Service (AWS KMS) key for accessing encrypted data.
+    /// The Amazon Resource Name (ARN) assigned to the Key Management Service (KMS) key for accessing encrypted data.
     public var kmsKeyArn: Swift.String?
     /// The tags provided when creating a data store.
     public var tags: [Swift.String:Swift.String]?
@@ -1346,7 +1346,7 @@ extension MedicalImagingClientTypes {
         /// The data store status.
         /// This member is required.
         public var datastoreStatus: MedicalImagingClientTypes.DatastoreStatus?
-        /// The Amazon Resource Name (ARN) assigned to the AWS Key Management Service (AWS KMS) key for accessing encrypted data.
+        /// The Amazon Resource Name (ARN) assigned to the Key Management Service (KMS) key for accessing encrypted data.
         public var kmsKeyArn: Swift.String?
         /// The timestamp when the data store was last updated.
         public var updatedAt: ClientRuntime.Date?
@@ -2701,14 +2701,14 @@ extension MedicalImagingClientTypes.ImageSetsMetadataSummary: Swift.Codable {
 extension MedicalImagingClientTypes {
     /// Summary of the image set metadata.
     public struct ImageSetsMetadataSummary: Swift.Equatable {
-        /// The time an image set is created in AWS HealthImaging. Sample creation date is provided in 1985-04-12T23:20:50.52Z format.
+        /// The time an image set is created. Sample creation date is provided in 1985-04-12T23:20:50.52Z format.
         public var createdAt: ClientRuntime.Date?
         /// The DICOM tags associated with the image set.
         public var dicomTags: MedicalImagingClientTypes.DICOMTags?
         /// The image set identifier.
         /// This member is required.
         public var imageSetId: Swift.String?
-        /// The time when an image was last updated in AWS HealthImaging.
+        /// The time an image set was last updated.
         public var updatedAt: ClientRuntime.Date?
         /// The image set version.
         public var version: Swift.Int?
@@ -4602,7 +4602,7 @@ extension ValidationException {
     }
 }
 
-/// The input fails to satisfy the constraints specified by an AWS service.
+/// The input fails to satisfy the constraints set by the service.
 public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {

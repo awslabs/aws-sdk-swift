@@ -500,7 +500,7 @@ extension SagemakerEdgeClientTypes.EdgeMetric: Swift.Codable {
         if let timestamp = self.timestamp {
             try encodeContainer.encodeTimestamp(timestamp, format: .epochSeconds, forKey: .timestamp)
         }
-        if value != 0.0 {
+        if let value = self.value {
             try encodeContainer.encode(value, forKey: .value)
         }
     }
@@ -511,7 +511,7 @@ extension SagemakerEdgeClientTypes.EdgeMetric: Swift.Codable {
         dimension = dimensionDecoded
         let metricNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .metricName)
         metricName = metricNameDecoded
-        let valueDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .value) ?? 0.0
+        let valueDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .value)
         value = valueDecoded
         let timestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .timestamp)
         timestamp = timestampDecoded
@@ -528,13 +528,13 @@ extension SagemakerEdgeClientTypes {
         /// Timestamp of when the metric was requested.
         public var timestamp: ClientRuntime.Date?
         /// Returns the value of the metric.
-        public var value: Swift.Double
+        public var value: Swift.Double?
 
         public init(
             dimension: Swift.String? = nil,
             metricName: Swift.String? = nil,
             timestamp: ClientRuntime.Date? = nil,
-            value: Swift.Double = 0.0
+            value: Swift.Double? = nil
         )
         {
             self.dimension = dimension

@@ -281,6 +281,37 @@ extension PaginatorSequence where Input == ListNodesInput, Output == ListNodesOu
     }
 }
 extension KafkaClient {
+    /// Paginate over `[ListReplicatorsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListReplicatorsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListReplicatorsOutput`
+    public func listReplicatorsPaginated(input: ListReplicatorsInput) -> ClientRuntime.PaginatorSequence<ListReplicatorsInput, ListReplicatorsOutput> {
+        return ClientRuntime.PaginatorSequence<ListReplicatorsInput, ListReplicatorsOutput>(input: input, inputKey: \ListReplicatorsInput.nextToken, outputKey: \ListReplicatorsOutput.nextToken, paginationFunction: self.listReplicators(input:))
+    }
+}
+
+extension ListReplicatorsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListReplicatorsInput {
+        return ListReplicatorsInput(
+            maxResults: self.maxResults,
+            nextToken: token,
+            replicatorNameFilter: self.replicatorNameFilter
+        )}
+}
+
+extension PaginatorSequence where Input == ListReplicatorsInput, Output == ListReplicatorsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listReplicatorsPaginated`
+    /// to access the nested member `[KafkaClientTypes.ReplicatorSummary]`
+    /// - Returns: `[KafkaClientTypes.ReplicatorSummary]`
+    public func replicators() async throws -> [KafkaClientTypes.ReplicatorSummary] {
+        return try await self.asyncCompactMap { item in item.replicators }
+    }
+}
+extension KafkaClient {
     /// Paginate over `[ListScramSecretsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

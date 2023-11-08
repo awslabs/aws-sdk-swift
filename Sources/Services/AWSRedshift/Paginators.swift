@@ -661,6 +661,38 @@ extension PaginatorSequence where Input == DescribeHsmConfigurationsInput, Outpu
     }
 }
 extension RedshiftClient {
+    /// Paginate over `[DescribeInboundIntegrationsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeInboundIntegrationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeInboundIntegrationsOutput`
+    public func describeInboundIntegrationsPaginated(input: DescribeInboundIntegrationsInput) -> ClientRuntime.PaginatorSequence<DescribeInboundIntegrationsInput, DescribeInboundIntegrationsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeInboundIntegrationsInput, DescribeInboundIntegrationsOutput>(input: input, inputKey: \DescribeInboundIntegrationsInput.marker, outputKey: \DescribeInboundIntegrationsOutput.marker, paginationFunction: self.describeInboundIntegrations(input:))
+    }
+}
+
+extension DescribeInboundIntegrationsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeInboundIntegrationsInput {
+        return DescribeInboundIntegrationsInput(
+            integrationArn: self.integrationArn,
+            marker: token,
+            maxRecords: self.maxRecords,
+            targetArn: self.targetArn
+        )}
+}
+
+extension PaginatorSequence where Input == DescribeInboundIntegrationsInput, Output == DescribeInboundIntegrationsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `describeInboundIntegrationsPaginated`
+    /// to access the nested member `[RedshiftClientTypes.InboundIntegration]`
+    /// - Returns: `[RedshiftClientTypes.InboundIntegration]`
+    public func inboundIntegrations() async throws -> [RedshiftClientTypes.InboundIntegration] {
+        return try await self.asyncCompactMap { item in item.inboundIntegrations }
+    }
+}
+extension RedshiftClient {
     /// Paginate over `[DescribeNodeConfigurationOptionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

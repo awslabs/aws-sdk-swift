@@ -4458,7 +4458,7 @@ extension GreengrassV2ClientTypes.IoTJobAbortCriteria: Swift.Codable {
         if let failureType = self.failureType {
             try encodeContainer.encode(failureType.rawValue, forKey: .failureType)
         }
-        if minNumberOfExecutedThings != 0 {
+        if let minNumberOfExecutedThings = self.minNumberOfExecutedThings {
             try encodeContainer.encode(minNumberOfExecutedThings, forKey: .minNumberOfExecutedThings)
         }
         if thresholdPercentage != 0.0 {
@@ -4474,7 +4474,7 @@ extension GreengrassV2ClientTypes.IoTJobAbortCriteria: Swift.Codable {
         action = actionDecoded
         let thresholdPercentageDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .thresholdPercentage) ?? 0.0
         thresholdPercentage = thresholdPercentageDecoded
-        let minNumberOfExecutedThingsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .minNumberOfExecutedThings) ?? 0
+        let minNumberOfExecutedThingsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .minNumberOfExecutedThings)
         minNumberOfExecutedThings = minNumberOfExecutedThingsDecoded
     }
 }
@@ -4494,7 +4494,7 @@ extension GreengrassV2ClientTypes {
         public var failureType: GreengrassV2ClientTypes.IoTJobExecutionFailureType?
         /// The minimum number of things that receive the configuration before the job can cancel.
         /// This member is required.
-        public var minNumberOfExecutedThings: Swift.Int
+        public var minNumberOfExecutedThings: Swift.Int?
         /// The minimum percentage of failureType failures that occur before the job can cancel. This parameter supports up to two digits after the decimal (for example, you can specify 10.9 or 10.99, but not 10.999).
         /// This member is required.
         public var thresholdPercentage: Swift.Double
@@ -4502,7 +4502,7 @@ extension GreengrassV2ClientTypes {
         public init(
             action: GreengrassV2ClientTypes.IoTJobAbortAction? = nil,
             failureType: GreengrassV2ClientTypes.IoTJobExecutionFailureType? = nil,
-            minNumberOfExecutedThings: Swift.Int = 0,
+            minNumberOfExecutedThings: Swift.Int? = nil,
             thresholdPercentage: Swift.Double = 0.0
         )
         {
@@ -4607,10 +4607,10 @@ extension GreengrassV2ClientTypes.IoTJobExponentialRolloutRate: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if baseRatePerMinute != 0 {
+        if let baseRatePerMinute = self.baseRatePerMinute {
             try encodeContainer.encode(baseRatePerMinute, forKey: .baseRatePerMinute)
         }
-        if incrementFactor != 0.0 {
+        if let incrementFactor = self.incrementFactor {
             try encodeContainer.encode(incrementFactor, forKey: .incrementFactor)
         }
         if let rateIncreaseCriteria = self.rateIncreaseCriteria {
@@ -4620,9 +4620,9 @@ extension GreengrassV2ClientTypes.IoTJobExponentialRolloutRate: Swift.Codable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let baseRatePerMinuteDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .baseRatePerMinute) ?? 0
+        let baseRatePerMinuteDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .baseRatePerMinute)
         baseRatePerMinute = baseRatePerMinuteDecoded
-        let incrementFactorDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .incrementFactor) ?? 0.0
+        let incrementFactorDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .incrementFactor)
         incrementFactor = incrementFactorDecoded
         let rateIncreaseCriteriaDecoded = try containerValues.decodeIfPresent(GreengrassV2ClientTypes.IoTJobRateIncreaseCriteria.self, forKey: .rateIncreaseCriteria)
         rateIncreaseCriteria = rateIncreaseCriteriaDecoded
@@ -4634,17 +4634,17 @@ extension GreengrassV2ClientTypes {
     public struct IoTJobExponentialRolloutRate: Swift.Equatable {
         /// The minimum number of devices that receive a pending job notification, per minute, when the job starts. This parameter defines the initial rollout rate of the job.
         /// This member is required.
-        public var baseRatePerMinute: Swift.Int
+        public var baseRatePerMinute: Swift.Int?
         /// The exponential factor to increase the rollout rate for the job. This parameter supports up to one digit after the decimal (for example, you can specify 1.5, but not 1.55).
         /// This member is required.
-        public var incrementFactor: Swift.Double
+        public var incrementFactor: Swift.Double?
         /// The criteria to increase the rollout rate for the job.
         /// This member is required.
         public var rateIncreaseCriteria: GreengrassV2ClientTypes.IoTJobRateIncreaseCriteria?
 
         public init(
-            baseRatePerMinute: Swift.Int = 0,
-            incrementFactor: Swift.Double = 0.0,
+            baseRatePerMinute: Swift.Int? = nil,
+            incrementFactor: Swift.Double? = nil,
             rateIncreaseCriteria: GreengrassV2ClientTypes.IoTJobRateIncreaseCriteria? = nil
         )
         {

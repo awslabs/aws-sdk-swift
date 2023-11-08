@@ -143,6 +143,71 @@ extension MigrationHubStrategyClientTypes {
     }
 }
 
+extension MigrationHubStrategyClientTypes.AnalyzableServerSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case hostname
+        case ipAddress
+        case source
+        case vmId
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let hostname = self.hostname {
+            try encodeContainer.encode(hostname, forKey: .hostname)
+        }
+        if let ipAddress = self.ipAddress {
+            try encodeContainer.encode(ipAddress, forKey: .ipAddress)
+        }
+        if let source = self.source {
+            try encodeContainer.encode(source, forKey: .source)
+        }
+        if let vmId = self.vmId {
+            try encodeContainer.encode(vmId, forKey: .vmId)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let hostnameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .hostname)
+        hostname = hostnameDecoded
+        let ipAddressDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ipAddress)
+        ipAddress = ipAddressDecoded
+        let sourceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .source)
+        source = sourceDecoded
+        let vmIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vmId)
+        vmId = vmIdDecoded
+    }
+}
+
+extension MigrationHubStrategyClientTypes {
+    /// Summary information about an analyzable server.
+    public struct AnalyzableServerSummary: Swift.Equatable {
+        /// The host name of the analyzable server.
+        public var hostname: Swift.String?
+        /// The ip address of the analyzable server.
+        public var ipAddress: Swift.String?
+        /// The data source of the analyzable server.
+        public var source: Swift.String?
+        /// The virtual machine id of the analyzable server.
+        public var vmId: Swift.String?
+
+        public init(
+            hostname: Swift.String? = nil,
+            ipAddress: Swift.String? = nil,
+            source: Swift.String? = nil,
+            vmId: Swift.String? = nil
+        )
+        {
+            self.hostname = hostname
+            self.ipAddress = ipAddress
+            self.source = source
+            self.vmId = vmId
+        }
+    }
+
+}
+
 extension MigrationHubStrategyClientTypes.AnalyzerNameUnion: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case binaryanalyzername = "binaryAnalyzerName"
@@ -1067,6 +1132,41 @@ extension MigrationHubStrategyClientTypes {
         }
     }
 
+}
+
+extension MigrationHubStrategyClientTypes {
+    public enum AssessmentDataSourceType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case ads
+        case manualImport
+        case srCollector
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AssessmentDataSourceType] {
+            return [
+                .ads,
+                .manualImport,
+                .srCollector,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .ads: return "ApplicationDiscoveryService"
+            case .manualImport: return "ManualImport"
+            case .srCollector: return "StrategyRecommendationsApplicationDataCollector"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AssessmentDataSourceType(rawValue: rawValue) ?? AssessmentDataSourceType.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension MigrationHubStrategyClientTypes {
@@ -2119,6 +2219,7 @@ extension MigrationHubStrategyClientTypes {
     public enum DataSourceType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case ads
         case `import`
+        case mhsrCollector
         case mpa
         case sdkUnknown(Swift.String)
 
@@ -2126,6 +2227,7 @@ extension MigrationHubStrategyClientTypes {
             return [
                 .ads,
                 .import,
+                .mhsrCollector,
                 .mpa,
                 .sdkUnknown("")
             ]
@@ -2138,6 +2240,7 @@ extension MigrationHubStrategyClientTypes {
             switch self {
             case .ads: return "ApplicationDiscoveryService"
             case .import: return "Import"
+            case .mhsrCollector: return "StrategyRecommendationsApplicationDataCollector"
             case .mpa: return "MPA"
             case let .sdkUnknown(s): return s
             }
@@ -4065,6 +4168,152 @@ extension InternalServerExceptionBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
+    }
+}
+
+extension ListAnalyzableServersInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults
+        case nextToken
+        case sort
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let sort = self.sort {
+            try encodeContainer.encode(sort.rawValue, forKey: .sort)
+        }
+    }
+}
+
+extension ListAnalyzableServersInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/list-analyzable-servers"
+    }
+}
+
+/// Represents input for ListAnalyzableServers operation.
+public struct ListAnalyzableServersInput: Swift.Equatable {
+    /// The maximum number of items to include in the response. The maximum value is 100.
+    public var maxResults: Swift.Int?
+    /// The token from a previous call that you use to retrieve the next set of results. For example, if a previous call to this action returned 100 items, but you set maxResults to 10. You'll receive a set of 10 results along with a token. You then use the returned token to retrieve the next set of 10.
+    public var nextToken: Swift.String?
+    /// Specifies whether to sort by ascending (ASC) or descending (DESC) order.
+    public var sort: MigrationHubStrategyClientTypes.SortOrder?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        sort: MigrationHubStrategyClientTypes.SortOrder? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.sort = sort
+    }
+}
+
+struct ListAnalyzableServersInputBody: Swift.Equatable {
+    let sort: MigrationHubStrategyClientTypes.SortOrder?
+    let nextToken: Swift.String?
+    let maxResults: Swift.Int?
+}
+
+extension ListAnalyzableServersInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults
+        case nextToken
+        case sort
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sortDecoded = try containerValues.decodeIfPresent(MigrationHubStrategyClientTypes.SortOrder.self, forKey: .sort)
+        sort = sortDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+    }
+}
+
+extension ListAnalyzableServersOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListAnalyzableServersOutputBody = try responseDecoder.decode(responseBody: data)
+            self.analyzableServers = output.analyzableServers
+            self.nextToken = output.nextToken
+        } else {
+            self.analyzableServers = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+/// Represents output for ListAnalyzableServers operation.
+public struct ListAnalyzableServersOutput: Swift.Equatable {
+    /// The list of analyzable servers with summary information about each server.
+    public var analyzableServers: [MigrationHubStrategyClientTypes.AnalyzableServerSummary]?
+    /// The token you use to retrieve the next set of results, or null if there are no more results.
+    public var nextToken: Swift.String?
+
+    public init(
+        analyzableServers: [MigrationHubStrategyClientTypes.AnalyzableServerSummary]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.analyzableServers = analyzableServers
+        self.nextToken = nextToken
+    }
+}
+
+struct ListAnalyzableServersOutputBody: Swift.Equatable {
+    let analyzableServers: [MigrationHubStrategyClientTypes.AnalyzableServerSummary]?
+    let nextToken: Swift.String?
+}
+
+extension ListAnalyzableServersOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case analyzableServers
+        case nextToken
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let analyzableServersContainer = try containerValues.decodeIfPresent([MigrationHubStrategyClientTypes.AnalyzableServerSummary?].self, forKey: .analyzableServers)
+        var analyzableServersDecoded0:[MigrationHubStrategyClientTypes.AnalyzableServerSummary]? = nil
+        if let analyzableServersContainer = analyzableServersContainer {
+            analyzableServersDecoded0 = [MigrationHubStrategyClientTypes.AnalyzableServerSummary]()
+            for structure0 in analyzableServersContainer {
+                if let structure0 = structure0 {
+                    analyzableServersDecoded0?.append(structure0)
+                }
+            }
+        }
+        analyzableServers = analyzableServersDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListAnalyzableServersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -6835,6 +7084,7 @@ extension MigrationHubStrategyClientTypes {
 
 extension StartAssessmentInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case assessmentDataSourceType
         case assessmentTargets
         case s3bucketForAnalysisData
         case s3bucketForReportData
@@ -6842,6 +7092,9 @@ extension StartAssessmentInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let assessmentDataSourceType = self.assessmentDataSourceType {
+            try encodeContainer.encode(assessmentDataSourceType.rawValue, forKey: .assessmentDataSourceType)
+        }
         if let assessmentTargets = assessmentTargets {
             var assessmentTargetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .assessmentTargets)
             for assessmenttarget0 in assessmentTargets {
@@ -6864,6 +7117,8 @@ extension StartAssessmentInput: ClientRuntime.URLPathProvider {
 }
 
 public struct StartAssessmentInput: Swift.Equatable {
+    /// The data source type of an assessment to be started.
+    public var assessmentDataSourceType: MigrationHubStrategyClientTypes.AssessmentDataSourceType?
     /// List of criteria for assessment.
     public var assessmentTargets: [MigrationHubStrategyClientTypes.AssessmentTarget]?
     /// The S3 bucket used by the collectors to send analysis data to the service. The bucket name must begin with migrationhub-strategy-.
@@ -6872,11 +7127,13 @@ public struct StartAssessmentInput: Swift.Equatable {
     public var s3bucketForReportData: Swift.String?
 
     public init(
+        assessmentDataSourceType: MigrationHubStrategyClientTypes.AssessmentDataSourceType? = nil,
         assessmentTargets: [MigrationHubStrategyClientTypes.AssessmentTarget]? = nil,
         s3bucketForAnalysisData: Swift.String? = nil,
         s3bucketForReportData: Swift.String? = nil
     )
     {
+        self.assessmentDataSourceType = assessmentDataSourceType
         self.assessmentTargets = assessmentTargets
         self.s3bucketForAnalysisData = s3bucketForAnalysisData
         self.s3bucketForReportData = s3bucketForReportData
@@ -6887,10 +7144,12 @@ struct StartAssessmentInputBody: Swift.Equatable {
     let s3bucketForAnalysisData: Swift.String?
     let s3bucketForReportData: Swift.String?
     let assessmentTargets: [MigrationHubStrategyClientTypes.AssessmentTarget]?
+    let assessmentDataSourceType: MigrationHubStrategyClientTypes.AssessmentDataSourceType?
 }
 
 extension StartAssessmentInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case assessmentDataSourceType
         case assessmentTargets
         case s3bucketForAnalysisData
         case s3bucketForReportData
@@ -6913,6 +7172,8 @@ extension StartAssessmentInputBody: Swift.Decodable {
             }
         }
         assessmentTargets = assessmentTargetsDecoded0
+        let assessmentDataSourceTypeDecoded = try containerValues.decodeIfPresent(MigrationHubStrategyClientTypes.AssessmentDataSourceType.self, forKey: .assessmentDataSourceType)
+        assessmentDataSourceType = assessmentDataSourceTypeDecoded
     }
 }
 

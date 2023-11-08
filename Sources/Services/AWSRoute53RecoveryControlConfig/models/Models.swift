@@ -63,6 +63,7 @@ extension Route53RecoveryControlConfigClientTypes.AssertionRule: Swift.Codable {
         case assertedControls = "AssertedControls"
         case controlPanelArn = "ControlPanelArn"
         case name = "Name"
+        case owner = "Owner"
         case ruleConfig = "RuleConfig"
         case safetyRuleArn = "SafetyRuleArn"
         case status = "Status"
@@ -82,6 +83,9 @@ extension Route53RecoveryControlConfigClientTypes.AssertionRule: Swift.Codable {
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
+        }
+        if let owner = self.owner {
+            try encodeContainer.encode(owner, forKey: .owner)
         }
         if let ruleConfig = self.ruleConfig {
             try encodeContainer.encode(ruleConfig, forKey: .ruleConfig)
@@ -122,6 +126,8 @@ extension Route53RecoveryControlConfigClientTypes.AssertionRule: Swift.Codable {
         status = statusDecoded
         let waitPeriodMsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .waitPeriodMs)
         waitPeriodMs = waitPeriodMsDecoded
+        let ownerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .owner)
+        owner = ownerDecoded
     }
 }
 
@@ -137,6 +143,8 @@ extension Route53RecoveryControlConfigClientTypes {
         /// Name of the assertion rule. You can use any non-white space character in the name.
         /// This member is required.
         public var name: Swift.String?
+        /// The Amazon Web Services account ID of the assertion rule owner.
+        public var owner: Swift.String?
         /// The criteria that you set for specific assertion routing controls (AssertedControls) that designate how many routing control states must be ON as the result of a transaction. For example, if you have three assertion routing controls, you might specify ATLEAST 2 for your rule configuration. This means that at least two assertion routing control states must be ON, so that at least two Amazon Web Services Regions have traffic flowing to them.
         /// This member is required.
         public var ruleConfig: Route53RecoveryControlConfigClientTypes.RuleConfig?
@@ -154,6 +162,7 @@ extension Route53RecoveryControlConfigClientTypes {
             assertedControls: [Swift.String]? = nil,
             controlPanelArn: Swift.String? = nil,
             name: Swift.String? = nil,
+            owner: Swift.String? = nil,
             ruleConfig: Route53RecoveryControlConfigClientTypes.RuleConfig? = nil,
             safetyRuleArn: Swift.String? = nil,
             status: Route53RecoveryControlConfigClientTypes.Status? = nil,
@@ -163,6 +172,7 @@ extension Route53RecoveryControlConfigClientTypes {
             self.assertedControls = assertedControls
             self.controlPanelArn = controlPanelArn
             self.name = name
+            self.owner = owner
             self.ruleConfig = ruleConfig
             self.safetyRuleArn = safetyRuleArn
             self.status = status
@@ -235,6 +245,7 @@ extension Route53RecoveryControlConfigClientTypes.Cluster: Swift.Codable {
         case clusterArn = "ClusterArn"
         case clusterEndpoints = "ClusterEndpoints"
         case name = "Name"
+        case owner = "Owner"
         case status = "Status"
     }
 
@@ -251,6 +262,9 @@ extension Route53RecoveryControlConfigClientTypes.Cluster: Swift.Codable {
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
+        }
+        if let owner = self.owner {
+            try encodeContainer.encode(owner, forKey: .owner)
         }
         if let status = self.status {
             try encodeContainer.encode(status.rawValue, forKey: .status)
@@ -276,6 +290,8 @@ extension Route53RecoveryControlConfigClientTypes.Cluster: Swift.Codable {
         name = nameDecoded
         let statusDecoded = try containerValues.decodeIfPresent(Route53RecoveryControlConfigClientTypes.Status.self, forKey: .status)
         status = statusDecoded
+        let ownerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .owner)
+        owner = ownerDecoded
     }
 }
 
@@ -288,6 +304,8 @@ extension Route53RecoveryControlConfigClientTypes {
         public var clusterEndpoints: [Route53RecoveryControlConfigClientTypes.ClusterEndpoint]?
         /// The name of the cluster.
         public var name: Swift.String?
+        /// The Amazon Web Services account ID of the cluster owner.
+        public var owner: Swift.String?
         /// Deployment status of a resource. Status can be one of the following: PENDING, DEPLOYED, PENDING_DELETION.
         public var status: Route53RecoveryControlConfigClientTypes.Status?
 
@@ -295,12 +313,14 @@ extension Route53RecoveryControlConfigClientTypes {
             clusterArn: Swift.String? = nil,
             clusterEndpoints: [Route53RecoveryControlConfigClientTypes.ClusterEndpoint]? = nil,
             name: Swift.String? = nil,
+            owner: Swift.String? = nil,
             status: Route53RecoveryControlConfigClientTypes.Status? = nil
         )
         {
             self.clusterArn = clusterArn
             self.clusterEndpoints = clusterEndpoints
             self.name = name
+            self.owner = owner
             self.status = status
         }
     }
@@ -414,6 +434,7 @@ extension Route53RecoveryControlConfigClientTypes.ControlPanel: Swift.Codable {
         case controlPanelArn = "ControlPanelArn"
         case defaultControlPanel = "DefaultControlPanel"
         case name = "Name"
+        case owner = "Owner"
         case routingControlCount = "RoutingControlCount"
         case status = "Status"
     }
@@ -431,6 +452,9 @@ extension Route53RecoveryControlConfigClientTypes.ControlPanel: Swift.Codable {
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
+        }
+        if let owner = self.owner {
+            try encodeContainer.encode(owner, forKey: .owner)
         }
         if let routingControlCount = self.routingControlCount {
             try encodeContainer.encode(routingControlCount, forKey: .routingControlCount)
@@ -454,6 +478,8 @@ extension Route53RecoveryControlConfigClientTypes.ControlPanel: Swift.Codable {
         routingControlCount = routingControlCountDecoded
         let statusDecoded = try containerValues.decodeIfPresent(Route53RecoveryControlConfigClientTypes.Status.self, forKey: .status)
         status = statusDecoded
+        let ownerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .owner)
+        owner = ownerDecoded
     }
 }
 
@@ -468,6 +494,8 @@ extension Route53RecoveryControlConfigClientTypes {
         public var defaultControlPanel: Swift.Bool?
         /// The name of the control panel. You can use any non-white space character in the name.
         public var name: Swift.String?
+        /// The Amazon Web Services account ID of the control panel owner.
+        public var owner: Swift.String?
         /// The number of routing controls in the control panel.
         public var routingControlCount: Swift.Int?
         /// The deployment status of control panel. Status can be one of the following: PENDING, DEPLOYED, PENDING_DELETION.
@@ -478,6 +506,7 @@ extension Route53RecoveryControlConfigClientTypes {
             controlPanelArn: Swift.String? = nil,
             defaultControlPanel: Swift.Bool? = nil,
             name: Swift.String? = nil,
+            owner: Swift.String? = nil,
             routingControlCount: Swift.Int? = nil,
             status: Route53RecoveryControlConfigClientTypes.Status? = nil
         )
@@ -486,6 +515,7 @@ extension Route53RecoveryControlConfigClientTypes {
             self.controlPanelArn = controlPanelArn
             self.defaultControlPanel = defaultControlPanel
             self.name = name
+            self.owner = owner
             self.routingControlCount = routingControlCount
             self.status = status
         }
@@ -1675,6 +1705,7 @@ extension Route53RecoveryControlConfigClientTypes.GatingRule: Swift.Codable {
         case controlPanelArn = "ControlPanelArn"
         case gatingControls = "GatingControls"
         case name = "Name"
+        case owner = "Owner"
         case ruleConfig = "RuleConfig"
         case safetyRuleArn = "SafetyRuleArn"
         case status = "Status"
@@ -1695,6 +1726,9 @@ extension Route53RecoveryControlConfigClientTypes.GatingRule: Swift.Codable {
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
+        }
+        if let owner = self.owner {
+            try encodeContainer.encode(owner, forKey: .owner)
         }
         if let ruleConfig = self.ruleConfig {
             try encodeContainer.encode(ruleConfig, forKey: .ruleConfig)
@@ -1752,6 +1786,8 @@ extension Route53RecoveryControlConfigClientTypes.GatingRule: Swift.Codable {
         targetControls = targetControlsDecoded0
         let waitPeriodMsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .waitPeriodMs)
         waitPeriodMs = waitPeriodMsDecoded
+        let ownerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .owner)
+        owner = ownerDecoded
     }
 }
 
@@ -1767,6 +1803,8 @@ extension Route53RecoveryControlConfigClientTypes {
         /// The name for the gating rule. You can use any non-white space character in the name.
         /// This member is required.
         public var name: Swift.String?
+        /// The Amazon Web Services account ID of the gating rule owner.
+        public var owner: Swift.String?
         /// The criteria that you set for gating routing controls that designate how many of the routing control states must be ON to allow you to update target routing control states.
         /// This member is required.
         public var ruleConfig: Route53RecoveryControlConfigClientTypes.RuleConfig?
@@ -1787,6 +1825,7 @@ extension Route53RecoveryControlConfigClientTypes {
             controlPanelArn: Swift.String? = nil,
             gatingControls: [Swift.String]? = nil,
             name: Swift.String? = nil,
+            owner: Swift.String? = nil,
             ruleConfig: Route53RecoveryControlConfigClientTypes.RuleConfig? = nil,
             safetyRuleArn: Swift.String? = nil,
             status: Route53RecoveryControlConfigClientTypes.Status? = nil,
@@ -1797,6 +1836,7 @@ extension Route53RecoveryControlConfigClientTypes {
             self.controlPanelArn = controlPanelArn
             self.gatingControls = gatingControls
             self.name = name
+            self.owner = owner
             self.ruleConfig = ruleConfig
             self.safetyRuleArn = safetyRuleArn
             self.status = status
@@ -1863,6 +1903,89 @@ extension Route53RecoveryControlConfigClientTypes {
         }
     }
 
+}
+
+extension GetResourcePolicyInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let resourceArn = resourceArn else {
+            return nil
+        }
+        return "/resourcePolicy/\(resourceArn.urlPercentEncoding())"
+    }
+}
+
+public struct GetResourcePolicyInput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the resource.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+
+    public init(
+        resourceArn: Swift.String? = nil
+    )
+    {
+        self.resourceArn = resourceArn
+    }
+}
+
+struct GetResourcePolicyInputBody: Swift.Equatable {
+}
+
+extension GetResourcePolicyInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension GetResourcePolicyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetResourcePolicyOutputBody = try responseDecoder.decode(responseBody: data)
+            self.policy = output.policy
+        } else {
+            self.policy = nil
+        }
+    }
+}
+
+public struct GetResourcePolicyOutput: Swift.Equatable {
+    /// The resource policy.
+    public var policy: Swift.String?
+
+    public init(
+        policy: Swift.String? = nil
+    )
+    {
+        self.policy = policy
+    }
+}
+
+struct GetResourcePolicyOutputBody: Swift.Equatable {
+    let policy: Swift.String?
+}
+
+extension GetResourcePolicyOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case policy = "Policy"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let policyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .policy)
+        policy = policyDecoded
+    }
+}
+
+enum GetResourcePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
 }
 
 extension InternalServerException {
@@ -2921,6 +3044,7 @@ extension Route53RecoveryControlConfigClientTypes.RoutingControl: Swift.Codable 
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case controlPanelArn = "ControlPanelArn"
         case name = "Name"
+        case owner = "Owner"
         case routingControlArn = "RoutingControlArn"
         case status = "Status"
     }
@@ -2932,6 +3056,9 @@ extension Route53RecoveryControlConfigClientTypes.RoutingControl: Swift.Codable 
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
+        }
+        if let owner = self.owner {
+            try encodeContainer.encode(owner, forKey: .owner)
         }
         if let routingControlArn = self.routingControlArn {
             try encodeContainer.encode(routingControlArn, forKey: .routingControlArn)
@@ -2951,6 +3078,8 @@ extension Route53RecoveryControlConfigClientTypes.RoutingControl: Swift.Codable 
         routingControlArn = routingControlArnDecoded
         let statusDecoded = try containerValues.decodeIfPresent(Route53RecoveryControlConfigClientTypes.Status.self, forKey: .status)
         status = statusDecoded
+        let ownerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .owner)
+        owner = ownerDecoded
     }
 }
 
@@ -2961,6 +3090,8 @@ extension Route53RecoveryControlConfigClientTypes {
         public var controlPanelArn: Swift.String?
         /// The name of the routing control.
         public var name: Swift.String?
+        /// The Amazon Web Services account ID of the routing control owner.
+        public var owner: Swift.String?
         /// The Amazon Resource Name (ARN) of the routing control.
         public var routingControlArn: Swift.String?
         /// The deployment status of a routing control. Status can be one of the following: PENDING, DEPLOYED, PENDING_DELETION.
@@ -2969,12 +3100,14 @@ extension Route53RecoveryControlConfigClientTypes {
         public init(
             controlPanelArn: Swift.String? = nil,
             name: Swift.String? = nil,
+            owner: Swift.String? = nil,
             routingControlArn: Swift.String? = nil,
             status: Route53RecoveryControlConfigClientTypes.Status? = nil
         )
         {
             self.controlPanelArn = controlPanelArn
             self.name = name
+            self.owner = owner
             self.routingControlArn = routingControlArn
             self.status = status
         }

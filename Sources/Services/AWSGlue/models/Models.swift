@@ -5982,6 +5982,8 @@ extension GlueClientTypes.CodeGenConfigurationNode: Swift.Codable {
         case catalogKinesisSource = "CatalogKinesisSource"
         case catalogSource = "CatalogSource"
         case catalogTarget = "CatalogTarget"
+        case connectorDataSource = "ConnectorDataSource"
+        case connectorDataTarget = "ConnectorDataTarget"
         case customCode = "CustomCode"
         case directJDBCSource = "DirectJDBCSource"
         case directKafkaSource = "DirectKafkaSource"
@@ -6076,6 +6078,12 @@ extension GlueClientTypes.CodeGenConfigurationNode: Swift.Codable {
         }
         if let catalogTarget = self.catalogTarget {
             try encodeContainer.encode(catalogTarget, forKey: .catalogTarget)
+        }
+        if let connectorDataSource = self.connectorDataSource {
+            try encodeContainer.encode(connectorDataSource, forKey: .connectorDataSource)
+        }
+        if let connectorDataTarget = self.connectorDataTarget {
+            try encodeContainer.encode(connectorDataTarget, forKey: .connectorDataTarget)
         }
         if let customCode = self.customCode {
             try encodeContainer.encode(customCode, forKey: .customCode)
@@ -6393,6 +6401,10 @@ extension GlueClientTypes.CodeGenConfigurationNode: Swift.Codable {
         snowflakeSource = snowflakeSourceDecoded
         let snowflakeTargetDecoded = try containerValues.decodeIfPresent(GlueClientTypes.SnowflakeTarget.self, forKey: .snowflakeTarget)
         snowflakeTarget = snowflakeTargetDecoded
+        let connectorDataSourceDecoded = try containerValues.decodeIfPresent(GlueClientTypes.ConnectorDataSource.self, forKey: .connectorDataSource)
+        connectorDataSource = connectorDataSourceDecoded
+        let connectorDataTargetDecoded = try containerValues.decodeIfPresent(GlueClientTypes.ConnectorDataTarget.self, forKey: .connectorDataTarget)
+        connectorDataTarget = connectorDataTargetDecoded
     }
 }
 
@@ -6421,6 +6433,10 @@ extension GlueClientTypes {
         public var catalogSource: GlueClientTypes.CatalogSource?
         /// Specifies a target that uses a Glue Data Catalog table.
         public var catalogTarget: GlueClientTypes.BasicCatalogTarget?
+        /// Specifies a source generated with standard connection options.
+        public var connectorDataSource: GlueClientTypes.ConnectorDataSource?
+        /// Specifies a target generated with standard connection options.
+        public var connectorDataTarget: GlueClientTypes.ConnectorDataTarget?
         /// Specifies a transform that uses custom code you provide to perform the data transformation. The output is a collection of DynamicFrames.
         public var customCode: GlueClientTypes.CustomCode?
         /// Specifies the direct JDBC source connection.
@@ -6550,6 +6566,8 @@ extension GlueClientTypes {
             catalogKinesisSource: GlueClientTypes.CatalogKinesisSource? = nil,
             catalogSource: GlueClientTypes.CatalogSource? = nil,
             catalogTarget: GlueClientTypes.BasicCatalogTarget? = nil,
+            connectorDataSource: GlueClientTypes.ConnectorDataSource? = nil,
+            connectorDataTarget: GlueClientTypes.ConnectorDataTarget? = nil,
             customCode: GlueClientTypes.CustomCode? = nil,
             directJDBCSource: GlueClientTypes.DirectJDBCSource? = nil,
             directKafkaSource: GlueClientTypes.DirectKafkaSource? = nil,
@@ -6621,6 +6639,8 @@ extension GlueClientTypes {
             self.catalogKinesisSource = catalogKinesisSource
             self.catalogSource = catalogSource
             self.catalogTarget = catalogTarget
+            self.connectorDataSource = connectorDataSource
+            self.connectorDataTarget = connectorDataTarget
             self.customCode = customCode
             self.directJDBCSource = directJDBCSource
             self.directKafkaSource = directKafkaSource
@@ -8505,6 +8525,194 @@ extension GlueClientTypes {
         )
         {
             self.connections = connections
+        }
+    }
+
+}
+
+extension GlueClientTypes.ConnectorDataSource: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case connectionType = "ConnectionType"
+        case data = "Data"
+        case name = "Name"
+        case outputSchemas = "OutputSchemas"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let connectionType = self.connectionType {
+            try encodeContainer.encode(connectionType, forKey: .connectionType)
+        }
+        if let data = data {
+            var dataContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .data)
+            for (dictKey0, connectorOptions0) in data {
+                try dataContainer.encode(connectorOptions0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let outputSchemas = outputSchemas {
+            var outputSchemasContainer = encodeContainer.nestedUnkeyedContainer(forKey: .outputSchemas)
+            for glueschema0 in outputSchemas {
+                try outputSchemasContainer.encode(glueschema0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let connectionTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .connectionType)
+        connectionType = connectionTypeDecoded
+        let dataContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .data)
+        var dataDecoded0: [Swift.String:Swift.String]? = nil
+        if let dataContainer = dataContainer {
+            dataDecoded0 = [Swift.String:Swift.String]()
+            for (key0, genericstring0) in dataContainer {
+                if let genericstring0 = genericstring0 {
+                    dataDecoded0?[key0] = genericstring0
+                }
+            }
+        }
+        data = dataDecoded0
+        let outputSchemasContainer = try containerValues.decodeIfPresent([GlueClientTypes.GlueSchema?].self, forKey: .outputSchemas)
+        var outputSchemasDecoded0:[GlueClientTypes.GlueSchema]? = nil
+        if let outputSchemasContainer = outputSchemasContainer {
+            outputSchemasDecoded0 = [GlueClientTypes.GlueSchema]()
+            for structure0 in outputSchemasContainer {
+                if let structure0 = structure0 {
+                    outputSchemasDecoded0?.append(structure0)
+                }
+            }
+        }
+        outputSchemas = outputSchemasDecoded0
+    }
+}
+
+extension GlueClientTypes {
+    /// Specifies a source generated with standard connection options.
+    public struct ConnectorDataSource: Swift.Equatable {
+        /// The connectionType, as provided to the underlying Glue library. This node type supports the following connection types:
+        ///
+        /// * bigquery
+        /// This member is required.
+        public var connectionType: Swift.String?
+        /// A map specifying connection options for the node. You can find standard connection options for the corresponding connection type in the [ Connection parameters](https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-etl-connect.html) section of the Glue documentation.
+        /// This member is required.
+        public var data: [Swift.String:Swift.String]?
+        /// The name of this source node.
+        /// This member is required.
+        public var name: Swift.String?
+        /// Specifies the data schema for this source.
+        public var outputSchemas: [GlueClientTypes.GlueSchema]?
+
+        public init(
+            connectionType: Swift.String? = nil,
+            data: [Swift.String:Swift.String]? = nil,
+            name: Swift.String? = nil,
+            outputSchemas: [GlueClientTypes.GlueSchema]? = nil
+        )
+        {
+            self.connectionType = connectionType
+            self.data = data
+            self.name = name
+            self.outputSchemas = outputSchemas
+        }
+    }
+
+}
+
+extension GlueClientTypes.ConnectorDataTarget: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case connectionType = "ConnectionType"
+        case data = "Data"
+        case inputs = "Inputs"
+        case name = "Name"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let connectionType = self.connectionType {
+            try encodeContainer.encode(connectionType, forKey: .connectionType)
+        }
+        if let data = data {
+            var dataContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .data)
+            for (dictKey0, connectorOptions0) in data {
+                try dataContainer.encode(connectorOptions0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let inputs = inputs {
+            var inputsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inputs)
+            for nodeid0 in inputs {
+                try inputsContainer.encode(nodeid0)
+            }
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let connectionTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .connectionType)
+        connectionType = connectionTypeDecoded
+        let dataContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .data)
+        var dataDecoded0: [Swift.String:Swift.String]? = nil
+        if let dataContainer = dataContainer {
+            dataDecoded0 = [Swift.String:Swift.String]()
+            for (key0, genericstring0) in dataContainer {
+                if let genericstring0 = genericstring0 {
+                    dataDecoded0?[key0] = genericstring0
+                }
+            }
+        }
+        data = dataDecoded0
+        let inputsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .inputs)
+        var inputsDecoded0:[Swift.String]? = nil
+        if let inputsContainer = inputsContainer {
+            inputsDecoded0 = [Swift.String]()
+            for string0 in inputsContainer {
+                if let string0 = string0 {
+                    inputsDecoded0?.append(string0)
+                }
+            }
+        }
+        inputs = inputsDecoded0
+    }
+}
+
+extension GlueClientTypes {
+    /// Specifies a target generated with standard connection options.
+    public struct ConnectorDataTarget: Swift.Equatable {
+        /// The connectionType, as provided to the underlying Glue library. This node type supports the following connection types:
+        ///
+        /// * bigquery
+        /// This member is required.
+        public var connectionType: Swift.String?
+        /// A map specifying connection options for the node. You can find standard connection options for the corresponding connection type in the [ Connection parameters](https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-etl-connect.html) section of the Glue documentation.
+        /// This member is required.
+        public var data: [Swift.String:Swift.String]?
+        /// The nodes that are inputs to the data target.
+        public var inputs: [Swift.String]?
+        /// The name of this target node.
+        /// This member is required.
+        public var name: Swift.String?
+
+        public init(
+            connectionType: Swift.String? = nil,
+            data: [Swift.String:Swift.String]? = nil,
+            inputs: [Swift.String]? = nil,
+            name: Swift.String? = nil
+        )
+        {
+            self.connectionType = connectionType
+            self.data = data
+            self.inputs = inputs
+            self.name = name
         }
     }
 
@@ -12903,12 +13111,12 @@ extension CreateSchemaOutput: ClientRuntime.HttpResponseBinding {
             self.compatibility = nil
             self.dataFormat = nil
             self.description = nil
-            self.latestSchemaVersion = 0
-            self.nextSchemaVersion = 0
+            self.latestSchemaVersion = nil
+            self.nextSchemaVersion = nil
             self.registryArn = nil
             self.registryName = nil
             self.schemaArn = nil
-            self.schemaCheckpoint = 0
+            self.schemaCheckpoint = nil
             self.schemaName = nil
             self.schemaStatus = nil
             self.schemaVersionId = nil
@@ -12926,9 +13134,9 @@ public struct CreateSchemaOutput: Swift.Equatable {
     /// A description of the schema if specified when created.
     public var description: Swift.String?
     /// The latest version of the schema associated with the returned schema definition.
-    public var latestSchemaVersion: Swift.Int
+    public var latestSchemaVersion: Swift.Int?
     /// The next version of the schema associated with the returned schema definition.
-    public var nextSchemaVersion: Swift.Int
+    public var nextSchemaVersion: Swift.Int?
     /// The Amazon Resource Name (ARN) of the registry.
     public var registryArn: Swift.String?
     /// The name of the registry.
@@ -12936,7 +13144,7 @@ public struct CreateSchemaOutput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the schema.
     public var schemaArn: Swift.String?
     /// The version number of the checkpoint (the last time the compatibility mode was changed).
-    public var schemaCheckpoint: Swift.Int
+    public var schemaCheckpoint: Swift.Int?
     /// The name of the schema.
     public var schemaName: Swift.String?
     /// The status of the schema.
@@ -12952,12 +13160,12 @@ public struct CreateSchemaOutput: Swift.Equatable {
         compatibility: GlueClientTypes.Compatibility? = nil,
         dataFormat: GlueClientTypes.DataFormat? = nil,
         description: Swift.String? = nil,
-        latestSchemaVersion: Swift.Int = 0,
-        nextSchemaVersion: Swift.Int = 0,
+        latestSchemaVersion: Swift.Int? = nil,
+        nextSchemaVersion: Swift.Int? = nil,
         registryArn: Swift.String? = nil,
         registryName: Swift.String? = nil,
         schemaArn: Swift.String? = nil,
-        schemaCheckpoint: Swift.Int = 0,
+        schemaCheckpoint: Swift.Int? = nil,
         schemaName: Swift.String? = nil,
         schemaStatus: GlueClientTypes.SchemaStatus? = nil,
         schemaVersionId: Swift.String? = nil,
@@ -12990,9 +13198,9 @@ struct CreateSchemaOutputBody: Swift.Equatable {
     let description: Swift.String?
     let dataFormat: GlueClientTypes.DataFormat?
     let compatibility: GlueClientTypes.Compatibility?
-    let schemaCheckpoint: Swift.Int
-    let latestSchemaVersion: Swift.Int
-    let nextSchemaVersion: Swift.Int
+    let schemaCheckpoint: Swift.Int?
+    let latestSchemaVersion: Swift.Int?
+    let nextSchemaVersion: Swift.Int?
     let schemaStatus: GlueClientTypes.SchemaStatus?
     let tags: [Swift.String:Swift.String]?
     let schemaVersionId: Swift.String?
@@ -13033,11 +13241,11 @@ extension CreateSchemaOutputBody: Swift.Decodable {
         dataFormat = dataFormatDecoded
         let compatibilityDecoded = try containerValues.decodeIfPresent(GlueClientTypes.Compatibility.self, forKey: .compatibility)
         compatibility = compatibilityDecoded
-        let schemaCheckpointDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .schemaCheckpoint) ?? 0
+        let schemaCheckpointDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .schemaCheckpoint)
         schemaCheckpoint = schemaCheckpointDecoded
-        let latestSchemaVersionDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .latestSchemaVersion) ?? 0
+        let latestSchemaVersionDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .latestSchemaVersion)
         latestSchemaVersion = latestSchemaVersionDecoded
-        let nextSchemaVersionDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .nextSchemaVersion) ?? 0
+        let nextSchemaVersionDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .nextSchemaVersion)
         nextSchemaVersion = nextSchemaVersionDecoded
         let schemaStatusDecoded = try containerValues.decodeIfPresent(GlueClientTypes.SchemaStatus.self, forKey: .schemaStatus)
         schemaStatus = schemaStatusDecoded
@@ -21193,7 +21401,7 @@ extension GlueClientTypes.EventBatchingCondition: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if batchSize != 0 {
+        if let batchSize = self.batchSize {
             try encodeContainer.encode(batchSize, forKey: .batchSize)
         }
         if let batchWindow = self.batchWindow {
@@ -21203,7 +21411,7 @@ extension GlueClientTypes.EventBatchingCondition: Swift.Codable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let batchSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .batchSize) ?? 0
+        let batchSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .batchSize)
         batchSize = batchSizeDecoded
         let batchWindowDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .batchWindow)
         batchWindow = batchWindowDecoded
@@ -21215,12 +21423,12 @@ extension GlueClientTypes {
     public struct EventBatchingCondition: Swift.Equatable {
         /// Number of events that must be received from Amazon EventBridge before EventBridge event trigger fires.
         /// This member is required.
-        public var batchSize: Swift.Int
+        public var batchSize: Swift.Int?
         /// Window of time in seconds after which EventBridge event trigger fires. Window starts when first event is received.
         public var batchWindow: Swift.Int?
 
         public init(
-            batchSize: Swift.Int = 0,
+            batchSize: Swift.Int? = nil,
             batchWindow: Swift.Int? = nil
         )
         {
@@ -29014,12 +29222,12 @@ extension GetSchemaOutput: ClientRuntime.HttpResponseBinding {
             self.createdTime = nil
             self.dataFormat = nil
             self.description = nil
-            self.latestSchemaVersion = 0
-            self.nextSchemaVersion = 0
+            self.latestSchemaVersion = nil
+            self.nextSchemaVersion = nil
             self.registryArn = nil
             self.registryName = nil
             self.schemaArn = nil
-            self.schemaCheckpoint = 0
+            self.schemaCheckpoint = nil
             self.schemaName = nil
             self.schemaStatus = nil
             self.updatedTime = nil
@@ -29037,9 +29245,9 @@ public struct GetSchemaOutput: Swift.Equatable {
     /// A description of schema if specified when created
     public var description: Swift.String?
     /// The latest version of the schema associated with the returned schema definition.
-    public var latestSchemaVersion: Swift.Int
+    public var latestSchemaVersion: Swift.Int?
     /// The next version of the schema associated with the returned schema definition.
-    public var nextSchemaVersion: Swift.Int
+    public var nextSchemaVersion: Swift.Int?
     /// The Amazon Resource Name (ARN) of the registry.
     public var registryArn: Swift.String?
     /// The name of the registry.
@@ -29047,7 +29255,7 @@ public struct GetSchemaOutput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the schema.
     public var schemaArn: Swift.String?
     /// The version number of the checkpoint (the last time the compatibility mode was changed).
-    public var schemaCheckpoint: Swift.Int
+    public var schemaCheckpoint: Swift.Int?
     /// The name of the schema.
     public var schemaName: Swift.String?
     /// The status of the schema.
@@ -29060,12 +29268,12 @@ public struct GetSchemaOutput: Swift.Equatable {
         createdTime: Swift.String? = nil,
         dataFormat: GlueClientTypes.DataFormat? = nil,
         description: Swift.String? = nil,
-        latestSchemaVersion: Swift.Int = 0,
-        nextSchemaVersion: Swift.Int = 0,
+        latestSchemaVersion: Swift.Int? = nil,
+        nextSchemaVersion: Swift.Int? = nil,
         registryArn: Swift.String? = nil,
         registryName: Swift.String? = nil,
         schemaArn: Swift.String? = nil,
-        schemaCheckpoint: Swift.Int = 0,
+        schemaCheckpoint: Swift.Int? = nil,
         schemaName: Swift.String? = nil,
         schemaStatus: GlueClientTypes.SchemaStatus? = nil,
         updatedTime: Swift.String? = nil
@@ -29095,9 +29303,9 @@ struct GetSchemaOutputBody: Swift.Equatable {
     let description: Swift.String?
     let dataFormat: GlueClientTypes.DataFormat?
     let compatibility: GlueClientTypes.Compatibility?
-    let schemaCheckpoint: Swift.Int
-    let latestSchemaVersion: Swift.Int
-    let nextSchemaVersion: Swift.Int
+    let schemaCheckpoint: Swift.Int?
+    let latestSchemaVersion: Swift.Int?
+    let nextSchemaVersion: Swift.Int?
     let schemaStatus: GlueClientTypes.SchemaStatus?
     let createdTime: Swift.String?
     let updatedTime: Swift.String?
@@ -29136,11 +29344,11 @@ extension GetSchemaOutputBody: Swift.Decodable {
         dataFormat = dataFormatDecoded
         let compatibilityDecoded = try containerValues.decodeIfPresent(GlueClientTypes.Compatibility.self, forKey: .compatibility)
         compatibility = compatibilityDecoded
-        let schemaCheckpointDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .schemaCheckpoint) ?? 0
+        let schemaCheckpointDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .schemaCheckpoint)
         schemaCheckpoint = schemaCheckpointDecoded
-        let latestSchemaVersionDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .latestSchemaVersion) ?? 0
+        let latestSchemaVersionDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .latestSchemaVersion)
         latestSchemaVersion = latestSchemaVersionDecoded
-        let nextSchemaVersionDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .nextSchemaVersion) ?? 0
+        let nextSchemaVersionDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .nextSchemaVersion)
         nextSchemaVersion = nextSchemaVersionDecoded
         let schemaStatusDecoded = try containerValues.decodeIfPresent(GlueClientTypes.SchemaStatus.self, forKey: .schemaStatus)
         schemaStatus = schemaStatusDecoded
@@ -29259,7 +29467,7 @@ extension GetSchemaVersionOutput: ClientRuntime.HttpResponseBinding {
             self.schemaDefinition = nil
             self.schemaVersionId = nil
             self.status = nil
-            self.versionNumber = 0
+            self.versionNumber = nil
         }
     }
 }
@@ -29278,7 +29486,7 @@ public struct GetSchemaVersionOutput: Swift.Equatable {
     /// The status of the schema version.
     public var status: GlueClientTypes.SchemaVersionStatus?
     /// The version number of the schema.
-    public var versionNumber: Swift.Int
+    public var versionNumber: Swift.Int?
 
     public init(
         createdTime: Swift.String? = nil,
@@ -29287,7 +29495,7 @@ public struct GetSchemaVersionOutput: Swift.Equatable {
         schemaDefinition: Swift.String? = nil,
         schemaVersionId: Swift.String? = nil,
         status: GlueClientTypes.SchemaVersionStatus? = nil,
-        versionNumber: Swift.Int = 0
+        versionNumber: Swift.Int? = nil
     )
     {
         self.createdTime = createdTime
@@ -29305,7 +29513,7 @@ struct GetSchemaVersionOutputBody: Swift.Equatable {
     let schemaDefinition: Swift.String?
     let dataFormat: GlueClientTypes.DataFormat?
     let schemaArn: Swift.String?
-    let versionNumber: Swift.Int
+    let versionNumber: Swift.Int?
     let status: GlueClientTypes.SchemaVersionStatus?
     let createdTime: Swift.String?
 }
@@ -29331,7 +29539,7 @@ extension GetSchemaVersionOutputBody: Swift.Decodable {
         dataFormat = dataFormatDecoded
         let schemaArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .schemaArn)
         schemaArn = schemaArnDecoded
-        let versionNumberDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .versionNumber) ?? 0
+        let versionNumberDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .versionNumber)
         versionNumber = versionNumberDecoded
         let statusDecoded = try containerValues.decodeIfPresent(GlueClientTypes.SchemaVersionStatus.self, forKey: .status)
         status = statusDecoded
@@ -43641,7 +43849,7 @@ extension PutSchemaVersionMetadataOutput: ClientRuntime.HttpResponseBinding {
             self.schemaArn = nil
             self.schemaName = nil
             self.schemaVersionId = nil
-            self.versionNumber = 0
+            self.versionNumber = nil
         }
     }
 }
@@ -43662,7 +43870,7 @@ public struct PutSchemaVersionMetadataOutput: Swift.Equatable {
     /// The unique version ID of the schema version.
     public var schemaVersionId: Swift.String?
     /// The version number of the schema.
-    public var versionNumber: Swift.Int
+    public var versionNumber: Swift.Int?
 
     public init(
         latestVersion: Swift.Bool = false,
@@ -43672,7 +43880,7 @@ public struct PutSchemaVersionMetadataOutput: Swift.Equatable {
         schemaArn: Swift.String? = nil,
         schemaName: Swift.String? = nil,
         schemaVersionId: Swift.String? = nil,
-        versionNumber: Swift.Int = 0
+        versionNumber: Swift.Int? = nil
     )
     {
         self.latestVersion = latestVersion
@@ -43691,7 +43899,7 @@ struct PutSchemaVersionMetadataOutputBody: Swift.Equatable {
     let schemaName: Swift.String?
     let registryName: Swift.String?
     let latestVersion: Swift.Bool
-    let versionNumber: Swift.Int
+    let versionNumber: Swift.Int?
     let schemaVersionId: Swift.String?
     let metadataKey: Swift.String?
     let metadataValue: Swift.String?
@@ -43719,7 +43927,7 @@ extension PutSchemaVersionMetadataOutputBody: Swift.Decodable {
         registryName = registryNameDecoded
         let latestVersionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .latestVersion) ?? false
         latestVersion = latestVersionDecoded
-        let versionNumberDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .versionNumber) ?? 0
+        let versionNumberDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .versionNumber)
         versionNumber = versionNumberDecoded
         let schemaVersionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .schemaVersionId)
         schemaVersionId = schemaVersionIdDecoded
@@ -44549,7 +44757,7 @@ extension RegisterSchemaVersionOutput: ClientRuntime.HttpResponseBinding {
         } else {
             self.schemaVersionId = nil
             self.status = nil
-            self.versionNumber = 0
+            self.versionNumber = nil
         }
     }
 }
@@ -44560,12 +44768,12 @@ public struct RegisterSchemaVersionOutput: Swift.Equatable {
     /// The status of the schema version.
     public var status: GlueClientTypes.SchemaVersionStatus?
     /// The version of this schema (for sync flow only, in case this is the first version).
-    public var versionNumber: Swift.Int
+    public var versionNumber: Swift.Int?
 
     public init(
         schemaVersionId: Swift.String? = nil,
         status: GlueClientTypes.SchemaVersionStatus? = nil,
-        versionNumber: Swift.Int = 0
+        versionNumber: Swift.Int? = nil
     )
     {
         self.schemaVersionId = schemaVersionId
@@ -44576,7 +44784,7 @@ public struct RegisterSchemaVersionOutput: Swift.Equatable {
 
 struct RegisterSchemaVersionOutputBody: Swift.Equatable {
     let schemaVersionId: Swift.String?
-    let versionNumber: Swift.Int
+    let versionNumber: Swift.Int?
     let status: GlueClientTypes.SchemaVersionStatus?
 }
 
@@ -44591,7 +44799,7 @@ extension RegisterSchemaVersionOutputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let schemaVersionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .schemaVersionId)
         schemaVersionId = schemaVersionIdDecoded
-        let versionNumberDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .versionNumber) ?? 0
+        let versionNumberDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .versionNumber)
         versionNumber = versionNumberDecoded
         let statusDecoded = try containerValues.decodeIfPresent(GlueClientTypes.SchemaVersionStatus.self, forKey: .status)
         status = statusDecoded
@@ -44939,7 +45147,7 @@ extension RemoveSchemaVersionMetadataOutput: ClientRuntime.HttpResponseBinding {
             self.schemaArn = nil
             self.schemaName = nil
             self.schemaVersionId = nil
-            self.versionNumber = 0
+            self.versionNumber = nil
         }
     }
 }
@@ -44960,7 +45168,7 @@ public struct RemoveSchemaVersionMetadataOutput: Swift.Equatable {
     /// The version ID for the schema version.
     public var schemaVersionId: Swift.String?
     /// The version number of the schema.
-    public var versionNumber: Swift.Int
+    public var versionNumber: Swift.Int?
 
     public init(
         latestVersion: Swift.Bool = false,
@@ -44970,7 +45178,7 @@ public struct RemoveSchemaVersionMetadataOutput: Swift.Equatable {
         schemaArn: Swift.String? = nil,
         schemaName: Swift.String? = nil,
         schemaVersionId: Swift.String? = nil,
-        versionNumber: Swift.Int = 0
+        versionNumber: Swift.Int? = nil
     )
     {
         self.latestVersion = latestVersion
@@ -44989,7 +45197,7 @@ struct RemoveSchemaVersionMetadataOutputBody: Swift.Equatable {
     let schemaName: Swift.String?
     let registryName: Swift.String?
     let latestVersion: Swift.Bool
-    let versionNumber: Swift.Int
+    let versionNumber: Swift.Int?
     let schemaVersionId: Swift.String?
     let metadataKey: Swift.String?
     let metadataValue: Swift.String?
@@ -45017,7 +45225,7 @@ extension RemoveSchemaVersionMetadataOutputBody: Swift.Decodable {
         registryName = registryNameDecoded
         let latestVersionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .latestVersion) ?? false
         latestVersion = latestVersionDecoded
-        let versionNumberDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .versionNumber) ?? 0
+        let versionNumberDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .versionNumber)
         versionNumber = versionNumberDecoded
         let schemaVersionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .schemaVersionId)
         schemaVersionId = schemaVersionIdDecoded
@@ -48809,14 +49017,14 @@ extension GlueClientTypes.SchemaVersionErrorItem: Swift.Codable {
         if let errorDetails = self.errorDetails {
             try encodeContainer.encode(errorDetails, forKey: .errorDetails)
         }
-        if versionNumber != 0 {
+        if let versionNumber = self.versionNumber {
             try encodeContainer.encode(versionNumber, forKey: .versionNumber)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let versionNumberDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .versionNumber) ?? 0
+        let versionNumberDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .versionNumber)
         versionNumber = versionNumberDecoded
         let errorDetailsDecoded = try containerValues.decodeIfPresent(GlueClientTypes.ErrorDetails.self, forKey: .errorDetails)
         errorDetails = errorDetailsDecoded
@@ -48829,11 +49037,11 @@ extension GlueClientTypes {
         /// The details of the error for the schema version.
         public var errorDetails: GlueClientTypes.ErrorDetails?
         /// The version number of the schema.
-        public var versionNumber: Swift.Int
+        public var versionNumber: Swift.Int?
 
         public init(
             errorDetails: GlueClientTypes.ErrorDetails? = nil,
-            versionNumber: Swift.Int = 0
+            versionNumber: Swift.Int? = nil
         )
         {
             self.errorDetails = errorDetails
@@ -48866,7 +49074,7 @@ extension GlueClientTypes.SchemaVersionListItem: Swift.Codable {
         if let status = self.status {
             try encodeContainer.encode(status.rawValue, forKey: .status)
         }
-        if versionNumber != 0 {
+        if let versionNumber = self.versionNumber {
             try encodeContainer.encode(versionNumber, forKey: .versionNumber)
         }
     }
@@ -48877,7 +49085,7 @@ extension GlueClientTypes.SchemaVersionListItem: Swift.Codable {
         schemaArn = schemaArnDecoded
         let schemaVersionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .schemaVersionId)
         schemaVersionId = schemaVersionIdDecoded
-        let versionNumberDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .versionNumber) ?? 0
+        let versionNumberDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .versionNumber)
         versionNumber = versionNumberDecoded
         let statusDecoded = try containerValues.decodeIfPresent(GlueClientTypes.SchemaVersionStatus.self, forKey: .status)
         status = statusDecoded
@@ -48898,14 +49106,14 @@ extension GlueClientTypes {
         /// The status of the schema version.
         public var status: GlueClientTypes.SchemaVersionStatus?
         /// The version number of the schema.
-        public var versionNumber: Swift.Int
+        public var versionNumber: Swift.Int?
 
         public init(
             createdTime: Swift.String? = nil,
             schemaArn: Swift.String? = nil,
             schemaVersionId: Swift.String? = nil,
             status: GlueClientTypes.SchemaVersionStatus? = nil,
-            versionNumber: Swift.Int = 0
+            versionNumber: Swift.Int? = nil
         )
         {
             self.createdTime = createdTime
@@ -48929,7 +49137,7 @@ extension GlueClientTypes.SchemaVersionNumber: Swift.Codable {
         if latestVersion != false {
             try encodeContainer.encode(latestVersion, forKey: .latestVersion)
         }
-        if versionNumber != 0 {
+        if let versionNumber = self.versionNumber {
             try encodeContainer.encode(versionNumber, forKey: .versionNumber)
         }
     }
@@ -48938,7 +49146,7 @@ extension GlueClientTypes.SchemaVersionNumber: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let latestVersionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .latestVersion) ?? false
         latestVersion = latestVersionDecoded
-        let versionNumberDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .versionNumber) ?? 0
+        let versionNumberDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .versionNumber)
         versionNumber = versionNumberDecoded
     }
 }
@@ -48949,11 +49157,11 @@ extension GlueClientTypes {
         /// The latest version available for the schema.
         public var latestVersion: Swift.Bool
         /// The version number of the schema.
-        public var versionNumber: Swift.Int
+        public var versionNumber: Swift.Int?
 
         public init(
             latestVersion: Swift.Bool = false,
-            versionNumber: Swift.Int = 0
+            versionNumber: Swift.Int? = nil
         )
         {
             self.latestVersion = latestVersion
@@ -49286,7 +49494,7 @@ extension GlueClientTypes.Segment: Swift.Codable {
         if segmentNumber != 0 {
             try encodeContainer.encode(segmentNumber, forKey: .segmentNumber)
         }
-        if totalSegments != 0 {
+        if let totalSegments = self.totalSegments {
             try encodeContainer.encode(totalSegments, forKey: .totalSegments)
         }
     }
@@ -49295,7 +49503,7 @@ extension GlueClientTypes.Segment: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let segmentNumberDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .segmentNumber) ?? 0
         segmentNumber = segmentNumberDecoded
-        let totalSegmentsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalSegments) ?? 0
+        let totalSegmentsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalSegments)
         totalSegments = totalSegmentsDecoded
     }
 }
@@ -49308,11 +49516,11 @@ extension GlueClientTypes {
         public var segmentNumber: Swift.Int
         /// The total number of segments.
         /// This member is required.
-        public var totalSegments: Swift.Int
+        public var totalSegments: Swift.Int?
 
         public init(
             segmentNumber: Swift.Int = 0,
-            totalSegments: Swift.Int = 0
+            totalSegments: Swift.Int? = nil
         )
         {
             self.segmentNumber = segmentNumber
@@ -50659,13 +50867,17 @@ extension GlueClientTypes {
 extension GlueClientTypes {
     public enum SourceControlProvider: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case awsCodeCommit
+        case bitbucket
         case github
+        case gitlab
         case sdkUnknown(Swift.String)
 
         public static var allCases: [SourceControlProvider] {
             return [
                 .awsCodeCommit,
+                .bitbucket,
                 .github,
+                .gitlab,
                 .sdkUnknown("")
             ]
         }
@@ -50676,7 +50888,9 @@ extension GlueClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .awsCodeCommit: return "AWS_CODE_COMMIT"
+            case .bitbucket: return "BITBUCKET"
             case .github: return "GITHUB"
+            case .gitlab: return "GITLAB"
             case let .sdkUnknown(s): return s
             }
         }
@@ -58163,9 +58377,9 @@ public struct UpdateJobFromSourceControlInput: Swift.Equatable {
     public var folder: Swift.String?
     /// The name of the Glue job to be synchronized to or from the remote repository.
     public var jobName: Swift.String?
-    /// The provider for the remote repository.
+    /// The provider for the remote repository. Possible values: GITHUB, AWS_CODE_COMMIT, GITLAB, BITBUCKET.
     public var provider: GlueClientTypes.SourceControlProvider?
-    /// The name of the remote repository that contains the job artifacts.
+    /// The name of the remote repository that contains the job artifacts. For BitBucket providers, RepositoryName should include WorkspaceName. Use the format /.
     public var repositoryName: Swift.String?
     /// The owner of the remote repository that contains the job artifacts.
     public var repositoryOwner: Swift.String?
@@ -59179,9 +59393,9 @@ public struct UpdateSourceControlFromJobInput: Swift.Equatable {
     public var folder: Swift.String?
     /// The name of the Glue job to be synchronized to or from the remote repository.
     public var jobName: Swift.String?
-    /// The provider for the remote repository.
+    /// The provider for the remote repository. Possible values: GITHUB, AWS_CODE_COMMIT, GITLAB, BITBUCKET.
     public var provider: GlueClientTypes.SourceControlProvider?
-    /// The name of the remote repository that contains the job artifacts.
+    /// The name of the remote repository that contains the job artifacts. For BitBucket providers, RepositoryName should include WorkspaceName. Use the format /.
     public var repositoryName: Swift.String?
     /// The owner of the remote repository that contains the job artifacts.
     public var repositoryOwner: Swift.String?

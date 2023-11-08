@@ -723,7 +723,11 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
         return result
     }
 
-    /// Creates one or more WorkSpaces. This operation is asynchronous and returns before the WorkSpaces are created. The MANUAL running mode value is only supported by Amazon WorkSpaces Core. Contact your account team to be allow-listed to use this value. For more information, see [Amazon WorkSpaces Core](http://aws.amazon.com/workspaces/core/).
+    /// Creates one or more WorkSpaces. This operation is asynchronous and returns before the WorkSpaces are created.
+    ///
+    /// * The MANUAL running mode value is only supported by Amazon WorkSpaces Core. Contact your account team to be allow-listed to use this value. For more information, see [Amazon WorkSpaces Core](http://aws.amazon.com/workspaces/core/).
+    ///
+    /// * You don't need to specify the PCOIP protocol for Linux bundles because WSP is the default protocol for those bundles.
     ///
     /// - Parameter CreateWorkspacesInput : [no documentation found]
     ///

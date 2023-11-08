@@ -2,6 +2,11 @@
 import AWSClientRuntime
 import ClientRuntime
 
+extension AcceptMatchInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "AcceptMatchInput(acceptanceType: \(Swift.String(describing: acceptanceType)), ticketId: \(Swift.String(describing: ticketId)), playerIds: \"CONTENT_REDACTED\")"}
+}
+
 extension AcceptMatchInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case acceptanceType = "AcceptanceType"
@@ -16,8 +21,8 @@ extension AcceptMatchInput: Swift.Encodable {
         }
         if let playerIds = playerIds {
             var playerIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .playerIds)
-            for nonzeroandmaxstring0 in playerIds {
-                try playerIdsContainer.encode(nonzeroandmaxstring0)
+            for playerid0 in playerIds {
+                try playerIdsContainer.encode(playerid0)
             }
         }
         if let ticketId = self.ticketId {
@@ -1034,6 +1039,11 @@ extension GameLiftClientTypes.Compute: Swift.Codable {
     }
 }
 
+extension GameLiftClientTypes.Compute: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "Compute(computeArn: \(Swift.String(describing: computeArn)), computeName: \(Swift.String(describing: computeName)), computeStatus: \(Swift.String(describing: computeStatus)), creationTime: \(Swift.String(describing: creationTime)), dnsName: \(Swift.String(describing: dnsName)), fleetArn: \(Swift.String(describing: fleetArn)), fleetId: \(Swift.String(describing: fleetId)), gameLiftServiceSdkEndpoint: \(Swift.String(describing: gameLiftServiceSdkEndpoint)), location: \(Swift.String(describing: location)), operatingSystem: \(Swift.String(describing: operatingSystem)), type: \(Swift.String(describing: type)), ipAddress: \"CONTENT_REDACTED\")"}
+}
+
 extension GameLiftClientTypes {
     /// An Amazon GameLift compute resource for hosting your game servers. A compute can be an EC2instance in a managed EC2 fleet or a registered compute in an Anywhere fleet.
     public struct Compute: Swift.Equatable {
@@ -1579,6 +1589,7 @@ extension CreateFleetInput: Swift.Encodable {
         case ec2InstanceType = "EC2InstanceType"
         case fleetType = "FleetType"
         case instanceRoleArn = "InstanceRoleArn"
+        case instanceRoleCredentialsProvider = "InstanceRoleCredentialsProvider"
         case locations = "Locations"
         case logPaths = "LogPaths"
         case metricGroups = "MetricGroups"
@@ -1625,6 +1636,9 @@ extension CreateFleetInput: Swift.Encodable {
         }
         if let instanceRoleArn = self.instanceRoleArn {
             try encodeContainer.encode(instanceRoleArn, forKey: .instanceRoleArn)
+        }
+        if let instanceRoleCredentialsProvider = self.instanceRoleCredentialsProvider {
+            try encodeContainer.encode(instanceRoleCredentialsProvider.rawValue, forKey: .instanceRoleCredentialsProvider)
         }
         if let locations = locations {
             var locationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .locations)
@@ -1689,7 +1703,7 @@ extension CreateFleetInput: ClientRuntime.URLPathProvider {
 public struct CreateFleetInput: Swift.Equatable {
     /// Amazon GameLift Anywhere configuration options.
     public var anywhereConfiguration: GameLiftClientTypes.AnywhereConfiguration?
-    /// The unique identifier for a custom game server build to be deployed on fleet instances. You can use either the build ID or ARN. The build must be uploaded to Amazon GameLift and in READY status. This fleet property cannot be changed later.
+    /// The unique identifier for a custom game server build to be deployed on fleet instances. You can use either the build ID or ARN. The build must be uploaded to Amazon GameLift and in READY status. This fleet property can't be changed after the fleet is created.
     public var buildId: Swift.String?
     /// Prompts Amazon GameLift to generate a TLS/SSL certificate for the fleet. Amazon GameLift uses the certificates to encrypt traffic between game clients and the game servers running on Amazon GameLift. By default, the CertificateConfiguration is DISABLED. You can't change this property after you create the fleet. Certificate Manager (ACM) certificates expire after 13 months. Certificate expiration can cause fleets to fail, preventing players from connecting to instances in the fleet. We recommend you replace fleets before 13 months, consider using fleet aliases for a smooth transition. ACM isn't available in all Amazon Web Services regions. A fleet creation request with certificate generation enabled in an unsupported Region, fails with a 4xx error. For more information about the supported Regions, see [Supported Regions](https://docs.aws.amazon.com/acm/latest/userguide/acm-regions.html) in the Certificate Manager User Guide.
     public var certificateConfiguration: GameLiftClientTypes.CertificateConfiguration?
@@ -1701,10 +1715,12 @@ public struct CreateFleetInput: Swift.Equatable {
     public var ec2InboundPermissions: [GameLiftClientTypes.IpPermission]?
     /// The Amazon GameLift-supported Amazon EC2 instance type to use for all fleet instances. Instance type determines the computing resources that will be used to host your game servers, including CPU, memory, storage, and networking capacity. See [Amazon Elastic Compute Cloud Instance Types](http://aws.amazon.com/ec2/instance-types/) for detailed descriptions of Amazon EC2 instance types.
     public var ec2InstanceType: GameLiftClientTypes.EC2InstanceType?
-    /// Indicates whether to use On-Demand or Spot instances for this fleet. By default, this property is set to ON_DEMAND. Learn more about when to use [ On-Demand versus Spot Instances](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-ec2-instances.html#gamelift-ec2-instances-spot). This property cannot be changed after the fleet is created.
+    /// Indicates whether to use On-Demand or Spot instances for this fleet. By default, this property is set to ON_DEMAND. Learn more about when to use [ On-Demand versus Spot Instances](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-ec2-instances.html#gamelift-ec2-instances-spot). This fleet property can't be changed after the fleet is created.
     public var fleetType: GameLiftClientTypes.FleetType?
-    /// A unique identifier for an IAM role that manages access to your Amazon Web Services services. With an instance role ARN set, any application that runs on an instance in this fleet can assume the role, including install scripts, server processes, and daemons (background processes). Create a role or look up a role's ARN by using the [IAM dashboard](https://console.aws.amazon.com/iam/) in the Amazon Web Services Management Console. Learn more about using on-box credentials for your game servers at [ Access external resources from a game server](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-resources.html). This property cannot be changed after the fleet is created.
+    /// A unique identifier for an IAM role with access permissions to other Amazon Web Services services. Any application that runs on an instance in the fleet--including install scripts, server processes, and other processes--can use these permissions to interact with Amazon Web Services resources that you own or have access to. For more information about using the role with your game server builds, see [ Communicate with other Amazon Web Services resources from your fleets](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-resources.html). This fleet property can't be changed after the fleet is created.
     public var instanceRoleArn: Swift.String?
+    /// Prompts Amazon GameLift to generate a shared credentials file for the IAM role defined in InstanceRoleArn. The shared credentials file is stored on each fleet instance and refreshed as needed. Use shared credentials for applications that are deployed along with the game server executable, if the game server is integrated with server SDK version 5.x. For more information about using shared credentials, see [ Communicate with other Amazon Web Services resources from your fleets](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-resources.html).
+    public var instanceRoleCredentialsProvider: GameLiftClientTypes.InstanceRoleCredentialsProvider?
     /// A set of remote locations to deploy additional instances to and manage as part of the fleet. This parameter can only be used when creating fleets in Amazon Web Services Regions that support multiple locations. You can add any Amazon GameLift-supported Amazon Web Services Region as a remote location, in the form of an Amazon Web Services Region code such as us-west-2. To create a fleet with instances in the home Region only, don't use this parameter. To use this parameter, Amazon GameLift requires you to use your home location in the request.
     public var locations: [GameLiftClientTypes.LocationConfiguration]?
     /// This parameter is no longer used. To specify where Amazon GameLift should store log files once a server process shuts down, use the Amazon GameLift server API ProcessReady() and specify one or more directory paths in logParameters. For more information, see [Initialize the server process](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-api.html#gamelift-sdk-server-initialize) in the Amazon GameLift Developer Guide.
@@ -1728,7 +1744,7 @@ public struct CreateFleetInput: Swift.Equatable {
     public var resourceCreationLimitPolicy: GameLiftClientTypes.ResourceCreationLimitPolicy?
     /// Instructions for how to launch and maintain server processes on instances in the fleet. The runtime configuration defines one or more server process configurations, each identifying a build executable or Realtime script file and the number of processes of that type to run concurrently. The RuntimeConfiguration parameter is required unless the fleet is being configured using the older parameters ServerLaunchPath and ServerLaunchParameters, which are still supported for backward compatibility.
     public var runtimeConfiguration: GameLiftClientTypes.RuntimeConfiguration?
-    /// The unique identifier for a Realtime configuration script to be deployed on fleet instances. You can use either the script ID or ARN. Scripts must be uploaded to Amazon GameLift prior to creating the fleet. This fleet property cannot be changed later.
+    /// The unique identifier for a Realtime configuration script to be deployed on fleet instances. You can use either the script ID or ARN. Scripts must be uploaded to Amazon GameLift prior to creating the fleet. This fleet property can't be changed after the fleet is created.
     public var scriptId: Swift.String?
     /// This parameter is no longer used. Specify server launch parameters using the RuntimeConfiguration parameter. Requests that use this parameter instead continue to be valid.
     public var serverLaunchParameters: Swift.String?
@@ -1747,6 +1763,7 @@ public struct CreateFleetInput: Swift.Equatable {
         ec2InstanceType: GameLiftClientTypes.EC2InstanceType? = nil,
         fleetType: GameLiftClientTypes.FleetType? = nil,
         instanceRoleArn: Swift.String? = nil,
+        instanceRoleCredentialsProvider: GameLiftClientTypes.InstanceRoleCredentialsProvider? = nil,
         locations: [GameLiftClientTypes.LocationConfiguration]? = nil,
         logPaths: [Swift.String]? = nil,
         metricGroups: [Swift.String]? = nil,
@@ -1771,6 +1788,7 @@ public struct CreateFleetInput: Swift.Equatable {
         self.ec2InstanceType = ec2InstanceType
         self.fleetType = fleetType
         self.instanceRoleArn = instanceRoleArn
+        self.instanceRoleCredentialsProvider = instanceRoleCredentialsProvider
         self.locations = locations
         self.logPaths = logPaths
         self.metricGroups = metricGroups
@@ -1810,6 +1828,7 @@ struct CreateFleetInputBody: Swift.Equatable {
     let tags: [GameLiftClientTypes.Tag]?
     let computeType: GameLiftClientTypes.ComputeType?
     let anywhereConfiguration: GameLiftClientTypes.AnywhereConfiguration?
+    let instanceRoleCredentialsProvider: GameLiftClientTypes.InstanceRoleCredentialsProvider?
 }
 
 extension CreateFleetInputBody: Swift.Decodable {
@@ -1823,6 +1842,7 @@ extension CreateFleetInputBody: Swift.Decodable {
         case ec2InstanceType = "EC2InstanceType"
         case fleetType = "FleetType"
         case instanceRoleArn = "InstanceRoleArn"
+        case instanceRoleCredentialsProvider = "InstanceRoleCredentialsProvider"
         case locations = "Locations"
         case logPaths = "LogPaths"
         case metricGroups = "MetricGroups"
@@ -1929,6 +1949,8 @@ extension CreateFleetInputBody: Swift.Decodable {
         computeType = computeTypeDecoded
         let anywhereConfigurationDecoded = try containerValues.decodeIfPresent(GameLiftClientTypes.AnywhereConfiguration.self, forKey: .anywhereConfiguration)
         anywhereConfiguration = anywhereConfigurationDecoded
+        let instanceRoleCredentialsProviderDecoded = try containerValues.decodeIfPresent(GameLiftClientTypes.InstanceRoleCredentialsProvider.self, forKey: .instanceRoleCredentialsProvider)
+        instanceRoleCredentialsProvider = instanceRoleCredentialsProviderDecoded
     }
 }
 
@@ -3488,6 +3510,11 @@ enum CreateMatchmakingRuleSetOutputError: ClientRuntime.HttpResponseErrorBinding
     }
 }
 
+extension CreatePlayerSessionInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreatePlayerSessionInput(gameSessionId: \(Swift.String(describing: gameSessionId)), playerData: \(Swift.String(describing: playerData)), playerId: \"CONTENT_REDACTED\")"}
+}
+
 extension CreatePlayerSessionInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case gameSessionId = "GameSessionId"
@@ -3618,6 +3645,11 @@ enum CreatePlayerSessionOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension CreatePlayerSessionsInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreatePlayerSessionsInput(gameSessionId: \(Swift.String(describing: gameSessionId)), playerDataMap: \(Swift.String(describing: playerDataMap)), playerIds: \"CONTENT_REDACTED\")"}
+}
+
 extension CreatePlayerSessionsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case gameSessionId = "GameSessionId"
@@ -3638,8 +3670,8 @@ extension CreatePlayerSessionsInput: Swift.Encodable {
         }
         if let playerIds = playerIds {
             var playerIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .playerIds)
-            for nonzeroandmaxstring0 in playerIds {
-                try playerIdsContainer.encode(nonzeroandmaxstring0)
+            for playerid0 in playerIds {
+                try playerIdsContainer.encode(playerid0)
             }
         }
     }
@@ -8754,6 +8786,11 @@ enum DescribeMatchmakingRuleSetsOutputError: ClientRuntime.HttpResponseErrorBind
     }
 }
 
+extension DescribePlayerSessionsInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "DescribePlayerSessionsInput(gameSessionId: \(Swift.String(describing: gameSessionId)), limit: \(Swift.String(describing: limit)), nextToken: \(Swift.String(describing: nextToken)), playerSessionId: \(Swift.String(describing: playerSessionId)), playerSessionStatusFilter: \(Swift.String(describing: playerSessionStatusFilter)), playerId: \"CONTENT_REDACTED\")"}
+}
+
 extension DescribePlayerSessionsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case gameSessionId = "GameSessionId"
@@ -9553,6 +9590,11 @@ extension GameLiftClientTypes.DesiredPlayerSession: Swift.Codable {
         let playerDataDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .playerData)
         playerData = playerDataDecoded
     }
+}
+
+extension GameLiftClientTypes.DesiredPlayerSession: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "DesiredPlayerSession(playerData: \(Swift.String(describing: playerData)), playerId: \"CONTENT_REDACTED\")"}
 }
 
 extension GameLiftClientTypes {
@@ -10706,6 +10748,7 @@ extension GameLiftClientTypes.FleetAttributes: Swift.Codable {
         case fleetId = "FleetId"
         case fleetType = "FleetType"
         case instanceRoleArn = "InstanceRoleArn"
+        case instanceRoleCredentialsProvider = "InstanceRoleCredentialsProvider"
         case instanceType = "InstanceType"
         case logPaths = "LogPaths"
         case metricGroups = "MetricGroups"
@@ -10756,6 +10799,9 @@ extension GameLiftClientTypes.FleetAttributes: Swift.Codable {
         }
         if let instanceRoleArn = self.instanceRoleArn {
             try encodeContainer.encode(instanceRoleArn, forKey: .instanceRoleArn)
+        }
+        if let instanceRoleCredentialsProvider = self.instanceRoleCredentialsProvider {
+            try encodeContainer.encode(instanceRoleCredentialsProvider.rawValue, forKey: .instanceRoleCredentialsProvider)
         }
         if let instanceType = self.instanceType {
             try encodeContainer.encode(instanceType.rawValue, forKey: .instanceType)
@@ -10889,6 +10935,8 @@ extension GameLiftClientTypes.FleetAttributes: Swift.Codable {
         computeType = computeTypeDecoded
         let anywhereConfigurationDecoded = try containerValues.decodeIfPresent(GameLiftClientTypes.AnywhereConfiguration.self, forKey: .anywhereConfiguration)
         anywhereConfiguration = anywhereConfigurationDecoded
+        let instanceRoleCredentialsProviderDecoded = try containerValues.decodeIfPresent(GameLiftClientTypes.InstanceRoleCredentialsProvider.self, forKey: .instanceRoleCredentialsProvider)
+        instanceRoleCredentialsProvider = instanceRoleCredentialsProviderDecoded
     }
 }
 
@@ -10913,10 +10961,12 @@ extension GameLiftClientTypes {
         public var fleetArn: Swift.String?
         /// A unique identifier for the fleet.
         public var fleetId: Swift.String?
-        /// Indicates whether to use On-Demand or Spot instances for this fleet. By default, this property is set to ON_DEMAND. Learn more about when to use [ On-Demand versus Spot Instances](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-ec2-instances.html#gamelift-ec2-instances-spot). This property cannot be changed after the fleet is created.
+        /// Indicates whether to use On-Demand or Spot instances for this fleet. By default, this property is set to ON_DEMAND. Learn more about when to use [ On-Demand versus Spot Instances](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-ec2-instances.html#gamelift-ec2-instances-spot). This fleet property can't be changed after the fleet is created.
         public var fleetType: GameLiftClientTypes.FleetType?
-        /// A unique identifier for an IAM role that manages access to your Amazon Web Services services. With an instance role ARN set, any application that runs on an instance in this fleet can assume the role, including install scripts, server processes, and daemons (background processes). Create a role or look up a role's ARN by using the [IAM dashboard](https://console.aws.amazon.com/iam/) in the Amazon Web Services Management Console. Learn more about using on-box credentials for your game servers at [ Access external resources from a game server](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-resources.html).
+        /// A unique identifier for an IAM role with access permissions to other Amazon Web Services services. Any application that runs on an instance in the fleet--including install scripts, server processes, and other processes--can use these permissions to interact with Amazon Web Services resources that you own or have access to. For more information about using the role with your game server builds, see [ Communicate with other Amazon Web Services resources from your fleets](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-resources.html).
         public var instanceRoleArn: Swift.String?
+        /// Indicates that fleet instances maintain a shared credentials file for the IAM role defined in InstanceRoleArn. Shared credentials allow applications that are deployed with the game server executable to communicate with other Amazon Web Services resources. This property is used only when the game server is integrated with the server SDK version 5.x. For more information about using shared credentials, see [ Communicate with other Amazon Web Services resources from your fleets](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-resources.html).
+        public var instanceRoleCredentialsProvider: GameLiftClientTypes.InstanceRoleCredentialsProvider?
         /// The Amazon EC2 instance type that determines the computing resources of each instance in the fleet. Instance type defines the CPU, memory, storage, and networking capacity. See [Amazon Elastic Compute Cloud Instance Types](http://aws.amazon.com/ec2/instance-types/) for detailed descriptions.
         public var instanceType: GameLiftClientTypes.EC2InstanceType?
         /// This parameter is no longer used. Game session log paths are now defined using the Amazon GameLift server API ProcessReady()logParameters. See more information in the [Server API Reference](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-api-ref.html#gamelift-sdk-server-api-ref-dataypes-process).
@@ -10974,6 +11024,7 @@ extension GameLiftClientTypes {
             fleetId: Swift.String? = nil,
             fleetType: GameLiftClientTypes.FleetType? = nil,
             instanceRoleArn: Swift.String? = nil,
+            instanceRoleCredentialsProvider: GameLiftClientTypes.InstanceRoleCredentialsProvider? = nil,
             instanceType: GameLiftClientTypes.EC2InstanceType? = nil,
             logPaths: [Swift.String]? = nil,
             metricGroups: [Swift.String]? = nil,
@@ -11001,6 +11052,7 @@ extension GameLiftClientTypes {
             self.fleetId = fleetId
             self.fleetType = fleetType
             self.instanceRoleArn = instanceRoleArn
+            self.instanceRoleCredentialsProvider = instanceRoleCredentialsProvider
             self.instanceType = instanceType
             self.logPaths = logPaths
             self.metricGroups = metricGroups
@@ -12548,6 +12600,11 @@ extension GameLiftClientTypes.GameSession: Swift.Codable {
     }
 }
 
+extension GameLiftClientTypes.GameSession: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GameSession(creationTime: \(Swift.String(describing: creationTime)), creatorId: \(Swift.String(describing: creatorId)), currentPlayerSessionCount: \(Swift.String(describing: currentPlayerSessionCount)), dnsName: \(Swift.String(describing: dnsName)), fleetArn: \(Swift.String(describing: fleetArn)), fleetId: \(Swift.String(describing: fleetId)), gameProperties: \(Swift.String(describing: gameProperties)), gameSessionData: \(Swift.String(describing: gameSessionData)), gameSessionId: \(Swift.String(describing: gameSessionId)), location: \(Swift.String(describing: location)), matchmakerData: \(Swift.String(describing: matchmakerData)), maximumPlayerSessionCount: \(Swift.String(describing: maximumPlayerSessionCount)), name: \(Swift.String(describing: name)), playerSessionCreationPolicy: \(Swift.String(describing: playerSessionCreationPolicy)), status: \(Swift.String(describing: status)), statusReason: \(Swift.String(describing: statusReason)), terminationTime: \(Swift.String(describing: terminationTime)), ipAddress: \"CONTENT_REDACTED\", port: \"CONTENT_REDACTED\")"}
+}
+
 extension GameLiftClientTypes {
     /// Properties describing a game session. A game session in ACTIVE status can host players. When a game session ends, its status is set to TERMINATED. Amazon GameLift retains a game session resource for 30 days after the game session ends. You can reuse idempotency token values after this time. Game session logs are retained for 14 days. [All APIs by task](https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-awssdk.html#reference-awssdk-resources-fleets)
     public struct GameSession: Swift.Equatable {
@@ -12696,6 +12753,11 @@ extension GameLiftClientTypes.GameSessionConnectionInfo: Swift.Codable {
         }
         matchedPlayerSessions = matchedPlayerSessionsDecoded0
     }
+}
+
+extension GameLiftClientTypes.GameSessionConnectionInfo: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GameSessionConnectionInfo(dnsName: \(Swift.String(describing: dnsName)), gameSessionArn: \(Swift.String(describing: gameSessionArn)), matchedPlayerSessions: \(Swift.String(describing: matchedPlayerSessions)), port: \(Swift.String(describing: port)), ipAddress: \"CONTENT_REDACTED\")"}
 }
 
 extension GameLiftClientTypes {
@@ -12996,6 +13058,11 @@ extension GameLiftClientTypes.GameSessionPlacement: Swift.Codable {
         let matchmakerDataDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .matchmakerData)
         matchmakerData = matchmakerDataDecoded
     }
+}
+
+extension GameLiftClientTypes.GameSessionPlacement: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GameSessionPlacement(dnsName: \(Swift.String(describing: dnsName)), endTime: \(Swift.String(describing: endTime)), gameProperties: \(Swift.String(describing: gameProperties)), gameSessionArn: \(Swift.String(describing: gameSessionArn)), gameSessionData: \(Swift.String(describing: gameSessionData)), gameSessionId: \(Swift.String(describing: gameSessionId)), gameSessionName: \(Swift.String(describing: gameSessionName)), gameSessionQueueName: \(Swift.String(describing: gameSessionQueueName)), gameSessionRegion: \(Swift.String(describing: gameSessionRegion)), matchmakerData: \(Swift.String(describing: matchmakerData)), maximumPlayerSessionCount: \(Swift.String(describing: maximumPlayerSessionCount)), placedPlayerSessions: \(Swift.String(describing: placedPlayerSessions)), placementId: \(Swift.String(describing: placementId)), playerLatencies: \(Swift.String(describing: playerLatencies)), startTime: \(Swift.String(describing: startTime)), status: \(Swift.String(describing: status)), ipAddress: \"CONTENT_REDACTED\", port: \"CONTENT_REDACTED\")"}
 }
 
 extension GameLiftClientTypes {
@@ -14054,6 +14121,11 @@ extension GameLiftClientTypes.Instance: Swift.Codable {
     }
 }
 
+extension GameLiftClientTypes.Instance: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "Instance(creationTime: \(Swift.String(describing: creationTime)), dnsName: \(Swift.String(describing: dnsName)), fleetArn: \(Swift.String(describing: fleetArn)), fleetId: \(Swift.String(describing: fleetId)), instanceId: \(Swift.String(describing: instanceId)), location: \(Swift.String(describing: location)), operatingSystem: \(Swift.String(describing: operatingSystem)), status: \(Swift.String(describing: status)), type: \(Swift.String(describing: type)), ipAddress: \"CONTENT_REDACTED\")"}
+}
+
 extension GameLiftClientTypes {
     /// Represents a virtual computing instance that runs game server processes and hosts game sessions. In Amazon GameLift, one or more instances make up a managed EC2 fleet.
     public struct Instance: Swift.Equatable {
@@ -14164,7 +14236,7 @@ extension GameLiftClientTypes.InstanceAccess: Swift.Codable {
 
 extension GameLiftClientTypes.InstanceAccess: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "InstanceAccess(fleetId: \(Swift.String(describing: fleetId)), instanceId: \(Swift.String(describing: instanceId)), ipAddress: \(Swift.String(describing: ipAddress)), operatingSystem: \(Swift.String(describing: operatingSystem)), credentials: \"CONTENT_REDACTED\")"}
+        "InstanceAccess(fleetId: \(Swift.String(describing: fleetId)), instanceId: \(Swift.String(describing: instanceId)), operatingSystem: \(Swift.String(describing: operatingSystem)), credentials: \"CONTENT_REDACTED\", ipAddress: \"CONTENT_REDACTED\")"}
 }
 
 extension GameLiftClientTypes {
@@ -14294,6 +14366,35 @@ extension GameLiftClientTypes {
         }
     }
 
+}
+
+extension GameLiftClientTypes {
+    public enum InstanceRoleCredentialsProvider: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case sharedCredentialFile
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InstanceRoleCredentialsProvider] {
+            return [
+                .sharedCredentialFile,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .sharedCredentialFile: return "SHARED_CREDENTIAL_FILE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = InstanceRoleCredentialsProvider(rawValue: rawValue) ?? InstanceRoleCredentialsProvider.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension GameLiftClientTypes {
@@ -14586,6 +14687,11 @@ extension GameLiftClientTypes.IpPermission: Swift.Codable {
         let protocolDecoded = try containerValues.decodeIfPresent(GameLiftClientTypes.IpProtocol.self, forKey: .protocol)
         `protocol` = protocolDecoded
     }
+}
+
+extension GameLiftClientTypes.IpPermission: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "IpPermission(protocol: \(Swift.String(describing: `protocol`)), fromPort: \"CONTENT_REDACTED\", ipRange: \"CONTENT_REDACTED\", toPort: \"CONTENT_REDACTED\")"}
 }
 
 extension GameLiftClientTypes {
@@ -16359,6 +16465,11 @@ extension GameLiftClientTypes.MatchedPlayerSession: Swift.Codable {
     }
 }
 
+extension GameLiftClientTypes.MatchedPlayerSession: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "MatchedPlayerSession(playerSessionId: \(Swift.String(describing: playerSessionId)), playerId: \"CONTENT_REDACTED\")"}
+}
+
 extension GameLiftClientTypes {
     /// Represents a new player session that is created as a result of a successful FlexMatch match. A successful match automatically creates new player sessions for every player ID in the original matchmaking request. When players connect to the match's game session, they must include both player ID and player session ID in order to claim their assigned player slot.
     public struct MatchedPlayerSession: Swift.Equatable {
@@ -17130,6 +17241,11 @@ extension GameLiftClientTypes.PlacedPlayerSession: Swift.Codable {
     }
 }
 
+extension GameLiftClientTypes.PlacedPlayerSession: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "PlacedPlayerSession(playerSessionId: \(Swift.String(describing: playerSessionId)), playerId: \"CONTENT_REDACTED\")"}
+}
+
 extension GameLiftClientTypes {
     /// Information about a player session. This object contains only the player ID and player session ID. To retrieve full details on a player session, call [DescribePlayerSessions](https://docs.aws.amazon.com/gamelift/latest/apireference/API_DescribePlayerSessions.html) with the player session ID.
     public struct PlacedPlayerSession: Swift.Equatable {
@@ -17211,6 +17327,11 @@ extension GameLiftClientTypes.Player: Swift.Codable {
     }
 }
 
+extension GameLiftClientTypes.Player: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "Player(latencyInMs: \(Swift.String(describing: latencyInMs)), playerAttributes: \(Swift.String(describing: playerAttributes)), team: \(Swift.String(describing: team)), playerId: \"CONTENT_REDACTED\")"}
+}
+
 extension GameLiftClientTypes {
     /// Represents a player in matchmaking. When starting a matchmaking request, a player has a player ID, attributes, and may have latency data. Team information is added after a match has been successfully completed.
     public struct Player: Swift.Equatable {
@@ -17248,7 +17369,7 @@ extension GameLiftClientTypes.PlayerLatency: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if latencyInMilliseconds != 0.0 {
+        if let latencyInMilliseconds = self.latencyInMilliseconds {
             try encodeContainer.encode(latencyInMilliseconds, forKey: .latencyInMilliseconds)
         }
         if let playerId = self.playerId {
@@ -17265,23 +17386,28 @@ extension GameLiftClientTypes.PlayerLatency: Swift.Codable {
         playerId = playerIdDecoded
         let regionIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .regionIdentifier)
         regionIdentifier = regionIdentifierDecoded
-        let latencyInMillisecondsDecoded = try containerValues.decodeIfPresent(Swift.Float.self, forKey: .latencyInMilliseconds) ?? 0.0
+        let latencyInMillisecondsDecoded = try containerValues.decodeIfPresent(Swift.Float.self, forKey: .latencyInMilliseconds)
         latencyInMilliseconds = latencyInMillisecondsDecoded
     }
+}
+
+extension GameLiftClientTypes.PlayerLatency: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "PlayerLatency(latencyInMilliseconds: \(Swift.String(describing: latencyInMilliseconds)), regionIdentifier: \(Swift.String(describing: regionIdentifier)), playerId: \"CONTENT_REDACTED\")"}
 }
 
 extension GameLiftClientTypes {
     /// Regional latency information for a player, used when requesting a new game session. This value indicates the amount of time lag that exists when the player is connected to a fleet in the specified Region. The relative difference between a player's latency values for multiple Regions are used to determine which fleets are best suited to place a new game session for the player.
     public struct PlayerLatency: Swift.Equatable {
         /// Amount of time that represents the time lag experienced by the player when connected to the specified Region.
-        public var latencyInMilliseconds: Swift.Float
+        public var latencyInMilliseconds: Swift.Float?
         /// A unique identifier for a player associated with the latency data.
         public var playerId: Swift.String?
         /// Name of the Region that is associated with the latency value.
         public var regionIdentifier: Swift.String?
 
         public init(
-            latencyInMilliseconds: Swift.Float = 0.0,
+            latencyInMilliseconds: Swift.Float? = nil,
             playerId: Swift.String? = nil,
             regionIdentifier: Swift.String? = nil
         )
@@ -17422,6 +17548,11 @@ extension GameLiftClientTypes.PlayerSession: Swift.Codable {
         let playerDataDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .playerData)
         playerData = playerDataDecoded
     }
+}
+
+extension GameLiftClientTypes.PlayerSession: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "PlayerSession(creationTime: \(Swift.String(describing: creationTime)), dnsName: \(Swift.String(describing: dnsName)), fleetArn: \(Swift.String(describing: fleetArn)), fleetId: \(Swift.String(describing: fleetId)), gameSessionId: \(Swift.String(describing: gameSessionId)), playerData: \(Swift.String(describing: playerData)), playerSessionId: \(Swift.String(describing: playerSessionId)), status: \(Swift.String(describing: status)), terminationTime: \(Swift.String(describing: terminationTime)), ipAddress: \"CONTENT_REDACTED\", playerId: \"CONTENT_REDACTED\", port: \"CONTENT_REDACTED\")"}
 }
 
 extension GameLiftClientTypes {
@@ -17995,6 +18126,11 @@ enum PutScalingPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension RegisterComputeInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RegisterComputeInput(certificatePath: \(Swift.String(describing: certificatePath)), computeName: \(Swift.String(describing: computeName)), dnsName: \(Swift.String(describing: dnsName)), fleetId: \(Swift.String(describing: fleetId)), location: \(Swift.String(describing: location)), ipAddress: \"CONTENT_REDACTED\")"}
+}
+
 extension RegisterComputeInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case certificatePath = "CertificatePath"
@@ -18152,6 +18288,7 @@ enum RegisterComputeOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
@@ -19015,7 +19152,7 @@ extension GameLiftClientTypes.ScalingPolicy: Swift.Codable {
         if let policyType = self.policyType {
             try encodeContainer.encode(policyType.rawValue, forKey: .policyType)
         }
-        if scalingAdjustment != 0 {
+        if let scalingAdjustment = self.scalingAdjustment {
             try encodeContainer.encode(scalingAdjustment, forKey: .scalingAdjustment)
         }
         if let scalingAdjustmentType = self.scalingAdjustmentType {
@@ -19027,7 +19164,7 @@ extension GameLiftClientTypes.ScalingPolicy: Swift.Codable {
         if let targetConfiguration = self.targetConfiguration {
             try encodeContainer.encode(targetConfiguration, forKey: .targetConfiguration)
         }
-        if threshold != 0.0 {
+        if let threshold = self.threshold {
             try encodeContainer.encode(threshold, forKey: .threshold)
         }
         if let updateStatus = self.updateStatus {
@@ -19045,13 +19182,13 @@ extension GameLiftClientTypes.ScalingPolicy: Swift.Codable {
         name = nameDecoded
         let statusDecoded = try containerValues.decodeIfPresent(GameLiftClientTypes.ScalingStatusType.self, forKey: .status)
         status = statusDecoded
-        let scalingAdjustmentDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .scalingAdjustment) ?? 0
+        let scalingAdjustmentDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .scalingAdjustment)
         scalingAdjustment = scalingAdjustmentDecoded
         let scalingAdjustmentTypeDecoded = try containerValues.decodeIfPresent(GameLiftClientTypes.ScalingAdjustmentType.self, forKey: .scalingAdjustmentType)
         scalingAdjustmentType = scalingAdjustmentTypeDecoded
         let comparisonOperatorDecoded = try containerValues.decodeIfPresent(GameLiftClientTypes.ComparisonOperatorType.self, forKey: .comparisonOperator)
         comparisonOperator = comparisonOperatorDecoded
-        let thresholdDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .threshold) ?? 0.0
+        let thresholdDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .threshold)
         threshold = thresholdDecoded
         let evaluationPeriodsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .evaluationPeriods)
         evaluationPeriods = evaluationPeriodsDecoded
@@ -19110,7 +19247,7 @@ extension GameLiftClientTypes {
         /// The type of scaling policy to create. For a target-based policy, set the parameter MetricName to 'PercentAvailableGameSessions' and specify a TargetConfiguration. For a rule-based policy set the following parameters: MetricName, ComparisonOperator, Threshold, EvaluationPeriods, ScalingAdjustmentType, and ScalingAdjustment.
         public var policyType: GameLiftClientTypes.PolicyType?
         /// Amount of adjustment to make, based on the scaling adjustment type.
-        public var scalingAdjustment: Swift.Int
+        public var scalingAdjustment: Swift.Int?
         /// The type of adjustment to make to a fleet's instance count.
         ///
         /// * ChangeInCapacity -- add (or subtract) the scaling adjustment value from the current instance count. Positive values scale up while negative values scale down.
@@ -19138,7 +19275,7 @@ extension GameLiftClientTypes {
         /// An object that contains settings for a target-based scaling policy.
         public var targetConfiguration: GameLiftClientTypes.TargetConfiguration?
         /// Metric value used to trigger a scaling event.
-        public var threshold: Swift.Double
+        public var threshold: Swift.Double?
         /// The current status of the fleet's scaling policies in a requested fleet location. The status PENDING_UPDATE indicates that an update was requested for the fleet but has not yet been completed for the location.
         public var updateStatus: GameLiftClientTypes.LocationUpdateStatus?
 
@@ -19151,11 +19288,11 @@ extension GameLiftClientTypes {
             metricName: GameLiftClientTypes.MetricName? = nil,
             name: Swift.String? = nil,
             policyType: GameLiftClientTypes.PolicyType? = nil,
-            scalingAdjustment: Swift.Int = 0,
+            scalingAdjustment: Swift.Int? = nil,
             scalingAdjustmentType: GameLiftClientTypes.ScalingAdjustmentType? = nil,
             status: GameLiftClientTypes.ScalingStatusType? = nil,
             targetConfiguration: GameLiftClientTypes.TargetConfiguration? = nil,
-            threshold: Swift.Double = 0.0,
+            threshold: Swift.Double? = nil,
             updateStatus: GameLiftClientTypes.LocationUpdateStatus? = nil
         )
         {
@@ -20964,14 +21101,14 @@ extension GameLiftClientTypes.TargetConfiguration: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if targetValue != 0.0 {
+        if let targetValue = self.targetValue {
             try encodeContainer.encode(targetValue, forKey: .targetValue)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let targetValueDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .targetValue) ?? 0.0
+        let targetValueDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .targetValue)
         targetValue = targetValueDecoded
     }
 }
@@ -20981,10 +21118,10 @@ extension GameLiftClientTypes {
     public struct TargetConfiguration: Swift.Equatable {
         /// Desired value to use with a target-based scaling policy. The value must be relevant for whatever metric the scaling policy is using. For example, in a policy using the metric PercentAvailableGameSessions, the target value should be the preferred size of the fleet's buffer (the percent of capacity that should be idle and ready for new game sessions).
         /// This member is required.
-        public var targetValue: Swift.Double
+        public var targetValue: Swift.Double?
 
         public init(
-            targetValue: Swift.Double = 0.0
+            targetValue: Swift.Double? = nil
         )
         {
             self.targetValue = targetValue

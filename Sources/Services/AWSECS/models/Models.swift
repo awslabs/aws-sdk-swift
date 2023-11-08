@@ -1658,7 +1658,7 @@ extension ECSClientTypes.ClusterServiceConnectDefaultsRequest: Swift.Codable {
 extension ECSClientTypes {
     /// Use this parameter to set a default Service Connect namespace. After you set a default Service Connect namespace, any new services with Service Connect turned on that are created in the cluster are added as client services in the namespace. This setting only applies to new services that set the enabled parameter to true in the ServiceConnectConfiguration. You can set the namespace of each service individually in the ServiceConnectConfiguration to override this default parameter. Tasks that run in a namespace can use short names to connect to services in the namespace. Tasks can connect to services across all of the clusters in the namespace. Tasks connect through a managed proxy container that collects logs and metrics for increased visibility. Only the tasks that Amazon ECS services create are supported with Service Connect. For more information, see [Service Connect](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-connect.html) in the Amazon Elastic Container Service Developer Guide.
     public struct ClusterServiceConnectDefaultsRequest: Swift.Equatable {
-        /// The namespace name or full Amazon Resource Name (ARN) of the Cloud Map namespace that's used when you create a service and don't specify a Service Connect configuration. The namespace name can include up to 1024 characters. The name is case-sensitive. The name can't include hyphens (-), tilde (~), greater than (>), less than (<), or slash (/). If you enter an existing namespace name or ARN, then that namespace will be used. Any namespace type is supported. The namespace must be in this account and this Amazon Web Services Region. If you enter a new name, a Cloud Map namespace will be created. Amazon ECS creates a Cloud Map namespace with the "API calls" method of instance discovery only. This instance discovery method is the "HTTP" namespace type in the Command Line Interface. Other types of instance discovery aren't used by Service Connect. If you update the service with an empty string "" for the namespace name, the cluster configuration for Service Connect is removed. Note that the namespace will remain in Cloud Map and must be deleted separately. For more information about Cloud Map, see [Working with Services](https://docs.aws.amazon.com/cloud-map/latest/dg/working-with-services.html) in the Cloud Map Developer Guide.
+        /// The namespace name or full Amazon Resource Name (ARN) of the Cloud Map namespace that's used when you create a service and don't specify a Service Connect configuration. The namespace name can include up to 1024 characters. The name is case-sensitive. The name can't include hyphens (-), tilde (~), greater than (>), less than (<), or slash (/). If you enter an existing namespace name or ARN, then that namespace will be used. Any namespace type is supported. The namespace must be in this account and this Amazon Web Services Region. If you enter a new name, a Cloud Map namespace will be created. Amazon ECS creates a Cloud Map namespace with the "API calls" method of instance discovery only. This instance discovery method is the "HTTP" namespace type in the Command Line Interface. Other types of instance discovery aren't used by Service Connect. If you update the cluster with an empty string "" for the namespace name, the cluster configuration for Service Connect is removed. Note that the namespace will remain in Cloud Map and must be deleted separately. For more information about Cloud Map, see [Working with Services](https://docs.aws.amazon.com/cloud-map/latest/dg/working-with-services.html) in the Cloud Map Developer Guide.
         /// This member is required.
         public var namespace: Swift.String?
 
@@ -8148,11 +8148,20 @@ extension ECSClientTypes.EnvironmentFile: Swift.Codable {
 }
 
 extension ECSClientTypes {
-    /// A list of files containing the environment variables to pass to a container. You can specify up to ten environment files. The file must have a .env file extension. Each line in an environment file should contain an environment variable in VARIABLE=VALUE format. Lines beginning with # are treated as comments and are ignored. For more information about the environment variable file syntax, see [Declare default environment variables in file](https://docs.docker.com/compose/env-file/). If there are environment variables specified using the environment parameter in a container definition, they take precedence over the variables contained within an environment file. If multiple environment files are specified that contain the same variable, they're processed from the top down. We recommend that you use unique variable names. For more information, see [Specifying environment variables](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/taskdef-envfiles.html) in the Amazon Elastic Container Service Developer Guide. You must use the following platforms for the Fargate launch type:
+    /// A list of files containing the environment variables to pass to a container. You can specify up to ten environment files. The file must have a .env file extension. Each line in an environment file should contain an environment variable in VARIABLE=VALUE format. Lines beginning with # are treated as comments and are ignored. If there are environment variables specified using the environment parameter in a container definition, they take precedence over the variables contained within an environment file. If multiple environment files are specified that contain the same variable, they're processed from the top down. We recommend that you use unique variable names. For more information, see [Specifying environment variables](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/taskdef-envfiles.html) in the Amazon Elastic Container Service Developer Guide. You must use the following platforms for the Fargate launch type:
     ///
     /// * Linux platform version 1.4.0 or later.
     ///
     /// * Windows platform version 1.0.0 or later.
+    ///
+    ///
+    /// Consider the following when using the Fargate launch type:
+    ///
+    /// * The file is handled like a native Docker env-file.
+    ///
+    /// * There is no support for shell escape handling.
+    ///
+    /// * The container entry point interperts the VARIABLE values.
     public struct EnvironmentFile: Swift.Equatable {
         /// The file type to use. The only supported value is s3.
         /// This member is required.
@@ -9092,16 +9101,42 @@ extension ECSClientTypes {
     ///
     /// * UNHEALTHY-The container health check has failed.
     ///
-    /// * UNKNOWN-The container health check is being evaluated or there's no container health check defined.
+    /// * UNKNOWN-The container health check is being evaluated, there's no container health check defined, or Amazon ECS doesn't have the health status of the container.
     ///
     ///
-    /// The following describes the possible healthStatus values for a task. The container health check status of non-essential containers don't have an effect on the health status of a task.
-    ///
-    /// * HEALTHY-All essential containers within the task have passed their health checks.
+    /// The following describes the possible healthStatus values based on the container health checker status of essential containers in the task with the following priority order (high to low):
     ///
     /// * UNHEALTHY-One or more essential containers have failed their health check.
     ///
-    /// * UNKNOWN-The essential containers within the task are still having their health checks evaluated, there are only nonessential containers with health checks defined, or there are no container health checks defined.
+    /// * UNKNOWN-Any essential container running within the task is in an UNKNOWN state and no other essential containers have an UNHEALTHY state.
+    ///
+    /// * HEALTHY-All essential containers within the task have passed their health checks.
+    ///
+    ///
+    /// Consider the following task health example with 2 containers.
+    ///
+    /// * If Container1 is UNHEALTHY and Container2 is UNKNOWN, the task health is UNHEALTHY.
+    ///
+    /// * If Container1 is UNHEALTHY and Container2 is HEALTHY, the task health is UNHEALTHY.
+    ///
+    /// * If Container1 is HEALTHY and Container2 is UNKNOWN, the task health is UNKNOWN.
+    ///
+    /// * If Container1 is HEALTHY and Container2 is HEALTHY, the task health is HEALTHY.
+    ///
+    ///
+    /// Consider the following task health example with 3 containers.
+    ///
+    /// * If Container1 is UNHEALTHY and Container2 is UNKNOWN, and Container3 is UNKNOWN, the task health is UNHEALTHY.
+    ///
+    /// * If Container1 is UNHEALTHY and Container2 is UNKNOWN, and Container3 is HEALTHY, the task health is UNHEALTHY.
+    ///
+    /// * If Container1 is UNHEALTHY and Container2 is HEALTHY, and Container3 is HEALTHY, the task health is UNHEALTHY.
+    ///
+    /// * If Container1 is HEALTHY and Container2 is UNKNOWN, and Container3 is HEALTHY, the task health is UNKNOWN.
+    ///
+    /// * If Container1 is HEALTHY and Container2 is UNKNOWN, and Container3 is UNKNOWN, the task health is UNKNOWN.
+    ///
+    /// * If Container1 is HEALTHY and Container2 is HEALTHY, and Container3 is HEALTHY, the task health is HEALTHY.
     ///
     ///
     /// If a task is run manually, and not as part of a service, the task will continue its lifecycle regardless of its health status. For tasks that are part of a service, if the task reports as unhealthy then the task will be stopped and the service scheduler will replace it. The following are notes about container health check support:
@@ -12259,7 +12294,7 @@ extension ECSClientTypes {
         ///
         /// * You do not specify a hostPortRange. The value of the hostPortRange is set as follows:
         ///
-        /// * For containers in a task with the awsvpc network mode, the hostPort is set to the same value as the containerPort. This is a static mapping strategy.
+        /// * For containers in a task with the awsvpc network mode, the hostPortRange is set to the same value as the containerPortRange. This is a static mapping strategy.
         ///
         /// * For containers in a task with the bridge network mode, the Amazon ECS agent finds open host ports from the default ephemeral range and passes it to docker to bind them to the container ports.
         ///
@@ -12984,7 +13019,7 @@ extension ECSClientTypes {
         ///
         /// * You do not specify a hostPortRange. The value of the hostPortRange is set as follows:
         ///
-        /// * For containers in a task with the awsvpc network mode, the hostPort is set to the same value as the containerPort. This is a static mapping strategy.
+        /// * For containers in a task with the awsvpc network mode, the hostPortRange is set to the same value as the containerPortRange. This is a static mapping strategy.
         ///
         /// * For containers in a task with the bridge network mode, the Amazon ECS agent finds open host ports from the default ephemeral range and passes it to docker to bind them to the container ports.
         ///

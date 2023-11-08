@@ -84,10 +84,10 @@ extension SSMClientTypes.Activation: Swift.Codable {
         if let iamRole = self.iamRole {
             try encodeContainer.encode(iamRole, forKey: .iamRole)
         }
-        if registrationLimit != 0 {
+        if let registrationLimit = self.registrationLimit {
             try encodeContainer.encode(registrationLimit, forKey: .registrationLimit)
         }
-        if registrationsCount != 0 {
+        if let registrationsCount = self.registrationsCount {
             try encodeContainer.encode(registrationsCount, forKey: .registrationsCount)
         }
         if let tags = tags {
@@ -108,9 +108,9 @@ extension SSMClientTypes.Activation: Swift.Codable {
         defaultInstanceName = defaultInstanceNameDecoded
         let iamRoleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .iamRole)
         iamRole = iamRoleDecoded
-        let registrationLimitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .registrationLimit) ?? 0
+        let registrationLimitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .registrationLimit)
         registrationLimit = registrationLimitDecoded
-        let registrationsCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .registrationsCount) ?? 0
+        let registrationsCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .registrationsCount)
         registrationsCount = registrationsCountDecoded
         let expirationDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .expirationDate)
         expirationDate = expirationDateDecoded
@@ -150,9 +150,9 @@ extension SSMClientTypes {
         /// The Identity and Access Management (IAM) role to assign to the managed node.
         public var iamRole: Swift.String?
         /// The maximum number of managed nodes that can be registered using this activation.
-        public var registrationLimit: Swift.Int
+        public var registrationLimit: Swift.Int?
         /// The number of managed nodes already registered with this activation.
-        public var registrationsCount: Swift.Int
+        public var registrationsCount: Swift.Int?
         /// Tags assigned to the activation.
         public var tags: [SSMClientTypes.Tag]?
 
@@ -164,8 +164,8 @@ extension SSMClientTypes {
             expirationDate: ClientRuntime.Date? = nil,
             expired: Swift.Bool = false,
             iamRole: Swift.String? = nil,
-            registrationLimit: Swift.Int = 0,
-            registrationsCount: Swift.Int = 0,
+            registrationLimit: Swift.Int? = nil,
+            registrationsCount: Swift.Int? = nil,
             tags: [SSMClientTypes.Tag]? = nil
         )
         {
@@ -624,6 +624,7 @@ enum AssociateOpsItemRelatedItemOutputError: ClientRuntime.HttpResponseErrorBind
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
             case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OpsItemConflictException": return try await OpsItemConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "OpsItemInvalidParameterException": return try await OpsItemInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "OpsItemLimitExceededException": return try await OpsItemLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "OpsItemNotFoundException": return try await OpsItemNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -4871,7 +4872,7 @@ extension SSMClientTypes.Command: Swift.Codable {
                 try targetsContainer.encode(target0)
             }
         }
-        if timeoutSeconds != 0 {
+        if let timeoutSeconds = self.timeoutSeconds {
             try encodeContainer.encode(timeoutSeconds, forKey: .timeoutSeconds)
         }
         if let triggeredAlarms = triggeredAlarms {
@@ -4964,7 +4965,7 @@ extension SSMClientTypes.Command: Swift.Codable {
         notificationConfig = notificationConfigDecoded
         let cloudWatchOutputConfigDecoded = try containerValues.decodeIfPresent(SSMClientTypes.CloudWatchOutputConfig.self, forKey: .cloudWatchOutputConfig)
         cloudWatchOutputConfig = cloudWatchOutputConfigDecoded
-        let timeoutSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .timeoutSeconds) ?? 0
+        let timeoutSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .timeoutSeconds)
         timeoutSeconds = timeoutSecondsDecoded
         let alarmConfigurationDecoded = try containerValues.decodeIfPresent(SSMClientTypes.AlarmConfiguration.self, forKey: .alarmConfiguration)
         alarmConfiguration = alarmConfigurationDecoded
@@ -5059,7 +5060,7 @@ extension SSMClientTypes {
         /// An array of search criteria that targets managed nodes using a Key,Value combination that you specify. Targets is required if you don't provide one or more managed node IDs in the call.
         public var targets: [SSMClientTypes.Target]?
         /// The TimeoutSeconds value specified for a command.
-        public var timeoutSeconds: Swift.Int
+        public var timeoutSeconds: Swift.Int?
         /// The CloudWatch alarm that was invoked by the command.
         public var triggeredAlarms: [SSMClientTypes.AlarmStateInformation]?
 
@@ -5088,7 +5089,7 @@ extension SSMClientTypes {
             statusDetails: Swift.String? = nil,
             targetCount: Swift.Int = 0,
             targets: [SSMClientTypes.Target]? = nil,
-            timeoutSeconds: Swift.Int = 0,
+            timeoutSeconds: Swift.Int? = nil,
             triggeredAlarms: [SSMClientTypes.AlarmStateInformation]? = nil
         )
         {
@@ -8245,7 +8246,7 @@ public struct CreateOpsItemInput: Swift.Equatable {
     ///
     /// * /aws/changerequest This type of OpsItem is used by Change Manager for reviewing and approving or rejecting change requests.
     ///
-    /// * /aws/insight This type of OpsItem is used by OpsCenter for aggregating and reporting on duplicate OpsItems.
+    /// * /aws/insights This type of OpsItem is used by OpsCenter for aggregating and reporting on duplicate OpsItems.
     public var opsItemType: Swift.String?
     /// The time specified in a change request for a runbook workflow to end. Currently supported only for the OpsItem type /aws/changerequest.
     public var plannedEndTime: ClientRuntime.Date?
@@ -9632,6 +9633,76 @@ enum DeleteMaintenanceWindowOutputError: ClientRuntime.HttpResponseErrorBinding 
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
             case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DeleteOpsItemInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case opsItemId = "OpsItemId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let opsItemId = self.opsItemId {
+            try encodeContainer.encode(opsItemId, forKey: .opsItemId)
+        }
+    }
+}
+
+extension DeleteOpsItemInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DeleteOpsItemInput: Swift.Equatable {
+    /// The ID of the OpsItem that you want to delete.
+    /// This member is required.
+    public var opsItemId: Swift.String?
+
+    public init(
+        opsItemId: Swift.String? = nil
+    )
+    {
+        self.opsItemId = opsItemId
+    }
+}
+
+struct DeleteOpsItemInputBody: Swift.Equatable {
+    let opsItemId: Swift.String?
+}
+
+extension DeleteOpsItemInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case opsItemId = "OpsItemId"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let opsItemIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .opsItemId)
+        opsItemId = opsItemIdDecoded
+    }
+}
+
+extension DeleteOpsItemOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteOpsItemOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteOpsItemOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OpsItemInvalidParameterException": return try await OpsItemInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
@@ -16181,6 +16252,7 @@ enum DisassociateOpsItemRelatedItemOutputError: ClientRuntime.HttpResponseErrorB
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
             case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OpsItemConflictException": return try await OpsItemConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "OpsItemInvalidParameterException": return try await OpsItemInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "OpsItemNotFoundException": return try await OpsItemNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "OpsItemRelatedItemAssociationNotFoundException": return try await OpsItemRelatedItemAssociationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -20967,7 +21039,7 @@ extension GetMaintenanceWindowOutput: ClientRuntime.HttpResponseBinding {
             self.createdDate = nil
             self.cutoff = 0
             self.description = nil
-            self.duration = 0
+            self.duration = nil
             self.enabled = false
             self.endDate = nil
             self.modifiedDate = nil
@@ -20992,7 +21064,7 @@ public struct GetMaintenanceWindowOutput: Swift.Equatable {
     /// The description of the maintenance window.
     public var description: Swift.String?
     /// The duration of the maintenance window in hours.
-    public var duration: Swift.Int
+    public var duration: Swift.Int?
     /// Indicates whether the maintenance window is enabled.
     public var enabled: Swift.Bool
     /// The date and time, in ISO-8601 Extended format, for when the maintenance window is scheduled to become inactive. The maintenance window won't run after this specified time.
@@ -21019,7 +21091,7 @@ public struct GetMaintenanceWindowOutput: Swift.Equatable {
         createdDate: ClientRuntime.Date? = nil,
         cutoff: Swift.Int = 0,
         description: Swift.String? = nil,
-        duration: Swift.Int = 0,
+        duration: Swift.Int? = nil,
         enabled: Swift.Bool = false,
         endDate: Swift.String? = nil,
         modifiedDate: ClientRuntime.Date? = nil,
@@ -21060,7 +21132,7 @@ struct GetMaintenanceWindowOutputBody: Swift.Equatable {
     let scheduleTimezone: Swift.String?
     let scheduleOffset: Swift.Int?
     let nextExecutionTime: Swift.String?
-    let duration: Swift.Int
+    let duration: Swift.Int?
     let cutoff: Swift.Int
     let allowUnassociatedTargets: Swift.Bool
     let enabled: Swift.Bool
@@ -21107,7 +21179,7 @@ extension GetMaintenanceWindowOutputBody: Swift.Decodable {
         scheduleOffset = scheduleOffsetDecoded
         let nextExecutionTimeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextExecutionTime)
         nextExecutionTime = nextExecutionTimeDecoded
-        let durationDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .duration) ?? 0
+        let durationDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .duration)
         duration = durationDecoded
         let cutoffDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .cutoff) ?? 0
         cutoff = cutoffDecoded
@@ -31778,7 +31850,7 @@ extension SSMClientTypes.MaintenanceWindowIdentity: Swift.Codable {
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
         }
-        if duration != 0 {
+        if let duration = self.duration {
             try encodeContainer.encode(duration, forKey: .duration)
         }
         if enabled != false {
@@ -31820,7 +31892,7 @@ extension SSMClientTypes.MaintenanceWindowIdentity: Swift.Codable {
         description = descriptionDecoded
         let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled) ?? false
         enabled = enabledDecoded
-        let durationDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .duration) ?? 0
+        let durationDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .duration)
         duration = durationDecoded
         let cutoffDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .cutoff) ?? 0
         cutoff = cutoffDecoded
@@ -31852,7 +31924,7 @@ extension SSMClientTypes {
         /// A description of the maintenance window.
         public var description: Swift.String?
         /// The duration of the maintenance window in hours.
-        public var duration: Swift.Int
+        public var duration: Swift.Int?
         /// Indicates whether the maintenance window is enabled.
         public var enabled: Swift.Bool
         /// The date and time, in ISO-8601 Extended format, for when the maintenance window is scheduled to become inactive.
@@ -31875,7 +31947,7 @@ extension SSMClientTypes {
         public init(
             cutoff: Swift.Int = 0,
             description: Swift.String? = nil,
-            duration: Swift.Int = 0,
+            duration: Swift.Int? = nil,
             enabled: Swift.Bool = false,
             endDate: Swift.String? = nil,
             name: Swift.String? = nil,
@@ -33834,7 +33906,7 @@ extension SSMClientTypes {
         ///
         /// * /aws/changerequest This type of OpsItem is used by Change Manager for reviewing and approving or rejecting change requests.
         ///
-        /// * /aws/insight This type of OpsItem is used by OpsCenter for aggregating and reporting on duplicate OpsItems.
+        /// * /aws/insights This type of OpsItem is used by OpsCenter for aggregating and reporting on duplicate OpsItems.
         public var opsItemType: Swift.String?
         /// The time specified in a change request for a runbook workflow to end. Currently supported only for the OpsItem type /aws/changerequest.
         public var plannedEndTime: ClientRuntime.Date?
@@ -34023,6 +34095,61 @@ extension OpsItemAlreadyExistsExceptionBody: Swift.Decodable {
         message = messageDecoded
         let opsItemIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .opsItemId)
         opsItemId = opsItemIdDecoded
+    }
+}
+
+extension OpsItemConflictException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: OpsItemConflictExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// The specified OpsItem is in the process of being deleted.
+public struct OpsItemConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "OpsItemConflictException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct OpsItemConflictExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension OpsItemConflictExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message = "Message"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
     }
 }
 
@@ -35447,7 +35574,7 @@ extension SSMClientTypes {
         ///
         /// * /aws/changerequest This type of OpsItem is used by Change Manager for reviewing and approving or rejecting change requests.
         ///
-        /// * /aws/insight This type of OpsItem is used by OpsCenter for aggregating and reporting on duplicate OpsItems.
+        /// * /aws/insights This type of OpsItem is used by OpsCenter for aggregating and reporting on duplicate OpsItems.
         public var opsItemType: Swift.String?
         /// The time specified in a change request for a runbook workflow to end. Currently supported only for the OpsItem type /aws/changerequest.
         public var plannedEndTime: ClientRuntime.Date?
@@ -47563,7 +47690,7 @@ extension UpdateMaintenanceWindowOutput: ClientRuntime.HttpResponseBinding {
             self.allowUnassociatedTargets = false
             self.cutoff = 0
             self.description = nil
-            self.duration = 0
+            self.duration = nil
             self.enabled = false
             self.endDate = nil
             self.name = nil
@@ -47584,7 +47711,7 @@ public struct UpdateMaintenanceWindowOutput: Swift.Equatable {
     /// An optional description of the update.
     public var description: Swift.String?
     /// The duration of the maintenance window in hours.
-    public var duration: Swift.Int
+    public var duration: Swift.Int?
     /// Whether the maintenance window is enabled.
     public var enabled: Swift.Bool
     /// The date and time, in ISO-8601 Extended format, for when the maintenance window is scheduled to become inactive. The maintenance window won't run after this specified time.
@@ -47606,7 +47733,7 @@ public struct UpdateMaintenanceWindowOutput: Swift.Equatable {
         allowUnassociatedTargets: Swift.Bool = false,
         cutoff: Swift.Int = 0,
         description: Swift.String? = nil,
-        duration: Swift.Int = 0,
+        duration: Swift.Int? = nil,
         enabled: Swift.Bool = false,
         endDate: Swift.String? = nil,
         name: Swift.String? = nil,
@@ -47641,7 +47768,7 @@ struct UpdateMaintenanceWindowOutputBody: Swift.Equatable {
     let schedule: Swift.String?
     let scheduleTimezone: Swift.String?
     let scheduleOffset: Swift.Int?
-    let duration: Swift.Int
+    let duration: Swift.Int?
     let cutoff: Swift.Int
     let allowUnassociatedTargets: Swift.Bool
     let enabled: Swift.Bool
@@ -47681,7 +47808,7 @@ extension UpdateMaintenanceWindowOutputBody: Swift.Decodable {
         scheduleTimezone = scheduleTimezoneDecoded
         let scheduleOffsetDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .scheduleOffset)
         scheduleOffset = scheduleOffsetDecoded
-        let durationDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .duration) ?? 0
+        let durationDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .duration)
         duration = durationDecoded
         let cutoffDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .cutoff) ?? 0
         cutoff = cutoffDecoded
@@ -48823,6 +48950,7 @@ enum UpdateOpsItemOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "OpsItemAccessDeniedException": return try await OpsItemAccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "OpsItemAlreadyExistsException": return try await OpsItemAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OpsItemConflictException": return try await OpsItemConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "OpsItemInvalidParameterException": return try await OpsItemInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "OpsItemLimitExceededException": return try await OpsItemLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "OpsItemNotFoundException": return try await OpsItemNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)

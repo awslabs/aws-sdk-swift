@@ -99,14 +99,7 @@ extension KendraRankingClient: KendraRankingClientProtocol {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<CreateRescoreExecutionPlanInput, CreateRescoreExecutionPlanOutput, CreateRescoreExecutionPlanOutputError>(id: "createRescoreExecutionPlan")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateRescoreExecutionPlanOutput> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.clientToken == nil {
-                copiedInput.clientToken = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateRescoreExecutionPlanInput, CreateRescoreExecutionPlanOutput, CreateRescoreExecutionPlanOutputError>(keyPath: \.clientToken))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateRescoreExecutionPlanInput, CreateRescoreExecutionPlanOutput, CreateRescoreExecutionPlanOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateRescoreExecutionPlanInput, CreateRescoreExecutionPlanOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)

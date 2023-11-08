@@ -68,6 +68,20 @@ public protocol ApplicationDiscoveryClientProtocol {
     /// - `InvalidParameterValueException` : The value of one or more parameters are either invalid or out of range. Verify the parameter values and try again.
     /// - `ServerInternalErrorException` : The server experienced an internal error. Try again.
     func associateConfigurationItemsToApplication(input: AssociateConfigurationItemsToApplicationInput) async throws -> AssociateConfigurationItemsToApplicationOutput
+    /// Deletes one or more agents or collectors as specified by ID. Deleting an agent or collector does not delete the previously discovered data. To delete the data collected, use StartBatchDeleteConfigurationTask.
+    ///
+    /// - Parameter BatchDeleteAgentsInput : [no documentation found]
+    ///
+    /// - Returns: `BatchDeleteAgentsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AuthorizationErrorException` : The user does not have permission to perform the action. Check the IAM policy associated with this user.
+    /// - `InvalidParameterException` : One or more parameters are not valid. Verify the parameters and try again.
+    /// - `InvalidParameterValueException` : The value of one or more parameters are either invalid or out of range. Verify the parameter values and try again.
+    /// - `ServerInternalErrorException` : The server experienced an internal error. Try again.
+    func batchDeleteAgents(input: BatchDeleteAgentsInput) async throws -> BatchDeleteAgentsOutput
     /// Deletes one or more import tasks, each identified by their import ID. Each import task has a number of records that can identify servers or applications. Amazon Web Services Application Discovery Service has built-in matching logic that will identify when discovered servers match existing entries that you've previously discovered, the information for the already-existing discovered server is updated. When you delete an import task that contains records that were used to match, the information in those matched records that comes from the deleted records will also be deleted.
     ///
     /// - Parameter BatchDeleteImportDataInput : [no documentation found]
@@ -160,6 +174,20 @@ public protocol ApplicationDiscoveryClientProtocol {
     /// - `InvalidParameterValueException` : The value of one or more parameters are either invalid or out of range. Verify the parameter values and try again.
     /// - `ServerInternalErrorException` : The server experienced an internal error. Try again.
     func describeAgents(input: DescribeAgentsInput) async throws -> DescribeAgentsOutput
+    /// Takes a unique deletion task identifier as input and returns metadata about a configuration deletion task.
+    ///
+    /// - Parameter DescribeBatchDeleteConfigurationTaskInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeBatchDeleteConfigurationTaskOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AuthorizationErrorException` : The user does not have permission to perform the action. Check the IAM policy associated with this user.
+    /// - `HomeRegionNotSetException` : The home Region is not set. Set the home Region to continue.
+    /// - `InvalidParameterValueException` : The value of one or more parameters are either invalid or out of range. Verify the parameter values and try again.
+    /// - `ServerInternalErrorException` : The server experienced an internal error. Try again.
+    func describeBatchDeleteConfigurationTask(input: DescribeBatchDeleteConfigurationTaskInput) async throws -> DescribeBatchDeleteConfigurationTaskOutput
     /// Retrieves attributes for a list of configuration item IDs. All of the supplied IDs must be for the same asset type from one of the following:
     ///
     /// * server
@@ -353,6 +381,22 @@ public protocol ApplicationDiscoveryClientProtocol {
     /// - `InvalidParameterValueException` : The value of one or more parameters are either invalid or out of range. Verify the parameter values and try again.
     /// - `ServerInternalErrorException` : The server experienced an internal error. Try again.
     func listServerNeighbors(input: ListServerNeighborsInput) async throws -> ListServerNeighborsOutput
+    /// Takes a list of configurationId as input and starts an asynchronous deletion task to remove the configurationItems. Returns a unique deletion task identifier.
+    ///
+    /// - Parameter StartBatchDeleteConfigurationTaskInput : [no documentation found]
+    ///
+    /// - Returns: `StartBatchDeleteConfigurationTaskOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AuthorizationErrorException` : The user does not have permission to perform the action. Check the IAM policy associated with this user.
+    /// - `HomeRegionNotSetException` : The home Region is not set. Set the home Region to continue.
+    /// - `InvalidParameterValueException` : The value of one or more parameters are either invalid or out of range. Verify the parameter values and try again.
+    /// - `LimitExceededException` : The limit of 200 configuration IDs per request has been exceeded.
+    /// - `OperationNotPermittedException` : This operation is not permitted.
+    /// - `ServerInternalErrorException` : The server experienced an internal error. Try again.
+    func startBatchDeleteConfigurationTask(input: StartBatchDeleteConfigurationTaskInput) async throws -> StartBatchDeleteConfigurationTaskOutput
     /// Start the continuous flow of agent's discovered data into Amazon Athena.
     ///
     /// - Parameter StartContinuousExportInput : [no documentation found]
@@ -363,7 +407,7 @@ public protocol ApplicationDiscoveryClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `AuthorizationErrorException` : The user does not have permission to perform the action. Check the IAM policy associated with this user.
-    /// - `ConflictErrorException` :
+    /// - `ConflictErrorException` : Conflict error.
     /// - `HomeRegionNotSetException` : The home Region is not set. Set the home Region to continue.
     /// - `InvalidParameterException` : One or more parameters are not valid. Verify the parameters and try again.
     /// - `InvalidParameterValueException` : The value of one or more parameters are either invalid or out of range. Verify the parameter values and try again.

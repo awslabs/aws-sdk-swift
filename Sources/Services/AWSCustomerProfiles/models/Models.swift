@@ -1413,7 +1413,7 @@ extension CustomerProfilesClientTypes {
 
 extension CreateCalculatedAttributeDefinitionInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateCalculatedAttributeDefinitionInput(calculatedAttributeName: \(Swift.String(describing: calculatedAttributeName)), description: \(Swift.String(describing: description)), displayName: \(Swift.String(describing: displayName)), domainName: \(Swift.String(describing: domainName)), tags: \(Swift.String(describing: tags)), attributeDetails: \"CONTENT_REDACTED\", conditions: \"CONTENT_REDACTED\", statistic: \"CONTENT_REDACTED\")"}
+        "CreateCalculatedAttributeDefinitionInput(calculatedAttributeName: \(Swift.String(describing: calculatedAttributeName)), displayName: \(Swift.String(describing: displayName)), domainName: \(Swift.String(describing: domainName)), tags: \(Swift.String(describing: tags)), attributeDetails: \"CONTENT_REDACTED\", conditions: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\", statistic: \"CONTENT_REDACTED\")"}
 }
 
 extension CreateCalculatedAttributeDefinitionInput: Swift.Encodable {
@@ -1555,7 +1555,7 @@ extension CreateCalculatedAttributeDefinitionInputBody: Swift.Decodable {
 
 extension CreateCalculatedAttributeDefinitionOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateCalculatedAttributeDefinitionOutput(calculatedAttributeName: \(Swift.String(describing: calculatedAttributeName)), createdAt: \(Swift.String(describing: createdAt)), description: \(Swift.String(describing: description)), displayName: \(Swift.String(describing: displayName)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), tags: \(Swift.String(describing: tags)), attributeDetails: \"CONTENT_REDACTED\", conditions: \"CONTENT_REDACTED\", statistic: \"CONTENT_REDACTED\")"}
+        "CreateCalculatedAttributeDefinitionOutput(calculatedAttributeName: \(Swift.String(describing: calculatedAttributeName)), createdAt: \(Swift.String(describing: createdAt)), displayName: \(Swift.String(describing: displayName)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), tags: \(Swift.String(describing: tags)), attributeDetails: \"CONTENT_REDACTED\", conditions: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\", statistic: \"CONTENT_REDACTED\")"}
 }
 
 extension CreateCalculatedAttributeDefinitionOutput: ClientRuntime.HttpResponseBinding {
@@ -4767,7 +4767,7 @@ extension GetCalculatedAttributeDefinitionInputBody: Swift.Decodable {
 
 extension GetCalculatedAttributeDefinitionOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetCalculatedAttributeDefinitionOutput(calculatedAttributeName: \(Swift.String(describing: calculatedAttributeName)), createdAt: \(Swift.String(describing: createdAt)), description: \(Swift.String(describing: description)), displayName: \(Swift.String(describing: displayName)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), tags: \(Swift.String(describing: tags)), attributeDetails: \"CONTENT_REDACTED\", conditions: \"CONTENT_REDACTED\", statistic: \"CONTENT_REDACTED\")"}
+        "GetCalculatedAttributeDefinitionOutput(calculatedAttributeName: \(Swift.String(describing: calculatedAttributeName)), createdAt: \(Swift.String(describing: createdAt)), displayName: \(Swift.String(describing: displayName)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), tags: \(Swift.String(describing: tags)), attributeDetails: \"CONTENT_REDACTED\", conditions: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\", statistic: \"CONTENT_REDACTED\")"}
 }
 
 extension GetCalculatedAttributeDefinitionOutput: ClientRuntime.HttpResponseBinding {
@@ -7593,6 +7593,11 @@ extension CustomerProfilesClientTypes.ListCalculatedAttributeDefinitionItem: Swi
     }
 }
 
+extension CustomerProfilesClientTypes.ListCalculatedAttributeDefinitionItem: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ListCalculatedAttributeDefinitionItem(calculatedAttributeName: \(Swift.String(describing: calculatedAttributeName)), createdAt: \(Swift.String(describing: createdAt)), displayName: \(Swift.String(describing: displayName)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\")"}
+}
+
 extension CustomerProfilesClientTypes {
     /// The details of a single calculated attribute definition.
     public struct ListCalculatedAttributeDefinitionItem: Swift.Equatable {
@@ -7683,6 +7688,11 @@ extension ListCalculatedAttributeDefinitionsInputBody: Swift.Decodable {
 
     public init(from decoder: Swift.Decoder) throws {
     }
+}
+
+extension ListCalculatedAttributeDefinitionsOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ListCalculatedAttributeDefinitionsOutput(nextToken: \(Swift.String(describing: nextToken)), items: \"CONTENT_REDACTED\")"}
 }
 
 extension ListCalculatedAttributeDefinitionsOutput: ClientRuntime.HttpResponseBinding {
@@ -11935,14 +11945,14 @@ extension CustomerProfilesClientTypes.Range: Swift.Codable {
         if let unit = self.unit {
             try encodeContainer.encode(unit.rawValue, forKey: .unit)
         }
-        if value != 0 {
+        if let value = self.value {
             try encodeContainer.encode(value, forKey: .value)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let valueDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .value) ?? 0
+        let valueDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .value)
         value = valueDecoded
         let unitDecoded = try containerValues.decodeIfPresent(CustomerProfilesClientTypes.Unit.self, forKey: .unit)
         unit = unitDecoded
@@ -11957,11 +11967,11 @@ extension CustomerProfilesClientTypes {
         public var unit: CustomerProfilesClientTypes.Unit?
         /// The amount of time of the specified unit.
         /// This member is required.
-        public var value: Swift.Int
+        public var value: Swift.Int?
 
         public init(
             unit: CustomerProfilesClientTypes.Unit? = nil,
-            value: Swift.Int = 0
+            value: Swift.Int? = nil
         )
         {
             self.unit = unit
@@ -14135,7 +14145,7 @@ extension CustomerProfilesClientTypes {
 
 extension UpdateCalculatedAttributeDefinitionInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateCalculatedAttributeDefinitionInput(calculatedAttributeName: \(Swift.String(describing: calculatedAttributeName)), description: \(Swift.String(describing: description)), displayName: \(Swift.String(describing: displayName)), domainName: \(Swift.String(describing: domainName)), conditions: \"CONTENT_REDACTED\")"}
+        "UpdateCalculatedAttributeDefinitionInput(calculatedAttributeName: \(Swift.String(describing: calculatedAttributeName)), displayName: \(Swift.String(describing: displayName)), domainName: \(Swift.String(describing: domainName)), conditions: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\")"}
 }
 
 extension UpdateCalculatedAttributeDefinitionInput: Swift.Encodable {
@@ -14227,7 +14237,7 @@ extension UpdateCalculatedAttributeDefinitionInputBody: Swift.Decodable {
 
 extension UpdateCalculatedAttributeDefinitionOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateCalculatedAttributeDefinitionOutput(calculatedAttributeName: \(Swift.String(describing: calculatedAttributeName)), createdAt: \(Swift.String(describing: createdAt)), description: \(Swift.String(describing: description)), displayName: \(Swift.String(describing: displayName)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), tags: \(Swift.String(describing: tags)), attributeDetails: \"CONTENT_REDACTED\", conditions: \"CONTENT_REDACTED\", statistic: \"CONTENT_REDACTED\")"}
+        "UpdateCalculatedAttributeDefinitionOutput(calculatedAttributeName: \(Swift.String(describing: calculatedAttributeName)), createdAt: \(Swift.String(describing: createdAt)), displayName: \(Swift.String(describing: displayName)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), tags: \(Swift.String(describing: tags)), attributeDetails: \"CONTENT_REDACTED\", conditions: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\", statistic: \"CONTENT_REDACTED\")"}
 }
 
 extension UpdateCalculatedAttributeDefinitionOutput: ClientRuntime.HttpResponseBinding {

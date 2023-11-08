@@ -1356,6 +1356,8 @@ extension DynamoDBClient: DynamoDBClientProtocol {
     ///
     /// * There is a user error, such as an invalid data format.
     ///
+    /// * There is an ongoing TransactWriteItems operation that conflicts with a concurrent TransactWriteItems request. In this case the TransactWriteItems operation fails with a TransactionCanceledException.
+    ///
     ///
     /// DynamoDB cancels a TransactGetItems request under the following circumstances:
     ///
@@ -1512,14 +1514,7 @@ extension DynamoDBClient: DynamoDBClientProtocol {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<ExecuteTransactionInput, ExecuteTransactionOutput, ExecuteTransactionOutputError>(id: "executeTransaction")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<ExecuteTransactionOutput> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.clientRequestToken == nil {
-                copiedInput.clientRequestToken = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<ExecuteTransactionInput, ExecuteTransactionOutput, ExecuteTransactionOutputError>(keyPath: \.clientRequestToken))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ExecuteTransactionInput, ExecuteTransactionOutput, ExecuteTransactionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ExecuteTransactionInput, ExecuteTransactionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
@@ -1570,14 +1565,7 @@ extension DynamoDBClient: DynamoDBClientProtocol {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<ExportTableToPointInTimeInput, ExportTableToPointInTimeOutput, ExportTableToPointInTimeOutputError>(id: "exportTableToPointInTime")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<ExportTableToPointInTimeOutput> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.clientToken == nil {
-                copiedInput.clientToken = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<ExportTableToPointInTimeInput, ExportTableToPointInTimeOutput, ExportTableToPointInTimeOutputError>(keyPath: \.clientToken))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ExportTableToPointInTimeInput, ExportTableToPointInTimeOutput, ExportTableToPointInTimeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ExportTableToPointInTimeInput, ExportTableToPointInTimeOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
@@ -1674,14 +1662,7 @@ extension DynamoDBClient: DynamoDBClientProtocol {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<ImportTableInput, ImportTableOutput, ImportTableOutputError>(id: "importTable")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<ImportTableOutput> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.clientToken == nil {
-                copiedInput.clientToken = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<ImportTableInput, ImportTableOutput, ImportTableOutputError>(keyPath: \.clientToken))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ImportTableInput, ImportTableOutput, ImportTableOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ImportTableInput, ImportTableOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
@@ -2397,6 +2378,8 @@ extension DynamoDBClient: DynamoDBClientProtocol {
     ///
     /// * There is a user error, such as an invalid data format.
     ///
+    /// * There is an ongoing TransactWriteItems operation that conflicts with a concurrent TransactWriteItems request. In this case the TransactWriteItems operation fails with a TransactionCanceledException.
+    ///
     ///
     /// DynamoDB cancels a TransactGetItems request under the following circumstances:
     ///
@@ -2591,6 +2574,8 @@ extension DynamoDBClient: DynamoDBClientProtocol {
     ///
     /// * There is a user error, such as an invalid data format.
     ///
+    /// * There is an ongoing TransactWriteItems operation that conflicts with a concurrent TransactWriteItems request. In this case the TransactWriteItems operation fails with a TransactionCanceledException.
+    ///
     ///
     /// DynamoDB cancels a TransactGetItems request under the following circumstances:
     ///
@@ -2747,14 +2732,7 @@ extension DynamoDBClient: DynamoDBClientProtocol {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<TransactWriteItemsInput, TransactWriteItemsOutput, TransactWriteItemsOutputError>(id: "transactWriteItems")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<TransactWriteItemsOutput> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.clientRequestToken == nil {
-                copiedInput.clientRequestToken = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<TransactWriteItemsInput, TransactWriteItemsOutput, TransactWriteItemsOutputError>(keyPath: \.clientRequestToken))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TransactWriteItemsInput, TransactWriteItemsOutput, TransactWriteItemsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TransactWriteItemsInput, TransactWriteItemsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)

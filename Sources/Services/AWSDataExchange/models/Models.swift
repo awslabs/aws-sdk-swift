@@ -1961,6 +1961,41 @@ extension DataExchangeClientTypes {
 
 }
 
+extension DataExchangeClientTypes.DataUpdateRequestDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dataUpdatedAt = "DataUpdatedAt"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dataUpdatedAt = self.dataUpdatedAt {
+            try encodeContainer.encodeTimestamp(dataUpdatedAt, format: .dateTime, forKey: .dataUpdatedAt)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let dataUpdatedAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .dataUpdatedAt)
+        dataUpdatedAt = dataUpdatedAtDecoded
+    }
+}
+
+extension DataExchangeClientTypes {
+    /// Extra details specific to a data update type notification.
+    public struct DataUpdateRequestDetails: Swift.Equatable {
+        /// A datetime in the past when the data was updated. This typically means that the underlying resource supporting the data set was updated.
+        public var dataUpdatedAt: ClientRuntime.Date?
+
+        public init(
+            dataUpdatedAt: ClientRuntime.Date? = nil
+        )
+        {
+            self.dataUpdatedAt = dataUpdatedAt
+        }
+    }
+
+}
+
 extension DataExchangeClientTypes.DatabaseLFTagPolicy: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case expression = "Expression"
@@ -2357,6 +2392,42 @@ enum DeleteRevisionOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
+}
+
+extension DataExchangeClientTypes.DeprecationRequestDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case deprecationAt = "DeprecationAt"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let deprecationAt = self.deprecationAt {
+            try encodeContainer.encodeTimestamp(deprecationAt, format: .dateTime, forKey: .deprecationAt)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let deprecationAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .deprecationAt)
+        deprecationAt = deprecationAtDecoded
+    }
+}
+
+extension DataExchangeClientTypes {
+    /// Extra details specific to a deprecation type notification.
+    public struct DeprecationRequestDetails: Swift.Equatable {
+        /// A datetime in the future when the data set will be deprecated.
+        /// This member is required.
+        public var deprecationAt: ClientRuntime.Date?
+
+        public init(
+            deprecationAt: ClientRuntime.Date? = nil
+        )
+        {
+            self.deprecationAt = deprecationAt
+        }
+    }
+
 }
 
 extension DataExchangeClientTypes.Details: Swift.Codable {
@@ -5637,6 +5708,51 @@ extension DataExchangeClientTypes {
     }
 }
 
+extension DataExchangeClientTypes.LakeFormationTagPolicyDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case database = "Database"
+        case table = "Table"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let database = self.database {
+            try encodeContainer.encode(database, forKey: .database)
+        }
+        if let table = self.table {
+            try encodeContainer.encode(table, forKey: .table)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let databaseDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .database)
+        database = databaseDecoded
+        let tableDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .table)
+        table = tableDecoded
+    }
+}
+
+extension DataExchangeClientTypes {
+    /// Extra details specific to the affected scope in this LF data set.
+    public struct LakeFormationTagPolicyDetails: Swift.Equatable {
+        /// The underlying Glue database that the notification is referring to.
+        public var database: Swift.String?
+        /// The underlying Glue table that the notification is referring to.
+        public var table: Swift.String?
+
+        public init(
+            database: Swift.String? = nil,
+            table: Swift.String? = nil
+        )
+        {
+            self.database = database
+            self.table = table
+        }
+    }
+
+}
+
 extension DataExchangeClientTypes {
     public enum LimitName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case awsLakeFormationDataPermissionAssetsPerRevision
@@ -6498,6 +6614,99 @@ enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension DataExchangeClientTypes.NotificationDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dataUpdate = "DataUpdate"
+        case deprecation = "Deprecation"
+        case schemaChange = "SchemaChange"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dataUpdate = self.dataUpdate {
+            try encodeContainer.encode(dataUpdate, forKey: .dataUpdate)
+        }
+        if let deprecation = self.deprecation {
+            try encodeContainer.encode(deprecation, forKey: .deprecation)
+        }
+        if let schemaChange = self.schemaChange {
+            try encodeContainer.encode(schemaChange, forKey: .schemaChange)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let dataUpdateDecoded = try containerValues.decodeIfPresent(DataExchangeClientTypes.DataUpdateRequestDetails.self, forKey: .dataUpdate)
+        dataUpdate = dataUpdateDecoded
+        let deprecationDecoded = try containerValues.decodeIfPresent(DataExchangeClientTypes.DeprecationRequestDetails.self, forKey: .deprecation)
+        deprecation = deprecationDecoded
+        let schemaChangeDecoded = try containerValues.decodeIfPresent(DataExchangeClientTypes.SchemaChangeRequestDetails.self, forKey: .schemaChange)
+        schemaChange = schemaChangeDecoded
+    }
+}
+
+extension DataExchangeClientTypes {
+    /// Extra details specific to this notification.
+    public struct NotificationDetails: Swift.Equatable {
+        /// Extra details specific to a data update type notification.
+        public var dataUpdate: DataExchangeClientTypes.DataUpdateRequestDetails?
+        /// Extra details specific to a deprecation type notification.
+        public var deprecation: DataExchangeClientTypes.DeprecationRequestDetails?
+        /// Extra details specific to a schema change type notification.
+        public var schemaChange: DataExchangeClientTypes.SchemaChangeRequestDetails?
+
+        public init(
+            dataUpdate: DataExchangeClientTypes.DataUpdateRequestDetails? = nil,
+            deprecation: DataExchangeClientTypes.DeprecationRequestDetails? = nil,
+            schemaChange: DataExchangeClientTypes.SchemaChangeRequestDetails? = nil
+        )
+        {
+            self.dataUpdate = dataUpdate
+            self.deprecation = deprecation
+            self.schemaChange = schemaChange
+        }
+    }
+
+}
+
+extension DataExchangeClientTypes {
+    public enum NotificationType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case dataDelay
+        case dataUpdate
+        case deprecation
+        case schemaChange
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [NotificationType] {
+            return [
+                .dataDelay,
+                .dataUpdate,
+                .deprecation,
+                .schemaChange,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .dataDelay: return "DATA_DELAY"
+            case .dataUpdate: return "DATA_UPDATE"
+            case .deprecation: return "DEPRECATION"
+            case .schemaChange: return "SCHEMA_CHANGE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = NotificationType(rawValue: rawValue) ?? NotificationType.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension DataExchangeClientTypes {
     public enum Origin: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case entitled
@@ -6662,6 +6871,93 @@ extension DataExchangeClientTypes {
         )
         {
             self.dataShareArn = dataShareArn
+        }
+    }
+
+}
+
+extension DataExchangeClientTypes.RedshiftDataShareDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn = "Arn"
+        case database = "Database"
+        case function = "Function"
+        case schema = "Schema"
+        case table = "Table"
+        case view = "View"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let database = self.database {
+            try encodeContainer.encode(database, forKey: .database)
+        }
+        if let function = self.function {
+            try encodeContainer.encode(function, forKey: .function)
+        }
+        if let schema = self.schema {
+            try encodeContainer.encode(schema, forKey: .schema)
+        }
+        if let table = self.table {
+            try encodeContainer.encode(table, forKey: .table)
+        }
+        if let view = self.view {
+            try encodeContainer.encode(view, forKey: .view)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let databaseDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .database)
+        database = databaseDecoded
+        let functionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .function)
+        function = functionDecoded
+        let tableDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .table)
+        table = tableDecoded
+        let schemaDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .schema)
+        schema = schemaDecoded
+        let viewDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .view)
+        view = viewDecoded
+    }
+}
+
+extension DataExchangeClientTypes {
+    /// Extra details specific to the affected scope in this Redshift data set.
+    public struct RedshiftDataShareDetails: Swift.Equatable {
+        /// The ARN of the underlying Redshift data share that is being affected by this notification.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The database name in the Redshift data share that is being affected by this notification.
+        /// This member is required.
+        public var database: Swift.String?
+        /// A function name in the Redshift database that is being affected by this notification.
+        public var function: Swift.String?
+        /// A schema name in the Redshift database that is being affected by this notification.
+        public var schema: Swift.String?
+        /// A table name in the Redshift database that is being affected by this notification.
+        public var table: Swift.String?
+        /// A view name in the Redshift database that is being affected by this notification.
+        public var view: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil,
+            database: Swift.String? = nil,
+            function: Swift.String? = nil,
+            schema: Swift.String? = nil,
+            table: Swift.String? = nil,
+            view: Swift.String? = nil
+        )
+        {
+            self.arn = arn
+            self.database = database
+            self.function = function
+            self.schema = schema
+            self.table = table
+            self.view = view
         }
     }
 
@@ -7692,6 +7988,75 @@ extension DataExchangeClientTypes {
 
 }
 
+extension DataExchangeClientTypes.S3DataAccessDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case keyPrefixes = "KeyPrefixes"
+        case keys = "Keys"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let keyPrefixes = keyPrefixes {
+            var keyPrefixesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .keyPrefixes)
+            for __string0 in keyPrefixes {
+                try keyPrefixesContainer.encode(__string0)
+            }
+        }
+        if let keys = keys {
+            var keysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .keys)
+            for __string0 in keys {
+                try keysContainer.encode(__string0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let keyPrefixesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .keyPrefixes)
+        var keyPrefixesDecoded0:[Swift.String]? = nil
+        if let keyPrefixesContainer = keyPrefixesContainer {
+            keyPrefixesDecoded0 = [Swift.String]()
+            for string0 in keyPrefixesContainer {
+                if let string0 = string0 {
+                    keyPrefixesDecoded0?.append(string0)
+                }
+            }
+        }
+        keyPrefixes = keyPrefixesDecoded0
+        let keysContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .keys)
+        var keysDecoded0:[Swift.String]? = nil
+        if let keysContainer = keysContainer {
+            keysDecoded0 = [Swift.String]()
+            for string0 in keysContainer {
+                if let string0 = string0 {
+                    keysDecoded0?.append(string0)
+                }
+            }
+        }
+        keys = keysDecoded0
+    }
+}
+
+extension DataExchangeClientTypes {
+    /// Extra details specific to the affected scope in this S3 Data Access data set.
+    public struct S3DataAccessDetails: Swift.Equatable {
+        /// A list of the key prefixes affected by this notification. This can have up to 50 entries.
+        public var keyPrefixes: [Swift.String]?
+        /// A list of the keys affected by this notification. This can have up to 50 entries.
+        public var keys: [Swift.String]?
+
+        public init(
+            keyPrefixes: [Swift.String]? = nil,
+            keys: [Swift.String]? = nil
+        )
+        {
+            self.keyPrefixes = keyPrefixes
+            self.keys = keys
+        }
+    }
+
+}
+
 extension DataExchangeClientTypes.S3SnapshotAsset: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case size = "Size"
@@ -7723,6 +8088,247 @@ extension DataExchangeClientTypes {
         )
         {
             self.size = size
+        }
+    }
+
+}
+
+extension DataExchangeClientTypes.SchemaChangeDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description = "Description"
+        case name = "Name"
+        case type = "Type"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let typeDecoded = try containerValues.decodeIfPresent(DataExchangeClientTypes.SchemaChangeType.self, forKey: .type)
+        type = typeDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+    }
+}
+
+extension DataExchangeClientTypes {
+    /// Object encompassing information about a schema change to a single, particular field, a notification can have up to 100 of these.
+    public struct SchemaChangeDetails: Swift.Equatable {
+        /// Description of what's changing about this field. This value can be up to 512 characters long.
+        public var description: Swift.String?
+        /// Name of the changing field. This value can be up to 255 characters long.
+        /// This member is required.
+        public var name: Swift.String?
+        /// Is the field being added, removed, or modified?
+        /// This member is required.
+        public var type: DataExchangeClientTypes.SchemaChangeType?
+
+        public init(
+            description: Swift.String? = nil,
+            name: Swift.String? = nil,
+            type: DataExchangeClientTypes.SchemaChangeType? = nil
+        )
+        {
+            self.description = description
+            self.name = name
+            self.type = type
+        }
+    }
+
+}
+
+extension DataExchangeClientTypes.SchemaChangeRequestDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case changes = "Changes"
+        case schemaChangeAt = "SchemaChangeAt"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let changes = changes {
+            var changesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .changes)
+            for schemachangedetails0 in changes {
+                try changesContainer.encode(schemachangedetails0)
+            }
+        }
+        if let schemaChangeAt = self.schemaChangeAt {
+            try encodeContainer.encodeTimestamp(schemaChangeAt, format: .dateTime, forKey: .schemaChangeAt)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let changesContainer = try containerValues.decodeIfPresent([DataExchangeClientTypes.SchemaChangeDetails?].self, forKey: .changes)
+        var changesDecoded0:[DataExchangeClientTypes.SchemaChangeDetails]? = nil
+        if let changesContainer = changesContainer {
+            changesDecoded0 = [DataExchangeClientTypes.SchemaChangeDetails]()
+            for structure0 in changesContainer {
+                if let structure0 = structure0 {
+                    changesDecoded0?.append(structure0)
+                }
+            }
+        }
+        changes = changesDecoded0
+        let schemaChangeAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .schemaChangeAt)
+        schemaChangeAt = schemaChangeAtDecoded
+    }
+}
+
+extension DataExchangeClientTypes {
+    /// Extra details specific to this schema change type notification.
+    public struct SchemaChangeRequestDetails: Swift.Equatable {
+        /// List of schema changes happening in the scope of this notification. This can have up to 100 entries.
+        public var changes: [DataExchangeClientTypes.SchemaChangeDetails]?
+        /// A date in the future when the schema change is taking effect.
+        /// This member is required.
+        public var schemaChangeAt: ClientRuntime.Date?
+
+        public init(
+            changes: [DataExchangeClientTypes.SchemaChangeDetails]? = nil,
+            schemaChangeAt: ClientRuntime.Date? = nil
+        )
+        {
+            self.changes = changes
+            self.schemaChangeAt = schemaChangeAt
+        }
+    }
+
+}
+
+extension DataExchangeClientTypes {
+    public enum SchemaChangeType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case add
+        case modify
+        case remove
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SchemaChangeType] {
+            return [
+                .add,
+                .modify,
+                .remove,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .add: return "ADD"
+            case .modify: return "MODIFY"
+            case .remove: return "REMOVE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = SchemaChangeType(rawValue: rawValue) ?? SchemaChangeType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension DataExchangeClientTypes.ScopeDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case lakeFormationTagPolicies = "LakeFormationTagPolicies"
+        case redshiftDataShares = "RedshiftDataShares"
+        case s3DataAccesses = "S3DataAccesses"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let lakeFormationTagPolicies = lakeFormationTagPolicies {
+            var lakeFormationTagPoliciesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .lakeFormationTagPolicies)
+            for lakeformationtagpolicydetails0 in lakeFormationTagPolicies {
+                try lakeFormationTagPoliciesContainer.encode(lakeformationtagpolicydetails0)
+            }
+        }
+        if let redshiftDataShares = redshiftDataShares {
+            var redshiftDataSharesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .redshiftDataShares)
+            for redshiftdatasharedetails0 in redshiftDataShares {
+                try redshiftDataSharesContainer.encode(redshiftdatasharedetails0)
+            }
+        }
+        if let s3DataAccesses = s3DataAccesses {
+            var s3DataAccessesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .s3DataAccesses)
+            for s3dataaccessdetails0 in s3DataAccesses {
+                try s3DataAccessesContainer.encode(s3dataaccessdetails0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let lakeFormationTagPoliciesContainer = try containerValues.decodeIfPresent([DataExchangeClientTypes.LakeFormationTagPolicyDetails?].self, forKey: .lakeFormationTagPolicies)
+        var lakeFormationTagPoliciesDecoded0:[DataExchangeClientTypes.LakeFormationTagPolicyDetails]? = nil
+        if let lakeFormationTagPoliciesContainer = lakeFormationTagPoliciesContainer {
+            lakeFormationTagPoliciesDecoded0 = [DataExchangeClientTypes.LakeFormationTagPolicyDetails]()
+            for structure0 in lakeFormationTagPoliciesContainer {
+                if let structure0 = structure0 {
+                    lakeFormationTagPoliciesDecoded0?.append(structure0)
+                }
+            }
+        }
+        lakeFormationTagPolicies = lakeFormationTagPoliciesDecoded0
+        let redshiftDataSharesContainer = try containerValues.decodeIfPresent([DataExchangeClientTypes.RedshiftDataShareDetails?].self, forKey: .redshiftDataShares)
+        var redshiftDataSharesDecoded0:[DataExchangeClientTypes.RedshiftDataShareDetails]? = nil
+        if let redshiftDataSharesContainer = redshiftDataSharesContainer {
+            redshiftDataSharesDecoded0 = [DataExchangeClientTypes.RedshiftDataShareDetails]()
+            for structure0 in redshiftDataSharesContainer {
+                if let structure0 = structure0 {
+                    redshiftDataSharesDecoded0?.append(structure0)
+                }
+            }
+        }
+        redshiftDataShares = redshiftDataSharesDecoded0
+        let s3DataAccessesContainer = try containerValues.decodeIfPresent([DataExchangeClientTypes.S3DataAccessDetails?].self, forKey: .s3DataAccesses)
+        var s3DataAccessesDecoded0:[DataExchangeClientTypes.S3DataAccessDetails]? = nil
+        if let s3DataAccessesContainer = s3DataAccessesContainer {
+            s3DataAccessesDecoded0 = [DataExchangeClientTypes.S3DataAccessDetails]()
+            for structure0 in s3DataAccessesContainer {
+                if let structure0 = structure0 {
+                    s3DataAccessesDecoded0?.append(structure0)
+                }
+            }
+        }
+        s3DataAccesses = s3DataAccessesDecoded0
+    }
+}
+
+extension DataExchangeClientTypes {
+    /// Details about the scope of the notifications such as the affected resources.
+    public struct ScopeDetails: Swift.Equatable {
+        /// Underlying LF resources that will be affected by this notification.
+        public var lakeFormationTagPolicies: [DataExchangeClientTypes.LakeFormationTagPolicyDetails]?
+        /// Underlying Redshift resources that will be affected by this notification.
+        public var redshiftDataShares: [DataExchangeClientTypes.RedshiftDataShareDetails]?
+        /// Underlying S3 resources that will be affected by this notification.
+        public var s3DataAccesses: [DataExchangeClientTypes.S3DataAccessDetails]?
+
+        public init(
+            lakeFormationTagPolicies: [DataExchangeClientTypes.LakeFormationTagPolicyDetails]? = nil,
+            redshiftDataShares: [DataExchangeClientTypes.RedshiftDataShareDetails]? = nil,
+            s3DataAccesses: [DataExchangeClientTypes.S3DataAccessDetails]? = nil
+        )
+        {
+            self.lakeFormationTagPolicies = lakeFormationTagPolicies
+            self.redshiftDataShares = redshiftDataShares
+            self.s3DataAccesses = s3DataAccesses
         }
     }
 
@@ -7936,6 +8542,136 @@ enum SendApiAssetOutputError: ClientRuntime.HttpResponseErrorBinding {
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension SendDataSetNotificationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken = "ClientToken"
+        case comment = "Comment"
+        case details = "Details"
+        case scope = "Scope"
+        case type = "Type"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientToken = self.clientToken {
+            try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let comment = self.comment {
+            try encodeContainer.encode(comment, forKey: .comment)
+        }
+        if let details = self.details {
+            try encodeContainer.encode(details, forKey: .details)
+        }
+        if let scope = self.scope {
+            try encodeContainer.encode(scope, forKey: .scope)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+    }
+}
+
+extension SendDataSetNotificationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let dataSetId = dataSetId else {
+            return nil
+        }
+        return "/v1/data-sets/\(dataSetId.urlPercentEncoding())/notification"
+    }
+}
+
+public struct SendDataSetNotificationInput: Swift.Equatable {
+    /// Idempotency key for the notification, this key allows us to deduplicate notifications that are sent in quick succession erroneously.
+    public var clientToken: Swift.String?
+    /// Free-form text field for providers to add information about their notifications.
+    public var comment: Swift.String?
+    /// Affected data set of the notification.
+    /// This member is required.
+    public var dataSetId: Swift.String?
+    /// Extra details specific to this notification type.
+    public var details: DataExchangeClientTypes.NotificationDetails?
+    /// Affected scope of this notification such as the underlying resources affected by the notification event.
+    public var scope: DataExchangeClientTypes.ScopeDetails?
+    /// The type of the notification. Describing the kind of event the notification is alerting you to.
+    /// This member is required.
+    public var type: DataExchangeClientTypes.NotificationType?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        comment: Swift.String? = nil,
+        dataSetId: Swift.String? = nil,
+        details: DataExchangeClientTypes.NotificationDetails? = nil,
+        scope: DataExchangeClientTypes.ScopeDetails? = nil,
+        type: DataExchangeClientTypes.NotificationType? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.comment = comment
+        self.dataSetId = dataSetId
+        self.details = details
+        self.scope = scope
+        self.type = type
+    }
+}
+
+struct SendDataSetNotificationInputBody: Swift.Equatable {
+    let scope: DataExchangeClientTypes.ScopeDetails?
+    let clientToken: Swift.String?
+    let comment: Swift.String?
+    let details: DataExchangeClientTypes.NotificationDetails?
+    let type: DataExchangeClientTypes.NotificationType?
+}
+
+extension SendDataSetNotificationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken = "ClientToken"
+        case comment = "Comment"
+        case details = "Details"
+        case scope = "Scope"
+        case type = "Type"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let scopeDecoded = try containerValues.decodeIfPresent(DataExchangeClientTypes.ScopeDetails.self, forKey: .scope)
+        scope = scopeDecoded
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
+        let commentDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .comment)
+        comment = commentDecoded
+        let detailsDecoded = try containerValues.decodeIfPresent(DataExchangeClientTypes.NotificationDetails.self, forKey: .details)
+        details = detailsDecoded
+        let typeDecoded = try containerValues.decodeIfPresent(DataExchangeClientTypes.NotificationType.self, forKey: .type)
+        type = typeDecoded
+    }
+}
+
+extension SendDataSetNotificationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct SendDataSetNotificationOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum SendDataSetNotificationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)

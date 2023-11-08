@@ -1818,10 +1818,10 @@ extension IotDeviceAdvisorClientTypes.SuiteDefinitionConfiguration: Swift.Codabl
                 try devicesContainer.encode(deviceundertest0)
             }
         }
-        if intendedForQualification != false {
+        if let intendedForQualification = self.intendedForQualification {
             try encodeContainer.encode(intendedForQualification, forKey: .intendedForQualification)
         }
-        if isLongDurationTest != false {
+        if let isLongDurationTest = self.isLongDurationTest {
             try encodeContainer.encode(isLongDurationTest, forKey: .isLongDurationTest)
         }
         if let `protocol` = self.`protocol` {
@@ -1850,9 +1850,9 @@ extension IotDeviceAdvisorClientTypes.SuiteDefinitionConfiguration: Swift.Codabl
             }
         }
         devices = devicesDecoded0
-        let intendedForQualificationDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .intendedForQualification) ?? false
+        let intendedForQualificationDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .intendedForQualification)
         intendedForQualification = intendedForQualificationDecoded
-        let isLongDurationTestDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isLongDurationTest) ?? false
+        let isLongDurationTestDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isLongDurationTest)
         isLongDurationTest = isLongDurationTestDecoded
         let rootGroupDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .rootGroup)
         rootGroup = rootGroupDecoded
@@ -1872,9 +1872,9 @@ extension IotDeviceAdvisorClientTypes {
         /// Gets the devices configured.
         public var devices: [IotDeviceAdvisorClientTypes.DeviceUnderTest]?
         /// Gets the tests intended for qualification in a suite.
-        public var intendedForQualification: Swift.Bool
+        public var intendedForQualification: Swift.Bool?
         /// Verifies if the test suite is a long duration test.
-        public var isLongDurationTest: Swift.Bool
+        public var isLongDurationTest: Swift.Bool?
         /// Sets the MQTT protocol that is configured in the suite definition.
         public var `protocol`: IotDeviceAdvisorClientTypes.ModelProtocol?
         /// Gets the test suite root group. This is a required parameter. For updating or creating the latest qualification suite, if intendedForQualification is set to true, rootGroup can be an empty string. If intendedForQualification is false, rootGroup cannot be an empty string. If rootGroup is empty, and intendedForQualification is set to true, all the qualification tests are included, and the configuration is default. For a qualification suite, the minimum length is 0, and the maximum is 2048. For a non-qualification suite, the minimum length is 1, and the maximum is 2048.
@@ -1887,8 +1887,8 @@ extension IotDeviceAdvisorClientTypes {
         public init(
             devicePermissionRoleArn: Swift.String? = nil,
             devices: [IotDeviceAdvisorClientTypes.DeviceUnderTest]? = nil,
-            intendedForQualification: Swift.Bool = false,
-            isLongDurationTest: Swift.Bool = false,
+            intendedForQualification: Swift.Bool? = nil,
+            isLongDurationTest: Swift.Bool? = nil,
             `protocol`: IotDeviceAdvisorClientTypes.ModelProtocol? = nil,
             rootGroup: Swift.String? = nil,
             suiteDefinitionName: Swift.String? = nil
@@ -1928,10 +1928,10 @@ extension IotDeviceAdvisorClientTypes.SuiteDefinitionInformation: Swift.Codable 
                 try defaultDevicesContainer.encode(deviceundertest0)
             }
         }
-        if intendedForQualification != false {
+        if let intendedForQualification = self.intendedForQualification {
             try encodeContainer.encode(intendedForQualification, forKey: .intendedForQualification)
         }
-        if isLongDurationTest != false {
+        if let isLongDurationTest = self.isLongDurationTest {
             try encodeContainer.encode(isLongDurationTest, forKey: .isLongDurationTest)
         }
         if let `protocol` = self.`protocol` {
@@ -1962,9 +1962,9 @@ extension IotDeviceAdvisorClientTypes.SuiteDefinitionInformation: Swift.Codable 
             }
         }
         defaultDevices = defaultDevicesDecoded0
-        let intendedForQualificationDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .intendedForQualification) ?? false
+        let intendedForQualificationDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .intendedForQualification)
         intendedForQualification = intendedForQualificationDecoded
-        let isLongDurationTestDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isLongDurationTest) ?? false
+        let isLongDurationTestDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isLongDurationTest)
         isLongDurationTest = isLongDurationTestDecoded
         let protocolDecoded = try containerValues.decodeIfPresent(IotDeviceAdvisorClientTypes.ModelProtocol.self, forKey: .protocol)
         `protocol` = protocolDecoded
@@ -1981,9 +1981,9 @@ extension IotDeviceAdvisorClientTypes {
         /// Specifies the devices that are under test for the test suite.
         public var defaultDevices: [IotDeviceAdvisorClientTypes.DeviceUnderTest]?
         /// Specifies if the test suite is intended for qualification.
-        public var intendedForQualification: Swift.Bool
+        public var intendedForQualification: Swift.Bool?
         /// Verifies if the test suite is a long duration test.
-        public var isLongDurationTest: Swift.Bool
+        public var isLongDurationTest: Swift.Bool?
         /// Gets the MQTT protocol that is configured in the suite definition.
         public var `protocol`: IotDeviceAdvisorClientTypes.ModelProtocol?
         /// Suite definition ID of the test suite.
@@ -1994,8 +1994,8 @@ extension IotDeviceAdvisorClientTypes {
         public init(
             createdAt: ClientRuntime.Date? = nil,
             defaultDevices: [IotDeviceAdvisorClientTypes.DeviceUnderTest]? = nil,
-            intendedForQualification: Swift.Bool = false,
-            isLongDurationTest: Swift.Bool = false,
+            intendedForQualification: Swift.Bool? = nil,
+            isLongDurationTest: Swift.Bool? = nil,
             `protocol`: IotDeviceAdvisorClientTypes.ModelProtocol? = nil,
             suiteDefinitionId: Swift.String? = nil,
             suiteDefinitionName: Swift.String? = nil
@@ -2022,7 +2022,7 @@ extension IotDeviceAdvisorClientTypes.SuiteRunConfiguration: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if parallelRun != false {
+        if let parallelRun = self.parallelRun {
             try encodeContainer.encode(parallelRun, forKey: .parallelRun)
         }
         if let primaryDevice = self.primaryDevice {
@@ -2051,7 +2051,7 @@ extension IotDeviceAdvisorClientTypes.SuiteRunConfiguration: Swift.Codable {
             }
         }
         selectedTestList = selectedTestListDecoded0
-        let parallelRunDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .parallelRun) ?? false
+        let parallelRunDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .parallelRun)
         parallelRun = parallelRunDecoded
     }
 }
@@ -2060,7 +2060,7 @@ extension IotDeviceAdvisorClientTypes {
     /// Gets suite run configuration.
     public struct SuiteRunConfiguration: Swift.Equatable {
         /// TRUE if multiple test suites run in parallel.
-        public var parallelRun: Swift.Bool
+        public var parallelRun: Swift.Bool?
         /// Sets the primary device for the test suite run. This requires a thing ARN or a certificate ARN.
         /// This member is required.
         public var primaryDevice: IotDeviceAdvisorClientTypes.DeviceUnderTest?
@@ -2068,7 +2068,7 @@ extension IotDeviceAdvisorClientTypes {
         public var selectedTestList: [Swift.String]?
 
         public init(
-            parallelRun: Swift.Bool = false,
+            parallelRun: Swift.Bool? = nil,
             primaryDevice: IotDeviceAdvisorClientTypes.DeviceUnderTest? = nil,
             selectedTestList: [Swift.String]? = nil
         )
@@ -2103,10 +2103,10 @@ extension IotDeviceAdvisorClientTypes.SuiteRunInformation: Swift.Codable {
         if let endAt = self.endAt {
             try encodeContainer.encodeTimestamp(endAt, format: .epochSeconds, forKey: .endAt)
         }
-        if failed != 0 {
+        if let failed = self.failed {
             try encodeContainer.encode(failed, forKey: .failed)
         }
-        if passed != 0 {
+        if let passed = self.passed {
             try encodeContainer.encode(passed, forKey: .passed)
         }
         if let startedAt = self.startedAt {
@@ -2147,9 +2147,9 @@ extension IotDeviceAdvisorClientTypes.SuiteRunInformation: Swift.Codable {
         endAt = endAtDecoded
         let statusDecoded = try containerValues.decodeIfPresent(IotDeviceAdvisorClientTypes.SuiteRunStatus.self, forKey: .status)
         status = statusDecoded
-        let passedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .passed) ?? 0
+        let passedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .passed)
         passed = passedDecoded
-        let failedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .failed) ?? 0
+        let failedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .failed)
         failed = failedDecoded
     }
 }
@@ -2162,9 +2162,9 @@ extension IotDeviceAdvisorClientTypes {
         /// Date (in Unix epoch time) when the suite run ended.
         public var endAt: ClientRuntime.Date?
         /// Number of test cases that failed in the suite run.
-        public var failed: Swift.Int
+        public var failed: Swift.Int?
         /// Number of test cases that passed in the suite run.
-        public var passed: Swift.Int
+        public var passed: Swift.Int?
         /// Date (in Unix epoch time) when the suite run was started.
         public var startedAt: ClientRuntime.Date?
         /// Status of the suite run.
@@ -2181,8 +2181,8 @@ extension IotDeviceAdvisorClientTypes {
         public init(
             createdAt: ClientRuntime.Date? = nil,
             endAt: ClientRuntime.Date? = nil,
-            failed: Swift.Int = 0,
-            passed: Swift.Int = 0,
+            failed: Swift.Int? = nil,
+            passed: Swift.Int? = nil,
             startedAt: ClientRuntime.Date? = nil,
             status: IotDeviceAdvisorClientTypes.SuiteRunStatus? = nil,
             suiteDefinitionId: Swift.String? = nil,

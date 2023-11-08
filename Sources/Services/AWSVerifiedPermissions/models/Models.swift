@@ -204,17 +204,17 @@ extension VerifiedPermissionsClientTypes.AttributeValue: Swift.Codable {
 extension VerifiedPermissionsClientTypes {
     /// The value of an attribute. Contains information about the runtime context for a request for which an authorization decision is made. This data type is used as a member of the [ContextDefinition](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ContextDefinition.html) structure which is uses as a request parameter for the [IsAuthorized](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorized.html) and [IsAuthorizedWithToken](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorizedWithToken.html) operations.
     public enum AttributeValue: Swift.Equatable {
-        /// An attribute value of [Boolean](https://docs.cedarpolicy.com/syntax-datatypes.html#boolean) type. Example: {"boolean": true}
+        /// An attribute value of [Boolean](https://docs.cedarpolicy.com/policies/syntax-datatypes.html#boolean) type. Example: {"boolean": true}
         case boolean(Swift.Bool)
         /// An attribute value of type [EntityIdentifier](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_EntityIdentifier.html). Example: "entityIdentifier": { "entityId": "<id>", "entityType": "<entity type>"}
         case entityidentifier(VerifiedPermissionsClientTypes.EntityIdentifier)
-        /// An attribute value of [Long](https://docs.cedarpolicy.com/syntax-datatypes.html#long) type. Example: {"long": 0}
+        /// An attribute value of [Long](https://docs.cedarpolicy.com/policies/syntax-datatypes.html#long) type. Example: {"long": 0}
         case long(Swift.Int)
-        /// An attribute value of [String](https://docs.cedarpolicy.com/syntax-datatypes.html#string) type. Example: {"string": "abc"}
+        /// An attribute value of [String](https://docs.cedarpolicy.com/policies/syntax-datatypes.html#string) type. Example: {"string": "abc"}
         case string(Swift.String)
-        /// An attribute value of [Set](https://docs.cedarpolicy.com/syntax-datatypes.html#set) type. Example: {"set": [ {} ] }
+        /// An attribute value of [Set](https://docs.cedarpolicy.com/policies/syntax-datatypes.html#set) type. Example: {"set": [ {} ] }
         case `set`([VerifiedPermissionsClientTypes.AttributeValue])
-        /// An attribute value of [Record](https://docs.cedarpolicy.com/syntax-datatypes.html#record) type. Example: {"record": { "keyName": {} } }
+        /// An attribute value of [Record](https://docs.cedarpolicy.com/policies/syntax-datatypes.html#record) type. Example: {"record": { "keyName": {} } }
         case record([Swift.String:VerifiedPermissionsClientTypes.AttributeValue])
         case sdkUnknown(Swift.String)
     }
@@ -612,6 +612,7 @@ enum CreateIdentitySourceOutputError: ClientRuntime.HttpResponseErrorBinding {
         let serviceError = try await VerifiedPermissionsClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
         if let error = serviceError { return error }
         switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
@@ -804,6 +805,7 @@ enum CreatePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
         let serviceError = try await VerifiedPermissionsClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
         if let error = serviceError { return error }
         switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
@@ -952,6 +954,7 @@ enum CreatePolicyStoreOutputError: ClientRuntime.HttpResponseErrorBinding {
         let serviceError = try await VerifiedPermissionsClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
         if let error = serviceError { return error }
         switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
@@ -1129,6 +1132,7 @@ enum CreatePolicyTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
         let serviceError = try await VerifiedPermissionsClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
         if let error = serviceError { return error }
         switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
@@ -6322,9 +6326,9 @@ extension ValidationException {
 ///
 /// * IncompatibleTypes The types of elements included in a set, or the types of expressions used in an if...then...else clause aren't compatible in this context.
 ///
-/// * MissingAttribute The policy attempts to access a record or entity attribute that isn't specified in the schema. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
+/// * MissingAttribute The policy attempts to access a record or entity attribute that isn't specified in the schema. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/policies/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
 ///
-/// * UnsafeOptionalAttributeAccess The policy attempts to access a record or entity attribute that is optional and isn't guaranteed to be present. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
+/// * UnsafeOptionalAttributeAccess The policy attempts to access a record or entity attribute that is optional and isn't guaranteed to be present. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/policies/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
 ///
 /// * ImpossiblePolicy Cedar has determined that a policy condition always evaluates to false. If the policy is always false, it can never apply to any query, and so it can never affect an authorization decision.
 ///

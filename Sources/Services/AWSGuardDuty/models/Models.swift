@@ -194,19 +194,19 @@ extension GuardDutyClientTypes.AccessControlList: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if allowsPublicReadAccess != false {
+        if let allowsPublicReadAccess = self.allowsPublicReadAccess {
             try encodeContainer.encode(allowsPublicReadAccess, forKey: .allowsPublicReadAccess)
         }
-        if allowsPublicWriteAccess != false {
+        if let allowsPublicWriteAccess = self.allowsPublicWriteAccess {
             try encodeContainer.encode(allowsPublicWriteAccess, forKey: .allowsPublicWriteAccess)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let allowsPublicReadAccessDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowsPublicReadAccess) ?? false
+        let allowsPublicReadAccessDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowsPublicReadAccess)
         allowsPublicReadAccess = allowsPublicReadAccessDecoded
-        let allowsPublicWriteAccessDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowsPublicWriteAccess) ?? false
+        let allowsPublicWriteAccessDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowsPublicWriteAccess)
         allowsPublicWriteAccess = allowsPublicWriteAccessDecoded
     }
 }
@@ -215,13 +215,13 @@ extension GuardDutyClientTypes {
     /// Contains information on the current access control policies for the bucket.
     public struct AccessControlList: Swift.Equatable {
         /// A value that indicates whether public read access for the bucket is enabled through an Access Control List (ACL).
-        public var allowsPublicReadAccess: Swift.Bool
+        public var allowsPublicReadAccess: Swift.Bool?
         /// A value that indicates whether public write access for the bucket is enabled through an Access Control List (ACL).
-        public var allowsPublicWriteAccess: Swift.Bool
+        public var allowsPublicWriteAccess: Swift.Bool?
 
         public init(
-            allowsPublicReadAccess: Swift.Bool = false,
-            allowsPublicWriteAccess: Swift.Bool = false
+            allowsPublicReadAccess: Swift.Bool? = nil,
+            allowsPublicWriteAccess: Swift.Bool? = nil
         )
         {
             self.allowsPublicReadAccess = allowsPublicReadAccess
@@ -1122,29 +1122,29 @@ extension GuardDutyClientTypes.BlockPublicAccess: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if blockPublicAcls != false {
+        if let blockPublicAcls = self.blockPublicAcls {
             try encodeContainer.encode(blockPublicAcls, forKey: .blockPublicAcls)
         }
-        if blockPublicPolicy != false {
+        if let blockPublicPolicy = self.blockPublicPolicy {
             try encodeContainer.encode(blockPublicPolicy, forKey: .blockPublicPolicy)
         }
-        if ignorePublicAcls != false {
+        if let ignorePublicAcls = self.ignorePublicAcls {
             try encodeContainer.encode(ignorePublicAcls, forKey: .ignorePublicAcls)
         }
-        if restrictPublicBuckets != false {
+        if let restrictPublicBuckets = self.restrictPublicBuckets {
             try encodeContainer.encode(restrictPublicBuckets, forKey: .restrictPublicBuckets)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let ignorePublicAclsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .ignorePublicAcls) ?? false
+        let ignorePublicAclsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .ignorePublicAcls)
         ignorePublicAcls = ignorePublicAclsDecoded
-        let restrictPublicBucketsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .restrictPublicBuckets) ?? false
+        let restrictPublicBucketsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .restrictPublicBuckets)
         restrictPublicBuckets = restrictPublicBucketsDecoded
-        let blockPublicAclsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .blockPublicAcls) ?? false
+        let blockPublicAclsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .blockPublicAcls)
         blockPublicAcls = blockPublicAclsDecoded
-        let blockPublicPolicyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .blockPublicPolicy) ?? false
+        let blockPublicPolicyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .blockPublicPolicy)
         blockPublicPolicy = blockPublicPolicyDecoded
     }
 }
@@ -1153,19 +1153,19 @@ extension GuardDutyClientTypes {
     /// Contains information on how the bucker owner's S3 Block Public Access settings are being applied to the S3 bucket. See [S3 Block Public Access](https://docs.aws.amazon.com/AmazonS3/latest/dev/access-control-block-public-access.html) for more information.
     public struct BlockPublicAccess: Swift.Equatable {
         /// Indicates if S3 Block Public Access is set to BlockPublicAcls.
-        public var blockPublicAcls: Swift.Bool
+        public var blockPublicAcls: Swift.Bool?
         /// Indicates if S3 Block Public Access is set to BlockPublicPolicy.
-        public var blockPublicPolicy: Swift.Bool
+        public var blockPublicPolicy: Swift.Bool?
         /// Indicates if S3 Block Public Access is set to IgnorePublicAcls.
-        public var ignorePublicAcls: Swift.Bool
+        public var ignorePublicAcls: Swift.Bool?
         /// Indicates if S3 Block Public Access is set to RestrictPublicBuckets.
-        public var restrictPublicBuckets: Swift.Bool
+        public var restrictPublicBuckets: Swift.Bool?
 
         public init(
-            blockPublicAcls: Swift.Bool = false,
-            blockPublicPolicy: Swift.Bool = false,
-            ignorePublicAcls: Swift.Bool = false,
-            restrictPublicBuckets: Swift.Bool = false
+            blockPublicAcls: Swift.Bool? = nil,
+            blockPublicPolicy: Swift.Bool? = nil,
+            ignorePublicAcls: Swift.Bool? = nil,
+            restrictPublicBuckets: Swift.Bool? = nil
         )
         {
             self.blockPublicAcls = blockPublicAcls
@@ -1240,19 +1240,19 @@ extension GuardDutyClientTypes.BucketPolicy: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if allowsPublicReadAccess != false {
+        if let allowsPublicReadAccess = self.allowsPublicReadAccess {
             try encodeContainer.encode(allowsPublicReadAccess, forKey: .allowsPublicReadAccess)
         }
-        if allowsPublicWriteAccess != false {
+        if let allowsPublicWriteAccess = self.allowsPublicWriteAccess {
             try encodeContainer.encode(allowsPublicWriteAccess, forKey: .allowsPublicWriteAccess)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let allowsPublicReadAccessDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowsPublicReadAccess) ?? false
+        let allowsPublicReadAccessDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowsPublicReadAccess)
         allowsPublicReadAccess = allowsPublicReadAccessDecoded
-        let allowsPublicWriteAccessDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowsPublicWriteAccess) ?? false
+        let allowsPublicWriteAccessDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowsPublicWriteAccess)
         allowsPublicWriteAccess = allowsPublicWriteAccessDecoded
     }
 }
@@ -1261,13 +1261,13 @@ extension GuardDutyClientTypes {
     /// Contains information on the current bucket policies for the S3 bucket.
     public struct BucketPolicy: Swift.Equatable {
         /// A value that indicates whether public read access for the bucket is enabled through a bucket policy.
-        public var allowsPublicReadAccess: Swift.Bool
+        public var allowsPublicReadAccess: Swift.Bool?
         /// A value that indicates whether public write access for the bucket is enabled through a bucket policy.
-        public var allowsPublicWriteAccess: Swift.Bool
+        public var allowsPublicWriteAccess: Swift.Bool?
 
         public init(
-            allowsPublicReadAccess: Swift.Bool = false,
-            allowsPublicWriteAccess: Swift.Bool = false
+            allowsPublicReadAccess: Swift.Bool? = nil,
+            allowsPublicWriteAccess: Swift.Bool? = nil
         )
         {
             self.allowsPublicReadAccess = allowsPublicReadAccess
@@ -1378,28 +1378,28 @@ extension GuardDutyClientTypes.Condition: Swift.Codable {
                 try equalsContainer.encode(string0)
             }
         }
-        if greaterThan != 0 {
+        if let greaterThan = self.greaterThan {
             try encodeContainer.encode(greaterThan, forKey: .greaterThan)
         }
-        if greaterThanOrEqual != 0 {
+        if let greaterThanOrEqual = self.greaterThanOrEqual {
             try encodeContainer.encode(greaterThanOrEqual, forKey: .greaterThanOrEqual)
         }
-        if gt != 0 {
+        if let gt = self.gt {
             try encodeContainer.encode(gt, forKey: .gt)
         }
-        if gte != 0 {
+        if let gte = self.gte {
             try encodeContainer.encode(gte, forKey: .gte)
         }
-        if lessThan != 0 {
+        if let lessThan = self.lessThan {
             try encodeContainer.encode(lessThan, forKey: .lessThan)
         }
-        if lessThanOrEqual != 0 {
+        if let lessThanOrEqual = self.lessThanOrEqual {
             try encodeContainer.encode(lessThanOrEqual, forKey: .lessThanOrEqual)
         }
-        if lt != 0 {
+        if let lt = self.lt {
             try encodeContainer.encode(lt, forKey: .lt)
         }
-        if lte != 0 {
+        if let lte = self.lte {
             try encodeContainer.encode(lte, forKey: .lte)
         }
         if let neq = neq {
@@ -1440,13 +1440,13 @@ extension GuardDutyClientTypes.Condition: Swift.Codable {
             }
         }
         neq = neqDecoded0
-        let gtDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .gt) ?? 0
+        let gtDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .gt)
         gt = gtDecoded
-        let gteDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .gte) ?? 0
+        let gteDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .gte)
         gte = gteDecoded
-        let ltDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .lt) ?? 0
+        let ltDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .lt)
         lt = ltDecoded
-        let lteDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .lte) ?? 0
+        let lteDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .lte)
         lte = lteDecoded
         let equalsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .equals)
         var equalsDecoded0:[Swift.String]? = nil
@@ -1470,13 +1470,13 @@ extension GuardDutyClientTypes.Condition: Swift.Codable {
             }
         }
         notEquals = notEqualsDecoded0
-        let greaterThanDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .greaterThan) ?? 0
+        let greaterThanDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .greaterThan)
         greaterThan = greaterThanDecoded
-        let greaterThanOrEqualDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .greaterThanOrEqual) ?? 0
+        let greaterThanOrEqualDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .greaterThanOrEqual)
         greaterThanOrEqual = greaterThanOrEqualDecoded
-        let lessThanDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .lessThan) ?? 0
+        let lessThanDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .lessThan)
         lessThan = lessThanDecoded
-        let lessThanOrEqualDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .lessThanOrEqual) ?? 0
+        let lessThanOrEqualDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .lessThanOrEqual)
         lessThanOrEqual = lessThanOrEqualDecoded
     }
 }
@@ -1490,25 +1490,25 @@ extension GuardDutyClientTypes {
         /// Represents an equal condition to be applied to a single field when querying for findings.
         public var equals: [Swift.String]?
         /// Represents a greater than condition to be applied to a single field when querying for findings.
-        public var greaterThan: Swift.Int
+        public var greaterThan: Swift.Int?
         /// Represents a greater than or equal condition to be applied to a single field when querying for findings.
-        public var greaterThanOrEqual: Swift.Int
+        public var greaterThanOrEqual: Swift.Int?
         /// Represents a greater than condition to be applied to a single field when querying for findings.
         @available(*, deprecated)
-        public var gt: Swift.Int
+        public var gt: Swift.Int?
         /// Represents a greater than or equal condition to be applied to a single field when querying for findings.
         @available(*, deprecated)
-        public var gte: Swift.Int
+        public var gte: Swift.Int?
         /// Represents a less than condition to be applied to a single field when querying for findings.
-        public var lessThan: Swift.Int
+        public var lessThan: Swift.Int?
         /// Represents a less than or equal condition to be applied to a single field when querying for findings.
-        public var lessThanOrEqual: Swift.Int
+        public var lessThanOrEqual: Swift.Int?
         /// Represents a less than condition to be applied to a single field when querying for findings.
         @available(*, deprecated)
-        public var lt: Swift.Int
+        public var lt: Swift.Int?
         /// Represents a less than or equal condition to be applied to a single field when querying for findings.
         @available(*, deprecated)
-        public var lte: Swift.Int
+        public var lte: Swift.Int?
         /// Represents the not equal condition to be applied to a single field when querying for findings.
         @available(*, deprecated)
         public var neq: [Swift.String]?
@@ -1518,14 +1518,14 @@ extension GuardDutyClientTypes {
         public init(
             eq: [Swift.String]? = nil,
             equals: [Swift.String]? = nil,
-            greaterThan: Swift.Int = 0,
-            greaterThanOrEqual: Swift.Int = 0,
-            gt: Swift.Int = 0,
-            gte: Swift.Int = 0,
-            lessThan: Swift.Int = 0,
-            lessThanOrEqual: Swift.Int = 0,
-            lt: Swift.Int = 0,
-            lte: Swift.Int = 0,
+            greaterThan: Swift.Int? = nil,
+            greaterThanOrEqual: Swift.Int? = nil,
+            gt: Swift.Int? = nil,
+            gte: Swift.Int? = nil,
+            lessThan: Swift.Int? = nil,
+            lessThanOrEqual: Swift.Int? = nil,
+            lt: Swift.Int? = nil,
+            lte: Swift.Int? = nil,
             neq: [Swift.String]? = nil,
             notEquals: [Swift.String]? = nil
         )
@@ -1782,10 +1782,10 @@ extension GuardDutyClientTypes.CoverageEksClusterDetails: Swift.Codable {
         if let clusterName = self.clusterName {
             try encodeContainer.encode(clusterName, forKey: .clusterName)
         }
-        if compatibleNodes != 0 {
+        if let compatibleNodes = self.compatibleNodes {
             try encodeContainer.encode(compatibleNodes, forKey: .compatibleNodes)
         }
-        if coveredNodes != 0 {
+        if let coveredNodes = self.coveredNodes {
             try encodeContainer.encode(coveredNodes, forKey: .coveredNodes)
         }
         if let managementType = self.managementType {
@@ -1797,9 +1797,9 @@ extension GuardDutyClientTypes.CoverageEksClusterDetails: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let clusterNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clusterName)
         clusterName = clusterNameDecoded
-        let coveredNodesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .coveredNodes) ?? 0
+        let coveredNodesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .coveredNodes)
         coveredNodes = coveredNodesDecoded
-        let compatibleNodesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .compatibleNodes) ?? 0
+        let compatibleNodesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .compatibleNodes)
         compatibleNodes = compatibleNodesDecoded
         let addonDetailsDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.AddonDetails.self, forKey: .addonDetails)
         addonDetails = addonDetailsDecoded
@@ -1816,17 +1816,17 @@ extension GuardDutyClientTypes {
         /// Name of the EKS cluster.
         public var clusterName: Swift.String?
         /// Represents all the nodes within the EKS cluster in your account.
-        public var compatibleNodes: Swift.Int
+        public var compatibleNodes: Swift.Int?
         /// Represents the nodes within the EKS cluster that have a HEALTHY coverage status.
-        public var coveredNodes: Swift.Int
+        public var coveredNodes: Swift.Int?
         /// Indicates how the Amazon EKS add-on GuardDuty agent is managed for this EKS cluster. AUTO_MANAGED indicates GuardDuty deploys and manages updates for this resource. MANUAL indicates that you are responsible to deploy, update, and manage the Amazon EKS add-on GuardDuty agent for this resource.
         public var managementType: GuardDutyClientTypes.ManagementType?
 
         public init(
             addonDetails: GuardDutyClientTypes.AddonDetails? = nil,
             clusterName: Swift.String? = nil,
-            compatibleNodes: Swift.Int = 0,
-            coveredNodes: Swift.Int = 0,
+            compatibleNodes: Swift.Int? = nil,
+            coveredNodes: Swift.Int? = nil,
             managementType: GuardDutyClientTypes.ManagementType? = nil
         )
         {
@@ -3984,14 +3984,14 @@ extension GuardDutyClientTypes.DataSourceFreeTrial: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if freeTrialDaysRemaining != 0 {
+        if let freeTrialDaysRemaining = self.freeTrialDaysRemaining {
             try encodeContainer.encode(freeTrialDaysRemaining, forKey: .freeTrialDaysRemaining)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let freeTrialDaysRemainingDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .freeTrialDaysRemaining) ?? 0
+        let freeTrialDaysRemainingDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .freeTrialDaysRemaining)
         freeTrialDaysRemaining = freeTrialDaysRemainingDecoded
     }
 }
@@ -4000,10 +4000,10 @@ extension GuardDutyClientTypes {
     /// Contains information about which data sources are enabled for the GuardDuty member account.
     public struct DataSourceFreeTrial: Swift.Equatable {
         /// A value that specifies the number of days left to use each enabled data source.
-        public var freeTrialDaysRemaining: Swift.Int
+        public var freeTrialDaysRemaining: Swift.Int?
 
         public init(
-            freeTrialDaysRemaining: Swift.Int = 0
+            freeTrialDaysRemaining: Swift.Int? = nil
         )
         {
             self.freeTrialDaysRemaining = freeTrialDaysRemaining
@@ -5076,11 +5076,11 @@ extension DescribeOrganizationConfigurationOutput: ClientRuntime.HttpResponseBin
             self.memberAccountLimitReached = output.memberAccountLimitReached
             self.nextToken = output.nextToken
         } else {
-            self.autoEnable = false
+            self.autoEnable = nil
             self.autoEnableOrganizationMembers = nil
             self.dataSources = nil
             self.features = nil
-            self.memberAccountLimitReached = false
+            self.memberAccountLimitReached = nil
             self.nextToken = nil
         }
     }
@@ -5089,7 +5089,7 @@ extension DescribeOrganizationConfigurationOutput: ClientRuntime.HttpResponseBin
 public struct DescribeOrganizationConfigurationOutput: Swift.Equatable {
     /// Indicates whether GuardDuty is automatically enabled for accounts added to the organization. Even though this is still supported, we recommend using AutoEnableOrganizationMembers to achieve the similar results.
     @available(*, deprecated, message: "This field is deprecated, use AutoEnableOrganizationMembers instead")
-    public var autoEnable: Swift.Bool
+    public var autoEnable: Swift.Bool?
     /// Indicates the auto-enablement configuration of GuardDuty for the member accounts in the organization.
     ///
     /// * NEW: Indicates that when a new account joins the organization, they will have GuardDuty enabled automatically.
@@ -5105,16 +5105,16 @@ public struct DescribeOrganizationConfigurationOutput: Swift.Equatable {
     public var features: [GuardDutyClientTypes.OrganizationFeatureConfigurationResult]?
     /// Indicates whether the maximum number of allowed member accounts are already associated with the delegated administrator account for your organization.
     /// This member is required.
-    public var memberAccountLimitReached: Swift.Bool
+    public var memberAccountLimitReached: Swift.Bool?
     /// The pagination parameter to be used on the next list operation to retrieve more items.
     public var nextToken: Swift.String?
 
     public init(
-        autoEnable: Swift.Bool = false,
+        autoEnable: Swift.Bool? = nil,
         autoEnableOrganizationMembers: GuardDutyClientTypes.AutoEnableMembers? = nil,
         dataSources: GuardDutyClientTypes.OrganizationDataSourceConfigurationsResult? = nil,
         features: [GuardDutyClientTypes.OrganizationFeatureConfigurationResult]? = nil,
-        memberAccountLimitReached: Swift.Bool = false,
+        memberAccountLimitReached: Swift.Bool? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -5128,8 +5128,8 @@ public struct DescribeOrganizationConfigurationOutput: Swift.Equatable {
 }
 
 struct DescribeOrganizationConfigurationOutputBody: Swift.Equatable {
-    let autoEnable: Swift.Bool
-    let memberAccountLimitReached: Swift.Bool
+    let autoEnable: Swift.Bool?
+    let memberAccountLimitReached: Swift.Bool?
     let dataSources: GuardDutyClientTypes.OrganizationDataSourceConfigurationsResult?
     let features: [GuardDutyClientTypes.OrganizationFeatureConfigurationResult]?
     let nextToken: Swift.String?
@@ -5148,9 +5148,9 @@ extension DescribeOrganizationConfigurationOutputBody: Swift.Decodable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let autoEnableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoEnable) ?? false
+        let autoEnableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoEnable)
         autoEnable = autoEnableDecoded
-        let memberAccountLimitReachedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .memberAccountLimitReached) ?? false
+        let memberAccountLimitReachedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .memberAccountLimitReached)
         memberAccountLimitReached = memberAccountLimitReachedDecoded
         let dataSourcesDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.OrganizationDataSourceConfigurationsResult.self, forKey: .dataSources)
         dataSources = dataSourcesDecoded
@@ -5237,7 +5237,7 @@ extension DescribePublishingDestinationOutput: ClientRuntime.HttpResponseBinding
             self.destinationId = nil
             self.destinationProperties = nil
             self.destinationType = nil
-            self.publishingFailureStartTimestamp = 0
+            self.publishingFailureStartTimestamp = nil
             self.status = nil
         }
     }
@@ -5255,7 +5255,7 @@ public struct DescribePublishingDestinationOutput: Swift.Equatable {
     public var destinationType: GuardDutyClientTypes.DestinationType?
     /// The time, in epoch millisecond format, at which GuardDuty was first unable to publish findings to the destination.
     /// This member is required.
-    public var publishingFailureStartTimestamp: Swift.Int
+    public var publishingFailureStartTimestamp: Swift.Int?
     /// The status of the publishing destination.
     /// This member is required.
     public var status: GuardDutyClientTypes.PublishingStatus?
@@ -5264,7 +5264,7 @@ public struct DescribePublishingDestinationOutput: Swift.Equatable {
         destinationId: Swift.String? = nil,
         destinationProperties: GuardDutyClientTypes.DestinationProperties? = nil,
         destinationType: GuardDutyClientTypes.DestinationType? = nil,
-        publishingFailureStartTimestamp: Swift.Int = 0,
+        publishingFailureStartTimestamp: Swift.Int? = nil,
         status: GuardDutyClientTypes.PublishingStatus? = nil
     )
     {
@@ -5280,7 +5280,7 @@ struct DescribePublishingDestinationOutputBody: Swift.Equatable {
     let destinationId: Swift.String?
     let destinationType: GuardDutyClientTypes.DestinationType?
     let status: GuardDutyClientTypes.PublishingStatus?
-    let publishingFailureStartTimestamp: Swift.Int
+    let publishingFailureStartTimestamp: Swift.Int?
     let destinationProperties: GuardDutyClientTypes.DestinationProperties?
 }
 
@@ -5301,7 +5301,7 @@ extension DescribePublishingDestinationOutputBody: Swift.Decodable {
         destinationType = destinationTypeDecoded
         let statusDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.PublishingStatus.self, forKey: .status)
         status = statusDecoded
-        let publishingFailureStartTimestampDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .publishingFailureStartTimestamp) ?? 0
+        let publishingFailureStartTimestampDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .publishingFailureStartTimestamp)
         publishingFailureStartTimestamp = publishingFailureStartTimestampDecoded
         let destinationPropertiesDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.DestinationProperties.self, forKey: .destinationProperties)
         destinationProperties = destinationPropertiesDecoded
@@ -6137,16 +6137,20 @@ extension GuardDutyClientTypes.DnsRequestAction: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case blocked = "blocked"
         case domain = "domain"
+        case domainWithSuffix = "domainWithSuffix"
         case `protocol` = "protocol"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if blocked != false {
+        if let blocked = self.blocked {
             try encodeContainer.encode(blocked, forKey: .blocked)
         }
         if let domain = self.domain {
             try encodeContainer.encode(domain, forKey: .domain)
+        }
+        if let domainWithSuffix = self.domainWithSuffix {
+            try encodeContainer.encode(domainWithSuffix, forKey: .domainWithSuffix)
         }
         if let `protocol` = self.`protocol` {
             try encodeContainer.encode(`protocol`, forKey: .`protocol`)
@@ -6159,8 +6163,10 @@ extension GuardDutyClientTypes.DnsRequestAction: Swift.Codable {
         domain = domainDecoded
         let protocolDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .protocol)
         `protocol` = protocolDecoded
-        let blockedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .blocked) ?? false
+        let blockedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .blocked)
         blocked = blockedDecoded
+        let domainWithSuffixDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domainWithSuffix)
+        domainWithSuffix = domainWithSuffixDecoded
     }
 }
 
@@ -6168,20 +6174,24 @@ extension GuardDutyClientTypes {
     /// Contains information about the DNS_REQUEST action described in this finding.
     public struct DnsRequestAction: Swift.Equatable {
         /// Indicates whether the targeted port is blocked.
-        public var blocked: Swift.Bool
+        public var blocked: Swift.Bool?
         /// The domain information for the DNS query.
         public var domain: Swift.String?
+        /// The second and top level domain involved in the activity that prompted GuardDuty to generate this finding.
+        public var domainWithSuffix: Swift.String?
         /// The network connection protocol observed in the activity that prompted GuardDuty to generate the finding.
         public var `protocol`: Swift.String?
 
         public init(
-            blocked: Swift.Bool = false,
+            blocked: Swift.Bool? = nil,
             domain: Swift.String? = nil,
+            domainWithSuffix: Swift.String? = nil,
             `protocol`: Swift.String? = nil
         )
         {
             self.blocked = blocked
             self.domain = domain
+            self.domainWithSuffix = domainWithSuffix
             self.`protocol` = `protocol`
         }
     }
@@ -6490,7 +6500,7 @@ extension GuardDutyClientTypes.EcsClusterDetails: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if activeServicesCount != 0 {
+        if let activeServicesCount = self.activeServicesCount {
             try encodeContainer.encode(activeServicesCount, forKey: .activeServicesCount)
         }
         if let arn = self.arn {
@@ -6499,10 +6509,10 @@ extension GuardDutyClientTypes.EcsClusterDetails: Swift.Codable {
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
         }
-        if registeredContainerInstancesCount != 0 {
+        if let registeredContainerInstancesCount = self.registeredContainerInstancesCount {
             try encodeContainer.encode(registeredContainerInstancesCount, forKey: .registeredContainerInstancesCount)
         }
-        if runningTasksCount != 0 {
+        if let runningTasksCount = self.runningTasksCount {
             try encodeContainer.encode(runningTasksCount, forKey: .runningTasksCount)
         }
         if let status = self.status {
@@ -6527,11 +6537,11 @@ extension GuardDutyClientTypes.EcsClusterDetails: Swift.Codable {
         arn = arnDecoded
         let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
         status = statusDecoded
-        let activeServicesCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .activeServicesCount) ?? 0
+        let activeServicesCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .activeServicesCount)
         activeServicesCount = activeServicesCountDecoded
-        let registeredContainerInstancesCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .registeredContainerInstancesCount) ?? 0
+        let registeredContainerInstancesCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .registeredContainerInstancesCount)
         registeredContainerInstancesCount = registeredContainerInstancesCountDecoded
-        let runningTasksCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .runningTasksCount) ?? 0
+        let runningTasksCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .runningTasksCount)
         runningTasksCount = runningTasksCountDecoded
         let tagsContainer = try containerValues.decodeIfPresent([GuardDutyClientTypes.Tag?].self, forKey: .tags)
         var tagsDecoded0:[GuardDutyClientTypes.Tag]? = nil
@@ -6553,15 +6563,15 @@ extension GuardDutyClientTypes {
     /// Contains information about the details of the ECS Cluster.
     public struct EcsClusterDetails: Swift.Equatable {
         /// The number of services that are running on the cluster in an ACTIVE state.
-        public var activeServicesCount: Swift.Int
+        public var activeServicesCount: Swift.Int?
         /// The Amazon Resource Name (ARN) that identifies the cluster.
         public var arn: Swift.String?
         /// The name of the ECS Cluster.
         public var name: Swift.String?
         /// The number of container instances registered into the cluster.
-        public var registeredContainerInstancesCount: Swift.Int
+        public var registeredContainerInstancesCount: Swift.Int?
         /// The number of tasks in the cluster that are in the RUNNING state.
-        public var runningTasksCount: Swift.Int
+        public var runningTasksCount: Swift.Int?
         /// The status of the ECS cluster.
         public var status: Swift.String?
         /// The tags of the ECS Cluster.
@@ -6570,11 +6580,11 @@ extension GuardDutyClientTypes {
         public var taskDetails: GuardDutyClientTypes.EcsTaskDetails?
 
         public init(
-            activeServicesCount: Swift.Int = 0,
+            activeServicesCount: Swift.Int? = nil,
             arn: Swift.String? = nil,
             name: Swift.String? = nil,
-            registeredContainerInstancesCount: Swift.Int = 0,
-            runningTasksCount: Swift.Int = 0,
+            registeredContainerInstancesCount: Swift.Int? = nil,
+            runningTasksCount: Swift.Int? = nil,
             status: Swift.String? = nil,
             tags: [GuardDutyClientTypes.Tag]? = nil,
             taskDetails: GuardDutyClientTypes.EcsTaskDetails? = nil
@@ -7105,10 +7115,10 @@ extension GuardDutyClientTypes.FilterCondition: Swift.Codable {
         if let equalsValue = self.equalsValue {
             try encodeContainer.encode(equalsValue, forKey: .equalsValue)
         }
-        if greaterThan != 0 {
+        if let greaterThan = self.greaterThan {
             try encodeContainer.encode(greaterThan, forKey: .greaterThan)
         }
-        if lessThan != 0 {
+        if let lessThan = self.lessThan {
             try encodeContainer.encode(lessThan, forKey: .lessThan)
         }
     }
@@ -7117,9 +7127,9 @@ extension GuardDutyClientTypes.FilterCondition: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let equalsValueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .equalsValue)
         equalsValue = equalsValueDecoded
-        let greaterThanDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .greaterThan) ?? 0
+        let greaterThanDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .greaterThan)
         greaterThan = greaterThanDecoded
-        let lessThanDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .lessThan) ?? 0
+        let lessThanDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .lessThan)
         lessThan = lessThanDecoded
     }
 }
@@ -7130,14 +7140,14 @@ extension GuardDutyClientTypes {
         /// Represents an equal condition to be applied to a single field when querying for scan entries.
         public var equalsValue: Swift.String?
         /// Represents a greater than condition to be applied to a single field when querying for scan entries.
-        public var greaterThan: Swift.Int
+        public var greaterThan: Swift.Int?
         /// Represents a less than condition to be applied to a single field when querying for scan entries.
-        public var lessThan: Swift.Int
+        public var lessThan: Swift.Int?
 
         public init(
             equalsValue: Swift.String? = nil,
-            greaterThan: Swift.Int = 0,
-            lessThan: Swift.Int = 0
+            greaterThan: Swift.Int? = nil,
+            lessThan: Swift.Int? = nil
         )
         {
             self.equalsValue = equalsValue
@@ -7267,7 +7277,7 @@ extension GuardDutyClientTypes.Finding: Swift.Codable {
         if let arn = self.arn {
             try encodeContainer.encode(arn, forKey: .arn)
         }
-        if confidence != 0.0 {
+        if let confidence = self.confidence {
             try encodeContainer.encode(confidence, forKey: .confidence)
         }
         if let createdAt = self.createdAt {
@@ -7294,7 +7304,7 @@ extension GuardDutyClientTypes.Finding: Swift.Codable {
         if let service = self.service {
             try encodeContainer.encode(service, forKey: .service)
         }
-        if severity != 0.0 {
+        if let severity = self.severity {
             try encodeContainer.encode(severity, forKey: .severity)
         }
         if let title = self.title {
@@ -7314,7 +7324,7 @@ extension GuardDutyClientTypes.Finding: Swift.Codable {
         accountId = accountIdDecoded
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
-        let confidenceDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .confidence) ?? 0.0
+        let confidenceDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .confidence)
         confidence = confidenceDecoded
         let createdAtDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .createdAt)
         createdAt = createdAtDecoded
@@ -7332,7 +7342,7 @@ extension GuardDutyClientTypes.Finding: Swift.Codable {
         schemaVersion = schemaVersionDecoded
         let serviceDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.Service.self, forKey: .service)
         service = serviceDecoded
-        let severityDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .severity) ?? 0.0
+        let severityDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .severity)
         severity = severityDecoded
         let titleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .title)
         title = titleDecoded
@@ -7353,7 +7363,7 @@ extension GuardDutyClientTypes {
         /// This member is required.
         public var arn: Swift.String?
         /// The confidence score for the finding.
-        public var confidence: Swift.Double
+        public var confidence: Swift.Double?
         /// The time and date when the finding was created.
         /// This member is required.
         public var createdAt: Swift.String?
@@ -7377,7 +7387,7 @@ extension GuardDutyClientTypes {
         public var service: GuardDutyClientTypes.Service?
         /// The severity of the finding.
         /// This member is required.
-        public var severity: Swift.Double
+        public var severity: Swift.Double?
         /// The title of the finding.
         public var title: Swift.String?
         /// The type of finding.
@@ -7390,7 +7400,7 @@ extension GuardDutyClientTypes {
         public init(
             accountId: Swift.String? = nil,
             arn: Swift.String? = nil,
-            confidence: Swift.Double = 0.0,
+            confidence: Swift.Double? = nil,
             createdAt: Swift.String? = nil,
             description: Swift.String? = nil,
             id: Swift.String? = nil,
@@ -7399,7 +7409,7 @@ extension GuardDutyClientTypes {
             resource: GuardDutyClientTypes.Resource? = nil,
             schemaVersion: Swift.String? = nil,
             service: GuardDutyClientTypes.Service? = nil,
-            severity: Swift.Double = 0.0,
+            severity: Swift.Double? = nil,
             title: Swift.String? = nil,
             type: Swift.String? = nil,
             updatedAt: Swift.String? = nil
@@ -7627,7 +7637,7 @@ extension GuardDutyClientTypes.FreeTrialFeatureConfigurationResult: Swift.Codabl
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if freeTrialDaysRemaining != 0 {
+        if let freeTrialDaysRemaining = self.freeTrialDaysRemaining {
             try encodeContainer.encode(freeTrialDaysRemaining, forKey: .freeTrialDaysRemaining)
         }
         if let name = self.name {
@@ -7639,7 +7649,7 @@ extension GuardDutyClientTypes.FreeTrialFeatureConfigurationResult: Swift.Codabl
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.FreeTrialFeatureResult.self, forKey: .name)
         name = nameDecoded
-        let freeTrialDaysRemainingDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .freeTrialDaysRemaining) ?? 0
+        let freeTrialDaysRemainingDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .freeTrialDaysRemaining)
         freeTrialDaysRemaining = freeTrialDaysRemainingDecoded
     }
 }
@@ -7648,12 +7658,12 @@ extension GuardDutyClientTypes {
     /// Contains information about the free trial period for a feature.
     public struct FreeTrialFeatureConfigurationResult: Swift.Equatable {
         /// The number of the remaining free trial days for the feature.
-        public var freeTrialDaysRemaining: Swift.Int
+        public var freeTrialDaysRemaining: Swift.Int?
         /// The name of the feature for which the free trial is configured.
         public var name: GuardDutyClientTypes.FreeTrialFeatureResult?
 
         public init(
-            freeTrialDaysRemaining: Swift.Int = 0,
+            freeTrialDaysRemaining: Swift.Int? = nil,
             name: GuardDutyClientTypes.FreeTrialFeatureResult? = nil
         )
         {
@@ -7725,19 +7735,19 @@ extension GuardDutyClientTypes.GeoLocation: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if lat != 0.0 {
+        if let lat = self.lat {
             try encodeContainer.encode(lat, forKey: .lat)
         }
-        if lon != 0.0 {
+        if let lon = self.lon {
             try encodeContainer.encode(lon, forKey: .lon)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let latDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .lat) ?? 0.0
+        let latDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .lat)
         lat = latDecoded
-        let lonDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .lon) ?? 0.0
+        let lonDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .lon)
         lon = lonDecoded
     }
 }
@@ -7746,13 +7756,13 @@ extension GuardDutyClientTypes {
     /// Contains information about the location of the remote IP address.
     public struct GeoLocation: Swift.Equatable {
         /// The latitude information of the remote IP address.
-        public var lat: Swift.Double
+        public var lat: Swift.Double?
         /// The longitude information of the remote IP address.
-        public var lon: Swift.Double
+        public var lon: Swift.Double?
 
         public init(
-            lat: Swift.Double = 0.0,
-            lon: Swift.Double = 0.0
+            lat: Swift.Double? = nil,
+            lon: Swift.Double? = nil
         )
         {
             self.lat = lat
@@ -8207,7 +8217,7 @@ extension GetFilterOutput: ClientRuntime.HttpResponseBinding {
             self.description = nil
             self.findingCriteria = nil
             self.name = nil
-            self.rank = 0
+            self.rank = nil
             self.tags = nil
         }
     }
@@ -8226,7 +8236,7 @@ public struct GetFilterOutput: Swift.Equatable {
     /// This member is required.
     public var name: Swift.String?
     /// Specifies the position of the filter in the list of current filters. Also specifies the order in which this filter is applied to the findings.
-    public var rank: Swift.Int
+    public var rank: Swift.Int?
     /// The tags of the filter resource.
     public var tags: [Swift.String:Swift.String]?
 
@@ -8235,7 +8245,7 @@ public struct GetFilterOutput: Swift.Equatable {
         description: Swift.String? = nil,
         findingCriteria: GuardDutyClientTypes.FindingCriteria? = nil,
         name: Swift.String? = nil,
-        rank: Swift.Int = 0,
+        rank: Swift.Int? = nil,
         tags: [Swift.String:Swift.String]? = nil
     )
     {
@@ -8252,7 +8262,7 @@ struct GetFilterOutputBody: Swift.Equatable {
     let name: Swift.String?
     let description: Swift.String?
     let action: GuardDutyClientTypes.FilterAction?
-    let rank: Swift.Int
+    let rank: Swift.Int?
     let findingCriteria: GuardDutyClientTypes.FindingCriteria?
     let tags: [Swift.String:Swift.String]?
 }
@@ -8275,7 +8285,7 @@ extension GetFilterOutputBody: Swift.Decodable {
         description = descriptionDecoded
         let actionDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.FilterAction.self, forKey: .action)
         action = actionDecoded
-        let rankDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .rank) ?? 0
+        let rankDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .rank)
         rank = rankDecoded
         let findingCriteriaDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.FindingCriteria.self, forKey: .findingCriteria)
         findingCriteria = findingCriteriaDecoded
@@ -8751,17 +8761,17 @@ extension GetInvitationsCountOutput: ClientRuntime.HttpResponseBinding {
             let output: GetInvitationsCountOutputBody = try responseDecoder.decode(responseBody: data)
             self.invitationsCount = output.invitationsCount
         } else {
-            self.invitationsCount = 0
+            self.invitationsCount = nil
         }
     }
 }
 
 public struct GetInvitationsCountOutput: Swift.Equatable {
     /// The number of received invitations.
-    public var invitationsCount: Swift.Int
+    public var invitationsCount: Swift.Int?
 
     public init(
-        invitationsCount: Swift.Int = 0
+        invitationsCount: Swift.Int? = nil
     )
     {
         self.invitationsCount = invitationsCount
@@ -8769,7 +8779,7 @@ public struct GetInvitationsCountOutput: Swift.Equatable {
 }
 
 struct GetInvitationsCountOutputBody: Swift.Equatable {
-    let invitationsCount: Swift.Int
+    let invitationsCount: Swift.Int?
 }
 
 extension GetInvitationsCountOutputBody: Swift.Decodable {
@@ -8779,7 +8789,7 @@ extension GetInvitationsCountOutputBody: Swift.Decodable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let invitationsCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .invitationsCount) ?? 0
+        let invitationsCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .invitationsCount)
         invitationsCount = invitationsCountDecoded
     }
 }
@@ -9742,7 +9752,7 @@ extension GuardDutyClientTypes.HighestSeverityThreatDetails: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if count != 0 {
+        if let count = self.count {
             try encodeContainer.encode(count, forKey: .count)
         }
         if let severity = self.severity {
@@ -9759,7 +9769,7 @@ extension GuardDutyClientTypes.HighestSeverityThreatDetails: Swift.Codable {
         severity = severityDecoded
         let threatNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .threatName)
         threatName = threatNameDecoded
-        let countDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .count) ?? 0
+        let countDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .count)
         count = countDecoded
     }
 }
@@ -9768,14 +9778,14 @@ extension GuardDutyClientTypes {
     /// Contains details of the highest severity threat detected during scan and number of infected files.
     public struct HighestSeverityThreatDetails: Swift.Equatable {
         /// Total number of infected files with the highest severity threat detected.
-        public var count: Swift.Int
+        public var count: Swift.Int?
         /// Severity level of the highest severity threat detected.
         public var severity: Swift.String?
         /// Threat name of the highest severity threat detected as part of the malware scan.
         public var threatName: Swift.String?
 
         public init(
-            count: Swift.Int = 0,
+            count: Swift.Int? = nil,
             severity: Swift.String? = nil,
             threatName: Swift.String? = nil
         )
@@ -10463,7 +10473,7 @@ extension GuardDutyClientTypes.KubernetesApiCallAction: Swift.Codable {
                 try sourceIpsContainer.encode(string0)
             }
         }
-        if statusCode != 0 {
+        if let statusCode = self.statusCode {
             try encodeContainer.encode(statusCode, forKey: .statusCode)
         }
         if let userAgent = self.userAgent {
@@ -10495,7 +10505,7 @@ extension GuardDutyClientTypes.KubernetesApiCallAction: Swift.Codable {
         userAgent = userAgentDecoded
         let remoteIpDetailsDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.RemoteIpDetails.self, forKey: .remoteIpDetails)
         remoteIpDetails = remoteIpDetailsDecoded
-        let statusCodeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .statusCode) ?? 0
+        let statusCodeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .statusCode)
         statusCode = statusCodeDecoded
         let parametersDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .parameters)
         parameters = parametersDecoded
@@ -10514,7 +10524,7 @@ extension GuardDutyClientTypes {
         /// The IP of the Kubernetes API caller and the IPs of any proxies or load balancers between the caller and the API endpoint.
         public var sourceIps: [Swift.String]?
         /// The resulting HTTP response code of the Kubernetes API call action.
-        public var statusCode: Swift.Int
+        public var statusCode: Swift.Int?
         /// The user agent of the caller of the Kubernetes API.
         public var userAgent: Swift.String?
         /// The Kubernetes API request HTTP verb.
@@ -10525,7 +10535,7 @@ extension GuardDutyClientTypes {
             remoteIpDetails: GuardDutyClientTypes.RemoteIpDetails? = nil,
             requestUri: Swift.String? = nil,
             sourceIps: [Swift.String]? = nil,
-            statusCode: Swift.Int = 0,
+            statusCode: Swift.Int? = nil,
             userAgent: Swift.String? = nil,
             verb: Swift.String? = nil
         )
@@ -10549,14 +10559,14 @@ extension GuardDutyClientTypes.KubernetesAuditLogsConfiguration: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if enable != false {
+        if let enable = self.enable {
             try encodeContainer.encode(enable, forKey: .enable)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let enableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enable) ?? false
+        let enableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enable)
         enable = enableDecoded
     }
 }
@@ -10566,10 +10576,10 @@ extension GuardDutyClientTypes {
     public struct KubernetesAuditLogsConfiguration: Swift.Equatable {
         /// The status of Kubernetes audit logs as a data source.
         /// This member is required.
-        public var enable: Swift.Bool
+        public var enable: Swift.Bool?
 
         public init(
-            enable: Swift.Bool = false
+            enable: Swift.Bool? = nil
         )
         {
             self.enable = enable
@@ -10874,7 +10884,7 @@ extension GuardDutyClientTypes.KubernetesWorkloadDetails: Swift.Codable {
                 try containersContainer.encode(container0)
             }
         }
-        if hostNetwork != false {
+        if let hostNetwork = self.hostNetwork {
             try encodeContainer.encode(hostNetwork, forKey: .hostNetwork)
         }
         if let name = self.name {
@@ -10907,7 +10917,7 @@ extension GuardDutyClientTypes.KubernetesWorkloadDetails: Swift.Codable {
         uid = uidDecoded
         let namespaceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .namespace)
         namespace = namespaceDecoded
-        let hostNetworkDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .hostNetwork) ?? false
+        let hostNetworkDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .hostNetwork)
         hostNetwork = hostNetworkDecoded
         let containersContainer = try containerValues.decodeIfPresent([GuardDutyClientTypes.Container?].self, forKey: .containers)
         var containersDecoded0:[GuardDutyClientTypes.Container]? = nil
@@ -10940,7 +10950,7 @@ extension GuardDutyClientTypes {
         /// Containers running as part of the Kubernetes workload.
         public var containers: [GuardDutyClientTypes.Container]?
         /// Whether the hostNetwork flag is enabled for the pods included in the workload.
-        public var hostNetwork: Swift.Bool
+        public var hostNetwork: Swift.Bool?
         /// Kubernetes workload name.
         public var name: Swift.String?
         /// Kubernetes namespace that the workload is part of.
@@ -10954,7 +10964,7 @@ extension GuardDutyClientTypes {
 
         public init(
             containers: [GuardDutyClientTypes.Container]? = nil,
-            hostNetwork: Swift.Bool = false,
+            hostNetwork: Swift.Bool? = nil,
             name: Swift.String? = nil,
             namespace: Swift.String? = nil,
             type: Swift.String? = nil,
@@ -11116,7 +11126,7 @@ extension GuardDutyClientTypes.LineageObject: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if euid != 0 {
+        if let euid = self.euid {
             try encodeContainer.encode(euid, forKey: .euid)
         }
         if let executablePath = self.executablePath {
@@ -11125,19 +11135,19 @@ extension GuardDutyClientTypes.LineageObject: Swift.Codable {
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
         }
-        if namespacePid != 0 {
+        if let namespacePid = self.namespacePid {
             try encodeContainer.encode(namespacePid, forKey: .namespacePid)
         }
         if let parentUuid = self.parentUuid {
             try encodeContainer.encode(parentUuid, forKey: .parentUuid)
         }
-        if pid != 0 {
+        if let pid = self.pid {
             try encodeContainer.encode(pid, forKey: .pid)
         }
         if let startTime = self.startTime {
             try encodeContainer.encodeTimestamp(startTime, format: .epochSeconds, forKey: .startTime)
         }
-        if userId != 0 {
+        if let userId = self.userId {
             try encodeContainer.encode(userId, forKey: .userId)
         }
         if let uuid = self.uuid {
@@ -11149,19 +11159,19 @@ extension GuardDutyClientTypes.LineageObject: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let startTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .startTime)
         startTime = startTimeDecoded
-        let namespacePidDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .namespacePid) ?? 0
+        let namespacePidDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .namespacePid)
         namespacePid = namespacePidDecoded
-        let userIdDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .userId) ?? 0
+        let userIdDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .userId)
         userId = userIdDecoded
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
-        let pidDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pid) ?? 0
+        let pidDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pid)
         pid = pidDecoded
         let uuidDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .uuid)
         uuid = uuidDecoded
         let executablePathDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .executablePath)
         executablePath = executablePathDecoded
-        let euidDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .euid) ?? 0
+        let euidDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .euid)
         euid = euidDecoded
         let parentUuidDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .parentUuid)
         parentUuid = parentUuidDecoded
@@ -11172,33 +11182,33 @@ extension GuardDutyClientTypes {
     /// Information about the runtime process details.
     public struct LineageObject: Swift.Equatable {
         /// The effective user ID that was used to execute the process.
-        public var euid: Swift.Int
+        public var euid: Swift.Int?
         /// The absolute path of the process executable file.
         public var executablePath: Swift.String?
         /// The name of the process.
         public var name: Swift.String?
         /// The process ID of the child process.
-        public var namespacePid: Swift.Int
+        public var namespacePid: Swift.Int?
         /// The unique ID of the parent process. This ID is assigned to the parent process by GuardDuty.
         public var parentUuid: Swift.String?
         /// The ID of the process.
-        public var pid: Swift.Int
+        public var pid: Swift.Int?
         /// The time when the process started. This is in UTC format.
         public var startTime: ClientRuntime.Date?
         /// The user ID of the user that executed the process.
-        public var userId: Swift.Int
+        public var userId: Swift.Int?
         /// The unique ID assigned to the process by GuardDuty.
         public var uuid: Swift.String?
 
         public init(
-            euid: Swift.Int = 0,
+            euid: Swift.Int? = nil,
             executablePath: Swift.String? = nil,
             name: Swift.String? = nil,
-            namespacePid: Swift.Int = 0,
+            namespacePid: Swift.Int? = nil,
             parentUuid: Swift.String? = nil,
-            pid: Swift.Int = 0,
+            pid: Swift.Int? = nil,
             startTime: ClientRuntime.Date? = nil,
-            userId: Swift.Int = 0,
+            userId: Swift.Int? = nil,
             uuid: Swift.String? = nil
         )
         {
@@ -11732,6 +11742,8 @@ public struct ListFindingsInput: Swift.Equatable {
     /// * service.action.awsApiCallAction.serviceName
     ///
     /// * service.action.dnsRequestAction.domain
+    ///
+    /// * service.action.dnsRequestAction.domainWithSuffix
     ///
     /// * service.action.networkConnectionAction.blocked
     ///
@@ -12779,7 +12791,7 @@ extension GuardDutyClientTypes.LocalPortDetails: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if port != 0 {
+        if let port = self.port {
             try encodeContainer.encode(port, forKey: .port)
         }
         if let portName = self.portName {
@@ -12789,7 +12801,7 @@ extension GuardDutyClientTypes.LocalPortDetails: Swift.Codable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port) ?? 0
+        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port)
         port = portDecoded
         let portNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .portName)
         portName = portNameDecoded
@@ -12800,12 +12812,12 @@ extension GuardDutyClientTypes {
     /// Contains information about the port for the local connection.
     public struct LocalPortDetails: Swift.Equatable {
         /// The port number of the local connection.
-        public var port: Swift.Int
+        public var port: Swift.Int?
         /// The port name of the local connection.
         public var portName: Swift.String?
 
         public init(
-            port: Swift.Int = 0,
+            port: Swift.Int? = nil,
             portName: Swift.String? = nil
         )
         {
@@ -12829,10 +12841,10 @@ extension GuardDutyClientTypes.LoginAttribute: Swift.Codable {
         if let application = self.application {
             try encodeContainer.encode(application, forKey: .application)
         }
-        if failedLoginAttempts != 0 {
+        if let failedLoginAttempts = self.failedLoginAttempts {
             try encodeContainer.encode(failedLoginAttempts, forKey: .failedLoginAttempts)
         }
-        if successfulLoginAttempts != 0 {
+        if let successfulLoginAttempts = self.successfulLoginAttempts {
             try encodeContainer.encode(successfulLoginAttempts, forKey: .successfulLoginAttempts)
         }
         if let user = self.user {
@@ -12846,9 +12858,9 @@ extension GuardDutyClientTypes.LoginAttribute: Swift.Codable {
         user = userDecoded
         let applicationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .application)
         application = applicationDecoded
-        let failedLoginAttemptsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .failedLoginAttempts) ?? 0
+        let failedLoginAttemptsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .failedLoginAttempts)
         failedLoginAttempts = failedLoginAttemptsDecoded
-        let successfulLoginAttemptsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .successfulLoginAttempts) ?? 0
+        let successfulLoginAttemptsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .successfulLoginAttempts)
         successfulLoginAttempts = successfulLoginAttemptsDecoded
     }
 }
@@ -12859,16 +12871,16 @@ extension GuardDutyClientTypes {
         /// Indicates the application name used to attempt log in.
         public var application: Swift.String?
         /// Represents the sum of failed (unsuccessful) login attempts made to establish a connection to the database instance.
-        public var failedLoginAttempts: Swift.Int
+        public var failedLoginAttempts: Swift.Int?
         /// Represents the sum of successful connections (a correct combination of login attributes) made to the database instance by the actor.
-        public var successfulLoginAttempts: Swift.Int
+        public var successfulLoginAttempts: Swift.Int?
         /// Indicates the user name which attempted to log in.
         public var user: Swift.String?
 
         public init(
             application: Swift.String? = nil,
-            failedLoginAttempts: Swift.Int = 0,
-            successfulLoginAttempts: Swift.Int = 0,
+            failedLoginAttempts: Swift.Int? = nil,
+            successfulLoginAttempts: Swift.Int? = nil,
             user: Swift.String? = nil
         )
         {
@@ -13529,7 +13541,7 @@ extension GuardDutyClientTypes.NetworkConnectionAction: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if blocked != false {
+        if let blocked = self.blocked {
             try encodeContainer.encode(blocked, forKey: .blocked)
         }
         if let connectionDirection = self.connectionDirection {
@@ -13554,7 +13566,7 @@ extension GuardDutyClientTypes.NetworkConnectionAction: Swift.Codable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let blockedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .blocked) ?? false
+        let blockedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .blocked)
         blocked = blockedDecoded
         let connectionDirectionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .connectionDirection)
         connectionDirection = connectionDirectionDecoded
@@ -13575,7 +13587,7 @@ extension GuardDutyClientTypes {
     /// Contains information about the NETWORK_CONNECTION action described in the finding.
     public struct NetworkConnectionAction: Swift.Equatable {
         /// Indicates whether EC2 blocked the network connection to your instance.
-        public var blocked: Swift.Bool
+        public var blocked: Swift.Bool?
         /// The network connection direction.
         public var connectionDirection: Swift.String?
         /// The local IP information of the connection.
@@ -13590,7 +13602,7 @@ extension GuardDutyClientTypes {
         public var remotePortDetails: GuardDutyClientTypes.RemotePortDetails?
 
         public init(
-            blocked: Swift.Bool = false,
+            blocked: Swift.Bool? = nil,
             connectionDirection: Swift.String? = nil,
             localIpDetails: GuardDutyClientTypes.LocalIpDetails? = nil,
             localPortDetails: GuardDutyClientTypes.LocalPortDetails? = nil,
@@ -14197,14 +14209,14 @@ extension GuardDutyClientTypes.OrganizationEbsVolumes: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if autoEnable != false {
+        if let autoEnable = self.autoEnable {
             try encodeContainer.encode(autoEnable, forKey: .autoEnable)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let autoEnableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoEnable) ?? false
+        let autoEnableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoEnable)
         autoEnable = autoEnableDecoded
     }
 }
@@ -14213,10 +14225,10 @@ extension GuardDutyClientTypes {
     /// Organization-wide EBS volumes scan configuration.
     public struct OrganizationEbsVolumes: Swift.Equatable {
         /// Whether scanning EBS volumes should be auto-enabled for new members joining the organization.
-        public var autoEnable: Swift.Bool
+        public var autoEnable: Swift.Bool?
 
         public init(
-            autoEnable: Swift.Bool = false
+            autoEnable: Swift.Bool? = nil
         )
         {
             self.autoEnable = autoEnable
@@ -14232,14 +14244,14 @@ extension GuardDutyClientTypes.OrganizationEbsVolumesResult: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if autoEnable != false {
+        if let autoEnable = self.autoEnable {
             try encodeContainer.encode(autoEnable, forKey: .autoEnable)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let autoEnableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoEnable) ?? false
+        let autoEnableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoEnable)
         autoEnable = autoEnableDecoded
     }
 }
@@ -14248,10 +14260,10 @@ extension GuardDutyClientTypes {
     /// An object that contains information on the status of whether EBS volumes scanning will be enabled as a data source for an organization.
     public struct OrganizationEbsVolumesResult: Swift.Equatable {
         /// An object that contains the status of whether scanning EBS volumes should be auto-enabled for new members joining the organization.
-        public var autoEnable: Swift.Bool
+        public var autoEnable: Swift.Bool?
 
         public init(
-            autoEnable: Swift.Bool = false
+            autoEnable: Swift.Bool? = nil
         )
         {
             self.autoEnable = autoEnable
@@ -14413,14 +14425,14 @@ extension GuardDutyClientTypes.OrganizationKubernetesAuditLogsConfiguration: Swi
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if autoEnable != false {
+        if let autoEnable = self.autoEnable {
             try encodeContainer.encode(autoEnable, forKey: .autoEnable)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let autoEnableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoEnable) ?? false
+        let autoEnableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoEnable)
         autoEnable = autoEnableDecoded
     }
 }
@@ -14430,10 +14442,10 @@ extension GuardDutyClientTypes {
     public struct OrganizationKubernetesAuditLogsConfiguration: Swift.Equatable {
         /// A value that contains information on whether Kubernetes audit logs should be enabled automatically as a data source for the organization.
         /// This member is required.
-        public var autoEnable: Swift.Bool
+        public var autoEnable: Swift.Bool?
 
         public init(
-            autoEnable: Swift.Bool = false
+            autoEnable: Swift.Bool? = nil
         )
         {
             self.autoEnable = autoEnable
@@ -14449,14 +14461,14 @@ extension GuardDutyClientTypes.OrganizationKubernetesAuditLogsConfigurationResul
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if autoEnable != false {
+        if let autoEnable = self.autoEnable {
             try encodeContainer.encode(autoEnable, forKey: .autoEnable)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let autoEnableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoEnable) ?? false
+        let autoEnableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoEnable)
         autoEnable = autoEnableDecoded
     }
 }
@@ -14466,10 +14478,10 @@ extension GuardDutyClientTypes {
     public struct OrganizationKubernetesAuditLogsConfigurationResult: Swift.Equatable {
         /// Whether Kubernetes audit logs data source should be auto-enabled for new members joining the organization.
         /// This member is required.
-        public var autoEnable: Swift.Bool
+        public var autoEnable: Swift.Bool?
 
         public init(
-            autoEnable: Swift.Bool = false
+            autoEnable: Swift.Bool? = nil
         )
         {
             self.autoEnable = autoEnable
@@ -14627,14 +14639,14 @@ extension GuardDutyClientTypes.OrganizationS3LogsConfiguration: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if autoEnable != false {
+        if let autoEnable = self.autoEnable {
             try encodeContainer.encode(autoEnable, forKey: .autoEnable)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let autoEnableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoEnable) ?? false
+        let autoEnableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoEnable)
         autoEnable = autoEnableDecoded
     }
 }
@@ -14644,10 +14656,10 @@ extension GuardDutyClientTypes {
     public struct OrganizationS3LogsConfiguration: Swift.Equatable {
         /// A value that contains information on whether S3 data event logs will be enabled automatically as a data source for the organization.
         /// This member is required.
-        public var autoEnable: Swift.Bool
+        public var autoEnable: Swift.Bool?
 
         public init(
-            autoEnable: Swift.Bool = false
+            autoEnable: Swift.Bool? = nil
         )
         {
             self.autoEnable = autoEnable
@@ -14663,14 +14675,14 @@ extension GuardDutyClientTypes.OrganizationS3LogsConfigurationResult: Swift.Coda
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if autoEnable != false {
+        if let autoEnable = self.autoEnable {
             try encodeContainer.encode(autoEnable, forKey: .autoEnable)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let autoEnableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoEnable) ?? false
+        let autoEnableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoEnable)
         autoEnable = autoEnableDecoded
     }
 }
@@ -14680,10 +14692,10 @@ extension GuardDutyClientTypes {
     public struct OrganizationS3LogsConfigurationResult: Swift.Equatable {
         /// A value that describes whether S3 data event logs are automatically enabled for new members of the organization.
         /// This member is required.
-        public var autoEnable: Swift.Bool
+        public var autoEnable: Swift.Bool?
 
         public init(
-            autoEnable: Swift.Bool = false
+            autoEnable: Swift.Bool? = nil
         )
         {
             self.autoEnable = autoEnable
@@ -14850,7 +14862,7 @@ extension GuardDutyClientTypes.PortProbeAction: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if blocked != false {
+        if let blocked = self.blocked {
             try encodeContainer.encode(blocked, forKey: .blocked)
         }
         if let portProbeDetails = portProbeDetails {
@@ -14863,7 +14875,7 @@ extension GuardDutyClientTypes.PortProbeAction: Swift.Codable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let blockedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .blocked) ?? false
+        let blockedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .blocked)
         blocked = blockedDecoded
         let portProbeDetailsContainer = try containerValues.decodeIfPresent([GuardDutyClientTypes.PortProbeDetail?].self, forKey: .portProbeDetails)
         var portProbeDetailsDecoded0:[GuardDutyClientTypes.PortProbeDetail]? = nil
@@ -14883,12 +14895,12 @@ extension GuardDutyClientTypes {
     /// Contains information about the PORT_PROBE action described in the finding.
     public struct PortProbeAction: Swift.Equatable {
         /// Indicates whether EC2 blocked the port probe to the instance, such as with an ACL.
-        public var blocked: Swift.Bool
+        public var blocked: Swift.Bool?
         /// A list of objects related to port probe details.
         public var portProbeDetails: [GuardDutyClientTypes.PortProbeDetail]?
 
         public init(
-            blocked: Swift.Bool = false,
+            blocked: Swift.Bool? = nil,
             portProbeDetails: [GuardDutyClientTypes.PortProbeDetail]? = nil
         )
         {
@@ -15018,7 +15030,7 @@ extension GuardDutyClientTypes.ProcessDetails: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if euid != 0 {
+        if let euid = self.euid {
             try encodeContainer.encode(euid, forKey: .euid)
         }
         if let executablePath = self.executablePath {
@@ -15036,13 +15048,13 @@ extension GuardDutyClientTypes.ProcessDetails: Swift.Codable {
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
         }
-        if namespacePid != 0 {
+        if let namespacePid = self.namespacePid {
             try encodeContainer.encode(namespacePid, forKey: .namespacePid)
         }
         if let parentUuid = self.parentUuid {
             try encodeContainer.encode(parentUuid, forKey: .parentUuid)
         }
-        if pid != 0 {
+        if let pid = self.pid {
             try encodeContainer.encode(pid, forKey: .pid)
         }
         if let pwd = self.pwd {
@@ -15054,7 +15066,7 @@ extension GuardDutyClientTypes.ProcessDetails: Swift.Codable {
         if let user = self.user {
             try encodeContainer.encode(user, forKey: .user)
         }
-        if userId != 0 {
+        if let userId = self.userId {
             try encodeContainer.encode(userId, forKey: .userId)
         }
         if let uuid = self.uuid {
@@ -15070,11 +15082,11 @@ extension GuardDutyClientTypes.ProcessDetails: Swift.Codable {
         executablePath = executablePathDecoded
         let executableSha256Decoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .executableSha256)
         executableSha256 = executableSha256Decoded
-        let namespacePidDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .namespacePid) ?? 0
+        let namespacePidDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .namespacePid)
         namespacePid = namespacePidDecoded
         let pwdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .pwd)
         pwd = pwdDecoded
-        let pidDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pid) ?? 0
+        let pidDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pid)
         pid = pidDecoded
         let startTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .startTime)
         startTime = startTimeDecoded
@@ -15084,9 +15096,9 @@ extension GuardDutyClientTypes.ProcessDetails: Swift.Codable {
         parentUuid = parentUuidDecoded
         let userDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .user)
         user = userDecoded
-        let userIdDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .userId) ?? 0
+        let userIdDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .userId)
         userId = userIdDecoded
-        let euidDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .euid) ?? 0
+        let euidDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .euid)
         euid = euidDecoded
         let lineageContainer = try containerValues.decodeIfPresent([GuardDutyClientTypes.LineageObject?].self, forKey: .lineage)
         var lineageDecoded0:[GuardDutyClientTypes.LineageObject]? = nil
@@ -15106,7 +15118,7 @@ extension GuardDutyClientTypes {
     /// Information about the observed process.
     public struct ProcessDetails: Swift.Equatable {
         /// The effective user ID of the user that executed the process.
-        public var euid: Swift.Int
+        public var euid: Swift.Int?
         /// The absolute path of the process executable file.
         public var executablePath: Swift.String?
         /// The SHA256 hash of the process executable.
@@ -15116,11 +15128,11 @@ extension GuardDutyClientTypes {
         /// The name of the process.
         public var name: Swift.String?
         /// The ID of the child process.
-        public var namespacePid: Swift.Int
+        public var namespacePid: Swift.Int?
         /// The unique ID of the parent process. This ID is assigned to the parent process by GuardDuty.
         public var parentUuid: Swift.String?
         /// The ID of the process.
-        public var pid: Swift.Int
+        public var pid: Swift.Int?
         /// The present working directory of the process.
         public var pwd: Swift.String?
         /// The time when the process started. This is in UTC format.
@@ -15128,23 +15140,23 @@ extension GuardDutyClientTypes {
         /// The user that executed the process.
         public var user: Swift.String?
         /// The unique ID of the user that executed the process.
-        public var userId: Swift.Int
+        public var userId: Swift.Int?
         /// The unique ID assigned to the process by GuardDuty.
         public var uuid: Swift.String?
 
         public init(
-            euid: Swift.Int = 0,
+            euid: Swift.Int? = nil,
             executablePath: Swift.String? = nil,
             executableSha256: Swift.String? = nil,
             lineage: [GuardDutyClientTypes.LineageObject]? = nil,
             name: Swift.String? = nil,
-            namespacePid: Swift.Int = 0,
+            namespacePid: Swift.Int? = nil,
             parentUuid: Swift.String? = nil,
-            pid: Swift.Int = 0,
+            pid: Swift.Int? = nil,
             pwd: Swift.String? = nil,
             startTime: ClientRuntime.Date? = nil,
             user: Swift.String? = nil,
-            userId: Swift.Int = 0,
+            userId: Swift.Int? = nil,
             uuid: Swift.String? = nil
         )
         {
@@ -15534,7 +15546,7 @@ extension GuardDutyClientTypes.RemoteAccountDetails: Swift.Codable {
         if let accountId = self.accountId {
             try encodeContainer.encode(accountId, forKey: .accountId)
         }
-        if affiliated != false {
+        if let affiliated = self.affiliated {
             try encodeContainer.encode(affiliated, forKey: .affiliated)
         }
     }
@@ -15543,7 +15555,7 @@ extension GuardDutyClientTypes.RemoteAccountDetails: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
         accountId = accountIdDecoded
-        let affiliatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .affiliated) ?? false
+        let affiliatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .affiliated)
         affiliated = affiliatedDecoded
     }
 }
@@ -15554,11 +15566,11 @@ extension GuardDutyClientTypes {
         /// The Amazon Web Services account ID of the remote API caller.
         public var accountId: Swift.String?
         /// Details on whether the Amazon Web Services account of the remote API caller is related to your GuardDuty environment. If this value is True the API caller is affiliated to your account in some way. If it is False the API caller is from outside your environment.
-        public var affiliated: Swift.Bool
+        public var affiliated: Swift.Bool?
 
         public init(
             accountId: Swift.String? = nil,
-            affiliated: Swift.Bool = false
+            affiliated: Swift.Bool? = nil
         )
         {
             self.accountId = accountId
@@ -15651,7 +15663,7 @@ extension GuardDutyClientTypes.RemotePortDetails: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if port != 0 {
+        if let port = self.port {
             try encodeContainer.encode(port, forKey: .port)
         }
         if let portName = self.portName {
@@ -15661,7 +15673,7 @@ extension GuardDutyClientTypes.RemotePortDetails: Swift.Codable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port) ?? 0
+        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port)
         port = portDecoded
         let portNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .portName)
         portName = portNameDecoded
@@ -15672,12 +15684,12 @@ extension GuardDutyClientTypes {
     /// Contains information about the remote port.
     public struct RemotePortDetails: Swift.Equatable {
         /// The port number of the remote connection.
-        public var port: Swift.Int
+        public var port: Swift.Int?
         /// The port name of the remote connection.
         public var portName: Swift.String?
 
         public init(
-            port: Swift.Int = 0,
+            port: Swift.Int? = nil,
             portName: Swift.String? = nil
         )
         {
@@ -15947,7 +15959,7 @@ extension GuardDutyClientTypes.RuntimeContext: Swift.Codable {
                 try flagsContainer.encode(string0)
             }
         }
-        if ianaProtocolNumber != 0 {
+        if let ianaProtocolNumber = self.ianaProtocolNumber {
             try encodeContainer.encode(ianaProtocolNumber, forKey: .ianaProtocolNumber)
         }
         if let ldPreloadValue = self.ldPreloadValue {
@@ -16050,7 +16062,7 @@ extension GuardDutyClientTypes.RuntimeContext: Swift.Codable {
         targetProcess = targetProcessDecoded
         let addressFamilyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .addressFamily)
         addressFamily = addressFamilyDecoded
-        let ianaProtocolNumberDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .ianaProtocolNumber) ?? 0
+        let ianaProtocolNumberDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .ianaProtocolNumber)
         ianaProtocolNumber = ianaProtocolNumberDecoded
         let memoryRegionsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .memoryRegions)
         var memoryRegionsDecoded0:[Swift.String]? = nil
@@ -16076,7 +16088,7 @@ extension GuardDutyClientTypes {
         /// Represents options that control the behavior of a runtime operation or action. For example, a filesystem mount operation may contain a read-only flag.
         public var flags: [Swift.String]?
         /// Specifies a particular protocol within the address family. Usually there is a single protocol in address families. For example, the address family AF_INET only has the IP protocol.
-        public var ianaProtocolNumber: Swift.Int
+        public var ianaProtocolNumber: Swift.Int?
         /// The value of the LD_PRELOAD environment variable.
         public var ldPreloadValue: Swift.String?
         /// The path to the new library that was loaded.
@@ -16114,7 +16126,7 @@ extension GuardDutyClientTypes {
             addressFamily: Swift.String? = nil,
             fileSystemType: Swift.String? = nil,
             flags: [Swift.String]? = nil,
-            ianaProtocolNumber: Swift.Int = 0,
+            ianaProtocolNumber: Swift.Int? = nil,
             ldPreloadValue: Swift.String? = nil,
             libraryPath: Swift.String? = nil,
             memoryRegions: [Swift.String]? = nil,
@@ -16327,14 +16339,14 @@ extension GuardDutyClientTypes.S3LogsConfiguration: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if enable != false {
+        if let enable = self.enable {
             try encodeContainer.encode(enable, forKey: .enable)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let enableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enable) ?? false
+        let enableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enable)
         enable = enableDecoded
     }
 }
@@ -16344,10 +16356,10 @@ extension GuardDutyClientTypes {
     public struct S3LogsConfiguration: Swift.Equatable {
         /// The status of S3 data event logs as a data source.
         /// This member is required.
-        public var enable: Swift.Bool
+        public var enable: Swift.Bool?
 
         public init(
-            enable: Swift.Bool = false
+            enable: Swift.Bool? = nil
         )
         {
             self.enable = enable
@@ -16431,7 +16443,7 @@ extension GuardDutyClientTypes.Scan: Swift.Codable {
         if let failureReason = self.failureReason {
             try encodeContainer.encode(failureReason, forKey: .failureReason)
         }
-        if fileCount != 0 {
+        if let fileCount = self.fileCount {
             try encodeContainer.encode(fileCount, forKey: .fileCount)
         }
         if let resourceDetails = self.resourceDetails {
@@ -16455,7 +16467,7 @@ extension GuardDutyClientTypes.Scan: Swift.Codable {
         if let scanType = self.scanType {
             try encodeContainer.encode(scanType.rawValue, forKey: .scanType)
         }
-        if totalBytes != 0 {
+        if let totalBytes = self.totalBytes {
             try encodeContainer.encode(totalBytes, forKey: .totalBytes)
         }
         if let triggerDetails = self.triggerDetails {
@@ -16487,9 +16499,9 @@ extension GuardDutyClientTypes.Scan: Swift.Codable {
         scanResultDetails = scanResultDetailsDecoded
         let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
         accountId = accountIdDecoded
-        let totalBytesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalBytes) ?? 0
+        let totalBytesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalBytes)
         totalBytes = totalBytesDecoded
-        let fileCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .fileCount) ?? 0
+        let fileCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .fileCount)
         fileCount = fileCountDecoded
         let attachedVolumesContainer = try containerValues.decodeIfPresent([GuardDutyClientTypes.VolumeDetail?].self, forKey: .attachedVolumes)
         var attachedVolumesDecoded0:[GuardDutyClientTypes.VolumeDetail]? = nil
@@ -16521,7 +16533,7 @@ extension GuardDutyClientTypes {
         /// Represents the reason for FAILED scan status.
         public var failureReason: Swift.String?
         /// Represents the number of files that were scanned.
-        public var fileCount: Swift.Int
+        public var fileCount: Swift.Int?
         /// Represents the resources that were scanned in the scan entry.
         public var resourceDetails: GuardDutyClientTypes.ResourceDetails?
         /// The timestamp of when the scan was finished.
@@ -16537,7 +16549,7 @@ extension GuardDutyClientTypes {
         /// Specifies the scan type that invoked the malware scan.
         public var scanType: GuardDutyClientTypes.ScanType?
         /// Represents total bytes that were scanned.
-        public var totalBytes: Swift.Int
+        public var totalBytes: Swift.Int?
         /// Specifies the reason why the scan was initiated.
         public var triggerDetails: GuardDutyClientTypes.TriggerDetails?
 
@@ -16547,7 +16559,7 @@ extension GuardDutyClientTypes {
             attachedVolumes: [GuardDutyClientTypes.VolumeDetail]? = nil,
             detectorId: Swift.String? = nil,
             failureReason: Swift.String? = nil,
-            fileCount: Swift.Int = 0,
+            fileCount: Swift.Int? = nil,
             resourceDetails: GuardDutyClientTypes.ResourceDetails? = nil,
             scanEndTime: ClientRuntime.Date? = nil,
             scanId: Swift.String? = nil,
@@ -16555,7 +16567,7 @@ extension GuardDutyClientTypes {
             scanStartTime: ClientRuntime.Date? = nil,
             scanStatus: GuardDutyClientTypes.ScanStatus? = nil,
             scanType: GuardDutyClientTypes.ScanType? = nil,
-            totalBytes: Swift.Int = 0,
+            totalBytes: Swift.Int? = nil,
             triggerDetails: GuardDutyClientTypes.TriggerDetails? = nil
         )
         {
@@ -16775,14 +16787,14 @@ extension GuardDutyClientTypes.ScanEc2InstanceWithFindings: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if ebsVolumes != false {
+        if let ebsVolumes = self.ebsVolumes {
             try encodeContainer.encode(ebsVolumes, forKey: .ebsVolumes)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let ebsVolumesDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .ebsVolumes) ?? false
+        let ebsVolumesDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .ebsVolumes)
         ebsVolumes = ebsVolumesDecoded
     }
 }
@@ -16791,10 +16803,10 @@ extension GuardDutyClientTypes {
     /// Describes whether Malware Protection for EC2 instances with findings will be enabled as a data source.
     public struct ScanEc2InstanceWithFindings: Swift.Equatable {
         /// Describes the configuration for scanning EBS volumes as data source.
-        public var ebsVolumes: Swift.Bool
+        public var ebsVolumes: Swift.Bool?
 
         public init(
-            ebsVolumes: Swift.Bool = false
+            ebsVolumes: Swift.Bool? = nil
         )
         {
             self.ebsVolumes = ebsVolumes
@@ -17093,7 +17105,7 @@ extension GuardDutyClientTypes.ScanThreatName: Swift.Codable {
                 try filePathsContainer.encode(scanfilepath0)
             }
         }
-        if itemCount != 0 {
+        if let itemCount = self.itemCount {
             try encodeContainer.encode(itemCount, forKey: .itemCount)
         }
         if let name = self.name {
@@ -17110,7 +17122,7 @@ extension GuardDutyClientTypes.ScanThreatName: Swift.Codable {
         name = nameDecoded
         let severityDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .severity)
         severity = severityDecoded
-        let itemCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .itemCount) ?? 0
+        let itemCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .itemCount)
         itemCount = itemCountDecoded
         let filePathsContainer = try containerValues.decodeIfPresent([GuardDutyClientTypes.ScanFilePath?].self, forKey: .filePaths)
         var filePathsDecoded0:[GuardDutyClientTypes.ScanFilePath]? = nil
@@ -17132,7 +17144,7 @@ extension GuardDutyClientTypes {
         /// List of infected files in EBS volume with details.
         public var filePaths: [GuardDutyClientTypes.ScanFilePath]?
         /// Total number of files infected with given threat.
-        public var itemCount: Swift.Int
+        public var itemCount: Swift.Int?
         /// The name of the identified threat.
         public var name: Swift.String?
         /// Severity of threat identified as part of the malware scan.
@@ -17140,7 +17152,7 @@ extension GuardDutyClientTypes {
 
         public init(
             filePaths: [GuardDutyClientTypes.ScanFilePath]? = nil,
-            itemCount: Swift.Int = 0,
+            itemCount: Swift.Int? = nil,
             name: Swift.String? = nil,
             severity: Swift.String? = nil
         )
@@ -17195,24 +17207,24 @@ extension GuardDutyClientTypes.ScannedItemCount: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if files != 0 {
+        if let files = self.files {
             try encodeContainer.encode(files, forKey: .files)
         }
-        if totalGb != 0 {
+        if let totalGb = self.totalGb {
             try encodeContainer.encode(totalGb, forKey: .totalGb)
         }
-        if volumes != 0 {
+        if let volumes = self.volumes {
             try encodeContainer.encode(volumes, forKey: .volumes)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let totalGbDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalGb) ?? 0
+        let totalGbDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalGb)
         totalGb = totalGbDecoded
-        let filesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .files) ?? 0
+        let filesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .files)
         files = filesDecoded
-        let volumesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .volumes) ?? 0
+        let volumesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .volumes)
         volumes = volumesDecoded
     }
 }
@@ -17221,16 +17233,16 @@ extension GuardDutyClientTypes {
     /// Total number of scanned files.
     public struct ScannedItemCount: Swift.Equatable {
         /// Number of files scanned.
-        public var files: Swift.Int
+        public var files: Swift.Int?
         /// Total GB of files scanned for malware.
-        public var totalGb: Swift.Int
+        public var totalGb: Swift.Int?
         /// Total number of scanned volumes.
-        public var volumes: Swift.Int
+        public var volumes: Swift.Int?
 
         public init(
-            files: Swift.Int = 0,
-            totalGb: Swift.Int = 0,
-            volumes: Swift.Int = 0
+            files: Swift.Int? = nil,
+            totalGb: Swift.Int? = nil,
+            volumes: Swift.Int? = nil
         )
         {
             self.files = files
@@ -17248,14 +17260,14 @@ extension GuardDutyClientTypes.SecurityContext: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if privileged != false {
+        if let privileged = self.privileged {
             try encodeContainer.encode(privileged, forKey: .privileged)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let privilegedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .privileged) ?? false
+        let privilegedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .privileged)
         privileged = privilegedDecoded
     }
 }
@@ -17264,10 +17276,10 @@ extension GuardDutyClientTypes {
     /// Container security context.
     public struct SecurityContext: Swift.Equatable {
         /// Whether the container is privileged.
-        public var privileged: Swift.Bool
+        public var privileged: Swift.Bool?
 
         public init(
-            privileged: Swift.Bool = false
+            privileged: Swift.Bool? = nil
         )
         {
             self.privileged = privileged
@@ -17347,10 +17359,10 @@ extension GuardDutyClientTypes.Service: Swift.Codable {
         if let additionalInfo = self.additionalInfo {
             try encodeContainer.encode(additionalInfo, forKey: .additionalInfo)
         }
-        if archived != false {
+        if let archived = self.archived {
             try encodeContainer.encode(archived, forKey: .archived)
         }
-        if count != 0 {
+        if let count = self.count {
             try encodeContainer.encode(count, forKey: .count)
         }
         if let detectorId = self.detectorId {
@@ -17391,9 +17403,9 @@ extension GuardDutyClientTypes.Service: Swift.Codable {
         action = actionDecoded
         let evidenceDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.Evidence.self, forKey: .evidence)
         evidence = evidenceDecoded
-        let archivedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .archived) ?? false
+        let archivedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .archived)
         archived = archivedDecoded
-        let countDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .count) ?? 0
+        let countDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .count)
         count = countDecoded
         let detectorIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .detectorId)
         detectorId = detectorIdDecoded
@@ -17426,9 +17438,9 @@ extension GuardDutyClientTypes {
         /// Contains additional information about the generated finding.
         public var additionalInfo: GuardDutyClientTypes.ServiceAdditionalInfo?
         /// Indicates whether this finding is archived.
-        public var archived: Swift.Bool
+        public var archived: Swift.Bool?
         /// The total count of the occurrences of this finding type.
-        public var count: Swift.Int
+        public var count: Swift.Int?
         /// The detector ID for the GuardDuty service.
         public var detectorId: Swift.String?
         /// Returns details from the malware scan that created a finding.
@@ -17453,8 +17465,8 @@ extension GuardDutyClientTypes {
         public init(
             action: GuardDutyClientTypes.Action? = nil,
             additionalInfo: GuardDutyClientTypes.ServiceAdditionalInfo? = nil,
-            archived: Swift.Bool = false,
-            count: Swift.Int = 0,
+            archived: Swift.Bool? = nil,
+            count: Swift.Int? = nil,
             detectorId: Swift.String? = nil,
             ebsVolumeScanDetails: GuardDutyClientTypes.EbsVolumeScanDetails? = nil,
             eventFirstSeen: Swift.String? = nil,
@@ -18083,10 +18095,10 @@ extension GuardDutyClientTypes.ThreatDetectedByName: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if itemCount != 0 {
+        if let itemCount = self.itemCount {
             try encodeContainer.encode(itemCount, forKey: .itemCount)
         }
-        if shortened != false {
+        if let shortened = self.shortened {
             try encodeContainer.encode(shortened, forKey: .shortened)
         }
         if let threatNames = threatNames {
@@ -18095,18 +18107,18 @@ extension GuardDutyClientTypes.ThreatDetectedByName: Swift.Codable {
                 try threatNamesContainer.encode(scanthreatname0)
             }
         }
-        if uniqueThreatNameCount != 0 {
+        if let uniqueThreatNameCount = self.uniqueThreatNameCount {
             try encodeContainer.encode(uniqueThreatNameCount, forKey: .uniqueThreatNameCount)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let itemCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .itemCount) ?? 0
+        let itemCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .itemCount)
         itemCount = itemCountDecoded
-        let uniqueThreatNameCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .uniqueThreatNameCount) ?? 0
+        let uniqueThreatNameCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .uniqueThreatNameCount)
         uniqueThreatNameCount = uniqueThreatNameCountDecoded
-        let shortenedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .shortened) ?? false
+        let shortenedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .shortened)
         shortened = shortenedDecoded
         let threatNamesContainer = try containerValues.decodeIfPresent([GuardDutyClientTypes.ScanThreatName?].self, forKey: .threatNames)
         var threatNamesDecoded0:[GuardDutyClientTypes.ScanThreatName]? = nil
@@ -18126,19 +18138,19 @@ extension GuardDutyClientTypes {
     /// Contains details about identified threats organized by threat name.
     public struct ThreatDetectedByName: Swift.Equatable {
         /// Total number of infected files identified.
-        public var itemCount: Swift.Int
+        public var itemCount: Swift.Int?
         /// Flag to determine if the finding contains every single infected file-path and/or every threat.
-        public var shortened: Swift.Bool
+        public var shortened: Swift.Bool?
         /// List of identified threats with details, organized by threat name.
         public var threatNames: [GuardDutyClientTypes.ScanThreatName]?
         /// Total number of unique threats by name identified, as part of the malware scan.
-        public var uniqueThreatNameCount: Swift.Int
+        public var uniqueThreatNameCount: Swift.Int?
 
         public init(
-            itemCount: Swift.Int = 0,
-            shortened: Swift.Bool = false,
+            itemCount: Swift.Int? = nil,
+            shortened: Swift.Bool? = nil,
             threatNames: [GuardDutyClientTypes.ScanThreatName]? = nil,
-            uniqueThreatNameCount: Swift.Int = 0
+            uniqueThreatNameCount: Swift.Int? = nil
         )
         {
             self.itemCount = itemCount
@@ -18305,14 +18317,14 @@ extension GuardDutyClientTypes.ThreatsDetectedItemCount: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if files != 0 {
+        if let files = self.files {
             try encodeContainer.encode(files, forKey: .files)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let filesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .files) ?? 0
+        let filesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .files)
         files = filesDecoded
     }
 }
@@ -18321,10 +18333,10 @@ extension GuardDutyClientTypes {
     /// Contains total number of infected files.
     public struct ThreatsDetectedItemCount: Swift.Equatable {
         /// Total number of infected files.
-        public var files: Swift.Int
+        public var files: Swift.Int?
 
         public init(
-            files: Swift.Int = 0
+            files: Swift.Int? = nil
         )
         {
             self.files = files
@@ -20352,7 +20364,7 @@ extension GuardDutyClientTypes.VolumeDetail: Swift.Codable {
         if let volumeArn = self.volumeArn {
             try encodeContainer.encode(volumeArn, forKey: .volumeArn)
         }
-        if volumeSizeInGB != 0 {
+        if let volumeSizeInGB = self.volumeSizeInGB {
             try encodeContainer.encode(volumeSizeInGB, forKey: .volumeSizeInGB)
         }
         if let volumeType = self.volumeType {
@@ -20368,7 +20380,7 @@ extension GuardDutyClientTypes.VolumeDetail: Swift.Codable {
         volumeType = volumeTypeDecoded
         let deviceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deviceName)
         deviceName = deviceNameDecoded
-        let volumeSizeInGBDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .volumeSizeInGB) ?? 0
+        let volumeSizeInGBDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .volumeSizeInGB)
         volumeSizeInGB = volumeSizeInGBDecoded
         let encryptionTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .encryptionType)
         encryptionType = encryptionTypeDecoded
@@ -20393,7 +20405,7 @@ extension GuardDutyClientTypes {
         /// EBS volume Arn information.
         public var volumeArn: Swift.String?
         /// EBS volume size in GB.
-        public var volumeSizeInGB: Swift.Int
+        public var volumeSizeInGB: Swift.Int?
         /// The EBS volume type.
         public var volumeType: Swift.String?
 
@@ -20403,7 +20415,7 @@ extension GuardDutyClientTypes {
             kmsKeyArn: Swift.String? = nil,
             snapshotArn: Swift.String? = nil,
             volumeArn: Swift.String? = nil,
-            volumeSizeInGB: Swift.Int = 0,
+            volumeSizeInGB: Swift.Int? = nil,
             volumeType: Swift.String? = nil
         )
         {

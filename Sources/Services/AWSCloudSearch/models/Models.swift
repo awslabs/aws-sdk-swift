@@ -3438,13 +3438,13 @@ extension CloudSearchClientTypes.DomainStatus: Swift.Codable {
         if let requiresIndexDocuments = requiresIndexDocuments {
             try container.encode(requiresIndexDocuments, forKey: ClientRuntime.Key("RequiresIndexDocuments"))
         }
-        if searchInstanceCount != 0 {
+        if let searchInstanceCount = searchInstanceCount {
             try container.encode(searchInstanceCount, forKey: ClientRuntime.Key("SearchInstanceCount"))
         }
         if let searchInstanceType = searchInstanceType {
             try container.encode(searchInstanceType, forKey: ClientRuntime.Key("SearchInstanceType"))
         }
-        if searchPartitionCount != 0 {
+        if let searchPartitionCount = searchPartitionCount {
             try container.encode(searchPartitionCount, forKey: ClientRuntime.Key("SearchPartitionCount"))
         }
         if let searchService = searchService {
@@ -3474,9 +3474,9 @@ extension CloudSearchClientTypes.DomainStatus: Swift.Codable {
         processing = processingDecoded
         let searchInstanceTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .searchInstanceType)
         searchInstanceType = searchInstanceTypeDecoded
-        let searchPartitionCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .searchPartitionCount) ?? 0
+        let searchPartitionCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .searchPartitionCount)
         searchPartitionCount = searchPartitionCountDecoded
-        let searchInstanceCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .searchInstanceCount) ?? 0
+        let searchInstanceCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .searchInstanceCount)
         searchInstanceCount = searchInstanceCountDecoded
         let limitsDecoded = try containerValues.decodeIfPresent(CloudSearchClientTypes.Limits.self, forKey: .limits)
         limits = limitsDecoded
@@ -3507,11 +3507,11 @@ extension CloudSearchClientTypes {
         /// This member is required.
         public var requiresIndexDocuments: Swift.Bool?
         /// The number of search instances that are available to process search requests.
-        public var searchInstanceCount: Swift.Int
+        public var searchInstanceCount: Swift.Int?
         /// The instance type that is being used to process search requests.
         public var searchInstanceType: Swift.String?
         /// The number of partitions across which the search index is spread.
-        public var searchPartitionCount: Swift.Int
+        public var searchPartitionCount: Swift.Int?
         /// The service endpoint for requesting search results from a search domain.
         public var searchService: CloudSearchClientTypes.ServiceEndpoint?
 
@@ -3525,9 +3525,9 @@ extension CloudSearchClientTypes {
             limits: CloudSearchClientTypes.Limits? = nil,
             processing: Swift.Bool? = nil,
             requiresIndexDocuments: Swift.Bool? = nil,
-            searchInstanceCount: Swift.Int = 0,
+            searchInstanceCount: Swift.Int? = nil,
             searchInstanceType: Swift.String? = nil,
-            searchPartitionCount: Swift.Int = 0,
+            searchPartitionCount: Swift.Int? = nil,
             searchService: CloudSearchClientTypes.ServiceEndpoint? = nil
         )
         {
@@ -4634,19 +4634,19 @@ extension CloudSearchClientTypes.Limits: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if maximumPartitionCount != 0 {
+        if let maximumPartitionCount = maximumPartitionCount {
             try container.encode(maximumPartitionCount, forKey: ClientRuntime.Key("MaximumPartitionCount"))
         }
-        if maximumReplicationCount != 0 {
+        if let maximumReplicationCount = maximumReplicationCount {
             try container.encode(maximumReplicationCount, forKey: ClientRuntime.Key("MaximumReplicationCount"))
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let maximumReplicationCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maximumReplicationCount) ?? 0
+        let maximumReplicationCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maximumReplicationCount)
         maximumReplicationCount = maximumReplicationCountDecoded
-        let maximumPartitionCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maximumPartitionCount) ?? 0
+        let maximumPartitionCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maximumPartitionCount)
         maximumPartitionCount = maximumPartitionCountDecoded
     }
 }
@@ -4654,13 +4654,13 @@ extension CloudSearchClientTypes.Limits: Swift.Codable {
 extension CloudSearchClientTypes {
     public struct Limits: Swift.Equatable {
         /// This member is required.
-        public var maximumPartitionCount: Swift.Int
+        public var maximumPartitionCount: Swift.Int?
         /// This member is required.
-        public var maximumReplicationCount: Swift.Int
+        public var maximumReplicationCount: Swift.Int?
 
         public init(
-            maximumPartitionCount: Swift.Int = 0,
-            maximumReplicationCount: Swift.Int = 0
+            maximumPartitionCount: Swift.Int? = nil,
+            maximumReplicationCount: Swift.Int? = nil
         )
         {
             self.maximumPartitionCount = maximumPartitionCount

@@ -971,7 +971,7 @@ public struct CancelledByUserException: ClientRuntime.ModeledError, AWSClientRun
     public internal(set) var properties = Properties()
     public static var typeName: Swift.String { "CancelledByUserException" }
     public static var fault: ErrorFault { .server }
-    public static var isRetryable: Swift.Bool { true }
+    public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
     public internal(set) var httpResponse = HttpResponse()
     public internal(set) var message: Swift.String?
@@ -4368,7 +4368,7 @@ public struct GetPropertygraphStatisticsOutput: Swift.Equatable {
     /// Statistics for property-graph data.
     /// This member is required.
     public var payload: NeptunedataClientTypes.Statistics?
-    /// The HTTP return code of the request. If the request succeeded, the code is 200. See [Common error codes for DFE statistics request] for a list of common errors.
+    /// The HTTP return code of the request. If the request succeeded, the code is 200. See [Common error codes for DFE statistics request](https://docs.aws.amazon.com/neptune/latest/userguide/neptune-dfe-statistics.html#neptune-dfe-statistics-errors) for a list of common errors.
     /// This member is required.
     public var status: Swift.String?
 
@@ -4898,7 +4898,7 @@ public struct GetSparqlStatisticsOutput: Swift.Equatable {
     /// Statistics for RDF data.
     /// This member is required.
     public var payload: NeptunedataClientTypes.Statistics?
-    /// The HTTP return code of the request. If the request succeeded, the code is 200. See [Common error codes for DFE statistics request] for a list of common errors.
+    /// The HTTP return code of the request. If the request succeeded, the code is 200. See [Common error codes for DFE statistics request](https://docs.aws.amazon.com/neptune/latest/userguide/neptune-dfe-statistics.html#neptune-dfe-statistics-errors) for a list of common errors. When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the [neptune-db:GetStatisticsStatus](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#getstatisticsstatus) IAM action in that cluster.
     /// This member is required.
     public var status: Swift.String?
 
@@ -8863,7 +8863,7 @@ extension NeptunedataClientTypes.RDFGraphSummaryValueMap: Swift.Codable {
 extension NeptunedataClientTypes {
     /// Payload for an RDF graph summary response.
     public struct RDFGraphSummaryValueMap: Swift.Equatable {
-        /// The graph summary of an RDF graph. See [Graph summary response for an RDF graph](https://docs.aws.amazon.com/neptune-graph-summary.html#neptune-graph-summary-rdf-response).
+        /// The graph summary of an RDF graph. See [Graph summary response for an RDF graph](https://docs.aws.amazon.com/neptune/latest/userguide/neptune-graph-summary.html#neptune-graph-summary-rdf-response).
         public var graphSummary: NeptunedataClientTypes.RDFGraphSummary?
         /// The timestamp, in ISO 8601 format, of the time at which Neptune last computed statistics.
         public var lastStatisticsComputationTime: ClientRuntime.Date?
@@ -9506,7 +9506,7 @@ public struct StartLoaderJobInput: Swift.Equatable {
     ///
     /// * allowEmptyStrings – Gremlin users need to be able to pass empty string values("") as node and edge properties when loading CSV data. If allowEmptyStrings is set to false (the default), such empty strings are treated as nulls and are not loaded. If allowEmptyStrings is set to true, the loader treats empty strings as valid property values and loads them accordingly.
     public var parserConfiguration: [Swift.String:Swift.String]?
-    /// This is an optional flag parameter that indicates whether the load request can be queued up or not. You don't have to wait for one load job to complete before issuing the next one, because Neptune can queue up as many as 64 jobs at a time, provided that their queueRequest parameters are all set to "TRUE". If the queueRequest parameter is omitted or set to "FALSE", the load request will fail if another load job is already running. Allowed values: "TRUE", "FALSE". Default value: "FALSE".
+    /// This is an optional flag parameter that indicates whether the load request can be queued up or not. You don't have to wait for one load job to complete before issuing the next one, because Neptune can queue up as many as 64 jobs at a time, provided that their queueRequest parameters are all set to "TRUE". The queue order of the jobs will be first-in-first-out (FIFO). If the queueRequest parameter is omitted or set to "FALSE", the load request will fail if another load job is already running. Allowed values: "TRUE", "FALSE". Default value: "FALSE".
     public var queueRequest: Swift.Bool?
     /// The Amazon region of the S3 bucket. This must match the Amazon Region of the DB cluster.
     /// This member is required.

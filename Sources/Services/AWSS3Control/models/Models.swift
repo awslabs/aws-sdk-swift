@@ -16521,10 +16521,10 @@ extension S3ControlClientTypes.SelectionCriteria: Swift.Codable {
         if let delimiter = delimiter {
             try container.encode(delimiter, forKey: ClientRuntime.Key("Delimiter"))
         }
-        if maxDepth != 0 {
+        if let maxDepth = maxDepth {
             try container.encode(maxDepth, forKey: ClientRuntime.Key("MaxDepth"))
         }
-        if minStorageBytesPercentage != 0.0 {
+        if let minStorageBytesPercentage = minStorageBytesPercentage {
             try container.encode(minStorageBytesPercentage, forKey: ClientRuntime.Key("MinStorageBytesPercentage"))
         }
     }
@@ -16533,9 +16533,9 @@ extension S3ControlClientTypes.SelectionCriteria: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let delimiterDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .delimiter)
         delimiter = delimiterDecoded
-        let maxDepthDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxDepth) ?? 0
+        let maxDepthDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxDepth)
         maxDepth = maxDepthDecoded
-        let minStorageBytesPercentageDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .minStorageBytesPercentage) ?? 0
+        let minStorageBytesPercentageDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .minStorageBytesPercentage)
         minStorageBytesPercentage = minStorageBytesPercentageDecoded
     }
 }
@@ -16560,14 +16560,14 @@ extension S3ControlClientTypes {
         /// A container for the delimiter of the selection criteria being used.
         public var delimiter: Swift.String?
         /// The max depth of the selection criteria
-        public var maxDepth: Swift.Int
+        public var maxDepth: Swift.Int?
         /// The minimum number of storage bytes percentage whose metrics will be selected. You must choose a value greater than or equal to 1.0.
-        public var minStorageBytesPercentage: Swift.Double
+        public var minStorageBytesPercentage: Swift.Double?
 
         public init(
             delimiter: Swift.String? = nil,
-            maxDepth: Swift.Int = 0,
-            minStorageBytesPercentage: Swift.Double = 0.0
+            maxDepth: Swift.Int? = nil,
+            minStorageBytesPercentage: Swift.Double? = nil
         )
         {
             self.delimiter = delimiter

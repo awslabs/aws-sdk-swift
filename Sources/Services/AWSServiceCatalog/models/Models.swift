@@ -12617,6 +12617,7 @@ extension ServiceCatalogClientTypes {
 extension ServiceCatalogClientTypes {
     public enum ProductType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case cloudFormationTemplate
+        case external
         case marketplace
         case terraformCloud
         case terraformOpenSource
@@ -12625,6 +12626,7 @@ extension ServiceCatalogClientTypes {
         public static var allCases: [ProductType] {
             return [
                 .cloudFormationTemplate,
+                .external,
                 .marketplace,
                 .terraformCloud,
                 .terraformOpenSource,
@@ -12638,6 +12640,7 @@ extension ServiceCatalogClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .cloudFormationTemplate: return "CLOUD_FORMATION_TEMPLATE"
+            case .external: return "EXTERNAL"
             case .marketplace: return "MARKETPLACE"
             case .terraformCloud: return "TERRAFORM_CLOUD"
             case .terraformOpenSource: return "TERRAFORM_OPEN_SOURCE"
@@ -13504,7 +13507,7 @@ extension ServiceCatalogClientTypes {
         public var statusMessage: Swift.String?
         /// One or more tags.
         public var tags: [ServiceCatalogClientTypes.Tag]?
-        /// The type of provisioned product. The supported values are CFN_STACK and CFN_STACKSET.
+        /// The type of provisioned product. The supported values are CFN_STACK, CFN_STACKSET, TERRAFORM_OPEN_SOURCE, TERRAFORM_CLOUD, and EXTERNAL.
         public var type: Swift.String?
         /// The Amazon Resource Name (ARN) of the user.
         public var userArn: Swift.String?
@@ -13709,7 +13712,7 @@ extension ServiceCatalogClientTypes {
         public var status: ServiceCatalogClientTypes.ProvisionedProductStatus?
         /// The current status message of the provisioned product.
         public var statusMessage: Swift.String?
-        /// The type of provisioned product. The supported values are CFN_STACK and CFN_STACKSET.
+        /// The type of provisioned product. The supported values are CFN_STACK, CFN_STACKSET, TERRAFORM_OPEN_SOURCE, TERRAFORM_CLOUD, and EXTERNAL.
         public var type: Swift.String?
 
         public init(
@@ -14340,7 +14343,15 @@ extension ServiceCatalogClientTypes {
         public var name: Swift.String?
         /// Specifies the revision of the external artifact that was used to automatically sync the Service Catalog product and create the provisioning artifact. Service Catalog includes this response parameter as a high level field to the existing ProvisioningArtifactDetail type, which is returned as part of the response for CreateProduct, UpdateProduct, DescribeProductAsAdmin, DescribeProvisioningArtifact, ListProvisioningArtifact, and UpdateProvisioningArticat APIs. This field only exists for Repo-Synced products.
         public var sourceRevision: Swift.String?
-        /// The type of provisioning artifact. CLOUD_FORMATION_TEMPLATE - CloudFormation template
+        /// The type of provisioning artifact.
+        ///
+        /// * CLOUD_FORMATION_TEMPLATE - CloudFormation template
+        ///
+        /// * TERRAFORM_OPEN_SOURCE - Terraform Open Source configuration file
+        ///
+        /// * TERRAFORM_CLOUD - Terraform Cloud configuration file
+        ///
+        /// * EXTERNAL - External configuration file
         public var type: ServiceCatalogClientTypes.ProvisioningArtifactType?
 
         public init(
@@ -14668,7 +14679,11 @@ extension ServiceCatalogClientTypes {
         ///
         /// * CLOUD_FORMATION_TEMPLATE - CloudFormation template
         ///
-        /// * TERRAFORM_OPEN_SOURCE - Terraform open source configuration file
+        /// * TERRAFORM_OPEN_SOURCE - Terraform Open Source configuration file
+        ///
+        /// * TERRAFORM_CLOUD - Terraform Cloud configuration file
+        ///
+        /// * EXTERNAL - External configuration file
         public var type: ServiceCatalogClientTypes.ProvisioningArtifactType?
 
         public init(
@@ -14808,6 +14823,7 @@ extension ServiceCatalogClientTypes {
 extension ServiceCatalogClientTypes {
     public enum ProvisioningArtifactType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case cloudFormationTemplate
+        case external
         case marketplaceAmi
         case marketplaceCar
         case terraformCloud
@@ -14817,6 +14833,7 @@ extension ServiceCatalogClientTypes {
         public static var allCases: [ProvisioningArtifactType] {
             return [
                 .cloudFormationTemplate,
+                .external,
                 .marketplaceAmi,
                 .marketplaceCar,
                 .terraformCloud,
@@ -14831,6 +14848,7 @@ extension ServiceCatalogClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .cloudFormationTemplate: return "CLOUD_FORMATION_TEMPLATE"
+            case .external: return "EXTERNAL"
             case .marketplaceAmi: return "MARKETPLACE_AMI"
             case .marketplaceCar: return "MARKETPLACE_CAR"
             case .terraformCloud: return "TERRAFORM_CLOUD"
@@ -15181,7 +15199,7 @@ extension ServiceCatalogClientTypes {
         public var provisionedProductId: Swift.String?
         /// The user-friendly name of the provisioned product.
         public var provisionedProductName: Swift.String?
-        /// The type of provisioned product. The supported values are CFN_STACK, CFN_STACKSET, TERRAFORM_OPEN_SOURCE, and TERRAFORM_CLOUD.
+        /// The type of provisioned product. The supported values are CFN_STACK, CFN_STACKSET, TERRAFORM_OPEN_SOURCE, TERRAFORM_CLOUD, and EXTERNAL.
         public var provisionedProductType: Swift.String?
         /// The identifier of the provisioning artifact.
         public var provisioningArtifactId: Swift.String?

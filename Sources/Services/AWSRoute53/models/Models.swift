@@ -16,7 +16,7 @@ extension Route53ClientTypes.AccountLimit: Swift.Codable {
         if let type = type {
             try container.encode(type, forKey: ClientRuntime.Key("Type"))
         }
-        if value != 0 {
+        if let value = value {
             try container.encode(value, forKey: ClientRuntime.Key("Value"))
         }
     }
@@ -25,7 +25,7 @@ extension Route53ClientTypes.AccountLimit: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let typeDecoded = try containerValues.decodeIfPresent(Route53ClientTypes.AccountLimitType.self, forKey: .type)
         type = typeDecoded
-        let valueDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .value) ?? 0
+        let valueDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .value)
         value = valueDecoded
     }
 }
@@ -62,11 +62,11 @@ extension Route53ClientTypes {
         public var type: Route53ClientTypes.AccountLimitType?
         /// The current value for the limit that is specified by [Type](https://docs.aws.amazon.com/Route53/latest/APIReference/API_AccountLimit.html#Route53-Type-AccountLimit-Type).
         /// This member is required.
-        public var value: Swift.Int
+        public var value: Swift.Int?
 
         public init(
             type: Route53ClientTypes.AccountLimitType? = nil,
-            value: Swift.Int = 0
+            value: Swift.Int? = nil
         )
         {
             self.type = type
@@ -8966,7 +8966,7 @@ extension Route53ClientTypes.HostedZoneLimit: Swift.Codable {
         if let type = type {
             try container.encode(type, forKey: ClientRuntime.Key("Type"))
         }
-        if value != 0 {
+        if let value = value {
             try container.encode(value, forKey: ClientRuntime.Key("Value"))
         }
     }
@@ -8975,7 +8975,7 @@ extension Route53ClientTypes.HostedZoneLimit: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let typeDecoded = try containerValues.decodeIfPresent(Route53ClientTypes.HostedZoneLimitType.self, forKey: .type)
         type = typeDecoded
-        let valueDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .value) ?? 0
+        let valueDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .value)
         value = valueDecoded
     }
 }
@@ -9006,11 +9006,11 @@ extension Route53ClientTypes {
         public var type: Route53ClientTypes.HostedZoneLimitType?
         /// The current value for the limit that is specified by Type.
         /// This member is required.
-        public var value: Swift.Int
+        public var value: Swift.Int?
 
         public init(
             type: Route53ClientTypes.HostedZoneLimitType? = nil,
-            value: Swift.Int = 0
+            value: Swift.Int? = nil
         )
         {
             self.type = type
@@ -15713,7 +15713,7 @@ extension Route53ClientTypes.ReusableDelegationSetLimit: Swift.Codable {
         if let type = type {
             try container.encode(type, forKey: ClientRuntime.Key("Type"))
         }
-        if value != 0 {
+        if let value = value {
             try container.encode(value, forKey: ClientRuntime.Key("Value"))
         }
     }
@@ -15722,7 +15722,7 @@ extension Route53ClientTypes.ReusableDelegationSetLimit: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let typeDecoded = try containerValues.decodeIfPresent(Route53ClientTypes.ReusableDelegationSetLimitType.self, forKey: .type)
         type = typeDecoded
-        let valueDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .value) ?? 0
+        let valueDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .value)
         value = valueDecoded
     }
 }
@@ -15749,11 +15749,11 @@ extension Route53ClientTypes {
         public var type: Route53ClientTypes.ReusableDelegationSetLimitType?
         /// The current value for the MAX_ZONES_BY_REUSABLE_DELEGATION_SET limit.
         /// This member is required.
-        public var value: Swift.Int
+        public var value: Swift.Int?
 
         public init(
             type: Route53ClientTypes.ReusableDelegationSetLimitType? = nil,
-            value: Swift.Int = 0
+            value: Swift.Int? = nil
         )
         {
             self.type = type

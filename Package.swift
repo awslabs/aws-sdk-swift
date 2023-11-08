@@ -184,8 +184,8 @@ func addProtocolTests() {
 // MARK: - Generated
 
 addDependencies(
-    clientRuntimeVersion: "0.32.0",
-    crtVersion: "0.13.0"
+    clientRuntimeVersion: "0.35.0",
+    crtVersion: "0.17.0"
 )
 
 let serviceTargets: [String] = [
@@ -326,7 +326,6 @@ let serviceTargets: [String] = [
     "AWSForecastquery",
     "AWSFraudDetector",
     "AWSGameLift",
-    "AWSGameSparks",
     "AWSGlacier",
     "AWSGlobalAccelerator",
     "AWSGlue",
@@ -380,6 +379,7 @@ let serviceTargets: [String] = [
     "AWSKinesisVideoWebRTCStorage",
     "AWSLakeFormation",
     "AWSLambda",
+    "AWSLaunchWizard",
     "AWSLexModelBuildingService",
     "AWSLexModelsV2",
     "AWSLexRuntimeService",
@@ -557,3 +557,4 @@ servicesWithIntegrationTests.forEach(addIntegrationTestTarget)
 
 // Uncomment this line to enable protocol tests
 // addProtocolTests()
+

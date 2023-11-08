@@ -669,7 +669,7 @@ extension ElasticLoadBalancingClientTypes.BackendServerDescription: Swift.Codabl
 
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if instancePort != 0 {
+        if let instancePort = instancePort {
             try container.encode(instancePort, forKey: ClientRuntime.Key("InstancePort"))
         }
         if let policyNames = policyNames {
@@ -688,7 +688,7 @@ extension ElasticLoadBalancingClientTypes.BackendServerDescription: Swift.Codabl
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let instancePortDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .instancePort) ?? 0
+        let instancePortDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .instancePort)
         instancePort = instancePortDecoded
         if containerValues.contains(.policyNames) {
             struct KeyVal0{struct member{}}
@@ -716,12 +716,12 @@ extension ElasticLoadBalancingClientTypes {
     /// Information about the configuration of an EC2 instance.
     public struct BackendServerDescription: Swift.Equatable {
         /// The port on which the EC2 instance is listening.
-        public var instancePort: Swift.Int
+        public var instancePort: Swift.Int?
         /// The names of the policies enabled for the EC2 instance.
         public var policyNames: [Swift.String]?
 
         public init(
-            instancePort: Swift.Int = 0,
+            instancePort: Swift.Int? = nil,
             policyNames: [Swift.String]? = nil
         )
         {
@@ -3905,19 +3905,19 @@ extension ElasticLoadBalancingClientTypes.HealthCheck: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if healthyThreshold != 0 {
+        if let healthyThreshold = healthyThreshold {
             try container.encode(healthyThreshold, forKey: ClientRuntime.Key("HealthyThreshold"))
         }
-        if interval != 0 {
+        if let interval = interval {
             try container.encode(interval, forKey: ClientRuntime.Key("Interval"))
         }
         if let target = target {
             try container.encode(target, forKey: ClientRuntime.Key("Target"))
         }
-        if timeout != 0 {
+        if let timeout = timeout {
             try container.encode(timeout, forKey: ClientRuntime.Key("Timeout"))
         }
-        if unhealthyThreshold != 0 {
+        if let unhealthyThreshold = unhealthyThreshold {
             try container.encode(unhealthyThreshold, forKey: ClientRuntime.Key("UnhealthyThreshold"))
         }
     }
@@ -3926,13 +3926,13 @@ extension ElasticLoadBalancingClientTypes.HealthCheck: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let targetDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .target)
         target = targetDecoded
-        let intervalDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .interval) ?? 0
+        let intervalDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .interval)
         interval = intervalDecoded
-        let timeoutDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .timeout) ?? 0
+        let timeoutDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .timeout)
         timeout = timeoutDecoded
-        let unhealthyThresholdDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .unhealthyThreshold) ?? 0
+        let unhealthyThresholdDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .unhealthyThreshold)
         unhealthyThreshold = unhealthyThresholdDecoded
-        let healthyThresholdDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .healthyThreshold) ?? 0
+        let healthyThresholdDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .healthyThreshold)
         healthyThreshold = healthyThresholdDecoded
     }
 }
@@ -3942,26 +3942,26 @@ extension ElasticLoadBalancingClientTypes {
     public struct HealthCheck: Swift.Equatable {
         /// The number of consecutive health checks successes required before moving the instance to the Healthy state.
         /// This member is required.
-        public var healthyThreshold: Swift.Int
+        public var healthyThreshold: Swift.Int?
         /// The approximate interval, in seconds, between health checks of an individual instance.
         /// This member is required.
-        public var interval: Swift.Int
+        public var interval: Swift.Int?
         /// The instance being checked. The protocol is either TCP, HTTP, HTTPS, or SSL. The range of valid ports is one (1) through 65535. TCP is the default, specified as a TCP: port pair, for example "TCP:5000". In this case, a health check simply attempts to open a TCP connection to the instance on the specified port. Failure to connect within the configured timeout is considered unhealthy. SSL is also specified as SSL: port pair, for example, SSL:5000. For HTTP/HTTPS, you must include a ping path in the string. HTTP is specified as a HTTP:port;/;PathToPing; grouping, for example "HTTP:80/weather/us/wa/seattle". In this case, a HTTP GET request is issued to the instance on the given port and path. Any answer other than "200 OK" within the timeout period is considered unhealthy. The total length of the HTTP ping target must be 1024 16-bit Unicode characters or less.
         /// This member is required.
         public var target: Swift.String?
         /// The amount of time, in seconds, during which no response means a failed health check. This value must be less than the Interval value.
         /// This member is required.
-        public var timeout: Swift.Int
+        public var timeout: Swift.Int?
         /// The number of consecutive health check failures required before moving the instance to the Unhealthy state.
         /// This member is required.
-        public var unhealthyThreshold: Swift.Int
+        public var unhealthyThreshold: Swift.Int?
 
         public init(
-            healthyThreshold: Swift.Int = 0,
-            interval: Swift.Int = 0,
+            healthyThreshold: Swift.Int? = nil,
+            interval: Swift.Int? = nil,
             target: Swift.String? = nil,
-            timeout: Swift.Int = 0,
-            unhealthyThreshold: Swift.Int = 0
+            timeout: Swift.Int? = nil,
+            unhealthyThreshold: Swift.Int? = nil
         )
         {
             self.healthyThreshold = healthyThreshold
@@ -4475,7 +4475,7 @@ extension ElasticLoadBalancingClientTypes.Listener: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if instancePort != 0 {
+        if let instancePort = instancePort {
             try container.encode(instancePort, forKey: ClientRuntime.Key("InstancePort"))
         }
         if let instanceProtocol = instanceProtocol {
@@ -4500,7 +4500,7 @@ extension ElasticLoadBalancingClientTypes.Listener: Swift.Codable {
         loadBalancerPort = loadBalancerPortDecoded
         let instanceProtocolDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceProtocol)
         instanceProtocol = instanceProtocolDecoded
-        let instancePortDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .instancePort) ?? 0
+        let instancePortDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .instancePort)
         instancePort = instancePortDecoded
         let sslCertificateIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sslCertificateId)
         sslCertificateId = sslCertificateIdDecoded
@@ -4512,7 +4512,7 @@ extension ElasticLoadBalancingClientTypes {
     public struct Listener: Swift.Equatable {
         /// The port on which the instance is listening.
         /// This member is required.
-        public var instancePort: Swift.Int
+        public var instancePort: Swift.Int?
         /// The protocol to use for routing traffic to instances: HTTP, HTTPS, TCP, or SSL. If the front-end protocol is TCP or SSL, the back-end protocol must be TCP or SSL. If the front-end protocol is HTTP or HTTPS, the back-end protocol must be HTTP or HTTPS. If there is another listener with the same InstancePort whose InstanceProtocol is secure, (HTTPS or SSL), the listener's InstanceProtocol must also be secure. If there is another listener with the same InstancePort whose InstanceProtocol is HTTP or TCP, the listener's InstanceProtocol must be HTTP or TCP.
         public var instanceProtocol: Swift.String?
         /// The port on which the load balancer is listening. On EC2-VPC, you can specify any port from the range 1-65535. On EC2-Classic, you can specify any port from the following list: 25, 80, 443, 465, 587, 1024-65535.
@@ -4525,7 +4525,7 @@ extension ElasticLoadBalancingClientTypes {
         public var sslCertificateId: Swift.String?
 
         public init(
-            instancePort: Swift.Int = 0,
+            instancePort: Swift.Int? = nil,
             instanceProtocol: Swift.String? = nil,
             loadBalancerPort: Swift.Int = 0,
             `protocol`: Swift.String? = nil,

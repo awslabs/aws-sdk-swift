@@ -82,7 +82,7 @@ extension MedicalImagingClient: MedicalImagingClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource which does not exist.
     /// - `ServiceQuotaExceededException` : The request caused a service quota to be exceeded.
     /// - `ThrottlingException` : The request was denied due to throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints set by the service.
     public func copyImageSet(input: CopyImageSetInput) async throws -> CopyImageSetOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -131,7 +131,7 @@ extension MedicalImagingClient: MedicalImagingClientProtocol {
     /// - `InternalServerException` : An unexpected error occurred during processing of the request.
     /// - `ServiceQuotaExceededException` : The request caused a service quota to be exceeded.
     /// - `ThrottlingException` : The request was denied due to throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints set by the service.
     public func createDatastore(input: CreateDatastoreInput) async throws -> CreateDatastoreOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -149,14 +149,7 @@ extension MedicalImagingClient: MedicalImagingClientProtocol {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<CreateDatastoreInput, CreateDatastoreOutput, CreateDatastoreOutputError>(id: "createDatastore")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateDatastoreOutput> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.clientToken == nil {
-                copiedInput.clientToken = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateDatastoreInput, CreateDatastoreOutput, CreateDatastoreOutputError>(keyPath: \.clientToken))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDatastoreInput, CreateDatastoreOutput, CreateDatastoreOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDatastoreInput, CreateDatastoreOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
@@ -188,7 +181,7 @@ extension MedicalImagingClient: MedicalImagingClientProtocol {
     /// - `InternalServerException` : An unexpected error occurred during processing of the request.
     /// - `ResourceNotFoundException` : The request references a resource which does not exist.
     /// - `ThrottlingException` : The request was denied due to throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints set by the service.
     public func deleteDatastore(input: DeleteDatastoreInput) async throws -> DeleteDatastoreOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -234,7 +227,7 @@ extension MedicalImagingClient: MedicalImagingClientProtocol {
     /// - `InternalServerException` : An unexpected error occurred during processing of the request.
     /// - `ResourceNotFoundException` : The request references a resource which does not exist.
     /// - `ThrottlingException` : The request was denied due to throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints set by the service.
     public func deleteImageSet(input: DeleteImageSetInput) async throws -> DeleteImageSetOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -280,7 +273,7 @@ extension MedicalImagingClient: MedicalImagingClientProtocol {
     /// - `InternalServerException` : An unexpected error occurred during processing of the request.
     /// - `ResourceNotFoundException` : The request references a resource which does not exist.
     /// - `ThrottlingException` : The request was denied due to throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints set by the service.
     public func getDICOMImportJob(input: GetDICOMImportJobInput) async throws -> GetDICOMImportJobOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -325,7 +318,7 @@ extension MedicalImagingClient: MedicalImagingClientProtocol {
     /// - `InternalServerException` : An unexpected error occurred during processing of the request.
     /// - `ResourceNotFoundException` : The request references a resource which does not exist.
     /// - `ThrottlingException` : The request was denied due to throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints set by the service.
     public func getDatastore(input: GetDatastoreInput) async throws -> GetDatastoreOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -371,7 +364,7 @@ extension MedicalImagingClient: MedicalImagingClientProtocol {
     /// - `InternalServerException` : An unexpected error occurred during processing of the request.
     /// - `ResourceNotFoundException` : The request references a resource which does not exist.
     /// - `ThrottlingException` : The request was denied due to throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints set by the service.
     public func getImageFrame(input: GetImageFrameInput) async throws -> GetImageFrameOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -420,7 +413,7 @@ extension MedicalImagingClient: MedicalImagingClientProtocol {
     /// - `InternalServerException` : An unexpected error occurred during processing of the request.
     /// - `ResourceNotFoundException` : The request references a resource which does not exist.
     /// - `ThrottlingException` : The request was denied due to throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints set by the service.
     public func getImageSet(input: GetImageSetInput) async throws -> GetImageSetOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -467,7 +460,7 @@ extension MedicalImagingClient: MedicalImagingClientProtocol {
     /// - `InternalServerException` : An unexpected error occurred during processing of the request.
     /// - `ResourceNotFoundException` : The request references a resource which does not exist.
     /// - `ThrottlingException` : The request was denied due to throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints set by the service.
     public func getImageSetMetadata(input: GetImageSetMetadataInput) async throws -> GetImageSetMetadataOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -500,7 +493,7 @@ extension MedicalImagingClient: MedicalImagingClientProtocol {
         return result
     }
 
-    /// List import jobs created by this AWS account for a specific data store.
+    /// List import jobs created for a specific data store.
     ///
     /// - Parameter ListDICOMImportJobsInput : [no documentation found]
     ///
@@ -514,7 +507,7 @@ extension MedicalImagingClient: MedicalImagingClientProtocol {
     /// - `InternalServerException` : An unexpected error occurred during processing of the request.
     /// - `ResourceNotFoundException` : The request references a resource which does not exist.
     /// - `ThrottlingException` : The request was denied due to throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints set by the service.
     public func listDICOMImportJobs(input: ListDICOMImportJobsInput) async throws -> ListDICOMImportJobsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -547,7 +540,7 @@ extension MedicalImagingClient: MedicalImagingClientProtocol {
         return result
     }
 
-    /// List data stores created by this AWS account.
+    /// List data stores.
     ///
     /// - Parameter ListDatastoresInput : [no documentation found]
     ///
@@ -559,7 +552,7 @@ extension MedicalImagingClient: MedicalImagingClientProtocol {
     /// - `AccessDeniedException` : The user does not have sufficient access to perform this action.
     /// - `InternalServerException` : An unexpected error occurred during processing of the request.
     /// - `ThrottlingException` : The request was denied due to throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints set by the service.
     public func listDatastores(input: ListDatastoresInput) async throws -> ListDatastoresOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -606,7 +599,7 @@ extension MedicalImagingClient: MedicalImagingClientProtocol {
     /// - `InternalServerException` : An unexpected error occurred during processing of the request.
     /// - `ResourceNotFoundException` : The request references a resource which does not exist.
     /// - `ThrottlingException` : The request was denied due to throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints set by the service.
     public func listImageSetVersions(input: ListImageSetVersionsInput) async throws -> ListImageSetVersionsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -652,7 +645,7 @@ extension MedicalImagingClient: MedicalImagingClientProtocol {
     /// - `InternalServerException` : An unexpected error occurred during processing of the request.
     /// - `ResourceNotFoundException` : The request references a resource which does not exist.
     /// - `ThrottlingException` : The request was denied due to throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints set by the service.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -684,7 +677,7 @@ extension MedicalImagingClient: MedicalImagingClientProtocol {
         return result
     }
 
-    /// Search image sets based on defined input attributes.
+    /// Search image sets based on defined input attributes. SearchImageSets accepts a single search query parameter and returns a paginated response of all image sets that have the matching criteria. All range queries must be input as (lowerBound, upperBound). SearchImageSets uses the updatedAt field for sorting in decreasing order from latest to oldest.
     ///
     /// - Parameter SearchImageSetsInput : [no documentation found]
     ///
@@ -698,7 +691,7 @@ extension MedicalImagingClient: MedicalImagingClientProtocol {
     /// - `InternalServerException` : An unexpected error occurred during processing of the request.
     /// - `ResourceNotFoundException` : The request references a resource which does not exist.
     /// - `ThrottlingException` : The request was denied due to throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints set by the service.
     public func searchImageSets(input: SearchImageSetsInput) async throws -> SearchImageSetsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -749,7 +742,7 @@ extension MedicalImagingClient: MedicalImagingClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource which does not exist.
     /// - `ServiceQuotaExceededException` : The request caused a service quota to be exceeded.
     /// - `ThrottlingException` : The request was denied due to throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints set by the service.
     public func startDICOMImportJob(input: StartDICOMImportJobInput) async throws -> StartDICOMImportJobOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -767,14 +760,7 @@ extension MedicalImagingClient: MedicalImagingClientProtocol {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<StartDICOMImportJobInput, StartDICOMImportJobOutput, StartDICOMImportJobOutputError>(id: "startDICOMImportJob")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<StartDICOMImportJobOutput> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.clientToken == nil {
-                copiedInput.clientToken = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<StartDICOMImportJobInput, StartDICOMImportJobOutput, StartDICOMImportJobOutputError>(keyPath: \.clientToken))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartDICOMImportJobInput, StartDICOMImportJobOutput, StartDICOMImportJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartDICOMImportJobInput, StartDICOMImportJobOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
@@ -805,7 +791,7 @@ extension MedicalImagingClient: MedicalImagingClientProtocol {
     /// - `InternalServerException` : An unexpected error occurred during processing of the request.
     /// - `ResourceNotFoundException` : The request references a resource which does not exist.
     /// - `ThrottlingException` : The request was denied due to throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints set by the service.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -853,7 +839,7 @@ extension MedicalImagingClient: MedicalImagingClientProtocol {
     /// - `InternalServerException` : An unexpected error occurred during processing of the request.
     /// - `ResourceNotFoundException` : The request references a resource which does not exist.
     /// - `ThrottlingException` : The request was denied due to throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints set by the service.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -901,7 +887,7 @@ extension MedicalImagingClient: MedicalImagingClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource which does not exist.
     /// - `ServiceQuotaExceededException` : The request caused a service quota to be exceeded.
     /// - `ThrottlingException` : The request was denied due to throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints set by the service.
     public func updateImageSetMetadata(input: UpdateImageSetMetadataInput) async throws -> UpdateImageSetMetadataOutput
     {
         let context = ClientRuntime.HttpContextBuilder()

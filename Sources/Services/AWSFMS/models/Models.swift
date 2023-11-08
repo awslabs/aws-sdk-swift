@@ -11368,7 +11368,7 @@ extension FMSClientTypes.StatelessRuleGroup: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if priority != 0 {
+        if let priority = self.priority {
             try encodeContainer.encode(priority, forKey: .priority)
         }
         if let resourceId = self.resourceId {
@@ -11385,7 +11385,7 @@ extension FMSClientTypes.StatelessRuleGroup: Swift.Codable {
         ruleGroupName = ruleGroupNameDecoded
         let resourceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceId)
         resourceId = resourceIdDecoded
-        let priorityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .priority) ?? 0
+        let priorityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .priority)
         priority = priorityDecoded
     }
 }
@@ -11394,14 +11394,14 @@ extension FMSClientTypes {
     /// Network Firewall stateless rule group, used in a [NetworkFirewallPolicyDescription].
     public struct StatelessRuleGroup: Swift.Equatable {
         /// The priority of the rule group. Network Firewall evaluates the stateless rule groups in a firewall policy starting from the lowest priority setting.
-        public var priority: Swift.Int
+        public var priority: Swift.Int?
         /// The resource ID of the rule group.
         public var resourceId: Swift.String?
         /// The name of the rule group.
         public var ruleGroupName: Swift.String?
 
         public init(
-            priority: Swift.Int = 0,
+            priority: Swift.Int? = nil,
             resourceId: Swift.String? = nil,
             ruleGroupName: Swift.String? = nil
         )

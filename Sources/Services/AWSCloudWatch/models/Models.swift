@@ -840,7 +840,7 @@ extension CloudWatchClientTypes.DashboardEntry: Swift.Codable {
         if let lastModified = lastModified {
             try container.encodeTimestamp(lastModified, format: .dateTime, forKey: ClientRuntime.Key("LastModified"))
         }
-        if size != 0 {
+        if let size = size {
             try container.encode(size, forKey: ClientRuntime.Key("Size"))
         }
     }
@@ -853,7 +853,7 @@ extension CloudWatchClientTypes.DashboardEntry: Swift.Codable {
         dashboardArn = dashboardArnDecoded
         let lastModifiedDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .lastModified)
         lastModified = lastModifiedDecoded
-        let sizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .size) ?? 0
+        let sizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .size)
         size = sizeDecoded
     }
 }
@@ -868,13 +868,13 @@ extension CloudWatchClientTypes {
         /// The time stamp of when the dashboard was last modified, either by an API call or through the console. This number is expressed as the number of milliseconds since Jan 1, 1970 00:00:00 UTC.
         public var lastModified: ClientRuntime.Date?
         /// The size of the dashboard, in bytes.
-        public var size: Swift.Int
+        public var size: Swift.Int?
 
         public init(
             dashboardArn: Swift.String? = nil,
             dashboardName: Swift.String? = nil,
             lastModified: ClientRuntime.Date? = nil,
-            size: Swift.Int = 0
+            size: Swift.Int? = nil
         )
         {
             self.dashboardArn = dashboardArn
@@ -4891,7 +4891,7 @@ extension CloudWatchClientTypes.InsightRule: Swift.Codable {
         if let definition = definition {
             try container.encode(definition, forKey: ClientRuntime.Key("Definition"))
         }
-        if managedRule != false {
+        if let managedRule = managedRule {
             try container.encode(managedRule, forKey: ClientRuntime.Key("ManagedRule"))
         }
         if let name = name {
@@ -4915,7 +4915,7 @@ extension CloudWatchClientTypes.InsightRule: Swift.Codable {
         schema = schemaDecoded
         let definitionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .definition)
         definition = definitionDecoded
-        let managedRuleDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .managedRule) ?? false
+        let managedRuleDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .managedRule)
         managedRule = managedRuleDecoded
     }
 }
@@ -4927,7 +4927,7 @@ extension CloudWatchClientTypes {
         /// This member is required.
         public var definition: Swift.String?
         /// An optional built-in rule that Amazon Web Services manages.
-        public var managedRule: Swift.Bool
+        public var managedRule: Swift.Bool?
         /// The name of the rule.
         /// This member is required.
         public var name: Swift.String?
@@ -4940,7 +4940,7 @@ extension CloudWatchClientTypes {
 
         public init(
             definition: Swift.String? = nil,
-            managedRule: Swift.Bool = false,
+            managedRule: Swift.Bool? = nil,
             name: Swift.String? = nil,
             schema: Swift.String? = nil,
             state: Swift.String? = nil
@@ -6188,7 +6188,7 @@ extension ListMetricsInputBody: Swift.Decodable {
         nextToken = nextTokenDecoded
         let recentlyActiveDecoded = try containerValues.decodeIfPresent(CloudWatchClientTypes.RecentlyActive.self, forKey: .recentlyActive)
         recentlyActive = recentlyActiveDecoded
-        let includeLinkedAccountsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .includeLinkedAccounts) ?? false
+        let includeLinkedAccountsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .includeLinkedAccounts)
         includeLinkedAccounts = includeLinkedAccountsDecoded
         let owningAccountDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .owningAccount)
         owningAccount = owningAccountDecoded

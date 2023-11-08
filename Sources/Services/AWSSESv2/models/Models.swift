@@ -5186,7 +5186,7 @@ extension SESv2ClientTypes {
         ///
         /// * If you include attachments, they must be in a file format that the Amazon SES API v2 supports.
         ///
-        /// * The entire message must be Base64 encoded.
+        /// * The raw data of the message needs to base64-encoded if you are accessing Amazon SES directly through the HTTPS interface. If you are accessing Amazon SES using an Amazon Web Services SDK, the SDK takes care of the base 64-encoding for you.
         ///
         /// * If any of the MIME parts in your message contain content that is outside of the 7-bit ASCII character range, you should encode that content to ensure that recipients' email clients render the message properly.
         ///
@@ -7993,6 +7993,7 @@ extension GetEmailIdentityOutput: ClientRuntime.HttpResponseBinding {
             self.mailFromAttributes = output.mailFromAttributes
             self.policies = output.policies
             self.tags = output.tags
+            self.verificationInfo = output.verificationInfo
             self.verificationStatus = output.verificationStatus
             self.verifiedForSendingStatus = output.verifiedForSendingStatus
         } else {
@@ -8003,6 +8004,7 @@ extension GetEmailIdentityOutput: ClientRuntime.HttpResponseBinding {
             self.mailFromAttributes = nil
             self.policies = nil
             self.tags = nil
+            self.verificationInfo = nil
             self.verificationStatus = nil
             self.verifiedForSendingStatus = false
         }
@@ -8025,6 +8027,8 @@ public struct GetEmailIdentityOutput: Swift.Equatable {
     public var policies: [Swift.String:Swift.String]?
     /// An array of objects that define the tags (keys and values) that are associated with the email identity.
     public var tags: [SESv2ClientTypes.Tag]?
+    /// An object that contains additional information about the verification status for the identity.
+    public var verificationInfo: SESv2ClientTypes.VerificationInfo?
     /// The verification status of the identity. The status can be one of the following:
     ///
     /// * PENDING – The verification process was initiated, but Amazon SES hasn't yet been able to verify the identity.
@@ -8048,6 +8052,7 @@ public struct GetEmailIdentityOutput: Swift.Equatable {
         mailFromAttributes: SESv2ClientTypes.MailFromAttributes? = nil,
         policies: [Swift.String:Swift.String]? = nil,
         tags: [SESv2ClientTypes.Tag]? = nil,
+        verificationInfo: SESv2ClientTypes.VerificationInfo? = nil,
         verificationStatus: SESv2ClientTypes.VerificationStatus? = nil,
         verifiedForSendingStatus: Swift.Bool = false
     )
@@ -8059,6 +8064,7 @@ public struct GetEmailIdentityOutput: Swift.Equatable {
         self.mailFromAttributes = mailFromAttributes
         self.policies = policies
         self.tags = tags
+        self.verificationInfo = verificationInfo
         self.verificationStatus = verificationStatus
         self.verifiedForSendingStatus = verifiedForSendingStatus
     }
@@ -8074,6 +8080,7 @@ struct GetEmailIdentityOutputBody: Swift.Equatable {
     let tags: [SESv2ClientTypes.Tag]?
     let configurationSetName: Swift.String?
     let verificationStatus: SESv2ClientTypes.VerificationStatus?
+    let verificationInfo: SESv2ClientTypes.VerificationInfo?
 }
 
 extension GetEmailIdentityOutputBody: Swift.Decodable {
@@ -8085,6 +8092,7 @@ extension GetEmailIdentityOutputBody: Swift.Decodable {
         case mailFromAttributes = "MailFromAttributes"
         case policies = "Policies"
         case tags = "Tags"
+        case verificationInfo = "VerificationInfo"
         case verificationStatus = "VerificationStatus"
         case verifiedForSendingStatus = "VerifiedForSendingStatus"
     }
@@ -8127,6 +8135,8 @@ extension GetEmailIdentityOutputBody: Swift.Decodable {
         configurationSetName = configurationSetNameDecoded
         let verificationStatusDecoded = try containerValues.decodeIfPresent(SESv2ClientTypes.VerificationStatus.self, forKey: .verificationStatus)
         verificationStatus = verificationStatusDecoded
+        let verificationInfoDecoded = try containerValues.decodeIfPresent(SESv2ClientTypes.VerificationInfo.self, forKey: .verificationInfo)
+        verificationInfo = verificationInfoDecoded
     }
 }
 
@@ -10844,7 +10854,7 @@ extension ListEmailTemplatesInput: ClientRuntime.URLPathProvider {
 public struct ListEmailTemplatesInput: Swift.Equatable {
     /// A token returned from a previous call to ListEmailTemplates to indicate the position in the list of email templates.
     public var nextToken: Swift.String?
-    /// The number of results to show in a single call to ListEmailTemplates. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results. The value you specify has to be at least 1, and can be no more than 10.
+    /// The number of results to show in a single call to ListEmailTemplates. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results. The value you specify has to be at least 1, and can be no more than 100.
     public var pageSize: Swift.Int?
 
     public init(
@@ -14949,7 +14959,7 @@ extension SESv2ClientTypes {
         ///
         /// * Attachments must be in a file format that the Amazon SES supports.
         ///
-        /// * The entire message must be Base64 encoded.
+        /// * The raw data of the message needs to base64-encoded if you are accessing Amazon SES directly through the HTTPS interface. If you are accessing Amazon SES using an Amazon Web Services SDK, the SDK takes care of the base 64-encoding for you.
         ///
         /// * If any of the MIME parts in your message contain content that is outside of the 7-bit ASCII character range, you should encode that content to ensure that recipients' email clients render the message properly.
         ///
@@ -15368,6 +15378,61 @@ extension SESv2ClientTypes {
             self = ReviewStatus(rawValue: rawValue) ?? ReviewStatus.sdkUnknown(rawValue)
         }
     }
+}
+
+extension SESv2ClientTypes.SOARecord: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case adminEmail = "AdminEmail"
+        case primaryNameServer = "PrimaryNameServer"
+        case serialNumber = "SerialNumber"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let adminEmail = self.adminEmail {
+            try encodeContainer.encode(adminEmail, forKey: .adminEmail)
+        }
+        if let primaryNameServer = self.primaryNameServer {
+            try encodeContainer.encode(primaryNameServer, forKey: .primaryNameServer)
+        }
+        if serialNumber != 0 {
+            try encodeContainer.encode(serialNumber, forKey: .serialNumber)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let primaryNameServerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .primaryNameServer)
+        primaryNameServer = primaryNameServerDecoded
+        let adminEmailDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .adminEmail)
+        adminEmail = adminEmailDecoded
+        let serialNumberDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .serialNumber) ?? 0
+        serialNumber = serialNumberDecoded
+    }
+}
+
+extension SESv2ClientTypes {
+    /// An object that contains information about the start of authority (SOA) record associated with the identity.
+    public struct SOARecord: Swift.Equatable {
+        /// Administrative contact email from the SOA record.
+        public var adminEmail: Swift.String?
+        /// Primary name server specified in the SOA record.
+        public var primaryNameServer: Swift.String?
+        /// Serial number from the SOA record.
+        public var serialNumber: Swift.Int
+
+        public init(
+            adminEmail: Swift.String? = nil,
+            primaryNameServer: Swift.String? = nil,
+            serialNumber: Swift.Int = 0
+        )
+        {
+            self.adminEmail = adminEmail
+            self.primaryNameServer = primaryNameServer
+            self.serialNumber = serialNumber
+        }
+    }
+
 }
 
 extension SESv2ClientTypes {
@@ -18026,6 +18091,122 @@ extension SESv2ClientTypes {
         {
             self.dashboardOptions = dashboardOptions
             self.guardianOptions = guardianOptions
+        }
+    }
+
+}
+
+extension SESv2ClientTypes {
+    public enum VerificationError: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case dnsServerError
+        case hostNotFound
+        case invalidValue
+        case serviceError
+        case typeNotFound
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [VerificationError] {
+            return [
+                .dnsServerError,
+                .hostNotFound,
+                .invalidValue,
+                .serviceError,
+                .typeNotFound,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .dnsServerError: return "DNS_SERVER_ERROR"
+            case .hostNotFound: return "HOST_NOT_FOUND"
+            case .invalidValue: return "INVALID_VALUE"
+            case .serviceError: return "SERVICE_ERROR"
+            case .typeNotFound: return "TYPE_NOT_FOUND"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = VerificationError(rawValue: rawValue) ?? VerificationError.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension SESv2ClientTypes.VerificationInfo: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case errorType = "ErrorType"
+        case lastCheckedTimestamp = "LastCheckedTimestamp"
+        case lastSuccessTimestamp = "LastSuccessTimestamp"
+        case soaRecord = "SOARecord"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let errorType = self.errorType {
+            try encodeContainer.encode(errorType.rawValue, forKey: .errorType)
+        }
+        if let lastCheckedTimestamp = self.lastCheckedTimestamp {
+            try encodeContainer.encodeTimestamp(lastCheckedTimestamp, format: .epochSeconds, forKey: .lastCheckedTimestamp)
+        }
+        if let lastSuccessTimestamp = self.lastSuccessTimestamp {
+            try encodeContainer.encodeTimestamp(lastSuccessTimestamp, format: .epochSeconds, forKey: .lastSuccessTimestamp)
+        }
+        if let soaRecord = self.soaRecord {
+            try encodeContainer.encode(soaRecord, forKey: .soaRecord)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let lastCheckedTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastCheckedTimestamp)
+        lastCheckedTimestamp = lastCheckedTimestampDecoded
+        let lastSuccessTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastSuccessTimestamp)
+        lastSuccessTimestamp = lastSuccessTimestampDecoded
+        let errorTypeDecoded = try containerValues.decodeIfPresent(SESv2ClientTypes.VerificationError.self, forKey: .errorType)
+        errorType = errorTypeDecoded
+        let soaRecordDecoded = try containerValues.decodeIfPresent(SESv2ClientTypes.SOARecord.self, forKey: .soaRecord)
+        soaRecord = soaRecordDecoded
+    }
+}
+
+extension SESv2ClientTypes {
+    /// An object that contains additional information about the verification status for the identity.
+    public struct VerificationInfo: Swift.Equatable {
+        /// Provides the reason for the failure describing why Amazon SES was not able to successfully verify the identity. Below are the possible values:
+        ///
+        /// * INVALID_VALUE – Amazon SES was able to find the record, but the value contained within the record was invalid. Ensure you have published the correct values for the record.
+        ///
+        /// * TYPE_NOT_FOUND – The queried hostname exists but does not have the requested type of DNS record. Ensure that you have published the correct type of DNS record.
+        ///
+        /// * HOST_NOT_FOUND – The queried hostname does not exist or was not reachable at the time of the request. Ensure that you have published the required DNS record(s).
+        ///
+        /// * SERVICE_ERROR – A temporary issue is preventing Amazon SES from determining the verification status of the domain.
+        ///
+        /// * DNS_SERVER_ERROR – The DNS server encountered an issue and was unable to complete the request.
+        public var errorType: SESv2ClientTypes.VerificationError?
+        /// The last time a verification attempt was made for this identity.
+        public var lastCheckedTimestamp: ClientRuntime.Date?
+        /// The last time a successful verification was made for this identity.
+        public var lastSuccessTimestamp: ClientRuntime.Date?
+        /// An object that contains information about the start of authority (SOA) record associated with the identity.
+        public var soaRecord: SESv2ClientTypes.SOARecord?
+
+        public init(
+            errorType: SESv2ClientTypes.VerificationError? = nil,
+            lastCheckedTimestamp: ClientRuntime.Date? = nil,
+            lastSuccessTimestamp: ClientRuntime.Date? = nil,
+            soaRecord: SESv2ClientTypes.SOARecord? = nil
+        )
+        {
+            self.errorType = errorType
+            self.lastCheckedTimestamp = lastCheckedTimestamp
+            self.lastSuccessTimestamp = lastSuccessTimestamp
+            self.soaRecord = soaRecord
         }
     }
 
