@@ -24,6 +24,7 @@ abstract class AWSHttpProtocolCustomizations : DefaultHttpProtocolCustomizations
 
         // FIXME handle indentation properly or do swift formatting after the fact
         writer.write("  .withCredentialsProvider(value: config.credentialsProvider)")
+        writer.write("  .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)")
         writer.write("  .withRegion(value: config.region)")
         if (AWSSigningMiddleware.hasSigV4AuthScheme(ctx.model, ctx.service, op)) {
             val signingName = AWSSigningMiddleware.signingServiceName(serviceShape)
@@ -43,6 +44,7 @@ abstract class AWSHttpProtocolCustomizations : DefaultHttpProtocolCustomizations
     }
 
     override fun renderInternals(ctx: ProtocolGenerator.GenerationContext) {
+        super.renderInternals(ctx)
         EndpointResolverGenerator().render(ctx)
     }
 

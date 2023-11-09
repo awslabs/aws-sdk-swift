@@ -64,6 +64,11 @@ public class AWSClientConfiguration<ServiceSpecificConfiguration: AWSServiceSpec
     /// If no credentials provider is supplied, the SDK will look for credentials in the environment, then in the `~/.aws/credentials` file.
     public var credentialsProvider: any CredentialsProviding
 
+    /// List of configured auth schemes for the service.
+    ///
+    /// If none is provided at compile time, value will default to auth schemes supported by the service as defined in its model.
+    public var authSchemes: [ClientRuntime.AuthScheme]?
+
     /// The AWS region to use, i.e. `us-east-1` or `us-west-2`, etc.
     ///
     /// If no region is specified here, one must be specified in the `~/.aws/configuration` file.
@@ -112,6 +117,7 @@ public class AWSClientConfiguration<ServiceSpecificConfiguration: AWSServiceSpec
     private init(
         // these params have no labels to distinguish this init from the similar convenience inits below
         _ credentialsProvider: any AWSClientRuntime.CredentialsProviding,
+        _ authSchemes: [ClientRuntime.AuthScheme]?,
         _ endpoint: Swift.String?,
         _ serviceSpecific: ServiceSpecificConfiguration?,
         _ region: Swift.String?,
@@ -127,8 +133,12 @@ public class AWSClientConfiguration<ServiceSpecificConfiguration: AWSServiceSpec
             DefaultSDKRuntimeConfiguration<DefaultRetryStrategy, DefaultRetryErrorInfoProvider>
 
         self.credentialsProvider = credentialsProvider
+        self.authSchemes = authSchemes
         self.endpoint = endpoint
-        self.serviceSpecific = try serviceSpecific ?? ServiceSpecificConfiguration(endpointResolver: nil)
+        self.serviceSpecific = try serviceSpecific ?? ServiceSpecificConfiguration(
+            endpointResolver: nil,
+            authSchemeResolver: nil
+        )
         self.region = region
         self.signingRegion = signingRegion ?? region
         self.useDualStack = useDualStack
@@ -154,16 +164,23 @@ public class AWSClientConfiguration<ServiceSpecificConfiguration: AWSServiceSpec
 extension AWSClientConfiguration {
 
     public convenience init(region: String) throws {
-        try self.init(region: region, serviceSpecific: try ServiceSpecificConfiguration(endpointResolver: nil))
+        try self.init(region: region, serviceSpecific: try ServiceSpecificConfiguration(
+            endpointResolver: nil,
+            authSchemeResolver: nil
+        ))
     }
 
     public convenience init() async throws {
-        try await self.init(serviceSpecific: try ServiceSpecificConfiguration(endpointResolver: nil))
+        try await self.init(serviceSpecific: try ServiceSpecificConfiguration(
+            endpointResolver: nil,
+            authSchemeResolver: nil
+        ))
     }
 
     /// Creates a configuration asynchronously
     public convenience init(
         credentialsProvider: (any AWSClientRuntime.CredentialsProviding)? = nil,
+        authSchemes: [ClientRuntime.AuthScheme]? = nil,
         endpoint: Swift.String? = nil,
         serviceSpecific: ServiceSpecificConfiguration? = nil,
         region: Swift.String? = nil,
@@ -204,6 +221,7 @@ extension AWSClientConfiguration {
         let resolvedAppID = AppIDConfig.appID(configValue: appID, profileName: nil, fileBasedConfig: fileBasedConfig)
         try self.init(
             resolvedCredentialsProvider,
+            authSchemes,
             endpoint,
             serviceSpecific,
             resolvedRegion,
@@ -220,6 +238,7 @@ extension AWSClientConfiguration {
     public convenience init(
         region: Swift.String,
         credentialsProvider: (any AWSClientRuntime.CredentialsProviding)? = nil,
+        authSchemes: [ClientRuntime.AuthScheme]? = nil,
         endpoint: Swift.String? = nil,
         serviceSpecific: ServiceSpecificConfiguration? = nil,
         signingRegion: Swift.String? = nil,
@@ -251,6 +270,7 @@ extension AWSClientConfiguration {
         let resolvedAppID = AppIDConfig.appID(configValue: appID, profileName: nil, fileBasedConfig: fileBasedConfig)
         try self.init(
             resolvedCredentialsProvider,
+            authSchemes,
             endpoint,
             serviceSpecific,
             region,

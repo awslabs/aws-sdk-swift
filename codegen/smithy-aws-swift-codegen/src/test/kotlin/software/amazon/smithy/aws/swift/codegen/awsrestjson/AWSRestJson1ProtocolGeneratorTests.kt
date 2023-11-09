@@ -101,6 +101,9 @@ class RestJsonProtocolGeneratorTests {
                     decoder.dateDecodingStrategy = .secondsSince1970
                     decoder.nonConformingFloatDecodingStrategy = .convertFromString(positiveInfinity: "Infinity", negativeInfinity: "-Infinity", nan: "NaN")
                     self.decoder = config.decoder ?? decoder
+                    var modeledAuthSchemes: [ClientRuntime.AuthScheme] = Array()
+                    modeledAuthSchemes.append(SigV4AuthScheme())
+                    config.authSchemes = config.authSchemes ?? modeledAuthSchemes
                     self.config = config
                 }
             
@@ -120,13 +123,16 @@ class RestJsonProtocolGeneratorTests {
             
                 public struct ServiceSpecificConfiguration: AWSServiceSpecificConfiguration {
                     public typealias AWSServiceEndpointResolver = EndpointResolver
+                    public typealias AWSAuthSchemeResolver = ExampleAuthSchemeResolver
             
                     public var serviceName: String { "Example" }
                     public var clientName: String { "ExampleClient" }
+                    public var authSchemeResolver: ExampleAuthSchemeResolver
                     public var endpointResolver: EndpointResolver
             
-                    public init(endpointResolver: EndpointResolver? = nil) throws {
+                    public init(endpointResolver: EndpointResolver? = nil, authSchemeResolver: ExampleAuthSchemeResolver? = nil) throws {
                         self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
+                        self.authSchemeResolver = authSchemeResolver ?? DefaultExampleAuthSchemeResolver()
                     }
                 }
             }
